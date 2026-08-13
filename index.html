@@ -3,39 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Field Utility UI - 30 Bottom Sheet Concepts</title>
+  <title>30 Field Utility Bottom Sheet Archetypes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Red+Hat+Display:wght@500;700;900&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Red+Hat+Display:wght@700;900&family=Unbounded:wght@600;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0d0d0d;
+      --bg: #0a0a0a;
       --sheet-bg: #000000;
       --card-bg: #141414;
       --text: #ffffff;
-      --text-muted: #a0a0a0;
+      --text-muted: #8e8e93;
       --accent: #E50914;
       --border: #262626;
       --cta-bg: #ffffff;
       --cta-text: #000000;
-      --badge-bg: #1f1f1f;
-      --badge-border: #333333;
-      --shadow: rgba(0, 0, 0, 0.8);
-      --font: 'Plus Jakarta Sans', sans-serif;
+      --badge-bg: #1c1c1e;
+      --badge-border: #2c2c2e;
+      --shadow: rgba(0, 0, 0, 0.9);
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Unbounded', sans-serif;
     }
 
     [data-theme="light"] {
-      --bg: #e5e5e5;
+      --bg: #dcdcdc;
       --sheet-bg: #ffffff;
-      --card-bg: #f4f4f5;
+      --card-bg: #f2f2f7;
       --text: #000000;
-      --text-muted: #666666;
+      --text-muted: #6c6c70;
       --accent: #E50914;
-      --border: #d4d4d8;
+      --border: #d1d1d6;
       --cta-bg: #000000;
       --cta-text: #ffffff;
-      --badge-bg: #f4f4f5;
-      --badge-border: #e4e4e7;
+      --badge-bg: #e5e5ea;
+      --badge-border: #d1d1d6;
       --shadow: rgba(0, 0, 0, 0.15);
     }
 
@@ -43,7 +44,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: var(--font);
+      font-family: var(--font-main);
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -55,18 +56,18 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding-top: 70px;
+      padding-top: 75px;
       padding-bottom: 40px;
       transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    /* Fixed Navigation Header */
+    /* Fixed App Navigation Bar */
     .app-header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 60px;
+      height: 64px;
       background: var(--sheet-bg);
       border-bottom: 1px solid var(--border);
       display: flex;
@@ -74,7 +75,7 @@
       justify-content: space-between;
       padding: 0 16px;
       z-index: 9999;
-      box-shadow: 0 4px 12px var(--shadow);
+      box-shadow: 0 4px 20px var(--shadow);
     }
 
     .nav-controls {
@@ -87,19 +88,19 @@
       background: var(--card-bg);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-weight: 800;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 16px;
+      min-height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 40px;
     }
 
     .nav-btn:active {
-      transform: scale(0.96);
+      transform: scale(0.95);
     }
 
     select.sheet-select {
@@ -107,12 +108,12 @@
       color: var(--text);
       border: 1px solid var(--border);
       padding: 8px 12px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 700;
       font-size: 13px;
-      max-width: 200px;
+      max-width: 210px;
       outline: none;
-      height: 40px;
+      height: 44px;
     }
 
     .theme-toggle {
@@ -120,25 +121,25 @@
       color: #ffffff;
       border: none;
       padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: 800;
+      border-radius: 10px;
+      font-weight: 900;
       cursor: pointer;
-      font-size: 13px;
-      height: 40px;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      height: 44px;
     }
 
-    /* Screen Frame Simulation */
+    /* Outer Device Viewport */
     .device-viewport {
       width: 100%;
       max-width: 420px;
-      height: 740px;
+      height: 760px;
       background: #000;
-      border-radius: 40px;
-      border: 8px solid #222;
+      border-radius: 44px;
+      border: 9px solid #1c1c1e;
       position: relative;
       overflow: hidden;
-      margin-top: 10px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -147,7 +148,7 @@
     .device-screen {
       width: 100%;
       height: 100%;
-      background: linear-gradient(180deg, #1a1a1a 0%, #080808 100%);
+      background: linear-gradient(180deg, #18181a 0%, #050505 100%);
       position: relative;
       display: flex;
       flex-direction: column;
@@ -156,9 +157,10 @@
     }
 
     [data-theme="light"] .device-screen {
-      background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%);
+      background: linear-gradient(180deg, #f0f0f3 0%, #d8d8dd 100%);
     }
 
+    /* Base Sheet Container */
     .sheet-wrapper {
       display: none;
       width: 100%;
@@ -174,24 +176,32 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Shared Icon Styling */
-    .icon-box {
+    /* Core Visual Controls */
+    .handle-bar {
+      width: 44px;
+      height: 5px;
+      background: var(--border);
+      border-radius: 3px;
+      margin: 0 auto 14px auto;
+    }
+
+    .icon-360 {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       background: var(--badge-bg);
       border: 1px solid var(--badge-border);
-      border-radius: 12px;
-      width: 48px;
-      height: 48px;
+      border-radius: 14px;
+      width: 52px;
+      height: 52px;
       flex-shrink: 0;
     }
 
-    .icon-box svg {
-      width: 24px;
-      height: 24px;
-      stroke: var(--text);
+    .icon-360 svg {
+      width: 28px;
+      height: 28px;
       fill: none;
+      stroke: var(--text);
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -202,11 +212,58 @@
       border: 1px solid var(--badge-border);
       color: var(--text-muted);
       font-size: 11px;
-      font-weight: 800;
-      padding: 3px 6px;
+      font-weight: 900;
+      padding: 4px 8px;
       border-radius: 6px;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       display: inline-block;
+    }
+
+    .sqft-dropdown {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 16px;
+      font-weight: 800;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 54px;
+      margin-bottom: 12px;
+    }
+
+    .tier-switcher {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      min-height: 54px;
+    }
+
+    .tier-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tier-btn.active {
+      background: var(--sheet-bg);
+      color: var(--text);
+      box-shadow: 0 2px 8px var(--shadow);
     }
 
     .btn-cta {
@@ -222,394 +279,435 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 14px var(--shadow);
+      box-shadow: 0 4px 16px var(--shadow);
       min-height: 58px;
     }
 
-    .handle-bar {
-      width: 40px;
-      height: 5px;
-      background: var(--border);
-      border-radius: 3px;
-      margin: 0 auto 12px auto;
+    .btn-cta:active {
+      transform: scale(0.98);
     }
 
     /* ---------------------------------------------------------------------- */
-    /* ARCHETYPE SPECIFIC STYLES (30 DISTINCT ARCHITECTURES)                 */
+    /* 30 ARCHETYPE SPECIFIC STYLES                                           */
     /* ---------------------------------------------------------------------- */
 
-    /* V1: Floating Modular Card */
-    .sheet-v1 {
-      background: var(--sheet-bg);
-      border-radius: 32px;
-      padding: 20px;
-      border: 1px solid var(--border);
-      box-shadow: 0 -10px 40px var(--shadow);
-    }
-    .sheet-v1 .row-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-    .sheet-v1 .left-group { display: flex; align-items: center; gap: 12px; }
-    .sheet-v1 .title-wrap { display: flex; flex-direction: column; }
-    .sheet-v1 .cat-label { font-size: 13px; color: var(--text-muted); font-weight: 700; }
-    .sheet-v1 .title-h1 { font-size: 22px; font-weight: 900; color: var(--text); }
-    .sheet-v1 .price-wrap { display: flex; align-items: baseline; gap: 6px; }
-    .sheet-v1 .hero-price { font-size: 32px; font-weight: 900; color: var(--text); font-family: 'Unbounded', sans-serif; }
+    /* 1. Floating Modular Cards */
+    .sheet-v1 { background: var(--sheet-bg); border-radius: 32px; padding: 20px; border: 1px solid var(--border); box-shadow: 0 -10px 40px var(--shadow); }
+    .sheet-v1 .row-hero { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 
-    /* V2: Accordion Stacks */
-    .sheet-v2 { background: var(--sheet-bg); border-radius: 28px 28px 0 0; padding: 20px; border-top: 2px solid var(--accent); }
-    .sheet-v2 .acc-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border); }
-    .sheet-v2 .acc-header { display: flex; align-items: center; justify-content: space-between; }
+    /* 2. Accordion Stacks */
+    .sheet-v2 { background: var(--sheet-bg); border-radius: 28px 28px 0 0; padding: 20px; border-top: 3px solid var(--accent); }
+    .sheet-v2 .acc-card { background: var(--card-bg); border-radius: 18px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); }
 
-    /* V3: Segmented Multi-Tab Sheet */
+    /* 3. Segmented Multi-Tab Sheet */
     .sheet-v3 { background: var(--sheet-bg); border-radius: 32px 32px 0 0; padding: 20px; }
     .sheet-v3 .tabs { display: flex; background: var(--card-bg); padding: 4px; border-radius: 14px; margin-bottom: 16px; }
-    .sheet-v3 .tab { flex: 1; text-align: center; padding: 8px; font-weight: 800; font-size: 12px; border-radius: 10px; color: var(--text-muted); }
+    .sheet-v3 .tab { flex: 1; text-align: center; padding: 10px; font-weight: 800; font-size: 12px; border-radius: 10px; color: var(--text-muted); }
     .sheet-v3 .tab.active { background: var(--accent); color: #fff; }
 
-    /* V4: Typography-First Minimalist */
+    /* 4. Typography-First Minimalist */
     .sheet-v4 { background: var(--sheet-bg); padding: 24px 16px; border-top: 1px solid var(--border); }
-    .sheet-v4 .giant-price { font-size: 56px; font-weight: 900; line-height: 1; font-family: 'Unbounded', sans-serif; margin: 12px 0; }
+    .sheet-v4 .hero-num { font-size: 58px; font-weight: 900; font-family: var(--font-display); line-height: 1; margin: 12px 0; color: var(--text); }
 
-    /* V5: Split-Screen Bottom Dock */
-    .sheet-v5 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; display: grid; grid-template-rows: auto auto; gap: 16px; }
+    /* 5. Split-Screen Bottom Dock */
+    .sheet-v5 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; display: grid; gap: 14px; }
 
-    /* V6: Horizontal Carousel Pill Picker */
+    /* 6. Horizontal Carousel Pill Picker */
     .sheet-v6 { background: var(--sheet-bg); border-radius: 28px 28px 0 0; padding: 20px 0; }
-    .sheet-v6 .padded { padding: 0 20px; }
-    .sheet-v6 .carousel { display: flex; gap: 10px; overflow-x: auto; padding: 16px 20px; scrollbar-width: none; }
-    .sheet-v6 .pill-card { background: var(--card-bg); border: 1px solid var(--border); padding: 12px 18px; border-radius: 20px; flex-shrink: 0; }
+    .sheet-v6 .pad { padding: 0 20px; }
+    .sheet-v6 .carousel { display: flex; gap: 10px; overflow-x: auto; padding: 14px 20px; scrollbar-width: none; }
+    .sheet-v6 .pill { background: var(--card-bg); border: 1px solid var(--border); padding: 12px 18px; border-radius: 20px; flex-shrink: 0; text-align: center; }
 
-    /* V7: Floating Action Capsule */
+    /* 7. Floating Action Capsule */
     .sheet-v7 { background: transparent; padding: 10px; }
-    .sheet-v7 .capsule { background: var(--sheet-bg); border: 2px solid var(--accent); border-radius: 40px; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .sheet-v7 .capsule { background: var(--sheet-bg); border: 2px solid var(--accent); border-radius: 40px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
 
-    /* V8: High-Contrast 2x2 Grid Tiles */
+    /* 8. High-Contrast 2x2 Grid Tiles */
     .sheet-v8 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; }
-    .sheet-v8 .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-    .sheet-v8 .tile { background: var(--card-bg); border: 1px solid var(--border); padding: 14px; border-radius: 16px; }
+    .sheet-v8 .grid2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .sheet-v8 .tile { background: var(--card-bg); border: 1px solid var(--border); padding: 12px; border-radius: 16px; }
 
-    /* V9: Neo-Brutalist High-Border */
-    .sheet-v9 { background: #000; border: 4px solid #fff; border-radius: 0; padding: 20px; box-shadow: -8px -8px 0 var(--accent); }
-    .sheet-v9 .text-nb { font-family: 'Unbounded', sans-serif; text-transform: uppercase; color: #fff; }
+    /* 9. Neo-Brutalist High-Border */
+    .sheet-v9 { background: #000; border: 4px solid #fff; padding: 20px; box-shadow: -8px -8px 0 var(--accent); }
+    .sheet-v9 .nb-txt { font-family: var(--font-display); text-transform: uppercase; color: #fff; }
 
-    /* V10: Laboratory Clinical Matrix */
+    /* 10. Laboratory Clinical Matrix */
     .sheet-v10 { background: var(--sheet-bg); border: 1px solid var(--border); padding: 20px; font-family: monospace; }
-    .sheet-v10 .matrix-row { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); padding: 10px 0; }
+    .sheet-v10 .row { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); padding: 10px 0; }
 
-    /* V11: Full-Bleed Edge Cards */
+    /* 11. Full-Bleed Edge Cards */
     .sheet-v11 { background: var(--sheet-bg); border-radius: 20px 20px 0 0; }
-    .sheet-v11 .bleed-card { background: var(--card-bg); padding: 24px; border-bottom: 2px solid var(--border); }
+    .sheet-v11 .card { background: var(--card-bg); padding: 20px; border-bottom: 2px solid var(--border); }
 
-    /* V12: Radial Speed Dial */
+    /* 12. Radial Speed Dial */
     .sheet-v12 { background: var(--sheet-bg); border-radius: 30px; padding: 20px; text-align: center; }
 
-    /* V13: Asymmetric Bento Grid */
+    /* 13. Asymmetric Bento Grid */
     .sheet-v13 { background: var(--sheet-bg); border-radius: 28px; padding: 16px; display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
-    .sheet-v13 .bento-main { background: var(--card-bg); padding: 16px; border-radius: 20px; grid-column: span 2; }
-    .sheet-v13 .bento-sub { background: var(--card-bg); padding: 16px; border-radius: 20px; }
+    .sheet-v13 .cell-main { background: var(--card-bg); padding: 16px; border-radius: 20px; grid-column: span 2; }
+    .sheet-v13 .cell-sub { background: var(--card-bg); padding: 14px; border-radius: 20px; }
 
-    /* V14: Pinned Top-Hero Canvas */
+    /* 14. Pinned Top-Hero Canvas */
     .sheet-v14 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; }
-    .sheet-v14 .top-hero { background: var(--accent); color: #fff; padding: 20px; border-radius: 20px; margin-bottom: 16px; }
+    .sheet-v14 .hero-canvas { background: var(--accent); color: #fff; padding: 20px; border-radius: 20px; margin-bottom: 16px; }
 
-    /* V15: Tactile Glove Switchboard */
+    /* 15. Tactile Glove Switchboard */
     .sheet-v15 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; }
-    .sheet-v15 .glove-btn { background: var(--card-bg); border: 3px solid var(--border); padding: 20px; border-radius: 16px; font-size: 20px; font-weight: 900; text-align: center; }
+    .sheet-v15 .big-switch { background: var(--card-bg); border: 3px solid var(--border); padding: 16px; border-radius: 16px; text-align: center; }
 
-    /* V16: Bottom-Anchored Thumb Zone */
-    .sheet-v16 { background: var(--sheet-bg); border-radius: 32px 32px 0 0; padding: 24px 20px 10px 20px; }
+    /* 16. Bottom-Anchored Thumb Zone */
+    .sheet-v16 { background: var(--sheet-bg); border-radius: 32px 32px 0 0; padding: 24px 20px; }
 
-    /* V17: High-Contrast Gradient Canvas */
+    /* 17. High-Contrast Gradient Canvas */
     .sheet-v17 { background: linear-gradient(180deg, #E50914 0%, #000000 100%); border-radius: 28px; padding: 24px; color: #fff; }
 
-    /* V18: Split Dual-Shade Sheet */
+    /* 18. Split Dual-Shade Sheet */
     .sheet-v18 { background: var(--card-bg); border-radius: 24px; overflow: hidden; }
-    .sheet-v18 .top-shade { padding: 20px; background: var(--sheet-bg); }
-    .sheet-v18 .bottom-shade { padding: 20px; }
+    .sheet-v18 .top-zone { padding: 20px; background: var(--sheet-bg); }
+    .sheet-v18 .bot-zone { padding: 20px; }
 
-    /* V19: Borderless Divider Grid */
+    /* 19. Borderless Divider Grid */
     .sheet-v19 { background: var(--sheet-bg); padding: 20px; }
-    .sheet-v19 .grid-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .sheet-v19 .line-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
 
-    /* V20: Floating HUD Sheet */
-    .sheet-v20 { background: var(--sheet-bg); border: 2px solid var(--accent); border-radius: 24px; padding: 20px; margin-bottom: 10px; }
+    /* 20. Floating HUD Sheet */
+    .sheet-v20 { background: var(--sheet-bg); border: 2px solid var(--accent); border-radius: 24px; padding: 20px; margin-bottom: 8px; }
 
-    /* V21: Horizontal Snap Cards */
+    /* 21. Horizontal Snap Cards */
     .sheet-v21 { background: var(--sheet-bg); border-radius: 24px; padding: 20px 0; }
 
-    /* V22: Icon-Anchored Row Strips */
+    /* 22. Icon-Anchored Row Strips */
     .sheet-v22 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; }
-    .sheet-v22 .strip { display: flex; align-items: center; gap: 16px; background: var(--card-bg); padding: 12px; border-radius: 16px; margin-bottom: 12px; }
+    .sheet-v22 .strip { display: flex; align-items: center; gap: 14px; background: var(--card-bg); padding: 12px; border-radius: 16px; margin-bottom: 10px; }
 
-    /* V23: Top-Heavy Price Banner */
-    .sheet-v23 { background: var(--sheet-bg); border-radius: 28px; padding: 0; overflow: hidden; }
-    .sheet-v23 .banner { background: var(--accent); padding: 24px; color: #fff; text-align: center; }
+    /* 23. Top-Heavy Price Banner */
+    .sheet-v23 { background: var(--sheet-bg); border-radius: 28px; overflow: hidden; }
+    .sheet-v23 .top-banner { background: var(--accent); padding: 24px; color: #fff; text-align: center; }
 
-    /* V24: Two-Column Switcher Grid */
-    .sheet-v24 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    /* 24. Two-Column Switcher Grid */
+    .sheet-v24 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-    /* V25: Inset Well Matrix */
+    /* 25. Inset Well Matrix */
     .sheet-v25 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; }
-    .sheet-v25 .well { background: var(--bg); inset: inset; padding: 16px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 12px; }
+    .sheet-v25 .well { background: var(--bg); padding: 14px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 10px; }
 
-    /* V26: Overlapping Dynamic Pill Stack */
+    /* 26. Overlapping Dynamic Pill Stack */
     .sheet-v26 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; }
 
-    /* V27: Clean Technical Spec */
-    .sheet-v27 { background: var(--sheet-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); font-family: 'Red Hat Display', sans-serif; }
+    /* 27. Clean Technical Spec */
+    .sheet-v27 { background: var(--sheet-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); }
 
-    /* V28: Top-Right Floating Total Badge */
+    /* 28. Top-Right Floating Total Badge */
     .sheet-v28 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; position: relative; }
-    .sheet-v28 .float-badge { position: absolute; top: -15px; right: 20px; background: var(--accent); color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: 900; }
+    .sheet-v28 .floating-price { position: absolute; top: -14px; right: 20px; background: var(--accent); color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: 900; font-family: var(--font-display); }
 
-    /* V29: Full-Screen Sheet Overhaul */
-    .sheet-v29 { background: var(--sheet-bg); height: 100%; border-radius: 0; padding: 40px 20px; display: flex; flex-direction: column; justify-content: space-between; }
+    /* 29. Full-Screen Sheet Overhaul */
+    .sheet-v29 { background: var(--sheet-bg); height: 100%; border-radius: 0; padding: 30px 20px; display: flex; flex-direction: column; justify-content: space-between; }
 
-    /* V30: Centered Focal Point */
-    .sheet-v30 { background: var(--sheet-bg); border-radius: 32px; padding: 30px 20px; text-align: center; }
+    /* 30. Centered Focal Point */
+    .sheet-v30 { background: var(--sheet-bg); border-radius: 32px; padding: 28px 20px; text-align: center; }
 
   </style>
 </head>
 <body>
 
-  <!-- Pinned Control Header -->
+  <!-- App Header Navigation Controls -->
   <header class="app-header">
     <div class="nav-controls">
       <button class="nav-btn" id="prevBtn" onclick="changeSheet(-1)">←</button>
       <select class="sheet-select" id="sheetSelect" onchange="jumpToSheet(this.value)">
-        <!-- Options generated via JS -->
+        <!-- Options populated dynamically -->
       </select>
       <button class="nav-btn" id="nextBtn" onclick="changeSheet(1)">→</button>
     </div>
     <button class="theme-toggle" onclick="toggleTheme()">DARK / LIGHT</button>
   </header>
 
-  <!-- Mobile Viewport Simulator -->
+  <!-- Mobile Viewport Container -->
   <div class="device-viewport">
     <div class="device-screen">
 
-      <!-- VARIANT 1: Floating Modular Card -->
+      <!-- ARCHETYPE 1: Floating Modular Cards -->
       <div class="sheet-wrapper active" id="sheet-1">
         <div class="sheet-v1">
           <div class="handle-bar"></div>
-          <div class="row-top">
-            <div class="left-group">
-              <div class="icon-box">
-                <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          <div class="row-hero">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="icon-360">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg>
               </div>
-              <div class="title-wrap">
-                <span class="cat-label">MLS Video</span>
-                <span class="title-h1">HD Highlight</span>
+              <div>
+                <div style="font-size:12px; color:var(--text-muted); font-weight:800;">MLS 360 Tour</div>
+                <div style="font-size:22px; font-weight:900;">Matterport</div>
               </div>
             </div>
-            <div class="price-wrap">
+            <div style="text-align:right;">
               <span class="tax-tag">TAX</span>
-              <span class="hero-price">$159.00</span>
+              <div style="font-size:30px; font-weight:900; font-family:var(--font-display);">$249.00</div>
             </div>
+          </div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div class="tier-switcher">
+            <button class="tier-btn active">Standard</button>
+            <button class="tier-btn">Premium</button>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 2: Accordion Stacks -->
+      <!-- ARCHETYPE 2: Accordion Stacks -->
       <div class="sheet-wrapper" id="sheet-2">
         <div class="sheet-v2">
           <div class="handle-bar"></div>
           <div class="acc-card">
-            <div class="acc-header">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
                 <div>
-                  <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-                  <div style="font-size:18px; font-weight:800;">HD Highlight</div>
+                  <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+                  <div style="font-size:20px; font-weight:900;">Matterport</div>
                 </div>
               </div>
               <span class="tax-tag">TAX</span>
             </div>
           </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin: 16px 0;">
-            <span style="font-size:14px; font-weight:700;">Grand Total</span>
-            <span style="font-size:36px; font-weight:900; font-family:'Unbounded';">$159.00</span>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div class="tier-switcher">
+            <button class="tier-btn active">Standard</button>
+            <button class="tier-btn">Premium</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <span style="font-weight:800; font-size:14px; color:var(--text-muted);">LIVE TOTAL</span>
+            <span style="font-size:36px; font-weight:900; font-family:var(--font-display);">$249.00</span>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 3: Segmented Multi-Tab Sheet -->
+      <!-- ARCHETYPE 3: Segmented Multi-Tab Sheet -->
       <div class="sheet-wrapper" id="sheet-3">
         <div class="sheet-v3">
           <div class="handle-bar"></div>
           <div class="tabs">
-            <div class="tab active">PACKAGE</div>
-            <div class="tab">DETAILS</div>
-            <div class="tab">TAXES</div>
+            <div class="tab active">SERVICE</div>
+            <div class="tab">SIZE</div>
+            <div class="tab">TIER</div>
           </div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px;">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
-              <div>
-                <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-                <div style="font-size:20px; font-weight:800;">HD Highlight</div>
-              </div>
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+            <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div>
+              <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:20px; font-weight:900;">Matterport</div>
             </div>
-            <div style="text-align:right;">
-              <span class="tax-tag">TAX</span>
-              <div style="font-size:28px; font-weight:900;">$159.00</div>
-            </div>
+          </div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div class="tier-switcher">
+            <button class="tier-btn active">Standard</button>
+            <button class="tier-btn">Premium</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <span class="tax-tag">TAX</span>
+            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$249.00</span>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 4: Typography-First Minimalist -->
+      <!-- ARCHETYPE 4: Typography-First Minimalist -->
       <div class="sheet-wrapper" id="sheet-4">
         <div class="sheet-v4">
           <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-            <div>
-              <p style="font-size:14px; font-weight:800; color:var(--accent);">MLS VIDEO</p>
-              <h1 style="font-size:28px; font-weight:900;">HD Highlight</h1>
+            <div style="display:flex; gap:12px; align-items:center;">
+              <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <div>
+                <p style="font-size:12px; font-weight:800; color:var(--accent);">MLS 360 TOUR</p>
+                <h1 style="font-size:26px; font-weight:900;">Matterport</h1>
+              </div>
             </div>
             <span class="tax-tag">TAX</span>
           </div>
-          <div class="giant-price">$159.00</div>
-          <button class="btn-cta" style="border-radius:12px;">🛒+</button>
+          <div class="hero-num">$249.00</div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div class="tier-switcher">
+            <button class="tier-btn active">Standard</button>
+            <button class="tier-btn">Premium</button>
+          </div>
+          <button class="btn-cta" style="border-radius:14px;">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 5: Split-Screen Bottom Dock -->
+      <!-- ARCHETYPE 5: Split-Screen Bottom Dock -->
       <div class="sheet-wrapper" id="sheet-5">
         <div class="sheet-v5">
-          <div style="background:var(--card-bg); padding:16px; border-radius:16px; display:flex; align-items:center; gap:12px;">
-            <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+          <div style="background:var(--card-bg); padding:16px; border-radius:18px; display:flex; align-items:center; gap:12px;">
+            <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
             <div>
-              <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-              <div style="font-size:18px; font-weight:800;">HD Highlight</div>
+              <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:18px; font-weight:900;">Matterport</div>
             </div>
           </div>
-          <div style="background:var(--card-bg); padding:16px; border-radius:16px; display:flex; align-items:center; justify-content:space-between;">
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div class="tier-switcher">
+            <button class="tier-btn active">Standard</button>
+            <button class="tier-btn">Premium</button>
+          </div>
+          <div style="background:var(--card-bg); padding:16px; border-radius:18px; display:flex; align-items:center; justify-content:space-between;">
             <div>
               <span class="tax-tag">TAX</span>
-              <div style="font-size:32px; font-weight:900;">$159.00</div>
+              <div style="font-size:28px; font-weight:900; font-family:var(--font-display);">$249.00</div>
             </div>
             <button class="btn-cta" style="width:auto; padding:0 32px;">🛒+</button>
           </div>
         </div>
       </div>
 
-      <!-- VARIANT 6: Horizontal Carousel Pill Picker -->
+      <!-- ARCHETYPE 6: Horizontal Carousel Pill Picker -->
       <div class="sheet-wrapper" id="sheet-6">
         <div class="sheet-v6">
-          <div class="padded" style="display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-              <div style="font-size:20px; font-weight:900;">HD Highlight</div>
+          <div class="pad" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <div>
+                <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+                <div style="font-size:20px; font-weight:900;">Matterport</div>
+              </div>
             </div>
             <span class="tax-tag">TAX</span>
           </div>
           <div class="carousel">
-            <div class="pill-card" style="border-color:var(--accent);">
-              <div style="font-size:10px; color:var(--text-muted);">SELECTED</div>
-              <div style="font-size:20px; font-weight:900;">$159.00</div>
+            <div class="pill" style="border-color:var(--accent);">
+              <div style="font-size:10px; color:var(--text-muted);">SQFT</div>
+              <div style="font-weight:800; font-size:13px;">3,000 – 3,999</div>
+            </div>
+            <div class="pill" style="background:var(--accent); color:#fff;">
+              <div style="font-size:10px; opacity:0.8;">TIER</div>
+              <div style="font-weight:800; font-size:13px;">Standard</div>
+            </div>
+            <div class="pill">
+              <div style="font-size:10px; color:var(--text-muted);">PRICE</div>
+              <div style="font-weight:800; font-size:13px;">$249.00</div>
             </div>
           </div>
-          <div class="padded">
+          <div class="pad" style="margin-top:10px;">
             <button class="btn-cta">🛒+</button>
           </div>
         </div>
       </div>
 
-      <!-- VARIANT 7: Floating Action Capsule -->
+      <!-- ARCHETYPE 7: Floating Action Capsule -->
       <div class="sheet-wrapper" id="sheet-7">
         <div class="sheet-v7">
           <div class="capsule">
             <div style="display:flex; align-items:center; gap:10px;">
-              <div class="icon-box" style="width:36px; height:36px;"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+              <div class="icon-360" style="width:40px; height:40px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
               <div>
-                <div style="font-size:10px; color:var(--text-muted);">MLS Video</div>
-                <div style="font-size:14px; font-weight:800;">HD Highlight</div>
+                <div style="font-size:10px; color:var(--text-muted);">Matterport</div>
+                <div style="font-size:13px; font-weight:800;">3,000–3,999 Sq Ft</div>
               </div>
             </div>
-            <div style="display:flex; align-items:center; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
               <div>
                 <span class="tax-tag" style="font-size:9px;">TAX</span>
-                <div style="font-size:18px; font-weight:900;">$159.00</div>
+                <div style="font-size:18px; font-weight:900;">$249.00</div>
               </div>
-              <button class="btn-cta" style="width:44px; height:44px; border-radius:50%; padding:0;">🛒+</button>
+              <button class="btn-cta" style="width:46px; height:46px; border-radius:50%; padding:0; min-height:0;">🛒+</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- VARIANT 8: High-Contrast 2x2 Grid Tiles -->
+      <!-- ARCHETYPE 8: High-Contrast 2x2 Grid Tiles -->
       <div class="sheet-wrapper" id="sheet-8">
         <div class="sheet-v8">
-          <div class="grid-2x2">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div>
+              <div style="font-size:11px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:18px; font-weight:900;">Matterport</div>
+            </div>
+          </div>
+          <div class="grid2x2">
             <div class="tile">
-              <div style="font-size:10px; color:var(--text-muted);">CATEGORY</div>
-              <div style="font-size:14px; font-weight:800;">MLS Video</div>
+              <div style="font-size:10px; color:var(--text-muted);">SIZE</div>
+              <div style="font-size:13px; font-weight:800;">3,000–3,999 Sq Ft</div>
             </div>
             <div class="tile">
-              <div style="font-size:10px; color:var(--text-muted);">ITEM</div>
-              <div style="font-size:14px; font-weight:800;">HD Highlight</div>
+              <div style="font-size:10px; color:var(--text-muted);">OPTION</div>
+              <div style="font-size:13px; font-weight:800;">Standard</div>
             </div>
             <div class="tile">
-              <div style="font-size:10px; color:var(--text-muted);">FEES</div>
+              <div style="font-size:10px; color:var(--text-muted);">DUTY</div>
               <span class="tax-tag">TAX</span>
             </div>
             <div class="tile" style="background:var(--accent); color:#fff;">
               <div style="font-size:10px; opacity:0.8;">TOTAL</div>
-              <div style="font-size:20px; font-weight:900;">$159.00</div>
+              <div style="font-size:20px; font-weight:900; font-family:var(--font-display);">$249.00</div>
             </div>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 9: Neo-Brutalist High-Border -->
+      <!-- ARCHETYPE 9: Neo-Brutalist High-Border -->
       <div class="sheet-wrapper" id="sheet-9">
         <div class="sheet-v9">
-          <div class="text-nb" style="font-size:12px; color:var(--accent);">MLS VIDEO</div>
-          <div class="text-nb" style="font-size:24px; margin-bottom:12px;">HD HIGHLIGHT</div>
-          <div style="display:flex; justify-content:space-between; align-items:center; border-top:2px solid #fff; padding-top:12px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div class="nb-txt" style="font-size:12px; color:var(--accent);">MLS 360 TOUR</div>
+            <div class="icon-360" style="border:2px solid #fff; background:#000;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+          </div>
+          <div class="nb-txt" style="font-size:26px; margin-bottom:12px;">MATTERPORT</div>
+          <div class="sqft-dropdown" style="border:2px solid #fff; border-radius:0;"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin:14px 0;">
             <span class="tax-tag" style="border:2px solid #fff; color:#fff; background:#000;">TAX</span>
-            <span class="text-nb" style="font-size:36px;">$159.00</span>
+            <span class="nb-txt" style="font-size:36px;">$249.00</span>
           </div>
           <button class="btn-cta" style="border-radius:0; border:3px solid #fff; background:var(--accent); color:#fff;">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 10: Laboratory Clinical Matrix -->
+      <!-- ARCHETYPE 10: Laboratory Clinical Matrix -->
       <div class="sheet-wrapper" id="sheet-10">
         <div class="sheet-v10">
-          <div class="matrix-row">
-            <span>[CATALOG]</span>
-            <span>MLS Video</span>
-          </div>
-          <div class="matrix-row">
+          <div class="row">
             <span>[SERVICE]</span>
-            <span>HD Highlight</span>
+            <span>Matterport (360)</span>
           </div>
-          <div class="matrix-row">
-            <span>[ASSESSMENT]</span>
+          <div class="row">
+            <span>[RANGE]</span>
+            <span>3,000 – 3,999 Sq Ft</span>
+          </div>
+          <div class="row">
+            <span>[TIER]</span>
+            <span>Standard</span>
+          </div>
+          <div class="row">
+            <span>[STATUS]</span>
             <span class="tax-tag">TAX</span>
           </div>
-          <div class="matrix-row" style="border-bottom:none; font-size:20px; font-weight:bold;">
-            <span>[FINAL_SUM]</span>
-            <span>$159.00</span>
+          <div class="row" style="border-bottom:none; font-size:22px; font-weight:bold; margin-top:6px;">
+            <span>[TOTAL]</span>
+            <span>$249.00</span>
           </div>
           <button class="btn-cta" style="border-radius:0; margin-top:12px;">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 11: Full-Bleed Edge Cards -->
+      <!-- ARCHETYPE 11: Full-Bleed Edge Cards -->
       <div class="sheet-wrapper" id="sheet-11">
         <div class="sheet-v11">
-          <div class="bleed-card">
-            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:24px; font-weight:900;">HD Highlight</div>
+          <div class="card" style="display:flex; align-items:center; gap:12px;">
+            <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div>
+              <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:22px; font-weight:900;">Matterport</div>
+            </div>
           </div>
-          <div class="bleed-card" style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="card">
+            <div class="sqft-dropdown" style="margin-bottom:0;"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          </div>
+          <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
             <span class="tax-tag">TAX</span>
-            <div style="font-size:32px; font-weight:900;">$159.00</div>
+            <div style="font-size:34px; font-weight:900; font-family:var(--font-display);">$249.00</div>
           </div>
           <div style="padding:16px;">
             <button class="btn-cta">🛒+</button>
@@ -617,31 +715,42 @@
         </div>
       </div>
 
-      <!-- VARIANT 12: Radial Speed Dial -->
+      <!-- ARCHETYPE 12: Radial Speed Dial -->
       <div class="sheet-wrapper" id="sheet-12">
         <div class="sheet-v12">
-          <div class="icon-box" style="margin:0 auto 12px auto;"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
-          <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-          <div style="font-size:22px; font-weight:900; margin-bottom:8px;">HD Highlight</div>
-          <span class="tax-tag">TAX</span>
-          <div style="font-size:40px; font-weight:900; margin:16px 0; font-family:'Unbounded';">$159.00</div>
+          <div class="icon-360" style="margin:0 auto 10px auto;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+          <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+          <div style="font-size:24px; font-weight:900; margin-bottom:8px;">Matterport</div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
+            <span class="tax-tag">TAX</span>
+            <span style="font-weight:800; font-size:13px; color:var(--text-muted);">Standard</span>
+          </div>
+          <div style="font-size:42px; font-weight:900; font-family:var(--font-display); margin-bottom:14px;">$249.00</div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 13: Asymmetric Bento Grid -->
+      <!-- ARCHETYPE 13: Asymmetric Bento Grid -->
       <div class="sheet-wrapper" id="sheet-13">
         <div class="sheet-v13">
-          <div class="bento-main">
-            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:22px; font-weight:900;">HD Highlight</div>
+          <div class="cell-main" style="display:flex; align-items:center; gap:12px;">
+            <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div>
+              <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:20px; font-weight:900;">Matterport</div>
+            </div>
           </div>
-          <div class="bento-sub" style="display:flex; align-items:center; justify-content:center;">
+          <div class="cell-sub" style="grid-column: span 2;">
+            <div style="font-size:11px; color:var(--text-muted);">COVERAGE</div>
+            <div style="font-weight:800; font-size:15px;">3,000 – 3,999 Sq Ft</div>
+          </div>
+          <div class="cell-sub" style="display:flex; align-items:center; justify-content:center;">
             <span class="tax-tag">TAX</span>
           </div>
-          <div class="bento-sub" style="grid-column: span 2; background:var(--accent); color:#fff; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-weight:800;">TOTAL</span>
-            <span style="font-size:28px; font-weight:900;">$159.00</span>
+          <div class="cell-sub" style="background:var(--accent); color:#fff; display:flex; flex-direction:column; justify-content:center;">
+            <span style="font-size:10px; opacity:0.8;">SUM</span>
+            <span style="font-size:24px; font-weight:900; font-family:var(--font-display);">$249.00</span>
           </div>
           <div style="grid-column: span 2;">
             <button class="btn-cta">🛒+</button>
@@ -649,132 +758,166 @@
         </div>
       </div>
 
-      <!-- VARIANT 14: Pinned Top-Hero Canvas -->
+      <!-- ARCHETYPE 14: Pinned Top-Hero Canvas -->
       <div class="sheet-wrapper" id="sheet-14">
         <div class="sheet-v14">
-          <div class="top-hero">
+          <div class="hero-canvas">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span>MLS Video</span>
+              <span style="font-weight:800; font-size:13px;">MLS 360 TOUR</span>
               <span class="tax-tag" style="background:#fff; color:#000;">TAX</span>
             </div>
-            <div style="font-size:36px; font-weight:900; margin-top:8px;">$159.00</div>
+            <div style="font-size:40px; font-weight:900; font-family:var(--font-display); margin-top:8px;">$249.00</div>
           </div>
-          <div style="font-size:20px; font-weight:800; margin-bottom:16px; padding:0 8px;">HD Highlight</div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <div class="icon-360" style="width:40px; height:40px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div style="font-size:22px; font-weight:900;">Matterport</div>
+          </div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 15: Tactile Glove Switchboard -->
+      <!-- ARCHETYPE 15: Tactile Glove Switchboard -->
       <div class="sheet-wrapper" id="sheet-15">
         <div class="sheet-v15">
-          <div class="glove-btn" style="margin-bottom:12px;">
-            <div style="font-size:12px; color:var(--text-muted);">MLS VIDEO</div>
-            <div>HD HIGHLIGHT</div>
+          <div class="big-switch" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="icon-360" style="width:40px; height:40px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <span style="font-size:18px; font-weight:900;">Matterport</span>
+            </div>
+            <span class="tax-tag">TAX</span>
           </div>
-          <div style="display:flex; gap:12px; margin-bottom:16px;">
-            <div class="glove-btn" style="flex:1;"><span class="tax-tag">TAX</span></div>
-            <div class="glove-btn" style="flex:2; background:var(--accent); color:#fff; border:none;">$159.00</div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div style="display:flex; gap:10px; margin-bottom:14px;">
+            <div class="big-switch" style="flex:1; background:var(--accent); color:#fff; border:none; font-size:24px; font-weight:900;">$249.00</div>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 16: Bottom-Anchored Thumb Zone -->
+      <!-- ARCHETYPE 16: Bottom-Anchored Thumb Zone -->
       <div class="sheet-wrapper" id="sheet-16">
         <div class="sheet-v16">
-          <div style="margin-bottom:20px;">
-            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:24px; font-weight:900;">HD Highlight</div>
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div>
+              <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:22px; font-weight:900;">Matterport</div>
+            </div>
           </div>
-          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px;">
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div class="tier-switcher">
+            <button class="tier-btn active">Standard</button>
+            <button class="tier-btn">Premium</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:14px;">
             <span class="tax-tag">TAX</span>
-            <div style="font-size:38px; font-weight:900; line-height:1;">$159.00</div>
+            <div style="font-size:40px; font-weight:900; font-family:var(--font-display); line-height:1;">$249.00</div>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 17: High-Contrast Gradient Canvas -->
+      <!-- ARCHETYPE 17: High-Contrast Gradient Canvas -->
       <div class="sheet-wrapper" id="sheet-17">
         <div class="sheet-v17">
-          <div style="display:flex; justify-content:space-between;">
-            <span style="font-size:12px; opacity:0.8;">MLS Video</span>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div class="icon-360" style="width:36px; height:36px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <span style="font-size:12px; opacity:0.9; font-weight:800;">MLS 360 Tour</span>
+            </div>
             <span class="tax-tag" style="background:rgba(255,255,255,0.2); color:#fff; border:none;">TAX</span>
           </div>
-          <div style="font-size:26px; font-weight:900; margin:10px 0;">HD Highlight</div>
-          <div style="font-size:42px; font-weight:900; margin-bottom:20px;">$159.00</div>
+          <div style="font-size:26px; font-weight:900; margin:10px 0;">Matterport</div>
+          <div class="sqft-dropdown" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2);"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div style="font-size:42px; font-weight:900; font-family:var(--font-display); margin:12px 0;">$249.00</div>
           <button class="btn-cta" style="background:#fff; color:#000;">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 18: Split Dual-Shade Sheet -->
+      <!-- ARCHETYPE 18: Split Dual-Shade Sheet -->
       <div class="sheet-wrapper" id="sheet-18">
         <div class="sheet-v18">
-          <div class="top-shade">
-            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:22px; font-weight:900;">HD Highlight</div>
+          <div class="top-zone">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+              <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <div>
+                <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+                <div style="font-size:22px; font-weight:900;">Matterport</div>
+              </div>
+            </div>
+            <div class="sqft-dropdown" style="margin-bottom:0;"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
           </div>
-          <div class="bottom-shade">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <div class="bot-zone">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
               <span class="tax-tag">TAX</span>
-              <span style="font-size:32px; font-weight:900;">$159.00</span>
+              <span style="font-size:34px; font-weight:900; font-family:var(--font-display);">$249.00</span>
             </div>
             <button class="btn-cta">🛒+</button>
           </div>
         </div>
       </div>
 
-      <!-- VARIANT 19: Borderless Divider Grid -->
+      <!-- ARCHETYPE 19: Borderless Divider Grid -->
       <div class="sheet-wrapper" id="sheet-19">
         <div class="sheet-v19">
-          <div class="grid-row">
-            <span style="color:var(--text-muted);">Category</span>
-            <span style="font-weight:700;">MLS Video</span>
+          <div class="line-item">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div class="icon-360" style="width:32px; height:32px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <span style="color:var(--text-muted);">Service</span>
+            </div>
+            <span style="font-weight:900;">Matterport</span>
           </div>
-          <div class="grid-row">
-            <span style="color:var(--text-muted);">Option</span>
-            <span style="font-weight:700;">HD Highlight</span>
+          <div class="line-item">
+            <span style="color:var(--text-muted);">Coverage</span>
+            <span style="font-weight:800;">3,000 – 3,999 Sq Ft</span>
           </div>
-          <div class="grid-row">
-            <span style="color:var(--text-muted);">Fee</span>
+          <div class="line-item">
+            <span style="color:var(--text-muted);">Assessment</span>
             <span class="tax-tag">TAX</span>
           </div>
-          <div class="grid-row" style="border-bottom:none;">
-            <span style="font-weight:900; font-size:18px;">Total</span>
-            <span style="font-weight:900; font-size:32px; color:var(--accent);">$159.00</span>
+          <div class="line-item" style="border-bottom:none;">
+            <span style="font-weight:900; font-size:16px;">Total</span>
+            <span style="font-weight:900; font-size:34px; font-family:var(--font-display); color:var(--accent);">$249.00</span>
           </div>
-          <button class="btn-cta" style="margin-top:12px;">🛒+</button>
+          <button class="btn-cta" style="margin-top:10px;">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 20: Floating HUD Sheet -->
+      <!-- ARCHETYPE 20: Floating HUD Sheet -->
       <div class="sheet-wrapper" id="sheet-20">
         <div class="sheet-v20">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <div style="display:flex; align-items:center; gap:8px;">
-              <div class="icon-box" style="width:32px; height:32px;"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
-              <span style="font-size:14px; font-weight:800;">MLS Video</span>
+              <div class="icon-360" style="width:36px; height:36px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <span style="font-size:14px; font-weight:900;">Matterport</span>
             </div>
             <span class="tax-tag">TAX</span>
           </div>
-          <div style="font-size:20px; font-weight:900; margin-bottom:12px;">HD Highlight</div>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:28px; font-weight:900;">$159.00</span>
-            <button class="btn-cta" style="width:auto; padding:0 24px;">🛒+</button>
+          <div class="sqft-dropdown" style="padding:10px 14px; min-height:44px; font-size:14px;"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+            <span style="font-size:28px; font-weight:900; font-family:var(--font-display);">$249.00</span>
+            <button class="btn-cta" style="width:auto; padding:0 24px; min-height:48px;">🛒+</button>
           </div>
         </div>
       </div>
 
-      <!-- VARIANT 21: Horizontal Snap Cards -->
+      <!-- ARCHETYPE 21: Horizontal Snap Cards -->
       <div class="sheet-wrapper" id="sheet-21">
         <div class="sheet-v21">
-          <div style="padding:0 20px; margin-bottom:12px;">
-            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:22px; font-weight:900;">HD Highlight</div>
+          <div style="padding:0 20px; display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div>
+              <div style="font-size:12px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:22px; font-weight:900;">Matterport</div>
+            </div>
           </div>
-          <div style="background:var(--card-bg); margin:0 20px; padding:16px; border-radius:16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <div style="padding:0 20px; margin-bottom:12px;">
+            <div class="sqft-dropdown" style="margin-bottom:0;"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          </div>
+          <div style="background:var(--card-bg); margin:0 20px; padding:16px; border-radius:16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
             <span class="tax-tag">TAX</span>
-            <span style="font-size:32px; font-weight:900;">$159.00</span>
+            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$249.00</span>
           </div>
           <div style="padding:0 20px;">
             <button class="btn-cta">🛒+</button>
@@ -782,140 +925,169 @@
         </div>
       </div>
 
-      <!-- VARIANT 22: Icon-Anchored Row Strips -->
+      <!-- ARCHETYPE 22: Icon-Anchored Row Strips -->
       <div class="sheet-wrapper" id="sheet-22">
         <div class="sheet-v22">
           <div class="strip">
-            <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+            <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
             <div>
-              <div style="font-size:11px; color:var(--text-muted);">MLS Video</div>
-              <div style="font-size:16px; font-weight:800;">HD Highlight</div>
+              <div style="font-size:11px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:18px; font-weight:900;">Matterport</div>
             </div>
           </div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
           <div class="strip" style="justify-content:space-between;">
             <span class="tax-tag">TAX</span>
-            <span style="font-size:28px; font-weight:900;">$159.00</span>
+            <span style="font-size:30px; font-weight:900; font-family:var(--font-display);">$249.00</span>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 23: Top-Heavy Price Banner -->
+      <!-- ARCHETYPE 23: Top-Heavy Price Banner -->
       <div class="sheet-wrapper" id="sheet-23">
         <div class="sheet-v23">
-          <div class="banner">
+          <div class="top-banner">
             <span class="tax-tag" style="background:#000; color:#fff;">TAX</span>
-            <div style="font-size:42px; font-weight:900; margin-top:4px;">$159.00</div>
+            <div style="font-size:44px; font-weight:900; font-family:var(--font-display); margin-top:4px;">$249.00</div>
           </div>
           <div style="padding:20px;">
-            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:22px; font-weight:900; margin-bottom:16px;">HD Highlight</div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <div class="icon-360" style="width:38px; height:38px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <div style="font-size:20px; font-weight:900;">Matterport</div>
+            </div>
+            <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
             <button class="btn-cta">🛒+</button>
           </div>
         </div>
       </div>
 
-      <!-- VARIANT 24: Two-Column Switcher Grid -->
+      <!-- ARCHETYPE 24: Two-Column Switcher Grid -->
       <div class="sheet-wrapper" id="sheet-24">
         <div class="sheet-v24">
-          <div style="background:var(--card-bg); padding:16px; border-radius:16px;">
-            <div style="font-size:11px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:16px; font-weight:800;">HD Highlight</div>
+          <div style="background:var(--card-bg); padding:14px; border-radius:16px; display:flex; flex-direction:column; justify-content:center;">
+            <div class="icon-360" style="width:36px; height:36px; margin-bottom:6px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div style="font-size:16px; font-weight:900;">Matterport</div>
           </div>
-          <div style="background:var(--card-bg); padding:16px; border-radius:16px; text-align:right;">
-            <span class="tax-tag">TAX</span>
-            <div style="font-size:22px; font-weight:900; margin-top:4px;">$159.00</div>
+          <div style="background:var(--card-bg); padding:14px; border-radius:16px; text-align:right; display:flex; flex-direction:column; justify-content:center;">
+            <span class="tax-tag" style="align-self:flex-end;">TAX</span>
+            <div style="font-size:24px; font-weight:900; font-family:var(--font-display); margin-top:4px;">$249.00</div>
           </div>
           <div style="grid-column: span 2;">
+            <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
             <button class="btn-cta">🛒+</button>
           </div>
         </div>
       </div>
 
-      <!-- VARIANT 25: Inset Well Matrix -->
+      <!-- ARCHETYPE 25: Inset Well Matrix -->
       <div class="sheet-wrapper" id="sheet-25">
         <div class="sheet-v25">
+          <div class="well" style="display:flex; align-items:center; gap:10px;">
+            <div class="icon-360" style="width:38px; height:38px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div>
+              <div style="font-size:11px; color:var(--text-muted);">MLS 360 Tour</div>
+              <div style="font-size:18px; font-weight:900;">Matterport</div>
+            </div>
+          </div>
           <div class="well">
-            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:20px; font-weight:800;">HD Highlight</div>
+            <div style="font-size:14px; font-weight:800;">3,000 – 3,999 Sq Ft</div>
           </div>
           <div class="well" style="display:flex; justify-content:space-between; align-items:center;">
             <span class="tax-tag">TAX</span>
-            <span style="font-size:30px; font-weight:900;">$159.00</span>
+            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$249.00</span>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 26: Overlapping Dynamic Pill Stack -->
+      <!-- ARCHETYPE 26: Overlapping Dynamic Pill Stack -->
       <div class="sheet-wrapper" id="sheet-26">
         <div class="sheet-v26">
-          <div style="display:flex; gap:8px; margin-bottom:12px;">
-            <span style="background:var(--card-bg); border:1px solid var(--border); padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700;">MLS Video</span>
+          <div style="display:flex; gap:8px; margin-bottom:10px; align-items:center;">
+            <div class="icon-360" style="width:32px; height:32px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <span style="background:var(--card-bg); border:1px solid var(--border); padding:6px 12px; border-radius:20px; font-size:12px; font-weight:800;">MLS 360 Tour</span>
             <span class="tax-tag">TAX</span>
           </div>
-          <div style="font-size:26px; font-weight:900; margin-bottom:16px;">HD Highlight</div>
-          <div style="background:var(--accent); color:#fff; padding:16px; border-radius:20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <span style="font-weight:800;">TOTAL</span>
-            <span style="font-size:32px; font-weight:900;">$159.00</span>
+          <div style="font-size:24px; font-weight:900; margin-bottom:10px;">Matterport</div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div style="background:var(--accent); color:#fff; padding:16px; border-radius:20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <span style="font-weight:900; font-size:12px;">LIVE TOTAL</span>
+            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$249.00</span>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 27: Clean Technical Spec -->
+      <!-- ARCHETYPE 27: Clean Technical Spec -->
       <div class="sheet-wrapper" id="sheet-27">
         <div class="sheet-v27">
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
-            <span style="font-size:12px; color:var(--text-muted);">SPEC // 01</span>
-            <span style="font-size:12px; font-weight:700;">MLS Video</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div class="icon-360" style="width:32px; height:32px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <span style="font-size:12px; color:var(--text-muted); font-weight:800;">360_SPEC</span>
+            </div>
+            <span style="font-size:14px; font-weight:900;">Matterport</span>
           </div>
-          <div style="font-size:22px; font-weight:900; margin-bottom:12px;">HD Highlight</div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
             <span class="tax-tag">TAX</span>
-            <span style="font-size:34px; font-weight:900;">$159.00</span>
+            <span style="font-size:34px; font-weight:900; font-family:var(--font-display);">$249.00</span>
           </div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 28: Top-Right Floating Total Badge -->
+      <!-- ARCHETYPE 28: Top-Right Floating Total Badge -->
       <div class="sheet-wrapper" id="sheet-28">
         <div class="sheet-v28">
-          <div class="float-badge">$159.00</div>
-          <div style="margin-top:10px;">
-            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
-            <div style="font-size:22px; font-weight:900; margin-bottom:12px;">HD Highlight</div>
-            <span class="tax-tag" style="margin-bottom:16px;">TAX</span>
+          <div class="floating-price">$249.00</div>
+          <div style="margin-top:8px;">
+            <div class="icon-360" style="margin-bottom:8px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+            <div style="font-size:12px; color:var(--text-muted); font-weight:800;">MLS 360 Tour</div>
+            <div style="font-size:24px; font-weight:900; margin-bottom:10px;">Matterport</div>
+            <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+            <span class="tax-tag" style="margin-bottom:14px;">TAX</span>
           </div>
-          <button class="btn-cta" style="margin-top:12px;">🛒+</button>
+          <button class="btn-cta">🛒+</button>
         </div>
       </div>
 
-      <!-- VARIANT 29: Full-Screen Sheet Overhaul -->
+      <!-- ARCHETYPE 29: Full-Screen Sheet Overhaul -->
       <div class="sheet-wrapper" id="sheet-29" style="height:100%;">
         <div class="sheet-v29">
           <div>
             <div class="handle-bar"></div>
-            <div style="font-size:14px; color:var(--accent); font-weight:800; margin-top:20px;">MLS VIDEO</div>
-            <div style="font-size:32px; font-weight:900; margin-bottom:12px;">HD Highlight</div>
+            <div style="display:flex; align-items:center; gap:12px; margin-top:16px; margin-bottom:10px;">
+              <div class="icon-360"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <div>
+                <div style="font-size:12px; color:var(--accent); font-weight:800;">MLS 360 TOUR</div>
+                <div style="font-size:28px; font-weight:900;">Matterport</div>
+              </div>
+            </div>
+            <div class="sqft-dropdown" style="margin-top:20px;"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+            <div class="tier-switcher" style="margin-top:12px;">
+              <button class="tier-btn active">Standard</button>
+              <button class="tier-btn">Premium</button>
+            </div>
             <span class="tax-tag">TAX</span>
           </div>
           <div>
-            <div style="font-size:48px; font-weight:900; font-family:'Unbounded'; margin-bottom:20px;">$159.00</div>
+            <div style="font-size:48px; font-weight:900; font-family:var(--font-display); margin-bottom:16px;">$249.00</div>
             <button class="btn-cta">🛒+</button>
           </div>
         </div>
       </div>
 
-      <!-- VARIANT 30: Centered Focal Point -->
+      <!-- ARCHETYPE 30: Centered Focal Point -->
       <div class="sheet-wrapper" id="sheet-30">
         <div class="sheet-v30">
-          <div class="icon-box" style="margin:0 auto 12px auto;"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
-          <div style="font-size:13px; color:var(--text-muted); font-weight:700;">MLS Video</div>
-          <div style="font-size:24px; font-weight:900; margin-bottom:8px;">HD Highlight</div>
-          <div style="margin-bottom:12px;"><span class="tax-tag">TAX</span></div>
-          <div style="font-size:38px; font-weight:900; font-family:'Unbounded'; margin-bottom:20px;">$159.00</div>
+          <div class="icon-360" style="margin:0 auto 10px auto;"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg></div>
+          <div style="font-size:12px; color:var(--text-muted); font-weight:800;">MLS 360 Tour</div>
+          <div style="font-size:26px; font-weight:900; margin-bottom:8px;">Matterport</div>
+          <div class="sqft-dropdown"><span>3,000 – 3,999 Sq Ft</span><span>▼</span></div>
+          <div style="margin-bottom:10px;"><span class="tax-tag">TAX</span></div>
+          <div style="font-size:42px; font-weight:900; font-family:var(--font-display); margin-bottom:16px;">$249.00</div>
           <button class="btn-cta">🛒+</button>
         </div>
       </div>
@@ -924,11 +1096,11 @@
   </div>
 
   <script>
-    let currentSheet = 1;
-    const totalSheets = 30;
+    let activeIndex = 1;
+    const maxSheets = 30;
 
-    const titles = [
-      "01. Floating Modular Card",
+    const names = [
+      "01. Floating Modular Cards",
       "02. Accordion Stacks",
       "03. Segmented Multi-Tab Sheet",
       "04. Typography-First Minimalist",
@@ -960,41 +1132,39 @@
       "30. Centered Focal Point"
     ];
 
-    // Populate dropdown
-    const selectEl = document.getElementById('sheetSelect');
-    titles.forEach((title, idx) => {
+    const dropdown = document.getElementById('sheetSelect');
+    names.forEach((name, i) => {
       const opt = document.createElement('option');
-      opt.value = idx + 1;
-      opt.textContent = title;
-      selectEl.appendChild(opt);
+      opt.value = i + 1;
+      opt.textContent = name;
+      dropdown.appendChild(opt);
     });
 
-    function showSheet(index) {
-      document.querySelectorAll('.sheet-wrapper').forEach(el => el.classList.remove('active'));
-      const target = document.getElementById(`sheet-${index}`);
+    function displaySheet(id) {
+      document.querySelectorAll('.sheet-wrapper').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(`sheet-${id}`);
       if (target) {
         target.classList.add('active');
       }
-      selectEl.value = index;
-      currentSheet = index;
+      dropdown.value = id;
+      activeIndex = id;
     }
 
-    function changeSheet(dir) {
-      let next = currentSheet + dir;
-      if (next < 1) next = totalSheets;
-      if (next > totalSheets) next = 1;
-      showSheet(next);
+    function changeSheet(delta) {
+      let next = activeIndex + delta;
+      if (next < 1) next = maxSheets;
+      if (next > maxSheets) next = 1;
+      displaySheet(next);
     }
 
     function jumpToSheet(val) {
-      showSheet(parseInt(val, 10));
+      displaySheet(parseInt(val, 10));
     }
 
     function toggleTheme() {
       const html = document.documentElement;
       const current = html.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
+      html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
     }
   </script>
 </body>
