@@ -3,494 +3,940 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Field Utility - 30 Bottom Sheet Layout Concepts</title>
+  <title>Field Utility UI - 30 Bottom Sheet Concepts</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Red+Hat+Display:wght@500;700;900&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Red+Hat+Display:wght@500;700;900&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-app: #090a0f;
-      --surface-sheet: #12141c;
-      --surface-card: #1c1f2e;
-      --surface-inset: #0d0f17;
-      --border-color: #2e344a;
-      --text-main: #ffffff;
-      --text-muted: #8e99b7;
-      --accent-red: #ff2a4b;
-      --accent-red-hover: #e01b3c;
-      --accent-glow: rgba(255, 42, 75, 0.25);
-      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-display: 'Red Hat Display', sans-serif;
+      --bg: #0d0d0d;
+      --sheet-bg: #000000;
+      --card-bg: #141414;
+      --text: #ffffff;
+      --text-muted: #a0a0a0;
+      --accent: #E50914;
+      --border: #262626;
+      --cta-bg: #ffffff;
+      --cta-text: #000000;
+      --badge-bg: #1f1f1f;
+      --badge-border: #333333;
+      --shadow: rgba(0, 0, 0, 0.8);
+      --font: 'Plus Jakarta Sans', sans-serif;
     }
 
     [data-theme="light"] {
-      --bg-app: #e2e8f0;
-      --surface-sheet: #ffffff;
-      --surface-card: #f1f5f9;
-      --surface-inset: #e2e8f0;
-      --border-color: #cbd5e1;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --accent-red: #e11d48;
-      --accent-red-hover: #be123c;
-      --accent-glow: rgba(225, 29, 72, 0.2);
+      --bg: #e5e5e5;
+      --sheet-bg: #ffffff;
+      --card-bg: #f4f4f5;
+      --text: #000000;
+      --text-muted: #666666;
+      --accent: #E50914;
+      --border: #d4d4d8;
+      --cta-bg: #000000;
+      --cta-text: #ffffff;
+      --badge-bg: #f4f4f5;
+      --badge-border: #e4e4e7;
+      --shadow: rgba(0, 0, 0, 0.15);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font);
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
-      font-family: var(--font-main);
-      background-color: var(--bg-app);
-      color: var(--text-main);
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-      transition: background-color 0.25s ease;
+      justify-content: flex-start;
+      padding-top: 70px;
+      padding-bottom: 40px;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    /* Pinned Navigation Bar */
-    .nav-bar {
+    /* Fixed Navigation Header */
+    .app-header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 64px;
-      background: rgba(18, 20, 28, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      z-index: 1000;
+      height: 60px;
+      background: var(--sheet-bg);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
-    }
-    [data-theme="light"] .nav-bar {
-      background: rgba(255, 255, 255, 0.85);
-    }
-
-    .nav-left, .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .nav-btn {
-      min-width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: var(--surface-card);
-      color: var(--text-main);
-      font-weight: 700;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-    }
-    .nav-btn:active { transform: scale(0.95); }
-
-    .concept-select {
-      height: 44px;
       padding: 0 16px;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: var(--surface-card);
-      color: var(--text-main);
-      font-family: var(--font-main);
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      outline: none;
-      max-width: 260px;
+      z-index: 9999;
+      box-shadow: 0 4px 12px var(--shadow);
     }
 
-    .theme-toggle-btn {
-      height: 44px;
-      padding: 0 16px;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: var(--surface-card);
-      color: var(--text-main);
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
+    .nav-controls {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    /* Device Frame Simulation */
-    .app-viewport {
-      margin-top: 84px;
-      margin-bottom: 40px;
-      width: 100%;
-      max-width: 430px;
-      height: 880px;
-      background: var(--surface-sheet);
-      border: 8px solid #1e2330;
-      border-radius: 48px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      display: flex;
-      flex-direction: column;
-    }
-    [data-theme="light"] .app-viewport {
-      border-color: #cbd5e1;
-    }
-
-    .app-screen-content {
-      flex: 1;
-      padding: 24px;
-      background: radial-gradient(circle at top right, rgba(255,42,75,0.08), transparent 50%);
-      display: flex;
-      flex-direction: column;
-      opacity: 0.5;
-      pointer-events: none;
-    }
-    .mock-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .mock-badge {
-      background: var(--surface-card);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
+    .nav-btn {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 8px;
       font-weight: 700;
-      border: 1px solid var(--border-color);
-    }
-    .mock-map {
-      width: 100%;
-      height: 200px;
-      border-radius: 20px;
-      background: var(--surface-inset);
-      border: 1px dashed var(--border-color);
+      cursor: pointer;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
-      color: var(--text-muted);
+      min-height: 40px;
     }
 
-    /* Container for Sheets */
-    .sheet-wrapper {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      top: 0;
-      pointer-events: none;
+    .nav-btn:active {
+      transform: scale(0.96);
+    }
+
+    select.sheet-select {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      max-width: 200px;
+      outline: none;
+      height: 40px;
+    }
+
+    .theme-toggle {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 13px;
+      height: 40px;
+    }
+
+    /* Screen Frame Simulation */
+    .device-viewport {
+      width: 100%;
+      max-width: 420px;
+      height: 740px;
+      background: #000;
+      border-radius: 40px;
+      border: 8px solid #222;
+      position: relative;
+      overflow: hidden;
+      margin-top: 10px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
     }
 
-    /* Base Sheet Container */
-    .sheet {
-      pointer-events: auto;
-      background: var(--surface-sheet);
-      border-top-left-radius: 28px;
-      border-top-right-radius: 28px;
-      border: 1px solid var(--border-color);
-      border-bottom: none;
-      padding: 20px;
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
-      display: none;
+    .device-screen {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #1a1a1a 0%, #080808 100%);
+      position: relative;
+      display: flex;
       flex-direction: column;
-      gap: 16px;
-      max-height: 90%;
-      overflow-y: auto;
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      justify-content: flex-end;
+      padding: 12px;
     }
-    .sheet.active { display: flex; }
+
+    [data-theme="light"] .device-screen {
+      background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%);
+    }
+
+    .sheet-wrapper {
+      display: none;
+      width: 100%;
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sheet-wrapper.active {
+      display: block;
+    }
 
     @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Universal Sheet Components */
-    .sheet-handle {
-      width: 40px;
-      height: 5px;
-      background: var(--border-color);
-      border-radius: 10px;
-      align-self: center;
-      margin-bottom: 8px;
+    /* Shared Icon Styling */
+    .icon-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
     }
 
-    .hero-title {
-      font-family: var(--font-display);
+    .icon-box svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--text);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tax-tag {
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 6px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .btn-cta {
+      background: var(--cta-bg);
+      color: var(--cta-text);
+      border: none;
+      width: 100%;
+      padding: 18px;
+      border-radius: 28px;
       font-size: 22px;
       font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -0.5px;
-    }
-    .hero-subtitle {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .hero-price {
-      font-family: var(--font-display);
-      font-size: 42px;
-      font-weight: 900;
-      color: var(--text-main);
-      line-height: 1;
-    }
-    .hero-price span {
-      font-size: 20px;
-      color: var(--accent-red);
-    }
-
-    .primary-btn {
-      min-height: 56px;
-      background: var(--accent-red);
-      color: #ffffff;
-      border: none;
-      border-radius: 16px;
-      font-family: var(--font-main);
-      font-size: 16px;
-      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       cursor: pointer;
-      box-shadow: 0 8px 20px var(--accent-glow);
-      transition: all 0.15s ease;
-      width: 100%;
-    }
-    .primary-btn:active { transform: scale(0.98); background: var(--accent-red-hover); }
-
-    .option-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      background: var(--surface-card);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      cursor: pointer;
-    }
-    .option-row.selected {
-      border-color: var(--accent-red);
-      background: rgba(255, 42, 75, 0.05);
+      box-shadow: 0 4px 14px var(--shadow);
+      min-height: 58px;
     }
 
-    .icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--surface-inset);
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
+    .handle-bar {
+      width: 40px;
+      height: 5px;
+      background: var(--border);
+      border-radius: 3px;
+      margin: 0 auto 12px auto;
     }
 
-    /* CSS Specifics for Specific Archetypes */
+    /* ---------------------------------------------------------------------- */
+    /* ARCHETYPE SPECIFIC STYLES (30 DISTINCT ARCHITECTURES)                 */
+    /* ---------------------------------------------------------------------- */
 
-    /* Variant 1: Floating Modular */
-    .sheet[data-variant="1"] {
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      padding: 16px;
-    }
-    .sheet[data-variant="1"] .mod-card {
-      background: var(--surface-sheet);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
+    /* V1: Floating Modular Card */
+    .sheet-v1 {
+      background: var(--sheet-bg);
+      border-radius: 32px;
       padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      margin-bottom: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 -10px 40px var(--shadow);
     }
+    .sheet-v1 .row-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .sheet-v1 .left-group { display: flex; align-items: center; gap: 12px; }
+    .sheet-v1 .title-wrap { display: flex; flex-direction: column; }
+    .sheet-v1 .cat-label { font-size: 13px; color: var(--text-muted); font-weight: 700; }
+    .sheet-v1 .title-h1 { font-size: 22px; font-weight: 900; color: var(--text); }
+    .sheet-v1 .price-wrap { display: flex; align-items: baseline; gap: 6px; }
+    .sheet-v1 .hero-price { font-size: 32px; font-weight: 900; color: var(--text); font-family: 'Unbounded', sans-serif; }
 
-    /* Variant 6: Horizontal Carousel */
-    .carousel-container {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      scroll-snap-type: x mandatory;
-    }
-    .carousel-item {
-      flex: 0 0 140px;
-      scroll-snap-align: start;
-      background: var(--surface-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 14px;
-      text-align: center;
-    }
-    .carousel-item.active {
-      border-color: var(--accent-red);
-      background: var(--accent-red);
-      color: #fff;
-    }
+    /* V2: Accordion Stacks */
+    .sheet-v2 { background: var(--sheet-bg); border-radius: 28px 28px 0 0; padding: 20px; border-top: 2px solid var(--accent); }
+    .sheet-v2 .acc-card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border); }
+    .sheet-v2 .acc-header { display: flex; align-items: center; justify-content: space-between; }
 
-    /* Variant 8: 2x2 Grid */
-    .grid-2x2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .grid-tile {
-      background: var(--surface-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .grid-tile.active {
-      background: var(--accent-red);
-      color: white;
-      border-color: var(--accent-red);
-    }
+    /* V3: Segmented Multi-Tab Sheet */
+    .sheet-v3 { background: var(--sheet-bg); border-radius: 32px 32px 0 0; padding: 20px; }
+    .sheet-v3 .tabs { display: flex; background: var(--card-bg); padding: 4px; border-radius: 14px; margin-bottom: 16px; }
+    .sheet-v3 .tab { flex: 1; text-align: center; padding: 8px; font-weight: 800; font-size: 12px; border-radius: 10px; color: var(--text-muted); }
+    .sheet-v3 .tab.active { background: var(--accent); color: #fff; }
 
-    /* Variant 9: Neo Brutalist */
-    .sheet[data-variant="9"] {
-      border: 4px solid var(--text-main) !important;
-      border-radius: 0 !important;
-      box-shadow: -8px -8px 0px var(--accent-red) !important;
-      background: var(--surface-sheet);
-    }
-    .sheet[data-variant="9"] .primary-btn {
-      border: 3px solid var(--text-main);
-      border-radius: 0;
-      box-shadow: 5px 5px 0px var(--text-main);
-      background: var(--accent-red);
-      color: #fff;
-    }
+    /* V4: Typography-First Minimalist */
+    .sheet-v4 { background: var(--sheet-bg); padding: 24px 16px; border-top: 1px solid var(--border); }
+    .sheet-v4 .giant-price { font-size: 56px; font-weight: 900; line-height: 1; font-family: 'Unbounded', sans-serif; margin: 12px 0; }
 
-    /* Variant 13: Asymmetric Bento */
-    .bento-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      grid-template-rows: auto auto;
-      gap: 12px;
-    }
-    .bento-cell {
-      background: var(--surface-card);
-      border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 16px;
-    }
-    .bento-cell.hero {
-      grid-row: span 2;
-      background: linear-gradient(135deg, var(--surface-card), var(--surface-inset));
-      border-color: var(--accent-red);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    /* V5: Split-Screen Bottom Dock */
+    .sheet-v5 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; display: grid; grid-template-rows: auto auto; gap: 16px; }
 
-    /* Variant 15: Tactile Glove Switchboard */
-    .glove-toggle {
-      min-height: 64px;
-      background: var(--surface-card);
-      border: 2px solid var(--border-color);
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      font-weight: 800;
-    }
-    .glove-toggle.active {
-      border-color: var(--accent-red);
-      background: rgba(255, 42, 75, 0.15);
-    }
+    /* V6: Horizontal Carousel Pill Picker */
+    .sheet-v6 { background: var(--sheet-bg); border-radius: 28px 28px 0 0; padding: 20px 0; }
+    .sheet-v6 .padded { padding: 0 20px; }
+    .sheet-v6 .carousel { display: flex; gap: 10px; overflow-x: auto; padding: 16px 20px; scrollbar-width: none; }
+    .sheet-v6 .pill-card { background: var(--card-bg); border: 1px solid var(--border); padding: 12px 18px; border-radius: 20px; flex-shrink: 0; }
 
-    /* Variant 28: Top-Right Floating Total */
-    .floating-total-badge {
-      position: absolute;
-      top: -24px;
-      right: 20px;
-      background: var(--accent-red);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 20px;
-      box-shadow: 0 10px 20px var(--accent-glow);
-    }
+    /* V7: Floating Action Capsule */
+    .sheet-v7 { background: transparent; padding: 10px; }
+    .sheet-v7 .capsule { background: var(--sheet-bg); border: 2px solid var(--accent); border-radius: 40px; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+
+    /* V8: High-Contrast 2x2 Grid Tiles */
+    .sheet-v8 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; }
+    .sheet-v8 .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .sheet-v8 .tile { background: var(--card-bg); border: 1px solid var(--border); padding: 14px; border-radius: 16px; }
+
+    /* V9: Neo-Brutalist High-Border */
+    .sheet-v9 { background: #000; border: 4px solid #fff; border-radius: 0; padding: 20px; box-shadow: -8px -8px 0 var(--accent); }
+    .sheet-v9 .text-nb { font-family: 'Unbounded', sans-serif; text-transform: uppercase; color: #fff; }
+
+    /* V10: Laboratory Clinical Matrix */
+    .sheet-v10 { background: var(--sheet-bg); border: 1px solid var(--border); padding: 20px; font-family: monospace; }
+    .sheet-v10 .matrix-row { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); padding: 10px 0; }
+
+    /* V11: Full-Bleed Edge Cards */
+    .sheet-v11 { background: var(--sheet-bg); border-radius: 20px 20px 0 0; }
+    .sheet-v11 .bleed-card { background: var(--card-bg); padding: 24px; border-bottom: 2px solid var(--border); }
+
+    /* V12: Radial Speed Dial */
+    .sheet-v12 { background: var(--sheet-bg); border-radius: 30px; padding: 20px; text-align: center; }
+
+    /* V13: Asymmetric Bento Grid */
+    .sheet-v13 { background: var(--sheet-bg); border-radius: 28px; padding: 16px; display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+    .sheet-v13 .bento-main { background: var(--card-bg); padding: 16px; border-radius: 20px; grid-column: span 2; }
+    .sheet-v13 .bento-sub { background: var(--card-bg); padding: 16px; border-radius: 20px; }
+
+    /* V14: Pinned Top-Hero Canvas */
+    .sheet-v14 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; }
+    .sheet-v14 .top-hero { background: var(--accent); color: #fff; padding: 20px; border-radius: 20px; margin-bottom: 16px; }
+
+    /* V15: Tactile Glove Switchboard */
+    .sheet-v15 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; }
+    .sheet-v15 .glove-btn { background: var(--card-bg); border: 3px solid var(--border); padding: 20px; border-radius: 16px; font-size: 20px; font-weight: 900; text-align: center; }
+
+    /* V16: Bottom-Anchored Thumb Zone */
+    .sheet-v16 { background: var(--sheet-bg); border-radius: 32px 32px 0 0; padding: 24px 20px 10px 20px; }
+
+    /* V17: High-Contrast Gradient Canvas */
+    .sheet-v17 { background: linear-gradient(180deg, #E50914 0%, #000000 100%); border-radius: 28px; padding: 24px; color: #fff; }
+
+    /* V18: Split Dual-Shade Sheet */
+    .sheet-v18 { background: var(--card-bg); border-radius: 24px; overflow: hidden; }
+    .sheet-v18 .top-shade { padding: 20px; background: var(--sheet-bg); }
+    .sheet-v18 .bottom-shade { padding: 20px; }
+
+    /* V19: Borderless Divider Grid */
+    .sheet-v19 { background: var(--sheet-bg); padding: 20px; }
+    .sheet-v19 .grid-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+
+    /* V20: Floating HUD Sheet */
+    .sheet-v20 { background: var(--sheet-bg); border: 2px solid var(--accent); border-radius: 24px; padding: 20px; margin-bottom: 10px; }
+
+    /* V21: Horizontal Snap Cards */
+    .sheet-v21 { background: var(--sheet-bg); border-radius: 24px; padding: 20px 0; }
+
+    /* V22: Icon-Anchored Row Strips */
+    .sheet-v22 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; }
+    .sheet-v22 .strip { display: flex; align-items: center; gap: 16px; background: var(--card-bg); padding: 12px; border-radius: 16px; margin-bottom: 12px; }
+
+    /* V23: Top-Heavy Price Banner */
+    .sheet-v23 { background: var(--sheet-bg); border-radius: 28px; padding: 0; overflow: hidden; }
+    .sheet-v23 .banner { background: var(--accent); padding: 24px; color: #fff; text-align: center; }
+
+    /* V24: Two-Column Switcher Grid */
+    .sheet-v24 { background: var(--sheet-bg); border-radius: 24px; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* V25: Inset Well Matrix */
+    .sheet-v25 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; }
+    .sheet-v25 .well { background: var(--bg); inset: inset; padding: 16px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 12px; }
+
+    /* V26: Overlapping Dynamic Pill Stack */
+    .sheet-v26 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; }
+
+    /* V27: Clean Technical Spec */
+    .sheet-v27 { background: var(--sheet-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); font-family: 'Red Hat Display', sans-serif; }
+
+    /* V28: Top-Right Floating Total Badge */
+    .sheet-v28 { background: var(--sheet-bg); border-radius: 28px; padding: 20px; position: relative; }
+    .sheet-v28 .float-badge { position: absolute; top: -15px; right: 20px; background: var(--accent); color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: 900; }
+
+    /* V29: Full-Screen Sheet Overhaul */
+    .sheet-v29 { background: var(--sheet-bg); height: 100%; border-radius: 0; padding: 40px 20px; display: flex; flex-direction: column; justify-content: space-between; }
+
+    /* V30: Centered Focal Point */
+    .sheet-v30 { background: var(--sheet-bg); border-radius: 32px; padding: 30px 20px; text-align: center; }
+
   </style>
 </head>
 <body>
 
   <!-- Pinned Control Header -->
-  <nav class="nav-bar">
-    <div class="nav-left">
-      <button class="nav-btn" id="prevBtn">←</button>
-      <select class="concept-select" id="conceptSelect"></select>
-      <button class="nav-btn" id="nextBtn">→</button>
+  <header class="app-header">
+    <div class="nav-controls">
+      <button class="nav-btn" id="prevBtn" onclick="changeSheet(-1)">←</button>
+      <select class="sheet-select" id="sheetSelect" onchange="jumpToSheet(this.value)">
+        <!-- Options generated via JS -->
+      </select>
+      <button class="nav-btn" id="nextBtn" onclick="changeSheet(1)">→</button>
     </div>
-    <div class="nav-right">
-      <button class="theme-toggle-btn" id="themeBtn">
-        <span id="themeIcon">☀️</span>
-        <span id="themeText">Light</span>
-      </button>
-    </div>
-  </nav>
+    <button class="theme-toggle" onclick="toggleTheme()">DARK / LIGHT</button>
+  </header>
 
-  <!-- Mobile Viewport Frame -->
-  <div class="app-viewport">
-    <div class="app-screen-content">
-      <div class="mock-header">
-        <span class="mock-badge">JOB #88492</span>
-        <span class="mock-badge">CAM-A</span>
-      </div>
-      <div class="mock-map">
-        [ Field Location GIS Overlay ]
-      </div>
-    </div>
+  <!-- Mobile Viewport Simulator -->
+  <div class="device-viewport">
+    <div class="device-screen">
 
-    <!-- Container for the 30 Bottom Sheet Layout Concepts -->
-    <div class="sheet-wrapper" id="sheetWrapper"></div>
+      <!-- VARIANT 1: Floating Modular Card -->
+      <div class="sheet-wrapper active" id="sheet-1">
+        <div class="sheet-v1">
+          <div class="handle-bar"></div>
+          <div class="row-top">
+            <div class="left-group">
+              <div class="icon-box">
+                <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              </div>
+              <div class="title-wrap">
+                <span class="cat-label">MLS Video</span>
+                <span class="title-h1">HD Highlight</span>
+              </div>
+            </div>
+            <div class="price-wrap">
+              <span class="tax-tag">TAX</span>
+              <span class="hero-price">$159.00</span>
+            </div>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 2: Accordion Stacks -->
+      <div class="sheet-wrapper" id="sheet-2">
+        <div class="sheet-v2">
+          <div class="handle-bar"></div>
+          <div class="acc-card">
+            <div class="acc-header">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+                <div>
+                  <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+                  <div style="font-size:18px; font-weight:800;">HD Highlight</div>
+                </div>
+              </div>
+              <span class="tax-tag">TAX</span>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin: 16px 0;">
+            <span style="font-size:14px; font-weight:700;">Grand Total</span>
+            <span style="font-size:36px; font-weight:900; font-family:'Unbounded';">$159.00</span>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 3: Segmented Multi-Tab Sheet -->
+      <div class="sheet-wrapper" id="sheet-3">
+        <div class="sheet-v3">
+          <div class="handle-bar"></div>
+          <div class="tabs">
+            <div class="tab active">PACKAGE</div>
+            <div class="tab">DETAILS</div>
+            <div class="tab">TAXES</div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+              <div>
+                <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+                <div style="font-size:20px; font-weight:800;">HD Highlight</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <span class="tax-tag">TAX</span>
+              <div style="font-size:28px; font-weight:900;">$159.00</div>
+            </div>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 4: Typography-First Minimalist -->
+      <div class="sheet-wrapper" id="sheet-4">
+        <div class="sheet-v4">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <p style="font-size:14px; font-weight:800; color:var(--accent);">MLS VIDEO</p>
+              <h1 style="font-size:28px; font-weight:900;">HD Highlight</h1>
+            </div>
+            <span class="tax-tag">TAX</span>
+          </div>
+          <div class="giant-price">$159.00</div>
+          <button class="btn-cta" style="border-radius:12px;">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 5: Split-Screen Bottom Dock -->
+      <div class="sheet-wrapper" id="sheet-5">
+        <div class="sheet-v5">
+          <div style="background:var(--card-bg); padding:16px; border-radius:16px; display:flex; align-items:center; gap:12px;">
+            <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+            <div>
+              <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+              <div style="font-size:18px; font-weight:800;">HD Highlight</div>
+            </div>
+          </div>
+          <div style="background:var(--card-bg); padding:16px; border-radius:16px; display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <span class="tax-tag">TAX</span>
+              <div style="font-size:32px; font-weight:900;">$159.00</div>
+            </div>
+            <button class="btn-cta" style="width:auto; padding:0 32px;">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 6: Horizontal Carousel Pill Picker -->
+      <div class="sheet-wrapper" id="sheet-6">
+        <div class="sheet-v6">
+          <div class="padded" style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+              <div style="font-size:20px; font-weight:900;">HD Highlight</div>
+            </div>
+            <span class="tax-tag">TAX</span>
+          </div>
+          <div class="carousel">
+            <div class="pill-card" style="border-color:var(--accent);">
+              <div style="font-size:10px; color:var(--text-muted);">SELECTED</div>
+              <div style="font-size:20px; font-weight:900;">$159.00</div>
+            </div>
+          </div>
+          <div class="padded">
+            <button class="btn-cta">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 7: Floating Action Capsule -->
+      <div class="sheet-wrapper" id="sheet-7">
+        <div class="sheet-v7">
+          <div class="capsule">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="icon-box" style="width:36px; height:36px;"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+              <div>
+                <div style="font-size:10px; color:var(--text-muted);">MLS Video</div>
+                <div style="font-size:14px; font-weight:800;">HD Highlight</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div>
+                <span class="tax-tag" style="font-size:9px;">TAX</span>
+                <div style="font-size:18px; font-weight:900;">$159.00</div>
+              </div>
+              <button class="btn-cta" style="width:44px; height:44px; border-radius:50%; padding:0;">🛒+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 8: High-Contrast 2x2 Grid Tiles -->
+      <div class="sheet-wrapper" id="sheet-8">
+        <div class="sheet-v8">
+          <div class="grid-2x2">
+            <div class="tile">
+              <div style="font-size:10px; color:var(--text-muted);">CATEGORY</div>
+              <div style="font-size:14px; font-weight:800;">MLS Video</div>
+            </div>
+            <div class="tile">
+              <div style="font-size:10px; color:var(--text-muted);">ITEM</div>
+              <div style="font-size:14px; font-weight:800;">HD Highlight</div>
+            </div>
+            <div class="tile">
+              <div style="font-size:10px; color:var(--text-muted);">FEES</div>
+              <span class="tax-tag">TAX</span>
+            </div>
+            <div class="tile" style="background:var(--accent); color:#fff;">
+              <div style="font-size:10px; opacity:0.8;">TOTAL</div>
+              <div style="font-size:20px; font-weight:900;">$159.00</div>
+            </div>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 9: Neo-Brutalist High-Border -->
+      <div class="sheet-wrapper" id="sheet-9">
+        <div class="sheet-v9">
+          <div class="text-nb" style="font-size:12px; color:var(--accent);">MLS VIDEO</div>
+          <div class="text-nb" style="font-size:24px; margin-bottom:12px;">HD HIGHLIGHT</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:2px solid #fff; padding-top:12px; margin-bottom:16px;">
+            <span class="tax-tag" style="border:2px solid #fff; color:#fff; background:#000;">TAX</span>
+            <span class="text-nb" style="font-size:36px;">$159.00</span>
+          </div>
+          <button class="btn-cta" style="border-radius:0; border:3px solid #fff; background:var(--accent); color:#fff;">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 10: Laboratory Clinical Matrix -->
+      <div class="sheet-wrapper" id="sheet-10">
+        <div class="sheet-v10">
+          <div class="matrix-row">
+            <span>[CATALOG]</span>
+            <span>MLS Video</span>
+          </div>
+          <div class="matrix-row">
+            <span>[SERVICE]</span>
+            <span>HD Highlight</span>
+          </div>
+          <div class="matrix-row">
+            <span>[ASSESSMENT]</span>
+            <span class="tax-tag">TAX</span>
+          </div>
+          <div class="matrix-row" style="border-bottom:none; font-size:20px; font-weight:bold;">
+            <span>[FINAL_SUM]</span>
+            <span>$159.00</span>
+          </div>
+          <button class="btn-cta" style="border-radius:0; margin-top:12px;">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 11: Full-Bleed Edge Cards -->
+      <div class="sheet-wrapper" id="sheet-11">
+        <div class="sheet-v11">
+          <div class="bleed-card">
+            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:24px; font-weight:900;">HD Highlight</div>
+          </div>
+          <div class="bleed-card" style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tax-tag">TAX</span>
+            <div style="font-size:32px; font-weight:900;">$159.00</div>
+          </div>
+          <div style="padding:16px;">
+            <button class="btn-cta">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 12: Radial Speed Dial -->
+      <div class="sheet-wrapper" id="sheet-12">
+        <div class="sheet-v12">
+          <div class="icon-box" style="margin:0 auto 12px auto;"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+          <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+          <div style="font-size:22px; font-weight:900; margin-bottom:8px;">HD Highlight</div>
+          <span class="tax-tag">TAX</span>
+          <div style="font-size:40px; font-weight:900; margin:16px 0; font-family:'Unbounded';">$159.00</div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 13: Asymmetric Bento Grid -->
+      <div class="sheet-wrapper" id="sheet-13">
+        <div class="sheet-v13">
+          <div class="bento-main">
+            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:22px; font-weight:900;">HD Highlight</div>
+          </div>
+          <div class="bento-sub" style="display:flex; align-items:center; justify-content:center;">
+            <span class="tax-tag">TAX</span>
+          </div>
+          <div class="bento-sub" style="grid-column: span 2; background:var(--accent); color:#fff; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:800;">TOTAL</span>
+            <span style="font-size:28px; font-weight:900;">$159.00</span>
+          </div>
+          <div style="grid-column: span 2;">
+            <button class="btn-cta">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 14: Pinned Top-Hero Canvas -->
+      <div class="sheet-wrapper" id="sheet-14">
+        <div class="sheet-v14">
+          <div class="top-hero">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span>MLS Video</span>
+              <span class="tax-tag" style="background:#fff; color:#000;">TAX</span>
+            </div>
+            <div style="font-size:36px; font-weight:900; margin-top:8px;">$159.00</div>
+          </div>
+          <div style="font-size:20px; font-weight:800; margin-bottom:16px; padding:0 8px;">HD Highlight</div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 15: Tactile Glove Switchboard -->
+      <div class="sheet-wrapper" id="sheet-15">
+        <div class="sheet-v15">
+          <div class="glove-btn" style="margin-bottom:12px;">
+            <div style="font-size:12px; color:var(--text-muted);">MLS VIDEO</div>
+            <div>HD HIGHLIGHT</div>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:16px;">
+            <div class="glove-btn" style="flex:1;"><span class="tax-tag">TAX</span></div>
+            <div class="glove-btn" style="flex:2; background:var(--accent); color:#fff; border:none;">$159.00</div>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 16: Bottom-Anchored Thumb Zone -->
+      <div class="sheet-wrapper" id="sheet-16">
+        <div class="sheet-v16">
+          <div style="margin-bottom:20px;">
+            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:24px; font-weight:900;">HD Highlight</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px;">
+            <span class="tax-tag">TAX</span>
+            <div style="font-size:38px; font-weight:900; line-height:1;">$159.00</div>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 17: High-Contrast Gradient Canvas -->
+      <div class="sheet-wrapper" id="sheet-17">
+        <div class="sheet-v17">
+          <div style="display:flex; justify-content:space-between;">
+            <span style="font-size:12px; opacity:0.8;">MLS Video</span>
+            <span class="tax-tag" style="background:rgba(255,255,255,0.2); color:#fff; border:none;">TAX</span>
+          </div>
+          <div style="font-size:26px; font-weight:900; margin:10px 0;">HD Highlight</div>
+          <div style="font-size:42px; font-weight:900; margin-bottom:20px;">$159.00</div>
+          <button class="btn-cta" style="background:#fff; color:#000;">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 18: Split Dual-Shade Sheet -->
+      <div class="sheet-wrapper" id="sheet-18">
+        <div class="sheet-v18">
+          <div class="top-shade">
+            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:22px; font-weight:900;">HD Highlight</div>
+          </div>
+          <div class="bottom-shade">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <span class="tax-tag">TAX</span>
+              <span style="font-size:32px; font-weight:900;">$159.00</span>
+            </div>
+            <button class="btn-cta">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 19: Borderless Divider Grid -->
+      <div class="sheet-wrapper" id="sheet-19">
+        <div class="sheet-v19">
+          <div class="grid-row">
+            <span style="color:var(--text-muted);">Category</span>
+            <span style="font-weight:700;">MLS Video</span>
+          </div>
+          <div class="grid-row">
+            <span style="color:var(--text-muted);">Option</span>
+            <span style="font-weight:700;">HD Highlight</span>
+          </div>
+          <div class="grid-row">
+            <span style="color:var(--text-muted);">Fee</span>
+            <span class="tax-tag">TAX</span>
+          </div>
+          <div class="grid-row" style="border-bottom:none;">
+            <span style="font-weight:900; font-size:18px;">Total</span>
+            <span style="font-weight:900; font-size:32px; color:var(--accent);">$159.00</span>
+          </div>
+          <button class="btn-cta" style="margin-top:12px;">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 20: Floating HUD Sheet -->
+      <div class="sheet-wrapper" id="sheet-20">
+        <div class="sheet-v20">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div class="icon-box" style="width:32px; height:32px;"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+              <span style="font-size:14px; font-weight:800;">MLS Video</span>
+            </div>
+            <span class="tax-tag">TAX</span>
+          </div>
+          <div style="font-size:20px; font-weight:900; margin-bottom:12px;">HD Highlight</div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:28px; font-weight:900;">$159.00</span>
+            <button class="btn-cta" style="width:auto; padding:0 24px;">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 21: Horizontal Snap Cards -->
+      <div class="sheet-wrapper" id="sheet-21">
+        <div class="sheet-v21">
+          <div style="padding:0 20px; margin-bottom:12px;">
+            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:22px; font-weight:900;">HD Highlight</div>
+          </div>
+          <div style="background:var(--card-bg); margin:0 20px; padding:16px; border-radius:16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <span class="tax-tag">TAX</span>
+            <span style="font-size:32px; font-weight:900;">$159.00</span>
+          </div>
+          <div style="padding:0 20px;">
+            <button class="btn-cta">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 22: Icon-Anchored Row Strips -->
+      <div class="sheet-wrapper" id="sheet-22">
+        <div class="sheet-v22">
+          <div class="strip">
+            <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+            <div>
+              <div style="font-size:11px; color:var(--text-muted);">MLS Video</div>
+              <div style="font-size:16px; font-weight:800;">HD Highlight</div>
+            </div>
+          </div>
+          <div class="strip" style="justify-content:space-between;">
+            <span class="tax-tag">TAX</span>
+            <span style="font-size:28px; font-weight:900;">$159.00</span>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 23: Top-Heavy Price Banner -->
+      <div class="sheet-wrapper" id="sheet-23">
+        <div class="sheet-v23">
+          <div class="banner">
+            <span class="tax-tag" style="background:#000; color:#fff;">TAX</span>
+            <div style="font-size:42px; font-weight:900; margin-top:4px;">$159.00</div>
+          </div>
+          <div style="padding:20px;">
+            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:22px; font-weight:900; margin-bottom:16px;">HD Highlight</div>
+            <button class="btn-cta">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 24: Two-Column Switcher Grid -->
+      <div class="sheet-wrapper" id="sheet-24">
+        <div class="sheet-v24">
+          <div style="background:var(--card-bg); padding:16px; border-radius:16px;">
+            <div style="font-size:11px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:16px; font-weight:800;">HD Highlight</div>
+          </div>
+          <div style="background:var(--card-bg); padding:16px; border-radius:16px; text-align:right;">
+            <span class="tax-tag">TAX</span>
+            <div style="font-size:22px; font-weight:900; margin-top:4px;">$159.00</div>
+          </div>
+          <div style="grid-column: span 2;">
+            <button class="btn-cta">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 25: Inset Well Matrix -->
+      <div class="sheet-wrapper" id="sheet-25">
+        <div class="sheet-v25">
+          <div class="well">
+            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:20px; font-weight:800;">HD Highlight</div>
+          </div>
+          <div class="well" style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tax-tag">TAX</span>
+            <span style="font-size:30px; font-weight:900;">$159.00</span>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 26: Overlapping Dynamic Pill Stack -->
+      <div class="sheet-wrapper" id="sheet-26">
+        <div class="sheet-v26">
+          <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <span style="background:var(--card-bg); border:1px solid var(--border); padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700;">MLS Video</span>
+            <span class="tax-tag">TAX</span>
+          </div>
+          <div style="font-size:26px; font-weight:900; margin-bottom:16px;">HD Highlight</div>
+          <div style="background:var(--accent); color:#fff; padding:16px; border-radius:20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <span style="font-weight:800;">TOTAL</span>
+            <span style="font-size:32px; font-weight:900;">$159.00</span>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 27: Clean Technical Spec -->
+      <div class="sheet-wrapper" id="sheet-27">
+        <div class="sheet-v27">
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+            <span style="font-size:12px; color:var(--text-muted);">SPEC // 01</span>
+            <span style="font-size:12px; font-weight:700;">MLS Video</span>
+          </div>
+          <div style="font-size:22px; font-weight:900; margin-bottom:12px;">HD Highlight</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <span class="tax-tag">TAX</span>
+            <span style="font-size:34px; font-weight:900;">$159.00</span>
+          </div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 28: Top-Right Floating Total Badge -->
+      <div class="sheet-wrapper" id="sheet-28">
+        <div class="sheet-v28">
+          <div class="float-badge">$159.00</div>
+          <div style="margin-top:10px;">
+            <div style="font-size:12px; color:var(--text-muted);">MLS Video</div>
+            <div style="font-size:22px; font-weight:900; margin-bottom:12px;">HD Highlight</div>
+            <span class="tax-tag" style="margin-bottom:16px;">TAX</span>
+          </div>
+          <button class="btn-cta" style="margin-top:12px;">🛒+</button>
+        </div>
+      </div>
+
+      <!-- VARIANT 29: Full-Screen Sheet Overhaul -->
+      <div class="sheet-wrapper" id="sheet-29" style="height:100%;">
+        <div class="sheet-v29">
+          <div>
+            <div class="handle-bar"></div>
+            <div style="font-size:14px; color:var(--accent); font-weight:800; margin-top:20px;">MLS VIDEO</div>
+            <div style="font-size:32px; font-weight:900; margin-bottom:12px;">HD Highlight</div>
+            <span class="tax-tag">TAX</span>
+          </div>
+          <div>
+            <div style="font-size:48px; font-weight:900; font-family:'Unbounded'; margin-bottom:20px;">$159.00</div>
+            <button class="btn-cta">🛒+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 30: Centered Focal Point -->
+      <div class="sheet-wrapper" id="sheet-30">
+        <div class="sheet-v30">
+          <div class="icon-box" style="margin:0 auto 12px auto;"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+          <div style="font-size:13px; color:var(--text-muted); font-weight:700;">MLS Video</div>
+          <div style="font-size:24px; font-weight:900; margin-bottom:8px;">HD Highlight</div>
+          <div style="margin-bottom:12px;"><span class="tax-tag">TAX</span></div>
+          <div style="font-size:38px; font-weight:900; font-family:'Unbounded'; margin-bottom:20px;">$159.00</div>
+          <button class="btn-cta">🛒+</button>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <script>
-    // Master Package Data
-    const baseData = {
-      title: "HD Highlight Video",
-      category: "MLS Video Package",
-      basePrice: 159.00,
-      options: [
-        { id: "tax", label: "State & Local Tax", price: 12.72, default: true },
-        { id: "4k", label: "4K Master Export Upgrade", price: 45.00, default: false },
-        { id: "drone", label: "Aerial Drone B-Roll Addon", price: 75.00, default: false },
-        { id: "speed", label: "24-Hour Express Delivery", price: 30.00, default: false }
-      ]
-    };
+    let currentSheet = 1;
+    const totalSheets = 30;
 
-    // Concept Names Array
-    const concepts = [
-      "1. Floating Modular Cards",
-      "2. Accordion Stacks",
-      "3. Segmented Multi-Tab Sheet",
-      "4. Typography-First Minimalist",
-      "5. Split-Screen Bottom Dock",
-      "6. Horizontal Carousel Pill Picker",
-      "7. Floating Action Capsule",
-      "8. High-Contrast 2x2 Grid Tiles",
-      "9. Neo-Brutalist High-Border",
+    const titles = [
+      "01. Floating Modular Card",
+      "02. Accordion Stacks",
+      "03. Segmented Multi-Tab Sheet",
+      "04. Typography-First Minimalist",
+      "05. Split-Screen Bottom Dock",
+      "06. Horizontal Carousel Pill Picker",
+      "07. Floating Action Capsule",
+      "08. High-Contrast 2x2 Grid Tiles",
+      "09. Neo-Brutalist High-Border",
       "10. Laboratory Clinical Matrix",
       "11. Full-Bleed Edge Cards",
       "12. Radial Speed Dial",
@@ -514,241 +960,42 @@
       "30. Centered Focal Point"
     ];
 
-    let currentConcept = 0;
-    let selectedOptions = new Set(["tax"]);
-
-    function calculateTotal() {
-      let total = baseData.basePrice;
-      baseData.options.forEach(opt => {
-        if (selectedOptions.has(opt.id)) {
-          total += opt.price;
-        }
-      });
-      return total.toFixed(2);
-    }
-
-    function toggleOption(id) {
-      if (selectedOptions.has(id)) {
-        selectedOptions.delete(id);
-      } else {
-        selectedOptions.add(id);
-      }
-      renderAllSheets();
-    }
-
-    // Generator function for HTML structures across 30 concepts
-    function generateSheetHTML(index) {
-      const total = calculateTotal();
-      const variant = index + 1;
-
-      // Custom Layout Variations
-      switch(variant) {
-        case 1: // Floating Modular Cards
-          return `
-            <div class="sheet active" data-variant="1">
-              <div class="mod-card">
-                <div class="hero-subtitle">${baseData.category}</div>
-                <div class="hero-title">${baseData.title}</div>
-                <div class="hero-price" style="margin-top:10px;">$${total}</div>
-              </div>
-              <div class="mod-card" style="display:flex; flex-direction:column; gap:8px;">
-                ${baseData.options.map(opt => `
-                  <div class="option-row ${selectedOptions.has(opt.id) ? 'selected' : ''}" onclick="toggleOption('${opt.id}')">
-                    <span>${opt.label}</span>
-                    <b>+$${opt.price.toFixed(2)}</b>
-                  </div>
-                `).join('')}
-              </div>
-              <button class="primary-btn"><span>🛒</span> Confirm Adjustment</button>
-            </div>`;
-
-        case 6: // Carousel Pill Picker
-          return `
-            <div class="sheet active" data-variant="6">
-              <div class="sheet-handle"></div>
-              <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                <div>
-                  <div class="hero-subtitle">${baseData.category}</div>
-                  <div class="hero-title">${baseData.title}</div>
-                </div>
-                <div class="hero-price">$${total}</div>
-              </div>
-              <div class="carousel-container">
-                ${baseData.options.map(opt => `
-                  <div class="carousel-item ${selectedOptions.has(opt.id) ? 'active' : ''}" onclick="toggleOption('${opt.id}')">
-                    <div style="font-size:12px; opacity:0.8;">${opt.label}</div>
-                    <div style="font-weight:800; font-size:16px; margin-top:6px;">+$${opt.price.toFixed(2)}</div>
-                  </div>
-                `).join('')}
-              </div>
-              <button class="primary-btn">Apply Modifiers</button>
-            </div>`;
-
-        case 8: // 2x2 Grid
-          return `
-            <div class="sheet active" data-variant="8">
-              <div class="sheet-handle"></div>
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div class="hero-title">${baseData.title}</div>
-                <div class="hero-price">$${total}</div>
-              </div>
-              <div class="grid-2x2">
-                ${baseData.options.map(opt => `
-                  <div class="grid-tile ${selectedOptions.has(opt.id) ? 'active' : ''}" onclick="toggleOption('${opt.id}')">
-                    <span style="font-size:12px; font-weight:700;">${opt.label}</span>
-                    <span style="font-size:18px; font-weight:900;">+$${opt.price.toFixed(2)}</span>
-                  </div>
-                `).join('')}
-              </div>
-              <button class="primary-btn">Lock In Price</button>
-            </div>`;
-
-        case 9: // Neo Brutalist
-          return `
-            <div class="sheet active" data-variant="9">
-              <div style="background:var(--text-main); color:var(--bg-app); padding:4px 8px; font-weight:900; display:inline-block; width:fit-content;">${baseData.category}</div>
-              <div class="hero-title" style="font-size:28px;">${baseData.title}</div>
-              <div class="hero-price" style="font-size:52px;">$${total}</div>
-              <div style="display:flex; flex-direction:column; gap:8px;">
-                ${baseData.options.map(opt => `
-                  <div class="option-row" style="border:2px solid var(--text-main); border-radius:0;" onclick="toggleOption('${opt.id}')">
-                    <span style="font-weight:800;">${selectedOptions.has(opt.id) ? '[X]' : '[ ]'} ${opt.label}</span>
-                    <b>+$${opt.price.toFixed(2)}</b>
-                  </div>
-                `).join('')}
-              </div>
-              <button class="primary-btn">SUBMIT DISPATCH</button>
-            </div>`;
-
-        case 13: // Asymmetric Bento Grid
-          return `
-            <div class="sheet active" data-variant="13">
-              <div class="sheet-handle"></div>
-              <div class="bento-grid">
-                <div class="bento-cell hero">
-                  <div>
-                    <div class="hero-subtitle">${baseData.category}</div>
-                    <div class="hero-title">${baseData.title}</div>
-                  </div>
-                  <div class="hero-price">$${total}</div>
-                </div>
-                ${baseData.options.slice(0, 2).map(opt => `
-                  <div class="bento-cell ${selectedOptions.has(opt.id) ? 'selected' : ''}" onclick="toggleOption('${opt.id}')" style="border-color:${selectedOptions.has(opt.id) ? 'var(--accent-red)' : ''}">
-                    <div style="font-size:11px; color:var(--text-muted);">${opt.label}</div>
-                    <div style="font-weight:800; margin-top:4px;">+$${opt.price}</div>
-                  </div>
-                `).join('')}
-              </div>
-              <button class="primary-btn">Save Quote</button>
-            </div>`;
-
-        case 15: // Tactile Glove Switchboard
-          return `
-            <div class="sheet active" data-variant="15">
-              <div class="sheet-handle"></div>
-              <div style="text-align:center;">
-                <div class="hero-subtitle">GLOVE-TOUCH INTERFACE</div>
-                <div class="hero-price" style="font-size:48px;">$${total}</div>
-              </div>
-              <div style="display:flex; flex-direction:column; gap:10px;">
-                ${baseData.options.map(opt => `
-                  <div class="glove-toggle ${selectedOptions.has(opt.id) ? 'active' : ''}" onclick="toggleOption('${opt.id}')">
-                    <span>${opt.label}</span>
-                    <span style="color:var(--accent-red);">+$${opt.price}</span>
-                  </div>
-                `).join('')}
-              </div>
-              <button class="primary-btn" style="min-height:64px; font-size:18px;">ACCEPT ADJUSTMENT</button>
-            </div>`;
-
-        case 28: // Top Right Floating Total Badge
-          return `
-            <div class="sheet active" data-variant="28" style="position:relative; overflow:visible;">
-              <div class="floating-total-badge">$${total}</div>
-              <div class="sheet-handle" style="margin-top:10px;"></div>
-              <div class="hero-subtitle">${baseData.category}</div>
-              <div class="hero-title">${baseData.title}</div>
-              <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
-                ${baseData.options.map(opt => `
-                  <div class="option-row ${selectedOptions.has(opt.id) ? 'selected' : ''}" onclick="toggleOption('${opt.id}')">
-                    <span>${opt.label}</span>
-                    <b>+$${opt.price.toFixed(2)}</b>
-                  </div>
-                `).join('')}
-              </div>
-              <button class="primary-btn">Update Order</button>
-            </div>`;
-
-        default: // Standard Dynamic Structural Render for remaining variants
-          return `
-            <div class="sheet active" data-variant="${variant}">
-              <div class="sheet-handle"></div>
-              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                <div>
-                  <div class="hero-subtitle">CONCEPT ${variant}</div>
-                  <div class="hero-title">${baseData.title}</div>
-                </div>
-                <div class="hero-price">$${total}</div>
-              </div>
-              <div style="display:flex; flex-direction:column; gap:8px; margin:10px 0;">
-                ${baseData.options.map(opt => `
-                  <div class="option-row ${selectedOptions.has(opt.id) ? 'selected' : ''}" onclick="toggleOption('${opt.id}')">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                      <div class="icon-box">📹</div>
-                      <div>
-                        <div style="font-weight:700; font-size:14px;">${opt.label}</div>
-                        <div style="font-size:11px; color:var(--text-muted);">Field Option</div>
-                      </div>
-                    </div>
-                    <div style="font-weight:800; color:var(--accent-red);">+$${opt.price.toFixed(2)}</div>
-                  </div>
-                `).join('')}
-              </div>
-              <button class="primary-btn">Confirm Field Adjustment</button>
-            </div>`;
-      }
-    }
-
-    // Setup & Event Listeners
-    const selectEl = document.getElementById('conceptSelect');
-    const sheetWrapper = document.getElementById('sheetWrapper');
-    const themeBtn = document.getElementById('themeBtn');
-
-    // Populate Select Dropdown
-    concepts.forEach((name, idx) => {
+    // Populate dropdown
+    const selectEl = document.getElementById('sheetSelect');
+    titles.forEach((title, idx) => {
       const opt = document.createElement('option');
-      opt.value = idx;
-      opt.textContent = name;
+      opt.value = idx + 1;
+      opt.textContent = title;
       selectEl.appendChild(opt);
     });
 
-    function renderAllSheets() {
-      sheetWrapper.innerHTML = generateSheetHTML(currentConcept);
+    function showSheet(index) {
+      document.querySelectorAll('.sheet-wrapper').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(`sheet-${index}`);
+      if (target) {
+        target.classList.add('active');
+      }
+      selectEl.value = index;
+      currentSheet = index;
     }
 
-    function setCurrentConcept(idx) {
-      if (idx < 0) idx = concepts.length - 1;
-      if (idx >= concepts.length) idx = 0;
-      currentConcept = idx;
-      selectEl.value = currentConcept;
-      renderAllSheets();
+    function changeSheet(dir) {
+      let next = currentSheet + dir;
+      if (next < 1) next = totalSheets;
+      if (next > totalSheets) next = 1;
+      showSheet(next);
     }
 
-    document.getElementById('prevBtn').addEventListener('click', () => setCurrentConcept(currentConcept - 1));
-    document.getElementById('nextBtn').addEventListener('click', () => setCurrentConcept(currentConcept + 1));
-    selectEl.addEventListener('change', (e) => setCurrentConcept(parseInt(e.target.value)));
+    function jumpToSheet(val) {
+      showSheet(parseInt(val, 10));
+    }
 
-    // Dark/Light Theme Switching
-    themeBtn.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
-      document.getElementById('themeText').textContent = newTheme === 'dark' ? 'Light' : 'Dark';
-    });
-
-    // Initial Initialization
-    renderAllSheets();
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+    }
   </script>
 </body>
 </html>
