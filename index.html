@@ -3,62 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Concept 10 — Neumorphic</title>
+<title>s2s — Smart Card Grid</title>
 <style>
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html,body { margin:0; height:100%; overflow:hidden; background:#e4e9f0; }
-  body {
-    font-family: -apple-system, sans-serif;
-    max-width: 430px; margin:0 auto; height:100vh; color:#3a4556;
-  }
-  header { padding: 22px 20px 10px; }
-  .top { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
-  .brand { font-weight:800; font-size:16px; color:#5a6b8c; }
-  .cart-btn {
-    background:#e4e9f0; padding:10px 16px; border-radius:14px; font-size:12px; font-weight:700; color:#5a6b8c;
-    box-shadow: 5px 5px 10px #c3c9d4, -5px -5px 10px #ffffff;
-  }
-  h1 { font-size: 24px; font-weight: 700; margin:0; letter-spacing:-0.01em; color:#2d3648; }
-  .grid { padding: 12px 18px 100px; display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .card {
-    background: #e4e9f0;
-    border-radius: 22px;
-    padding: 20px;
-    aspect-ratio: 1;
-    display: flex; flex-direction: column; justify-content: space-between;
-    box-shadow: 8px 8px 16px #c3c9d4, -8px -8px 16px #ffffff;
-    transition: box-shadow .15s, transform .15s;
-  }
-  .card:active {
-    box-shadow: inset 5px 5px 10px #c3c9d4, inset -5px -5px 10px #ffffff;
-  }
-  .icon-well {
-    width:46px; height:46px; border-radius:14px;
-    background:#e4e9f0;
-    box-shadow: inset 4px 4px 8px #c3c9d4, inset -4px -4px 8px #ffffff;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .icon-well svg { width:24px; height:24px; }
-  .label { font-size: 16px; font-weight: 700; color:#2d3648; }
-  .count { font-size: 11px; color: #8a94a8; font-weight:600; margin-top:1px; }
-  .accent { color:#FF6B5E; }
+  :root{ --red:#E50914; --bg:#000; --surface:#121212; --surface2:#1a1a1a; --border:#262626; --text2:#8a8a8a; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; margin:0; padding:0; }
+  html,body{ height:100%; overflow:hidden; background:var(--bg); }
+  body{ font-family:-apple-system,sans-serif; max-width:430px; margin:0 auto; height:100vh; color:#fff; position:relative; }
+
+  header{ padding:16px 18px 10px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(0,0,0,0.9); backdrop-filter:blur(16px); z-index:10; }
+  .brand{ font-weight:800; font-size:15px; }
+  .brand span{ color:var(--red); }
+  .running-total{ display:flex; align-items:center; gap:8px; }
+  .rt-label{ font-size:10px; color:var(--text2); font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
+  .rt-price{ font-size:18px; font-weight:800; color:var(--red); }
+  .cart-btn{ width:36px; height:36px; border-radius:100px; background:var(--surface); display:flex; align-items:center; justify-content:center; position:relative; }
+  .cart-btn svg{ width:17px; height:17px; }
+  .badge{ position:absolute; top:-2px; right:-2px; background:var(--red); font-size:9px; font-weight:800; width:15px; height:15px; border-radius:100px; display:flex; align-items:center; justify-content:center; }
+
+  main{ padding:14px 14px 100px; overflow-y:auto; height:calc(100vh - 58px); }
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:20px; overflow:hidden; grid-column:span 1; transition:grid-column .2s; }
+  .card.expanded{ grid-column:span 2; }
+
+  .card-head{ padding:14px; display:flex; flex-direction:column; gap:8px; cursor:pointer; }
+  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .card-icon{ width:32px; height:32px; border-radius:10px; background:rgba(229,9,20,0.12); display:flex; align-items:center; justify-content:center; }
+  .card-icon svg{ width:17px; height:17px; color:var(--red); }
+  .chev{ color:var(--text2); font-size:14px; transition:transform .2s; }
+  .card.expanded .chev{ transform:rotate(180deg); }
+  .card-name{ font-size:15px; font-weight:700; }
+  .card-config{ font-size:11px; color:var(--text2); }
+  .card-price-row{ display:flex; justify-content:space-between; align-items:baseline; margin-top:2px; }
+  .card-price{ font-size:20px; font-weight:800; color:var(--red); }
+  .quick-stepper{ display:flex; align-items:center; gap:6px; }
+  .qs-btn{ width:24px; height:24px; border-radius:8px; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; }
+  .qs-val{ font-size:13px; font-weight:700; width:20px; text-align:center; }
+
+  .expand-body{ max-height:0; overflow:hidden; transition:max-height .25s ease; border-top:0px solid var(--border); }
+  .card.expanded .expand-body{ max-height:400px; border-top-width:1px; }
+  .expand-inner{ padding:14px; display:flex; flex-direction:column; gap:12px; }
+
+  .pill-row{ display:flex; gap:6px; overflow-x:auto; }
+  .pill-row::-webkit-scrollbar{display:none;}
+  .pill{ flex-shrink:0; padding:8px 12px; border-radius:100px; background:var(--surface2); font-size:12px; font-weight:700; color:var(--text2); border:1px solid transparent; }
+  .pill.sel{ background:var(--red); color:#fff; }
+
+  .toggle-row{ display:flex; background:var(--surface2); border-radius:10px; padding:3px; }
+  .toggle-row button{ flex:1; padding:7px; border:none; background:transparent; color:var(--text2); font-size:12px; font-weight:700; border-radius:8px; font-family:inherit; }
+  .toggle-row button.sel{ background:var(--red); color:#fff; }
+
+  .full-stepper{ display:flex; align-items:center; justify-content:space-between; background:var(--surface2); border-radius:12px; padding:8px 12px; }
+  .full-stepper .label{ font-size:12px; color:var(--text2); font-weight:600; }
+  .fs-controls{ display:flex; align-items:center; gap:10px; }
+  .fs-btn{ width:28px; height:28px; border-radius:8px; background:#000; display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .fs-val{ font-size:15px; font-weight:800; color:var(--red); width:24px; text-align:center; }
+
+  .add-btn{ background:#fff; color:#000; border:none; border-radius:12px; padding:10px; font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; gap:6px; }
+
+  .chip-carousel{ display:flex; gap:6px; overflow-x:auto; padding:2px; }
+  .chip-carousel::-webkit-scrollbar{display:none;}
+  .add-chip{ flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:4px; background:var(--surface2); border-radius:14px; padding:10px 12px; min-width:66px; }
+  .add-chip .n{ font-size:10px; font-weight:700; color:#ccc; }
+  .add-chip .p{ font-size:10px; color:var(--text2); }
+  .add-chip.on{ background:rgba(229,9,20,0.15); border:1px solid var(--red); }
 </style>
 </head>
 <body>
-  <header>
-    <div class="top">
-      <div class="brand">S2S</div>
-      <div class="cart-btn">Cart · 0</div>
-    </div>
-    <h1>Choose a service</h1>
-  </header>
-  <div class="grid">
-    <div class="card"><div class="icon-well"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B5E"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574v9.176A2.25 2.25 0 004.5 21h15a2.25 2.25 0 002.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3" stroke-width="1.5" fill="none"/></svg></div><div><div class="label">Photos</div><div class="count">5 packages</div></div></div>
-    <div class="card"><div class="icon-well"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B5E"><path d="M16 10L18.5768 8.45392C19.3699 7.97803 19.7665 7.74009 20.0928 7.77051C20.3773 7.79703 20.6369 7.944 20.806 8.17433C21 8.43848 21 8.90095 21 9.8259V14.1741C21 15.099 21 15.5615 20.806 15.8257C20.6369 16.056 20.3773 16.203 20.0928 16.2295C19.7665 16.2599 19.3699 16.022 18.5768 15.5461L16 14M6.2 18H12.8C13.9201 18 14.4802 18 14.908 17.782C15.2843 17.5903 15.5903 17.2843 15.782 16.908C16 16.4802 16 15.9201 16 14.8V9.2C16 8.0799 16 7.51984 15.782 7.09202C15.5903 6.71569 15.2843 6.40973 14.908 6.21799C14.4802 6 13.9201 6 12.8 6H6.2C5.0799 6 4.51984 6 4.09202 6.21799C3.71569 6.40973 3.40973 6.71569 3.21799 7.09202C3 7.51984 3 8.07989 3 9.2V14.8C3 15.9201 3 16.4802 3.21799 16.908C3.40973 17.2843 3.71569 17.5903 4.09202 17.782C4.51984 18 5.07989 18 6.2 18Z" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="label">Video</div><div class="count">3 packages</div></div></div>
-    <div class="card"><div class="icon-well"><svg viewBox="0 0 24 24" fill="#FF6B5E"><path fill-rule="evenodd" clip-rule="evenodd" d="M20,7H18V5h2a1,1,0,0,0,0-2H14a1,1,0,0,0,0,2h2V7H8V5h2a1,1,0,0,0,0-2H4A1,1,0,0,0,4,5H6V7H4a3,3,0,0,0,0,6H6.1a4.955,4.955,0,0,0,.99,2.092A5,5,0,0,0,3,20a1,1,0,0,0,2,0,3,3,0,0,1,3-3h3v2a1,1,0,0,0,2,0V17h3a3,3,0,0,1,3,3,1,1,0,0,0,2,0,5,5,0,0,0-4.091-4.908A4.955,4.955,0,0,0,17.9,13H20a3,3,0,0,0,0-6Zm0,4H17a1,1,0,0,0-1,1,3,3,0,0,1-3,3H11a3,3,0,0,1-3-3,1,1,0,0,0-1-1H4A1,1,0,0,1,4,9H20a1,1,0,0,1,0,2Zm-6,1a2,2,0,0,1-4,0,1.929,1.929,0,0,1,.1-.581A1,1,0,1,0,11.417,10.1,1.978,1.978,0,0,1,12,10,2,2,0,0,1,14,12Z"/></svg></div><div><div class="label">Aerial</div><div class="count">6 packages</div></div></div>
-    <div class="card"><div class="icon-well"><svg viewBox="0 0 24 24" fill="#FF6B5E"><circle cx="12" cy="4" r="2"/><path d="M12 18h2v-5h2V9c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v4h2v5h2z"/><path d="m18.446 11.386-.893 1.789C19.108 13.95 20 14.98 20 16c0 1.892-3.285 4-8 4s-8-2.108-8-4c0-1.02.892-2.05 2.446-2.825l-.893-1.789C3.295 12.512 2 14.193 2 16c0 3.364 4.393 6 10 6s10-2.636 10-6c0-1.807-1.295-3.488-3.554-4.614z"/></svg></div><div><div class="label">360 Tour</div><div class="count">2 packages</div></div></div>
-    <div class="card"><div class="icon-well"><svg viewBox="0 0 24 24" fill="#FF6B5E"><path d="M2 2v18h3v-1H3v-6h3V9h5V8H6V3h15v5h-6v1h6v5h-4v1h4v6H11v-7h-1v5H8v1h2v2h12V2zm3 4H3V5h2zm-2 6v-1h2v1zm2-2H3V9h2zM3 8V7h2v1zm2-4H3V3h2z"/></svg></div><div><div class="label">Floor Plan</div><div class="count">1 package</div></div></div>
-    <div class="card"><div class="icon-well"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B5E"><rect x="3" y="3" width="18" height="18" rx="4" stroke-width="1.5" fill="none"/><path d="M12 8v8M8 12h8" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="label">Add-Ons</div><div class="count">23 items</div></div></div>
+
+<header>
+  <div class="brand">s2<span>s</span></div>
+  <div class="running-total">
+    <div><div class="rt-label">Quote</div><div class="rt-price" id="totalPrice">$139.00</div></div>
+    <div class="cart-btn"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17"/></svg><div class="badge">1</div></div>
   </div>
+</header>
+
+<main>
+  <div class="grid">
+
+    <!-- PHOTOS -->
+    <div class="card expanded" id="card-photos">
+      <div class="card-head" onclick="toggleCard('photos')">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574v9.176A2.25 2.25 0 004.5 21h15a2.25 2.25 0 002.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3" stroke-width="1.5" fill="none"/></svg></div>
+          <span class="chev">⌄</span>
+        </div>
+        <div class="card-name">Photos</div>
+        <div class="card-config" id="photosConfig">Full Shoot · 25 imgs</div>
+        <div class="card-price-row"><span class="card-price" id="photosPrice">$139</span></div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-inner">
+          <div class="pill-row">
+            <div class="pill sel" onclick="event.stopPropagation()">Full Shoot</div>
+            <div class="pill" onclick="event.stopPropagation()">Reshoot</div>
+            <div class="pill" onclick="event.stopPropagation()">Ranch</div>
+            <div class="pill" onclick="event.stopPropagation()">Exterior</div>
+            <div class="pill" onclick="event.stopPropagation()">Mini</div>
+          </div>
+          <div class="toggle-row" onclick="event.stopPropagation()">
+            <button class="sel">MLS</button>
+            <button>PORT</button>
+            <button>Airbnb</button>
+          </div>
+          <div class="full-stepper" onclick="event.stopPropagation()">
+            <span class="label">25 photos</span>
+            <div class="fs-controls">
+              <div class="fs-btn" onclick="stepPhotos(-1)">–</div>
+              <span class="fs-val" id="photoQty">25</span>
+              <div class="fs-btn" onclick="stepPhotos(1)">+</div>
+            </div>
+          </div>
+          <button class="add-btn" id="addBtnPhotos" onclick="event.stopPropagation()">Add to Quote — $139</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="card" id="card-video">
+      <div class="card-head" onclick="toggleCard('video')">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 10L18.5768 8.45392C19.3699 7.97803 19.7665 7.74009 20.0928 7.77051C20.3773 7.79703 20.6369 7.944 20.806 8.17433C21 8.43848 21 8.90095 21 9.8259V14.1741C21 15.099 21 15.5615 20.806 15.8257C20.6369 16.056 20.3773 16.203 20.0928 16.2295C19.7665 16.2599 19.3699 16.022 18.5768 15.5461L16 14M6.2 18H12.8C13.9201 18 14.4802 18 14.908 17.782C15.2843 17.5903 15.5903 17.2843 15.782 16.908C16 16.4802 16 15.9201 16 14.8V9.2C16 8.0799 16 7.51984 15.782 7.09202C15.5903 6.71569 15.2843 6.40973 14.908 6.21799C14.4802 6 13.9201 6 12.8 6H6.2C5.0799 6 4.51984 6 4.09202 6.21799C3.71569 6.40973 3.40973 6.71569 3.21799 7.09202C3 7.51984 3 8.07989 3 9.2V14.8C3 15.9201 3 16.4802 3.21799 16.908C3.40973 17.2843 3.71569 17.5903 4.09202 17.782C4.51984 18 5.07989 18 6.2 18Z" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="chev">⌄</span>
+        </div>
+        <div class="card-name">Video</div>
+        <div class="card-config">HD Highlight</div>
+        <div class="card-price-row"><span class="card-price">$159</span></div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-inner">
+          <div class="toggle-row" onclick="event.stopPropagation()"><button class="sel">MLS</button><button>PORT</button></div>
+          <div class="pill-row">
+            <div class="pill" onclick="event.stopPropagation()">BuzzReels</div>
+            <div class="pill sel" onclick="event.stopPropagation()">HD Highlight</div>
+            <div class="pill" onclick="event.stopPropagation()">Full HD</div>
+          </div>
+          <button class="add-btn" onclick="event.stopPropagation()">Add to Quote — $159</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AERIAL -->
+    <div class="card" id="card-aerial">
+      <div class="card-head" onclick="toggleCard('aerial')">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M20,7H18V5h2a1,1,0,0,0,0-2H14a1,1,0,0,0,0,2h2V7H8V5h2a1,1,0,0,0,0-2H4A1,1,0,0,0,4,5H6V7H4a3,3,0,0,0,0,6H6.1a4.955,4.955,0,0,0,.99,2.092A5,5,0,0,0,3,20a1,1,0,0,0,2,0,3,3,0,0,1,3-3h3v2a1,1,0,0,0,2,0V17h3a3,3,0,0,1,3,3,1,1,0,0,0,2,0,5,5,0,0,0-4.091-4.908A4.955,4.955,0,0,0,17.9,13H20a3,3,0,0,0,0-6Zm0,4H17a1,1,0,0,0-1,1,3,3,0,0,1-3,3H11a3,3,0,0,1-3-3,1,1,0,0,0-1-1H4A1,1,0,0,1,4,9H20a1,1,0,0,1,0,2Zm-6,1a2,2,0,0,1-4,0,1.929,1.929,0,0,1,.1-.581A1,1,0,1,0,11.417,10.1,1.978,1.978,0,0,1,12,10,2,2,0,0,1,14,12Z"/></svg></div>
+          <span class="chev">⌄</span>
+        </div>
+        <div class="card-name">Aerial</div>
+        <div class="card-config">Not configured</div>
+        <div class="card-price-row"><span class="card-price">—</span></div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-inner">
+          <div class="pill-row">
+            <div class="pill" onclick="event.stopPropagation()">Mini</div>
+            <div class="pill" onclick="event.stopPropagation()">Standard</div>
+            <div class="pill" onclick="event.stopPropagation()">Combo</div>
+          </div>
+          <button class="add-btn" onclick="event.stopPropagation()">Select a package</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 360 TOUR -->
+    <div class="card" id="card-tour">
+      <div class="card-head" onclick="toggleCard('tour')">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="4" r="2"/><path d="M12 18h2v-5h2V9c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v4h2v5h2z"/><path d="m18.446 11.386-.893 1.789C19.108 13.95 20 14.98 20 16c0 1.892-3.285 4-8 4s-8-2.108-8-4c0-1.02.892-2.05 2.446-2.825l-.893-1.789C3.295 12.512 2 14.193 2 16c0 3.364 4.393 6 10 6s10-2.636 10-6c0-1.807-1.295-3.488-3.554-4.614z"/></svg></div>
+          <span class="chev">⌄</span>
+        </div>
+        <div class="card-name">360 Tour</div>
+        <div class="card-config">Not configured</div>
+        <div class="card-price-row"><span class="card-price">—</span></div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-inner">
+          <div class="pill-row">
+            <div class="pill" onclick="event.stopPropagation()">0-2k</div>
+            <div class="pill" onclick="event.stopPropagation()">2-3k</div>
+            <div class="pill" onclick="event.stopPropagation()">3-4k</div>
+            <div class="pill" onclick="event.stopPropagation()">4k+</div>
+          </div>
+          <div class="toggle-row" onclick="event.stopPropagation()"><button class="sel">Standard</button><button>Premium</button></div>
+          <button class="add-btn" onclick="event.stopPropagation()">Select a size</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOOR PLAN -->
+    <div class="card" id="card-floor">
+      <div class="card-head" onclick="toggleCard('floor')">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 2v18h3v-1H3v-6h3V9h5V8H6V3h15v5h-6v1h6v5h-4v1h4v6H11v-7h-1v5H8v1h2v2h12V2zm3 4H3V5h2zm-2 6v-1h2v1zm2-2H3V9h2zM3 8V7h2v1zm2-4H3V3h2z"/></svg></div>
+          <span class="chev">⌄</span>
+        </div>
+        <div class="card-name">Floor Plan</div>
+        <div class="card-config">2D</div>
+        <div class="card-price-row"><span class="card-price">$69</span></div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-inner">
+          <div class="toggle-row" onclick="event.stopPropagation()"><button class="sel">2D</button><button>3D</button></div>
+          <button class="add-btn" onclick="event.stopPropagation()">Add to Quote — $69</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD-ONS -->
+    <div class="card" id="card-addons" style="grid-column:span 2;">
+      <div class="card-head" onclick="toggleCard('addons')">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="4" stroke-width="1.5" fill="none"/><path d="M12 8v8M8 12h8" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="chev">⌄</span>
+        </div>
+        <div class="card-name">Add-Ons</div>
+        <div class="card-config">23 available · quick add</div>
+      </div>
+      <div class="expand-body">
+        <div class="expand-inner">
+          <div class="chip-carousel">
+            <div class="add-chip" onclick="event.stopPropagation(); this.classList.toggle('on')"><span class="n">Blue Sky</span><span class="p">$5</span></div>
+            <div class="add-chip" onclick="event.stopPropagation(); this.classList.toggle('on')"><span class="n">Green Grass</span><span class="p">$10</span></div>
+            <div class="add-chip" onclick="event.stopPropagation(); this.classList.toggle('on')"><span class="n">ColorPop</span><span class="p">$15</span></div>
+            <div class="add-chip" onclick="event.stopPropagation(); this.classList.toggle('on')"><span class="n">Digital Twilight</span><span class="p">$15</span></div>
+            <div class="add-chip" onclick="event.stopPropagation(); this.classList.toggle('on')"><span class="n">Ext. Hours</span><span class="p">$50/hr</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  function toggleCard(id){
+    const el = document.getElementById('card-'+id);
+    const wasExpanded = el.classList.contains('expanded');
+    document.querySelectorAll('.card').forEach(c => { c.classList.remove('expanded'); if(c.id!=='card-addons') c.style.gridColumn='span 1'; });
+    if(!wasExpanded){
+      el.classList.add('expanded');
+      if(id!=='addons') el.style.gridColumn = 'span 2';
+    }
+  }
+  let qty = 25;
+  function stepPhotos(dir){
+    qty = Math.max(25, qty + dir);
+    document.getElementById('photoQty').textContent = qty;
+    const price = 139 + Math.max(0, qty-25)*5;
+    document.getElementById('photosPrice').textContent = '$'+price;
+    document.getElementById('photosConfig').textContent = 'Full Shoot · '+qty+' imgs';
+    document.getElementById('totalPrice').textContent = '$'+price.toFixed(2);
+    document.getElementById('addBtnPhotos').textContent = 'Add to Quote — $'+price;
+  }
+</script>
 </body>
 </html>
