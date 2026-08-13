@@ -1,70 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Enterprise Field Photographer - 10 Mobile Bottom Sheet Redesigns</title>
+  <title>Field Utility - MLS Floor Plan Bottom Sheet System</title>
+  
+  <!-- Modern Field Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Red+Hat+Display:wght@700;800;900&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      /* Brand Tokens */
+      /* Brand Core Palette */
       --brand-red: #E50914;
-      --brand-red-hover: #B80710;
+      --brand-red-active: #B20710;
       --brand-red-subtle: rgba(229, 9, 20, 0.12);
-      --brand-red-glow: rgba(229, 9, 20, 0.35);
-
-      /* Dark Theme Tokens (Default High-Contrast Outdoor) */
-      --bg-page: #000000;
-      --bg-frame: #09090B;
-      --bg-sheet: #121214;
-      --bg-surface: #1C1C1F;
-      --bg-surface-elevated: #26262A;
-      --border-color: #2E2E33;
+      
+      /* Dark Theme Default (Maximum Contrast Outdoor Utility) */
+      --bg-page: #050505;
+      --bg-phone: #0D0D0D;
+      --bg-sheet: #121212;
+      --bg-surface: #1E1E1E;
+      --bg-surface-elevated: #262626;
+      --border-color: #333333;
       --border-focus: #E50914;
       
-      --text-main: #FFFFFF;
-      --text-muted: #A1A1AA;
-      --text-subtle: #71717A;
-      --text-inverse: #000000;
-
-      --card-shadow: 0 24px 48px rgba(0,0,0,0.8);
-      --btn-height: 52px;
-      --radius-xl: 28px;
-      --radius-lg: 16px;
-      --radius-md: 12px;
+      --text-primary: #FFFFFF;
+      --text-secondary: #A1A1AA;
+      --text-muted: #71717A;
+      --text-inverse: #050505;
+      
+      --shadow-sheet: 0 -12px 40px rgba(0, 0, 0, 0.8);
+      --font-main: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-display: 'Red Hat Display', -apple-system, sans-serif;
     }
 
     [data-theme="light"] {
       --bg-page: #E4E4E7;
-      --bg-frame: #F4F4F5;
+      --bg-phone: #F4F4F5;
       --bg-sheet: #FFFFFF;
       --bg-surface: #F4F4F5;
       --bg-surface-elevated: #E4E4E7;
       --border-color: #D4D4D8;
       --border-focus: #E50914;
       
-      --text-main: #09090B;
-      --text-muted: #52525B;
-      --text-subtle: #71717A;
+      --text-primary: #09090B;
+      --text-secondary: #52525B;
+      --text-muted: #71717A;
       --text-inverse: #FFFFFF;
-
-      --card-shadow: 0 16px 36px rgba(0,0,0,0.12);
+      
+      --shadow-sheet: 0 -10px 30px rgba(0, 0, 0, 0.12);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Red Hat Display', -apple-system, sans-serif;
+      font-family: var(--font-main);
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
 
     body {
       background-color: var(--bg-page);
-      color: var(--text-main);
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -72,8 +72,8 @@
       transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* Top Control Toolbar Wrapper */
-    .app-toolbar {
+    /* Top Utility Control Toolbar */
+    .top-toolbar {
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -85,982 +85,825 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    .toolbar-brand {
+    .toolbar-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 900;
-      font-size: 15px;
-      letter-spacing: -0.3px;
-    }
-
-    .brand-badge {
-      background: var(--brand-red);
-      color: #FFF;
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-weight: 800;
+      gap: 8px;
       text-transform: uppercase;
     }
 
-    .toolbar-center {
+    .toolbar-badge {
+      background: var(--brand-red);
+      color: #FFFFFF;
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-weight: 900;
+    }
+
+    .toolbar-controls {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .nav-btn {
+    .tool-btn {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
-      color: var(--text-main);
-      min-height: 40px;
+      color: var(--text-primary);
+      height: 38px;
       padding: 0 14px;
-      border-radius: var(--radius-md);
-      font-weight: 800;
-      font-size: 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
       cursor: pointer;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
+      transition: all 0.15s ease;
     }
 
-    .nav-btn:hover {
+    .tool-btn:active {
+      transform: scale(0.95);
       border-color: var(--brand-red);
-      background: var(--bg-surface-elevated);
     }
 
-    .nav-btn:disabled {
+    .tool-btn:disabled {
       opacity: 0.3;
       cursor: not-allowed;
-      border-color: var(--border-color);
+      transform: none;
     }
 
-    .variant-select {
+    select.variant-select {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
-      color: var(--text-main);
-      min-height: 40px;
-      padding: 0 12px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
+      color: var(--text-primary);
+      height: 38px;
+      padding: 0 10px;
+      border-radius: 8px;
       font-weight: 700;
+      font-size: 13px;
       outline: none;
       cursor: pointer;
     }
 
-    .toolbar-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .mode-btn {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      min-height: 40px;
-      padding: 0 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .view-toggle {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      min-height: 40px;
-      padding: 0 12px;
-      border-radius: var(--radius-md);
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .view-toggle.active {
-      background: var(--brand-red);
-      color: #FFF;
-      border-color: var(--brand-red);
-    }
-
-    /* Main Presentation Stage */
+    /* Main Stage */
     .stage {
       width: 100%;
-      max-width: 1400px;
-      padding: 24px 16px 80px;
+      max-width: 440px;
+      padding: 20px 16px 40px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* Single View Stage Frame */
-    .single-stage {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .stage-header {
+    .variant-meta {
       text-align: center;
-      margin-bottom: 20px;
-      max-width: 550px;
-    }
-
-    .stage-header h2 {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-
-    .stage-header p {
-      color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    /* Mobile Frame Device Simulation */
-    .mobile-frame {
+      margin-bottom: 16px;
       width: 100%;
-      max-width: 410px;
-      background: var(--bg-frame);
-      border: 10px solid #18181B;
-      border-radius: 48px;
-      box-shadow: var(--card-shadow), 0 0 0 2px rgba(255,255,255,0.08);
+    }
+
+    .variant-meta h2 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .variant-meta p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    /* Mobile Hardware Frame Mockup */
+    .phone-viewport {
+      width: 100%;
+      height: 680px;
+      background: var(--bg-phone);
+      border: 4px solid var(--border-color);
+      border-radius: 36px;
       position: relative;
       overflow: hidden;
-      min-height: 640px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
     }
 
-    .mobile-screen-backdrop {
+    .phone-screen-bg {
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
-      z-index: 1;
+      inset: 0;
+      padding: 16px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 16px 20px;
+      pointer-events: none;
     }
 
-    .status-bar {
+    .phone-status-bar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
-      color: var(--text-main);
-      z-index: 2;
+      color: var(--text-primary);
+      opacity: 0.6;
     }
 
-    /* Bottom Sheet Core Canvas */
+    .field-canvas-placeholder {
+      margin-top: 60px;
+      padding: 16px;
+      border: 2px dashed var(--border-color);
+      border-radius: 16px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Bottom Sheet Core Frame */
     .bottom-sheet {
       position: relative;
       z-index: 10;
       width: 100%;
       background: var(--bg-sheet);
-      border-top-left-radius: var(--radius-xl);
-      border-top-right-radius: var(--radius-xl);
-      padding: 16px 20px 24px;
-      box-shadow: 0 -12px 36px rgba(0,0,0,0.5);
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      padding: 12px 20px 24px;
+      box-shadow: var(--shadow-sheet);
       border: 1px solid var(--border-color);
       border-bottom: none;
+      transition: all 0.2s ease;
     }
 
-    .drag-handle {
-      width: 44px;
+    .sheet-handle {
+      width: 40px;
       height: 5px;
-      background: var(--text-subtle);
-      opacity: 0.6;
+      background: var(--text-muted);
+      opacity: 0.5;
       border-radius: 3px;
       margin: 0 auto 16px;
     }
 
-    /* Grid View Stage */
-    .grid-stage {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 28px;
-      width: 100%;
-    }
-
-    .grid-card {
-      background: var(--bg-frame);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-xl);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .grid-card-title {
-      font-size: 13px;
+    /* Reusable Common UI Components (Direct Specs from Image) */
+    .mls-badge {
+      font-size: 11px;
       font-weight: 900;
-      color: var(--brand-red);
-      text-transform: uppercase;
+      color: var(--text-secondary);
       letter-spacing: 0.8px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      text-transform: uppercase;
     }
 
-    /* Standard Reusable Field UI Components */
-    .icon-box {
-      width: 46px;
-      height: 46px;
+    .service-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      color: var(--text-primary);
+    }
+
+    .tax-pill {
+      font-size: 10px;
+      font-weight: 900;
+      background: var(--bg-surface-elevated);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .price-display {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--text-primary);
+    }
+
+    .price-display .cents {
+      font-size: 16px;
+      vertical-align: super;
+      margin-left: -2px;
+    }
+
+    .dropdown-btn {
+      width: 100%;
+      min-height: 52px;
+      background: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 12px 18px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .dropdown-btn:active {
+      border-color: var(--brand-red);
+    }
+
+    .dimension-segmented {
+      display: flex;
+      background: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 4px;
+      width: 100%;
+      min-height: 52px;
+    }
+
+    .seg-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      border-radius: 12px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.15s ease;
+    }
+
+    .seg-btn.active {
+      background: var(--text-primary);
+      color: var(--text-inverse);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .cta-primary {
+      width: 100%;
+      min-height: 58px;
+      background: var(--text-primary);
+      color: var(--text-inverse);
+      border: none;
+      border-radius: 20px;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      transition: all 0.15s ease;
+    }
+
+    .cta-primary:active {
+      transform: scale(0.98);
+      opacity: 0.9;
+    }
+
+    .cta-red {
+      background: var(--brand-red);
+      color: #FFFFFF;
+    }
+
+    .cta-red:active {
+      background: var(--brand-red-active);
+    }
+
+    /* Visual Icon Helper Components */
+    .icon-fp {
+      width: 44px;
+      height: 44px;
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
 
-    .badge-tax {
-      font-size: 11px;
-      font-weight: 900;
-      background: var(--bg-surface);
-      color: var(--text-muted);
-      border: 1px solid var(--border-color);
-      padding: 2px 7px;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
+    .icon-fp svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--brand-red);
+      fill: none;
+      stroke-width: 2.2;
     }
 
-    .field-select {
-      width: 100%;
-      min-height: 52px;
-      background: var(--bg-surface);
-      border: 2px solid var(--border-color);
-      color: var(--text-main);
-      padding: 0 16px;
-      border-radius: var(--radius-lg);
-      font-size: 15px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-    }
+    /* VARIANT SPECIFIC LAYOUT MECHANICS */
 
-    .field-select:focus, .field-select.active {
-      border-color: var(--brand-red);
-    }
+    /* Variant 01: Ultra Contrast Stripe/Wise Utility */
+    .v1-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .v1-left { display: flex; align-items: center; gap: 12px; }
 
-    .pill-group {
-      display: flex;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 4px;
-      width: 100%;
-    }
+    /* Variant 02: Revolut Bold Hero Banner */
+    .v2-hero { background: var(--brand-red); border-radius: 20px; padding: 18px; color: #FFFFFF; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .v2-hero .price-display { color: #FFFFFF; }
+    .v2-hero .tax-pill { background: rgba(0,0,0,0.3); color: #FFFFFF; border: none; }
 
-    .pill-opt {
-      flex: 1;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      font-weight: 800;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      color: var(--text-muted);
-      transition: all 0.2s ease;
-    }
+    /* Variant 03: Cash App Tactical High Contrast */
+    .v3-card { background: var(--bg-surface); border: 2px solid var(--border-color); border-radius: 18px; padding: 14px; margin-bottom: 14px; }
 
-    .pill-opt.active {
-      background: var(--text-main);
-      color: var(--text-inverse);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
+    /* Variant 04: Side-by-Side Dual Dimension Cards */
+    .v4-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+    .v4-card { background: var(--bg-surface); border: 2px solid var(--border-color); border-radius: 16px; padding: 14px 10px; text-align: center; cursor: pointer; }
+    .v4-card.active { border-color: var(--brand-red); background: var(--brand-red-subtle); }
+    .v4-card .title { font-size: 18px; font-weight: 900; }
+    .v4-card .desc { font-size: 11px; color: var(--text-secondary); font-weight: 700; margin-top: 2px; }
 
-    /* Outdoor High Visibility Add-On Checkbox Cards */
-    .addon-card {
-      background: var(--bg-surface);
-      border: 2px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 12px 16px;
-      min-height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      margin-bottom: 8px;
-    }
+    /* Variant 05: Apple Spatial Frosted Depth */
+    .v5-glass { background: var(--brand-red-subtle); border: 1.5px solid var(--brand-red); border-radius: 20px; padding: 16px; margin-bottom: 14px; }
 
-    .addon-card.selected {
-      border-color: var(--brand-red);
-      background: var(--brand-red-subtle);
-    }
+    /* Variant 06: Floating Sticky Dock Bar */
+    .v6-dock { display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 2px solid var(--border-color); padding: 10px 14px; border-radius: 20px; margin-top: 14px; }
 
-    .addon-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    /* Variant 07: Neumorphic Outdoor Tactile */
+    .v7-tactile { background: var(--bg-surface); box-shadow: inset 2px 2px 6px rgba(0,0,0,0.4), inset -2px -2px 6px rgba(255,255,255,0.05); border-radius: 18px; padding: 16px; margin-bottom: 14px; }
 
-    .checkbox-custom {
-      width: 24px;
-      height: 24px;
-      border: 2px solid var(--border-color);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg-sheet);
-    }
+    /* Variant 08: Industrial Outdoor Heavy Typography */
+    .v8-huge { font-size: 38px; font-weight: 900; font-family: var(--font-display); letter-spacing: -1.5px; line-height: 1; margin-top: 4px; }
 
-    .addon-card.selected .checkbox-custom {
-      background: var(--brand-red);
-      border-color: var(--brand-red);
-      color: #FFF;
-    }
+    /* Variant 09: Airbnb Spatial Thumbnail Badges */
+    .v9-thumb-grid { display: flex; gap: 10px; margin: 14px 0; }
+    .v9-thumb-item { flex: 1; background: var(--bg-surface); border: 2px solid var(--border-color); border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .v9-thumb-item.active { border-color: var(--brand-red); background: var(--brand-red-subtle); }
 
-    .addon-title {
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .addon-price {
-      font-size: 14px;
-      font-weight: 900;
-      color: var(--brand-red);
-    }
-
-    /* Oversized Primary Field CTA */
-    .btn-field-cta {
-      width: 100%;
-      min-height: var(--btn-height);
-      background: var(--brand-red);
-      color: #FFFFFF;
-      border: none;
-      border-radius: var(--radius-lg);
-      font-size: 17px;
-      font-weight: 900;
-      letter-spacing: -0.2px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 8px 20px var(--brand-red-glow);
-    }
-
-    .btn-field-cta:active {
-      transform: scale(0.98);
-      background: var(--brand-red-hover);
-    }
-
-    .btn-field-cta-alt {
-      background: var(--text-main);
-      color: var(--text-inverse);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-    }
-
-    /* ================= SPECIFIC OPTION PATTERNS ================= */
-
-    /* Variant 01: Modular Card Layout */
-    .v1-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 14px; margin-bottom: 12px; }
-
-    /* Variant 02: Accordion List */
-    .v2-accordion { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 12px; }
-    .v2-accordion-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 800; font-size: 15px; }
-
-    /* Variant 03: Compact Matrix Table */
-    .v3-matrix-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; background: var(--bg-surface); border-radius: var(--radius-lg); overflow: hidden; }
-    .v3-matrix-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); font-size: 14px; font-weight: 700; }
-    .v3-matrix-table tr:last-child td { border-bottom: none; }
-
-    /* Variant 04: Segmented Stepper */
-    .v4-stepper { display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); border: 2px solid var(--border-color); border-radius: var(--radius-lg); padding: 8px 14px; min-height: 56px; margin-bottom: 12px; }
-    .v4-stepper-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--bg-surface-elevated); border: 1px solid var(--border-color); color: var(--text-main); font-size: 20px; font-weight: 900; cursor: pointer; }
-
-    /* Variant 05: Radial/Pill Tier Selector */
-    .v5-tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-    .v5-tier-card { background: var(--bg-surface); border: 2px solid var(--border-color); border-radius: var(--radius-lg); padding: 10px; text-align: center; cursor: pointer; }
-    .v5-tier-card.selected { border-color: var(--brand-red); background: var(--brand-red-subtle); }
-
-    /* Variant 06: Floating Sticky Bottom Dock */
-    .v6-dock { display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); border: 2px solid var(--border-color); border-radius: var(--radius-xl); padding: 10px 14px; margin-top: 14px; }
-
-    /* Variant 07: High-Contrast Big Typography */
-    .v7-hero-price { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; color: var(--text-main); line-height: 1; margin: 4px 0 12px; }
-
-    /* Variant 08: Split Dual Column Matrix */
-    .v8-split-row { display: flex; gap: 10px; margin-bottom: 12px; }
-
-    /* Variant 09: Express Checkout Bar */
-    .v9-summary-pill { background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: var(--radius-md); padding: 10px 14px; display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; margin-bottom: 12px; }
-
-    /* Variant 10: Full Service Customizer Drawer */
-    .v10-total-card { background: var(--brand-red); color: #FFF; border-radius: var(--radius-lg); padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-
-    .fp-svg { width: 22px; height: 22px; stroke: var(--brand-red); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    /* Variant 10: Express Field Confirmation Bar */
+    .v10-summary { background: var(--bg-surface); border-radius: 14px; padding: 12px 16px; font-size: 13px; font-weight: 700; margin: 12px 0; display: flex; justify-content: space-between; border: 1px solid var(--border-color); }
   </style>
 </head>
-<body data-theme="dark">
+<body>
 
-  <!-- Interactive Control Toolbar -->
-  <header class="app-toolbar">
-    <div class="toolbar-brand">
-      <span class="brand-badge">FIELD UX</span>
-      <span>SERVICE BOTTOM SHEET</span>
+  <!-- Top Controls Toolbar -->
+  <header class="top-toolbar">
+    <div class="toolbar-title">
+      Field Tool <span class="toolbar-badge">10 Variants</span>
     </div>
 
-    <div class="toolbar-center">
-      <button class="nav-btn" id="prevBtn" onclick="navigateVariant(-1)">
-        ‹ Prev
-      </button>
+    <div class="toolbar-controls">
+      <button class="tool-btn" id="prevBtn" onclick="stepVariant(-1)">←</button>
       
-      <select class="variant-select" id="variantSelect" onchange="selectVariant(this.value)">
-        <option value="0">01 • Modular Card Layout</option>
-        <option value="1">02 • Accordion List Pattern</option>
-        <option value="2">03 • Compact Matrix Table</option>
-        <option value="3">04 • Segmented Stepper</option>
-        <option value="4">05 • Radial Pill Selector</option>
-        <option value="5">06 • Floating Action Dock</option>
-        <option value="6">07 • High-Contrast Typography</option>
-        <option value="7">08 • Dual Column Split</option>
-        <option value="8">09 • Express Summary Bar</option>
-        <option value="9">10 • Full Service Customizer</option>
+      <select class="variant-select" id="variantDropdown" onchange="jumpToVariant(this.value)">
+        <option value="0">01 • Stripe/Wise Clean Utility</option>
+        <option value="1">02 • Revolut Red Hero Banner</option>
+        <option value="2">03 • Cash App High Contrast</option>
+        <option value="3">04 • Dual Dimension Cards</option>
+        <option value="4">05 • Apple Spatial Depth</option>
+        <option value="5">06 • Floating Sticky Dock</option>
+        <option value="6">07 • Tactile Outdoor Grid</option>
+        <option value="7">08 • Industrial Heavy Price</option>
+        <option value="8">09 • Visual Thumbnail Badges</option>
+        <option value="9">10 • Express Summary Bar</option>
       </select>
 
-      <button class="nav-btn" id="nextBtn" onclick="navigateVariant(1)">
-        Next ›
-      </button>
-    </div>
+      <button class="tool-btn" id="nextBtn" onclick="stepVariant(1)">→</button>
 
-    <div class="toolbar-right">
-      <button class="view-toggle active" id="singleViewBtn" onclick="setViewMode('single')">Single View</button>
-      <button class="view-toggle" id="gridViewBtn" onclick="setViewMode('grid')">All 10 Grid</button>
-      
-      <button class="mode-btn" onclick="toggleTheme()">
-        <span id="themeIcon">🌙</span> <span id="themeLabel">Dark Mode</span>
+      <button class="tool-btn" onclick="toggleTheme()" id="themeBtn" style="margin-left: 4px;">
+        <span id="themeIcon">☀️</span>
       </button>
     </div>
   </header>
 
-  <!-- Presentation Stage -->
+  <!-- Main Hardware Stage -->
   <main class="stage">
     
-    <!-- SINGLE VIEW STAGE -->
-    <div class="single-stage" id="singleStage">
-      <div class="stage-header">
-        <h2 id="variantTitle">01. Modular Card Layout</h2>
-        <p id="optionDesc">High-contrast modular cards with explicit touch targets, live add-on toggles, and instant sticky calculation.</p>
-      </div>
-
-      <!-- Mobile Device Frame Mockup -->
-      <div class="mobile-frame">
-        <div class="mobile-screen-backdrop">
-          <div class="status-bar">
-            <span>12:45 PM</span>
-            <div style="display: flex; gap: 6px; align-items: center;">
-              <span>5G</span>
-              <span>98%</span>
-            </div>
-          </div>
-          <div style="text-align: center; color: rgba(255,255,255,0.4); font-size: 12px; font-weight: 700; margin-top: 40px;">
-            [ Live Field Viewfinder / Site Context ]
-          </div>
-        </div>
-
-        <!-- Dynamic Bottom Sheet Canvas Container -->
-        <div class="bottom-sheet" id="sheetSlot">
-          <!-- Dynamically Injected via JS -->
-        </div>
-      </div>
+    <div class="variant-meta">
+      <h2 id="varTitle">01. Stripe / Wise Clean Utility</h2>
+      <p id="varDesc">Optimized high-contrast field lookup with tactile dropdown and large touch target cart trigger.</p>
     </div>
 
-    <!-- ALL 10 GRID VIEW STAGE -->
-    <div class="grid-stage" id="gridStage" style="display: none;">
-      <!-- All 10 Rendered Side-by-side -->
+    <!-- Phone Viewport Frame -->
+    <div class="phone-viewport">
+      <div class="phone-screen-bg">
+        <div class="phone-status-bar">
+          <span>12:45 PM</span>
+          <span>5G • 100%</span>
+        </div>
+        
+        <div class="field-canvas-placeholder">
+          Outdoor Property Viewport
+        </div>
+      </div>
+
+      <!-- Dynamic Bottom Sheet Container -->
+      <div class="bottom-sheet" id="activeSheetSlot">
+        <!-- Rendered dynamically by JS -->
+      </div>
     </div>
 
   </main>
 
   <script>
-    // State Engine: Package Base $99, Addons: Expedited (+$25), High-Res Raw (+$15), Site Dimensions (+$30)
-    let state = {
-      variantIndex: 0,
-      viewMode: 'single',
-      isDarkMode: true,
-      sqft: '4000-5999',
-      dimension: '2D', // '2D' or '3D'
-      addons: {
-        expedited: false, // +$25
-        rawFiles: false,  // +$15
-        measurements: false // +$30
-      }
+    // Exact Source Data Content Model (Preserved 100%)
+    const fieldData = {
+      mls: "MLS",
+      title: "Floor Plan",
+      taxLabel: "TAX",
+      priceFull: "$99.00",
+      priceInt: "$99",
+      priceCents: ".00",
+      sqft: "4,000 – 5,999 Sq Ft",
+      options: ["2D", "3D"]
     };
 
-    const BASE_PRICE = 99;
-
-    function calculateTotal() {
-      let total = BASE_PRICE;
-      if (state.dimension === '3D') total += 50;
-      if (state.addons.expedited) total += 25;
-      if (state.addons.rawFiles) total += 15;
-      if (state.addons.measurements) total += 30;
-      return total;
-    }
-
-    function toggleAddon(key) {
-      state.addons[key] = !state.addons[key];
-      renderCurrentView();
-    }
-
-    function setDimension(dim) {
-      state.dimension = dim;
-      renderCurrentView();
-    }
-
-    // 10 Distinct UI Layout Templates
+    // 10 Distinct UI Layout Mechanics Templates
     const variants = [
       {
-        title: "01. Modular Card Layout",
-        desc: "Isolated functional cards separating package details, dimensionality toggles, and optional service add-ons.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <div class="icon-box">
-                  <svg class="fp-svg" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg>
-                </div>
-                <div>
-                  <div style="font-size: 11px; font-weight: 900; color: var(--brand-red);">MLS SERVICE</div>
-                  <h3 style="font-size: 20px; font-weight: 900;">Floor Plan</h3>
-                </div>
+        name: "01. Stripe / Wise Clean Utility",
+        desc: "Ultra-clean layout hierarchy with maximum padding and contrast for field sunlight clarity.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div class="v1-header">
+            <div class="v1-left">
+              <div class="icon-fp">
+                <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg>
               </div>
-              <div style="text-align: right;">
-                <span class="badge-tax">TAX INCL.</span>
-                <div style="font-size: 24px; font-weight: 900; color: var(--text-main);">$${total}.00</div>
+              <div>
+                <div class="mls-badge">${fieldData.mls}</div>
+                <div class="service-title">${fieldData.title}</div>
               </div>
             </div>
+            <div style="text-align: right;">
+              <span class="tax-pill">${fieldData.taxLabel}</span>
+              <div class="price-display">${fieldData.priceInt}<span class="cents">${fieldData.priceCents}</span></div>
+            </div>
+          </div>
 
-            <div class="field-select" style="margin-bottom: 12px;">
-              <span>4,000 – 5,999 Sq Ft</span>
+          <button class="dropdown-btn" style="margin-bottom: 12px;">
+            <span>${fieldData.sqft}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <div class="dimension-segmented" style="margin-bottom: 16px;">
+            <div class="seg-btn active">${fieldData.options[0]}</div>
+            <div class="seg-btn">${fieldData.options[1]}</div>
+          </div>
+
+          <button class="cta-primary">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 9h6M15 6v6"/></svg>
+          </button>
+        `
+      },
+      {
+        name: "02. Revolut Red Hero Banner",
+        desc: "Solid crimson top hero card for instantaneous price identification outdoor.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div class="v2-hero">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="icon-fp" style="background: rgba(0,0,0,0.25); border: none;">
+                <svg viewBox="0 0 24 24" style="stroke: #FFFFFF;"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg>
+              </div>
+              <div>
+                <div class="mls-badge" style="color: rgba(255,255,255,0.8);">${fieldData.mls}</div>
+                <div class="service-title" style="font-size: 22px;">${fieldData.title}</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <span class="tax-pill">${fieldData.taxLabel}</span>
+              <div class="price-display">${fieldData.priceInt}<span class="cents">${fieldData.priceCents}</span></div>
+            </div>
+          </div>
+
+          <button class="dropdown-btn" style="margin-bottom: 12px;">
+            <span>${fieldData.sqft}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <div class="dimension-segmented" style="margin-bottom: 16px;">
+            <div class="seg-btn active">${fieldData.options[0]}</div>
+            <div class="seg-btn">${fieldData.options[1]}</div>
+          </div>
+
+          <button class="cta-primary cta-red">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 9h6M15 6v6"/></svg>
+            <span>Confirm ${fieldData.priceFull}</span>
+          </button>
+        `
+      },
+      {
+        name: "03. Cash App High Contrast",
+        desc: "Tactile card separation enforcing strict distinction between service tier and price.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div class="icon-fp"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg></div>
+              <div>
+                <span class="mls-badge">${fieldData.mls}</span>
+                <div class="service-title" style="font-size: 20px;">${fieldData.title}</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <span class="tax-pill">${fieldData.taxLabel}</span>
+              <div class="price-display" style="color: var(--brand-red);">${fieldData.priceFull}</div>
+            </div>
+          </div>
+
+          <div class="v3-card">
+            <div style="font-size: 11px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 6px;">Property Size</div>
+            <div style="font-size: 16px; font-weight: 900; display: flex; justify-content: space-between; align-items: center;">
+              <span>${fieldData.sqft}</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
             </div>
+          </div>
 
-            <div class="pill-group" style="margin-bottom: 12px;">
-              <div class="pill-opt ${state.dimension === '2D' ? 'active' : ''}" onclick="setDimension('2D')">2D Schematic</div>
-              <div class="pill-opt ${state.dimension === '3D' ? 'active' : ''}" onclick="setDimension('3D')">3D Model (+$50)</div>
-            </div>
+          <div class="dimension-segmented" style="margin-bottom: 16px;">
+            <div class="seg-btn active">${fieldData.options[0]}</div>
+            <div class="seg-btn">${fieldData.options[1]}</div>
+          </div>
 
-            <div style="margin-bottom: 16px;">
-              <div class="addon-card ${state.addons.expedited ? 'selected' : ''}" onclick="toggleAddon('expedited')">
-                <div class="addon-left">
-                  <div class="checkbox-custom">${state.addons.expedited ? '✓' : ''}</div>
-                  <span class="addon-title">Rush 12-Hr Delivery</span>
-                </div>
-                <span class="addon-price">+$25</span>
-              </div>
-              <div class="addon-card ${state.addons.rawFiles ? 'selected' : ''}" onclick="toggleAddon('rawFiles')">
-                <div class="addon-left">
-                  <div class="checkbox-custom">${state.addons.rawFiles ? '✓' : ''}</div>
-                  <span class="addon-title">High-Res Vector CAD Files</span>
-                </div>
-                <span class="addon-price">+$15</span>
-              </div>
-            </div>
-
-            <button class="btn-field-cta">
-              <span>Confirm Selection • $${total}.00</span>
-            </button>
-          `;
-        }
+          <button class="cta-primary cta-red">
+            <span>Add to Cart • ${fieldData.priceFull}</span>
+          </button>
+        `
       },
       {
-        title: "02. Accordion List Pattern",
-        desc: "Collapsible vertical sections optimizing vertical screen real estate for dense service customization.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-              <h3 style="font-size: 19px; font-weight: 900;">Floor Plan Package</h3>
-              <div style="font-size: 22px; font-weight: 900; color: var(--brand-red);">$${total}.00</div>
+        name: "04. Dual Dimension Cards",
+        desc: "Prominent side-by-side selection cards allowing direct visual toggling of 2D vs 3D.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+            <div>
+              <span class="mls-badge" style="color: var(--brand-red);">${fieldData.mls}</span>
+              <div class="service-title" style="font-size: 22px;">${fieldData.title}</div>
             </div>
+            <div class="price-display">${fieldData.priceFull} <span class="tax-pill">${fieldData.taxLabel}</span></div>
+          </div>
 
-            <div class="v2-accordion">
-              <div class="v2-accordion-header">
-                <span>1. Property Size (4,000–5,999 Sq Ft)</span>
-                <span>✓</span>
-              </div>
+          <button class="dropdown-btn" style="margin-bottom: 8px;">
+            <span>${fieldData.sqft}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <div class="v4-grid">
+            <div class="v4-card active">
+              <div class="title">${fieldData.options[0]}</div>
+              <div class="desc">Schematic Plan</div>
             </div>
-
-            <div class="v2-accordion">
-              <div class="v2-accordion-header" style="border-bottom: 1px solid var(--border-color);">
-                <span>2. Dimension Format</span>
-                <span style="color: var(--brand-red);">${state.dimension}</span>
-              </div>
-              <div style="padding: 10px;">
-                <div class="pill-group">
-                  <div class="pill-opt ${state.dimension === '2D' ? 'active' : ''}" onclick="setDimension('2D')">2D Standard</div>
-                  <div class="pill-opt ${state.dimension === '3D' ? 'active' : ''}" onclick="setDimension('3D')">3D Interactive (+$50)</div>
-                </div>
-              </div>
+            <div class="v4-card">
+              <div class="title">${fieldData.options[1]}</div>
+              <div class="desc">Interactive Tour</div>
             </div>
+          </div>
 
-            <div class="addon-card ${state.addons.expedited ? 'selected' : ''}" onclick="toggleAddon('expedited')">
-              <div class="addon-left">
-                <div class="checkbox-custom">${state.addons.expedited ? '✓' : ''}</div>
-                <span class="addon-title">Rush Expedited Delivery</span>
-              </div>
-              <span class="addon-price">+$25</span>
-            </div>
-
-            <button class="btn-field-cta" style="margin-top: 8px;">
-              <span>Add Package to Order</span>
-            </button>
-          `;
-        }
+          <button class="cta-primary cta-red">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 9h6M15 6v6"/></svg>
+            <span>Confirm ${fieldData.options[0]} • ${fieldData.priceFull}</span>
+          </button>
+        `
       },
       {
-        title: "03. Compact Matrix Table",
-        desc: "High-density tabular breakdown for rapid line-item comparison during direct client negotiations.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-              <div style="font-size: 18px; font-weight: 900;">MLS Floor Plan Summary</div>
-              <span class="badge-tax">TAX INCL.</span>
+        name: "05. Apple Spatial Depth",
+        desc: "Glow accent container highlighting total service scope in one unified spatial block.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div class="v5-glass">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="mls-badge">${fieldData.mls}</span>
+                <strong style="font-size: 18px; font-weight: 900;">${fieldData.title}</strong>
+              </div>
+              <div class="price-display" style="color: var(--brand-red);">${fieldData.priceFull}</div>
             </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; color: var(--text-secondary);">
+              <span>${fieldData.sqft}</span>
+              <span class="tax-pill">${fieldData.taxLabel} INCLUDED</span>
+            </div>
+          </div>
 
-            <table class="v3-matrix-table">
-              <tr>
-                <td>Base Package (0–5,999 Sq Ft)</td>
-                <td style="text-align: right; font-weight: 900;">$99.00</td>
-              </tr>
-              <tr>
-                <td>Selected View Mode</td>
-                <td style="text-align: right; color: var(--brand-red); cursor: pointer;" onclick="setDimension('${state.dimension === '2D' ? '3D' : '2D'}')">${state.dimension} (Switch)</td>
-              </tr>
-              <tr>
-                <td>Rush Delivery (+25)</td>
-                <td style="text-align: right; cursor: pointer;" onclick="toggleAddon('expedited')">${state.addons.expedited ? 'INCLUDED' : 'ADD'}</td>
-              </tr>
-            </table>
+          <div class="dimension-segmented" style="margin-bottom: 16px;">
+            <div class="seg-btn active">${fieldData.options[0]} Layout</div>
+            <div class="seg-btn">${fieldData.options[1]} Layout</div>
+          </div>
 
-            <button class="btn-field-cta">
-              <span>Add Package • $${total}.00</span>
-            </button>
-          `;
-        }
+          <button class="cta-primary cta-red">
+            <span>Add Package • ${fieldData.priceFull}</span>
+          </button>
+        `
       },
       {
-        title: "04. Segmented Stepper",
-        desc: "Oversized tap target controls with incremental stepper elements for direct field adjustments.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+        name: "06. Floating Sticky Dock",
+        desc: "Isolated floating action bar locking price to the right for fast thumb activation.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div>
+              <span class="mls-badge">${fieldData.mls}</span>
+              <div class="service-title" style="font-size: 20px;">${fieldData.title}</div>
+            </div>
+            <span class="tax-pill">${fieldData.taxLabel}</span>
+          </div>
+
+          <button class="dropdown-btn" style="margin-bottom: 10px;">
+            <span>${fieldData.sqft}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <div class="dimension-segmented">
+            <div class="seg-btn active">${fieldData.options[0]}</div>
+            <div class="seg-btn">${fieldData.options[1]}</div>
+          </div>
+
+          <div class="v6-dock">
+            <div>
+              <div style="font-size: 11px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase;">Grand Total</div>
+              <div style="font-size: 22px; font-weight: 900; font-family: var(--font-display);">${fieldData.priceFull}</div>
+            </div>
+            <button class="cta-primary cta-red" style="width: auto; padding: 0 24px; min-height: 48px;">
+              <span>+ Add to Cart</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        name: "07. Tactile Outdoor Grid",
+        desc: "Recessed physical surface styling preventing glare mis-taps on field devices.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div class="v7-tactile" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div class="icon-fp"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg></div>
               <div>
-                <span style="font-size: 11px; font-weight: 900; color: var(--brand-red);">STEPPER SELECTOR</span>
-                <h3 style="font-size: 20px; font-weight: 900;">Floor Plan</h3>
-              </div>
-              <div style="font-size: 26px; font-weight: 900;">$${total}.00</div>
-            </div>
-
-            <div class="v4-stepper">
-              <span style="font-size: 15px; font-weight: 800;">Dimension View</span>
-              <div style="display: flex; gap: 8px; align-items: center;">
-                <button class="v4-stepper-btn" onclick="setDimension('2D')">2D</button>
-                <button class="v4-stepper-btn" style="background: var(--brand-red); color:#fff; border:none;" onclick="setDimension('3D')">3D</button>
+                <div class="mls-badge" style="color: var(--brand-red);">${fieldData.mls}</div>
+                <div style="font-size: 18px; font-weight: 900;">${fieldData.title}</div>
               </div>
             </div>
+            <div class="price-display">${fieldData.priceInt}<span class="cents">${fieldData.priceCents}</span></div>
+          </div>
 
-            <div class="addon-card ${state.addons.measurements ? 'selected' : ''}" onclick="toggleAddon('measurements')">
-              <div class="addon-left">
-                <div class="checkbox-custom">${state.addons.measurements ? '✓' : ''}</div>
-                <span class="addon-title">Include Laser Measurements</span>
-              </div>
-              <span class="addon-price">+$30</span>
-            </div>
+          <button class="dropdown-btn" style="margin-bottom: 12px;">
+            <span>${fieldData.sqft}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
 
-            <button class="btn-field-cta">
-              <span>Confirm Selection • $${total}.00</span>
-            </button>
-          `;
-        }
+          <div class="dimension-segmented" style="margin-bottom: 16px;">
+            <div class="seg-btn active">${fieldData.options[0]} View</div>
+            <div class="seg-btn">${fieldData.options[1]} View</div>
+          </div>
+
+          <button class="cta-primary cta-red">
+            <span>Confirm Order • ${fieldData.priceFull}</span>
+          </button>
+        `
       },
       {
-        title: "05. Radial Pill Selector",
-        desc: "Visual grid cards giving field operators unambiguous visual confirmation of active selections.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-              <h3 style="font-size: 18px; font-weight: 900;">Select Format</h3>
-              <div style="font-size: 22px; font-weight: 900; color: var(--brand-red);">$${total}.00</div>
+        name: "08. Industrial Heavy Price",
+        desc: "Over-indexed typography scale guaranteeing zero price lookup ambiguity in direct sunlight.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div style="margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="mls-badge" style="color: var(--brand-red);">${fieldData.mls} ${fieldData.title.toUpperCase()}</span>
+              <span class="tax-pill">${fieldData.taxLabel} INCLUDED</span>
             </div>
+            <div class="v8-huge">${fieldData.priceFull}</div>
+          </div>
 
-            <div class="v5-tier-grid">
-              <div class="v5-tier-card ${state.dimension === '2D' ? 'selected' : ''}" onclick="setDimension('2D')">
-                <div style="font-size: 16px; font-weight: 900;">2D</div>
-                <div style="font-size: 11px; color: var(--text-muted);">Standard</div>
-              </div>
-              <div class="v5-tier-card ${state.dimension === '3D' ? 'selected' : ''}" onclick="setDimension('3D')">
-                <div style="font-size: 16px; font-weight: 900;">3D</div>
-                <div style="font-size: 11px; color: var(--brand-red);">+$50</div>
-              </div>
-              <div class="v5-tier-card ${state.addons.expedited ? 'selected' : ''}" onclick="toggleAddon('expedited')">
-                <div style="font-size: 16px; font-weight: 900;">Rush</div>
-                <div style="font-size: 11px; color: var(--brand-red);">+$25</div>
-              </div>
-            </div>
+          <button class="dropdown-btn" style="margin-bottom: 12px;">
+            <span>${fieldData.sqft}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
 
-            <button class="btn-field-cta">
-              <span>Add to Cart • $${total}.00</span>
-            </button>
-          `;
-        }
+          <div class="dimension-segmented" style="margin-bottom: 16px;">
+            <div class="seg-btn active">${fieldData.options[0]}</div>
+            <div class="seg-btn">${fieldData.options[1]}</div>
+          </div>
+
+          <button class="cta-primary">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 9h6M15 6v6"/></svg>
+            <span>Add Package</span>
+          </button>
+        `
       },
       {
-        title: "06. Floating Action Dock",
-        desc: "Isolated parameters separated from a high-contrast sticky bottom action container.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="margin-bottom: 12px;">
-              <div style="font-size: 11px; font-weight: 900; color: var(--brand-red);">MLS FLOOR PLAN</div>
-              <h3 style="font-size: 20px; font-weight: 900;">Configuration</h3>
+        name: "09. Visual Thumbnail Badges",
+        desc: "Detailed icon-backed dimension selection cards for high-speed parameter entry.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <div class="service-title" style="font-size: 20px;">${fieldData.mls} ${fieldData.title}</div>
+              <div style="font-size: 13px; font-weight: 700; color: var(--text-secondary);">${fieldData.sqft}</div>
             </div>
+            <div class="price-display" style="color: var(--brand-red);">${fieldData.priceFull}</div>
+          </div>
 
-            <div class="field-select" style="margin-bottom: 10px;">
-              <span>4,000 – 5,999 Sq Ft</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-            </div>
-
-            <div class="pill-group" style="margin-bottom: 12px;">
-              <div class="pill-opt ${state.dimension === '2D' ? 'active' : ''}" onclick="setDimension('2D')">2D View</div>
-              <div class="pill-opt ${state.dimension === '3D' ? 'active' : ''}" onclick="setDimension('3D')">3D View</div>
-            </div>
-
-            <div class="v6-dock">
+          <div class="v9-thumb-grid">
+            <div class="v9-thumb-item active">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-red)" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg>
               <div>
-                <div style="font-size: 10px; font-weight: 900; color: var(--text-muted);">TOTAL PRICE</div>
-                <div style="font-size: 24px; font-weight: 900; line-height:1;">$${total}.00</div>
-              </div>
-              <button class="btn-field-cta" style="width: auto; padding: 0 20px;">
-                <span>Confirm</span>
-              </button>
-            </div>
-          `;
-        }
-      },
-      {
-        title: "07. High-Contrast Typography Focus",
-        desc: "Exaggerated numerical display scale designed for instant glare-proof scanning in direct sunlight.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="font-size: 12px; font-weight: 900; color: var(--brand-red);">TOTAL FIELD PRICE</div>
-            <div class="v7-hero-price">$${total}.00</div>
-
-            <div class="pill-group" style="margin-bottom: 12px;">
-              <div class="pill-opt ${state.dimension === '2D' ? 'active' : ''}" onclick="setDimension('2D')">2D Standard</div>
-              <div class="pill-opt ${state.dimension === '3D' ? 'active' : ''}" onclick="setDimension('3D')">3D Tour (+$50)</div>
-            </div>
-
-            <button class="btn-field-cta">
-              <span>Confirm Order</span>
-            </button>
-          `;
-        }
-      },
-      {
-        title: "08. Dual Column Split",
-        desc: "Side-by-side balanced parameter blocks for high-density one-handed thumbs-only operations.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-              <h3 style="font-size: 18px; font-weight: 900;">Floor Plan Services</h3>
-              <div style="font-size: 22px; font-weight: 900; color: var(--brand-red);">$${total}.00</div>
-            </div>
-
-            <div class="v8-split-row">
-              <div class="field-select" style="flex:1;">
-                <span>4.5k Sq Ft</span>
-              </div>
-              <div class="field-select ${state.dimension === '3D' ? 'active' : ''}" style="flex:1; justify-content:center;" onclick="setDimension('${state.dimension === '2D' ? '3D' : '2D'}')">
-                <span>Format: ${state.dimension}</span>
+                <div style="font-size: 14px; font-weight: 900;">${fieldData.options[0]} Option</div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary);">Standard Schematic</div>
               </div>
             </div>
-
-            <button class="btn-field-cta">
-              <span>Add Package</span>
-            </button>
-          `;
-        }
-      },
-      {
-        title: "09. Express Summary Bar",
-        desc: "Explicit line-item receipt breakdown prior to single-tap order confirmation.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-              <h3 style="font-size: 18px; font-weight: 900;">MLS Floor Plan</h3>
-              <span class="badge-tax">TAX</span>
-            </div>
-
-            <div class="pill-group" style="margin-bottom: 12px;">
-              <div class="pill-opt ${state.dimension === '2D' ? 'active' : ''}" onclick="setDimension('2D')">2D Mode</div>
-              <div class="pill-opt ${state.dimension === '3D' ? 'active' : ''}" onclick="setDimension('3D')">3D Mode</div>
-            </div>
-
-            <div class="v9-summary-pill">
-              <span>Selected: <strong>${state.dimension} Floor Plan</strong></span>
-              <span>Total: <strong style="color: var(--brand-red);">$${total}.00</strong></span>
-            </div>
-
-            <button class="btn-field-cta">
-              <span>One-Tap Add to Cart</span>
-            </button>
-          `;
-        }
-      },
-      {
-        title: "10. Full Service Customizer",
-        desc: "All-in-one comprehensive customization drawer featuring live calculation headers and direct add-on toggles.",
-        render: () => {
-          const total = calculateTotal();
-          return `
-            <div class="drag-handle"></div>
-            <div class="v10-total-card">
+            <div class="v9-thumb-item">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
               <div>
-                <div style="font-size: 11px; font-weight: 900; opacity: 0.9;">TOTAL SERVICE FEE</div>
-                <div style="font-size: 26px; font-weight: 900; line-height: 1;">$${total}.00</div>
+                <div style="font-size: 14px; font-weight: 900;">${fieldData.options[1]} Option</div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary);">Virtual Model</div>
               </div>
-              <span class="badge-tax" style="background: rgba(0,0,0,0.3); color:#fff; border:none;">TAX INCL.</span>
             </div>
+          </div>
 
-            <div class="pill-group" style="margin-bottom: 10px;">
-              <div class="pill-opt ${state.dimension === '2D' ? 'active' : ''}" onclick="setDimension('2D')">2D Format</div>
-              <div class="pill-opt ${state.dimension === '3D' ? 'active' : ''}" onclick="setDimension('3D')">3D Format</div>
-            </div>
-
-            <div class="addon-card ${state.addons.expedited ? 'selected' : ''}" onclick="toggleAddon('expedited')">
-              <div class="addon-left">
-                <div class="checkbox-custom">${state.addons.expedited ? '✓' : ''}</div>
-                <span class="addon-title">Rush Delivery</span>
+          <button class="cta-primary cta-red">
+            <span>Add Selected Package • ${fieldData.priceFull}</span>
+          </button>
+        `
+      },
+      {
+        name: "10. Express Summary Bar",
+        desc: "Includes an explicit live verification row verifying active selections prior to cart push.",
+        render: () => `
+          <div class="sheet-handle"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div class="icon-fp" style="width:36px; height:36px;"><svg viewBox="0 0 24 24" style="width:18px; height:18px;"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg></div>
+              <div>
+                <span class="mls-badge">${fieldData.mls}</span>
+                <div style="font-size: 16px; font-weight: 900;">${fieldData.title}</div>
               </div>
-              <span class="addon-price">+$25</span>
             </div>
+            <div class="price-display">${fieldData.priceFull}</div>
+          </div>
 
-            <button class="btn-field-cta-alt btn-field-cta" style="margin-top: 6px;">
-              <span>Confirm Package</span>
-            </button>
-          `;
-        }
+          <button class="dropdown-btn" style="margin-bottom: 8px; min-height: 46px; font-size: 14px;">
+            <span>${fieldData.sqft}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <div class="dimension-segmented" style="min-height: 46px;">
+            <div class="seg-btn active">${fieldData.options[0]}</div>
+            <div class="seg-btn">${fieldData.options[1]}</div>
+          </div>
+
+          <div class="v10-summary">
+            <span>Package: <strong>${fieldData.options[0]} ${fieldData.title}</strong></span>
+            <span>Total: <strong style="color: var(--brand-red);">${fieldData.priceFull}</strong></span>
+          </div>
+
+          <button class="cta-primary cta-red">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 9h6M15 6v6"/></svg>
+            <span>Express Add to Cart</span>
+          </button>
+        `
       }
     ];
 
-    function renderCurrentView() {
-      if (state.viewMode === 'single') {
-        const v = variants[state.variantIndex];
-        document.getElementById('variantTitle').innerText = v.title;
-        document.getElementById('optionDesc').innerText = v.desc;
-        document.getElementById('sheetSlot').innerHTML = v.render();
-        document.getElementById('variantSelect').value = state.variantIndex;
+    // Navigation & State Handler
+    let activeIndex = 0;
+    let isDark = true;
 
-        document.getElementById('prevBtn').disabled = state.variantIndex === 0;
-        document.getElementById('nextBtn').disabled = state.variantIndex === variants.length - 1;
-      } else {
-        const grid = document.getElementById('gridStage');
-        grid.innerHTML = '';
-        variants.forEach((v, idx) => {
-          const card = document.createElement('div');
-          card.className = 'grid-card';
-          card.innerHTML = `
-            <div class="grid-card-title">
-              <span>${v.title}</span>
-              <button class="nav-btn" style="min-height: 30px; font-size: 11px; padding: 0 8px;" onclick="selectVariant(${idx}); setViewMode('single');">View Single</button>
-            </div>
-            <div class="bottom-sheet" style="border-radius: var(--radius-lg); border-bottom: 1px solid var(--border-color);">
-              ${v.render()}
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-      }
+    function renderCurrentVariant() {
+      const v = variants[activeIndex];
+      document.getElementById('varTitle').innerText = v.name;
+      document.getElementById('varDesc').innerText = v.desc;
+      document.getElementById('activeSheetSlot').innerHTML = v.render();
+      document.getElementById('variantDropdown').value = activeIndex;
+
+      document.getElementById('prevBtn').disabled = activeIndex === 0;
+      document.getElementById('nextBtn').disabled = activeIndex === variants.length - 1;
     }
 
-    function selectVariant(idx) {
-      state.variantIndex = parseInt(idx);
-      renderCurrentView();
-    }
-
-    function navigateVariant(dir) {
-      const nextIdx = state.variantIndex + dir;
+    function stepVariant(dir) {
+      const nextIdx = activeIndex + dir;
       if (nextIdx >= 0 && nextIdx < variants.length) {
-        state.variantIndex = nextIdx;
-        renderCurrentView();
+        activeIndex = nextIdx;
+        renderCurrentVariant();
       }
     }
 
-    function setViewMode(mode) {
-      state.viewMode = mode;
-      if (mode === 'single') {
-        document.getElementById('singleStage').style.display = 'flex';
-        document.getElementById('gridStage').style.display = 'none';
-        document.getElementById('singleViewBtn').classList.add('active');
-        document.getElementById('gridViewBtn').classList.remove('active');
-      } else {
-        document.getElementById('singleStage').style.display = 'none';
-        document.getElementById('gridStage').style.display = 'grid';
-        document.getElementById('singleViewBtn').classList.remove('active');
-        document.getElementById('gridViewBtn').classList.add('active');
-      }
-      renderCurrentView();
+    function jumpToVariant(index) {
+      activeIndex = parseInt(index, 10);
+      renderCurrentVariant();
     }
 
     function toggleTheme() {
-      state.isDarkMode = !state.isDarkMode;
-      document.body.setAttribute('data-theme', state.isDarkMode ? 'dark' : 'light');
-      document.getElementById('themeIcon').innerText = state.isDarkMode ? '🌙' : '☀️';
-      document.getElementById('themeLabel').innerText = state.isDarkMode ? 'Dark Mode' : 'Light Mode';
-      renderCurrentView();
+      isDark = !isDark;
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      document.getElementById('themeIcon').innerText = isDark ? '☀️' : '🌙';
     }
 
-    // Keyboard Arrow Controls (← / →)
+    // Keyboard Arrow Listeners for Ergonomic Testing
     document.addEventListener('keydown', (e) => {
-      if (state.viewMode === 'single') {
-        if (e.key === 'ArrowRight') navigateVariant(1);
-        if (e.key === 'ArrowLeft') navigateVariant(-1);
-      }
+      if (e.key === 'ArrowRight') stepVariant(1);
+      if (e.key === 'ArrowLeft') stepVariant(-1);
     });
 
-    // Initial Execution
-    renderCurrentView();
+    // Boot Initial View
+    renderCurrentVariant();
   </script>
 </body>
 </html>
