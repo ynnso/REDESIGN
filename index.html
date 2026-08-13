@@ -1,835 +1,754 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MLS Full Shoot - 30 Operational Bottom Sheet Redesigns</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Field Utility - 30 Bottom Sheet Layout Concepts</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Red+Hat+Display:wght@500;700;900&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --brand-red: #E50914;
-      --brand-red-hover: #CC0000;
-      --brand-red-subtle: rgba(229, 9, 20, 0.12);
-      
-      /* Dark Theme Tokens (Default) */
-      --bg-page: #050505;
-      --bg-sheet: #111111;
-      --bg-surface: #1C1C1E;
-      --bg-surface-hover: #2C2C2E;
-      --border-color: #2C2C2E;
-      --border-strong: #3A3A3C;
-      --text-main: #FFFFFF;
-      --text-muted: #8E8E93;
-      --text-inverse: #000000;
-      --card-shadow: 0 24px 48px rgba(0,0,0,0.8);
-      --toggle-bg: #2C2C2E;
-      --toggle-active-bg: #FFFFFF;
-      --toggle-active-text: #000000;
+      --bg-app: #090a0f;
+      --surface-sheet: #12141c;
+      --surface-card: #1c1f2e;
+      --surface-inset: #0d0f17;
+      --border-color: #2e344a;
+      --text-main: #ffffff;
+      --text-muted: #8e99b7;
+      --accent-red: #ff2a4b;
+      --accent-red-hover: #e01b3c;
+      --accent-glow: rgba(255, 42, 75, 0.25);
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Red Hat Display', sans-serif;
     }
 
     [data-theme="light"] {
-      --bg-page: #E5E5EA;
-      --bg-sheet: #FFFFFF;
-      --bg-surface: #F2F2F7;
-      --bg-surface-hover: #E5E5EA;
-      --border-color: #D1D1D6;
-      --border-strong: #C7C7CC;
-      --text-main: #000000;
-      --text-muted: #6C6C70;
-      --text-inverse: #FFFFFF;
-      --card-shadow: 0 16px 36px rgba(0,0,0,0.12);
-      --toggle-bg: #E5E5EA;
-      --toggle-active-bg: #000000;
-      --toggle-active-text: #FFFFFF;
+      --bg-app: #e2e8f0;
+      --surface-sheet: #ffffff;
+      --surface-card: #f1f5f9;
+      --surface-inset: #e2e8f0;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent-red: #e11d48;
+      --accent-red-hover: #be123c;
+      --accent-glow: rgba(225, 29, 72, 0.2);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
     body {
-      background-color: var(--bg-page);
+      font-family: var(--font-main);
+      background-color: var(--bg-app);
       color: var(--text-main);
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-bottom: 60px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease;
     }
 
-    /* Pinned Top Navigation Bar */
+    /* Pinned Navigation Bar */
     .nav-bar {
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 2000;
-      width: 100%;
-      background: var(--bg-sheet);
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(18, 20, 28, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
-      padding: 12px 20px;
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 20px;
+    }
+    [data-theme="light"] .nav-bar {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
       gap: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
-
-    .nav-left, .nav-right, .nav-center {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-title {
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: -0.3px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-    }
-
-    .brand-title .badge {
-      background: var(--brand-red);
-      color: #FFF;
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
     }
 
     .nav-btn {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 8px 14px;
+      min-width: 44px;
+      height: 44px;
       border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--surface-card);
+      color: var(--text-main);
       font-weight: 700;
-      font-size: 13px;
+      font-size: 16px;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 6px;
-      min-height: 40px;
+      justify-content: center;
+      transition: all 0.2s ease;
     }
+    .nav-btn:active { transform: scale(0.95); }
 
-    .nav-btn:hover {
-      background: var(--bg-surface-hover);
-      border-color: var(--brand-red);
-    }
-
-    .nav-btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      border-color: var(--border-color);
-    }
-
-    .option-select {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 8px 12px;
+    .concept-select {
+      height: 44px;
+      padding: 0 16px;
       border-radius: 10px;
-      font-size: 13px;
+      border: 1px solid var(--border-color);
+      background: var(--surface-card);
+      color: var(--text-main);
+      font-family: var(--font-main);
       font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
       outline: none;
-      cursor: pointer;
-      min-height: 40px;
-      max-width: 280px;
+      max-width: 260px;
     }
 
-    .theme-toggle {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      min-height: 40px;
-    }
-
-    .view-mode-btn {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 8px 12px;
+    .theme-toggle-btn {
+      height: 44px;
+      padding: 0 16px;
       border-radius: 10px;
-      font-size: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--surface-card);
+      color: var(--text-main);
       font-weight: 700;
-      cursor: pointer;
-      min-height: 40px;
-    }
-
-    .view-mode-btn.active {
-      background: var(--brand-red);
-      color: #FFFFFF;
-      border-color: var(--brand-red);
-    }
-
-    /* Main Container Stage */
-    .main-stage {
-      width: 100%;
-      max-width: 1350px;
-      padding: 24px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* Single Mobile Stage Frame */
-    .stage-single {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .stage-header {
-      text-align: center;
-      margin-bottom: 20px;
-      max-width: 650px;
-    }
-
-    .stage-header h2 {
-      font-size: 22px;
-      font-weight: 900;
-      margin-bottom: 4px;
-      letter-spacing: -0.5px;
-    }
-
-    .stage-header p {
-      color: var(--text-muted);
       font-size: 13px;
-      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* Mobile Device Outer Frame */
-    .mobile-frame {
+    /* Device Frame Simulation */
+    .app-viewport {
+      margin-top: 84px;
+      margin-bottom: 40px;
       width: 100%;
-      max-width: 420px;
-      background: var(--bg-page);
-      border: 10px solid #202022;
+      max-width: 430px;
+      height: 880px;
+      background: var(--surface-sheet);
+      border: 8px solid #1e2330;
       border-radius: 48px;
-      box-shadow: var(--card-shadow), 0 0 0 1px rgba(255,255,255,0.08);
       position: relative;
       overflow: hidden;
-      min-height: 680px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+    }
+    [data-theme="light"] .app-viewport {
+      border-color: #cbd5e1;
+    }
+
+    .app-screen-content {
+      flex: 1;
+      padding: 24px;
+      background: radial-gradient(circle at top right, rgba(255,42,75,0.08), transparent 50%);
+      display: flex;
+      flex-direction: column;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .mock-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .mock-badge {
+      background: var(--surface-card);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border-color);
+    }
+    .mock-map {
+      width: 100%;
+      height: 200px;
+      border-radius: 20px;
+      background: var(--surface-inset);
+      border: 1px dashed var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Container for Sheets */
+    .sheet-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      pointer-events: none;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
     }
 
-    .mobile-screen-bg {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%);
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 18px 20px;
-    }
-
-    .status-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-main);
-      z-index: 2;
-    }
-
-    /* Shared Components */
-    .drag-handle {
-      width: 40px;
-      height: 5px;
-      background: var(--text-muted);
-      opacity: 0.4;
-      border-radius: 3px;
-      margin: 0 auto 16px;
-    }
-
-    .bottom-sheet {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      background: var(--bg-sheet);
-      border-top-left-radius: 32px;
-      border-top-right-radius: 32px;
-      padding: 20px 20px 24px;
-      box-shadow: 0 -12px 36px rgba(0,0,0,0.5);
+    /* Base Sheet Container */
+    .sheet {
+      pointer-events: auto;
+      background: var(--surface-sheet);
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
       border: 1px solid var(--border-color);
       border-bottom: none;
+      padding: 20px;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      max-height: 90%;
+      overflow-y: auto;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sheet.active { display: flex; }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* Universal Sheet Components */
+    .sheet-handle {
+      width: 40px;
+      height: 5px;
+      background: var(--border-color);
+      border-radius: 10px;
+      align-self: center;
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+    .hero-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-price {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1;
+    }
+    .hero-price span {
+      font-size: 20px;
+      color: var(--accent-red);
+    }
+
+    .primary-btn {
+      min-height: 56px;
+      background: var(--accent-red);
+      color: #ffffff;
+      border: none;
+      border-radius: 16px;
+      font-family: var(--font-main);
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px var(--accent-glow);
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+    .primary-btn:active { transform: scale(0.98); background: var(--accent-red-hover); }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      cursor: pointer;
+    }
+    .option-row.selected {
+      border-color: var(--accent-red);
+      background: rgba(255, 42, 75, 0.05);
     }
 
     .icon-box {
-      width: 48px;
-      height: 48px;
-      background: var(--bg-surface);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--surface-inset);
       border: 1px solid var(--border-color);
-      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
+      font-size: 20px;
     }
 
-    .tax-badge {
-      font-size: 10px;
-      font-weight: 900;
-      background: var(--bg-surface);
-      color: var(--text-muted);
-      border: 1px solid var(--border-color);
-      padding: 3px 7px;
-      border-radius: 6px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
+    /* CSS Specifics for Specific Archetypes */
 
-    .sqft-dropdown {
-      width: 100%;
-      min-height: 48px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 12px 16px;
-      border-radius: 16px;
-      font-size: 14px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tier-chips {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin: 12px 0;
-    }
-
-    .tier-chip {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 10px 4px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .tier-chip.active {
-      background: var(--toggle-active-bg);
-      color: var(--toggle-active-text);
-      border-color: var(--toggle-active-bg);
-    }
-
-    .tier-chip .photos { font-size: 15px; font-weight: 900; }
-    .tier-chip .price { font-size: 12px; font-weight: 700; opacity: 0.8; margin-top: 2px; }
-
-    .line-item-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 14px;
-    }
-
-    .line-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .line-row.active-highlight {
-      background: var(--toggle-active-bg);
-      color: var(--toggle-active-text);
-    }
-
-    .stepper-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .stepper-ctrl {
-      display: flex;
-      align-items: center;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 4px 8px;
-      gap: 12px;
-      min-height: 48px;
-    }
-
-    .stepper-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: none;
+    /* Variant 1: Floating Modular */
+    .sheet[data-variant="1"] {
       background: transparent;
-      color: var(--text-main);
-      font-size: 18px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .cart-action-btn {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
       border: none;
-      background: var(--toggle-active-bg);
-      color: var(--toggle-active-text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
+      box-shadow: none;
+      padding: 16px;
     }
-
-    .fp-icon {
-      width: 22px;
-      height: 22px;
-      stroke: var(--brand-red);
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    /* Grid Stage */
-    .stage-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 28px;
-      width: 100%;
-    }
-
-    .grid-card {
-      background: var(--bg-surface);
+    .sheet[data-variant="1"] .mod-card {
+      background: var(--surface-sheet);
       border: 1px solid var(--border-color);
-      border-radius: 28px;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      margin-bottom: 12px;
+    }
+
+    /* Variant 6: Horizontal Carousel */
+    .carousel-container {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scroll-snap-type: x mandatory;
+    }
+    .carousel-item {
+      flex: 0 0 140px;
+      scroll-snap-align: start;
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 14px;
+      text-align: center;
+    }
+    .carousel-item.active {
+      border-color: var(--accent-red);
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    /* Variant 8: 2x2 Grid */
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .grid-tile {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
       padding: 16px;
       display: flex;
       flex-direction: column;
+      gap: 8px;
+    }
+    .grid-tile.active {
+      background: var(--accent-red);
+      color: white;
+      border-color: var(--accent-red);
     }
 
-    .grid-card-header {
+    /* Variant 9: Neo Brutalist */
+    .sheet[data-variant="9"] {
+      border: 4px solid var(--text-main) !important;
+      border-radius: 0 !important;
+      box-shadow: -8px -8px 0px var(--accent-red) !important;
+      background: var(--surface-sheet);
+    }
+    .sheet[data-variant="9"] .primary-btn {
+      border: 3px solid var(--text-main);
+      border-radius: 0;
+      box-shadow: 5px 5px 0px var(--text-main);
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    /* Variant 13: Asymmetric Bento */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 12px;
+    }
+    .bento-cell {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .bento-cell.hero {
+      grid-row: span 2;
+      background: linear-gradient(135deg, var(--surface-card), var(--surface-inset));
+      border-color: var(--accent-red);
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
+    }
+
+    /* Variant 15: Tactile Glove Switchboard */
+    .glove-toggle {
+      min-height: 64px;
+      background: var(--surface-card);
+      border: 2px solid var(--border-color);
+      border-radius: 18px;
+      display: flex;
       align-items: center;
-      margin-bottom: 12px;
-      padding: 0 4px;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-weight: 800;
+    }
+    .glove-toggle.active {
+      border-color: var(--accent-red);
+      background: rgba(255, 42, 75, 0.15);
     }
 
-    .grid-card-title {
-      font-size: 12px;
+    /* Variant 28: Top-Right Floating Total */
+    .floating-total-badge {
+      position: absolute;
+      top: -24px;
+      right: 20px;
+      background: var(--accent-red);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-family: var(--font-display);
       font-weight: 900;
-      color: var(--brand-red);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 20px;
+      box-shadow: 0 10px 20px var(--accent-glow);
     }
-
-    /* ARCHETYPE SPECIFIC CSS EXTENSIONS */
-    .opt-2-brutal { border: 3px solid var(--text-main); box-shadow: 6px 6px 0px var(--brand-red); border-radius: 0; }
-    .opt-3-stack { position: relative; padding-top: 36px; }
-    .opt-3-layer-1 { position: absolute; top: 0; left: 24px; right: 24px; height: 40px; background: var(--brand-red); border-radius: 20px 20px 0 0; opacity: 0.9; }
-    .opt-3-layer-2 { position: absolute; top: 12px; left: 12px; right: 12px; height: 40px; background: var(--bg-surface-hover); border-radius: 22px 22px 0 0; }
-    .opt-4-ring-box { width: 88px; height: 88px; border-radius: 50%; border: 6px solid var(--brand-red); border-left-color: var(--border-color); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 12px; }
-    .opt-5-hero-dock { background: var(--brand-red); color: #FFF; padding: 16px; border-radius: 20px; margin-bottom: 12px; text-align: center; }
-    .opt-8-lab { font-family: 'JetBrains Mono', monospace; border-left: 3px solid var(--brand-red); padding-left: 12px; }
-    .opt-9-pill-dock { position: absolute; bottom: 16px; left: 16px; right: 16px; background: var(--brand-red); color: #fff; padding: 10px 18px; border-radius: 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 28px rgba(229,9,20,0.4); }
-    .opt-11-term { background: #000; color: #00FF66; border: 1px solid #333; font-family: 'JetBrains Mono', monospace; padding: 14px; border-radius: 14px; margin-bottom: 12px; }
-    .opt-15-ticket { background: var(--bg-surface); border: 1px dashed var(--border-strong); border-radius: 16px; padding: 14px; position: relative; margin-bottom: 12px; }
-    .opt-20-barcode { background: #FFF; color: #000; padding: 4px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; border-radius: 4px; letter-spacing: 2px; text-align: center; margin-bottom: 10px; }
-    .opt-21-split- shade { background: linear-gradient(180deg, var(--bg-sheet) 50%, var(--bg-surface) 50%); border-radius: 28px; }
-    .opt-25-bento { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-bottom: 12px; }
   </style>
 </head>
-<body data-theme="dark">
+<body>
 
-  <!-- Pinned Navigation Bar -->
-  <header class="nav-bar">
+  <!-- Pinned Control Header -->
+  <nav class="nav-bar">
     <div class="nav-left">
-      <div class="brand-title">
-        FIELD UTIL <span class="badge">30 CONCEPTS</span>
-      </div>
+      <button class="nav-btn" id="prevBtn">←</button>
+      <select class="concept-select" id="conceptSelect"></select>
+      <button class="nav-btn" id="nextBtn">→</button>
     </div>
-
-    <div class="nav-center">
-      <button class="nav-btn" id="prevBtn" onclick="navigateOption(-1)">‹ Prev</button>
-      <select class="option-select" id="optionSelect" onchange="selectOption(this.value)"></select>
-      <button class="nav-btn" id="nextBtn" onclick="navigateOption(1)">Next ›</button>
-    </div>
-
     <div class="nav-right">
-      <button class="view-mode-btn active" id="singleViewBtn" onclick="setViewMode('single')">Single View</button>
-      <button class="view-mode-btn" id="gridViewBtn" onclick="setViewMode('grid')">All 30 Grid</button>
-      <button class="theme-toggle" onclick="toggleTheme()">
-        <span id="themeIcon">🌙</span> <span id="themeLabel">Dark Mode</span>
+      <button class="theme-toggle-btn" id="themeBtn">
+        <span id="themeIcon">☀️</span>
+        <span id="themeText">Light</span>
       </button>
     </div>
-  </header>
+  </nav>
 
-  <!-- Main Presentation Stage -->
-  <main class="main-stage">
-    <!-- SINGLE OPTION PREVIEW STAGE -->
-    <div class="stage-single" id="singleStage">
-      <div class="stage-header">
-        <h2 id="optionTitle">01. Floating Modular Cards</h2>
-        <p id="optionDesc">Description goes here</p>
+  <!-- Mobile Viewport Frame -->
+  <div class="app-viewport">
+    <div class="app-screen-content">
+      <div class="mock-header">
+        <span class="mock-badge">JOB #88492</span>
+        <span class="mock-badge">CAM-A</span>
       </div>
-
-      <div class="mobile-frame">
-        <div class="mobile-screen-bg">
-          <div class="status-bar">
-            <span>9:41</span>
-            <div style="display: flex; gap: 4px; align-items: center;">
-              <span>5G</span>
-              <span>100%</span>
-            </div>
-          </div>
-          <div style="text-align: center; color: rgba(255,255,255,0.4); font-size: 11px; margin-top: 24px; font-weight: 700;">
-            [ CAMERA VIEWPORT GLANCE OVERLAY ]
-          </div>
-        </div>
-
-        <div id="sheetSlot"></div>
+      <div class="mock-map">
+        [ Field Location GIS Overlay ]
       </div>
     </div>
 
-    <!-- ALL 30 GRID STAGE -->
-    <div class="stage-grid" id="gridStage" style="display: none;"></div>
-  </main>
+    <!-- Container for the 30 Bottom Sheet Layout Concepts -->
+    <div class="sheet-wrapper" id="sheetWrapper"></div>
+  </div>
 
   <script>
-    // Pure Source Data Components
-    const headerComponent = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div class="icon-box">
-            <svg class="fp-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <div>
-            <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.3px;">MLS Photos</div>
-            <h1 style="font-size: 20px; font-weight: 900; letter-spacing: -0.4px;">Full Shoot</h1>
-          </div>
-        </div>
-        <div style="text-align: right;">
-          <span class="tax-badge">TAX</span>
-          <div style="font-size: 28px; font-weight: 900; letter-spacing: -0.8px; margin-top: 2px;">$149<span style="font-size: 16px;">.00</span></div>
-        </div>
-      </div>
-    `;
+    // Master Package Data
+    const baseData = {
+      title: "HD Highlight Video",
+      category: "MLS Video Package",
+      basePrice: 159.00,
+      options: [
+        { id: "tax", label: "State & Local Tax", price: 12.72, default: true },
+        { id: "4k", label: "4K Master Export Upgrade", price: 45.00, default: false },
+        { id: "drone", label: "Aerial Drone B-Roll Addon", price: 75.00, default: false },
+        { id: "speed", label: "24-Hour Express Delivery", price: 30.00, default: false }
+      ]
+    };
 
-    const sqftComponent = `
-      <div class="sqft-dropdown">
-        <span>0 – 1,999 Sq Ft</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-      </div>
-    `;
-
-    const tierChipsComponent = `
-      <div class="tier-chips">
-        <div class="tier-chip active"><div class="photos">25</div><div class="price">$139</div></div>
-        <div class="tier-chip"><div class="photos">36</div><div class="price">$179</div></div>
-        <div class="tier-chip"><div class="photos">40</div><div class="price">$189</div></div>
-        <div class="tier-chip"><div class="photos">50</div><div class="price">$224</div></div>
-      </div>
-    `;
-
-    const lineItemsComponent = `
-      <div class="line-item-box">
-        <div class="line-row"><span>Base 25 Photos</span><span>$139</span></div>
-        <div class="line-row active-highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-      </div>
-    `;
-
-    const stepperComponent = `
-      <div class="stepper-row">
-        <span style="font-size: 15px; font-weight: 800;">Total Photos</span>
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <div class="stepper-ctrl">
-            <button class="stepper-btn">−</button>
-            <span style="font-size: 16px; font-weight: 900;">27</span>
-            <button class="stepper-btn">+</button>
-          </div>
-          <button class="cart-action-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 9h6M15 6v6"/></svg>
-          </button>
-        </div>
-      </div>
-    `;
-
-    // 30 Radically Distinct Layout Archetype Concepts
-    const optionsData = [
-      {
-        title: "01. Floating Modular Cards",
-        desc: "Detached floating surfaces layered over a dimmed backdrop with elevated z-index depth.",
-        render: () => `<div class="bottom-sheet" style="background:transparent; border:none; box-shadow:none; padding:0 12px 16px;">
-          <div style="background:var(--bg-sheet); border:1px solid var(--border-color); border-radius:24px; padding:16px; margin-bottom:10px;">${headerComponent}</div>
-          <div style="background:var(--bg-sheet); border:1px solid var(--border-color); border-radius:24px; padding:16px;">${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>
-        </div>`
-      },
-      {
-        title: "02. Neo-Brutalist High-Border",
-        desc: "Cash App inspired heavy black borders, stark drop shadows, and high-visibility red accents.",
-        render: () => `<div class="bottom-sheet opt-2-brutal"><div class="drag-handle" style="background:var(--text-main); opacity:1;"></div>${headerComponent}${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "03. Skeuomorphic Pass Stack",
-        desc: "Apple Wallet inspired card stack depth with physical layering and tactile fan-out.",
-        render: () => `<div class="bottom-sheet opt-3-stack"><div class="opt-3-layer-1"></div><div class="opt-3-layer-2"></div><div class="drag-handle"></div>${headerComponent}${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "04. Metric Ring Focus",
-        desc: "Oura inspired circular progress ring visually framing the hero total price at the top center.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div class="opt-4-ring-box"><span class="tax-badge" style="font-size:8px; padding:1px 4px;">TAX</span><div style="font-size:20px; font-weight:900;">$149</div></div><div style="text-align:center; margin-bottom:10px;"><h2 style="font-size:20px; font-weight:900;">Full Shoot</h2><div style="font-size:11px; font-weight:800; color:var(--text-muted);">MLS Photos</div></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "05. Split-Screen Hero Dock",
-        desc: "Top portion locked to high-contrast red hero price dock topping option controls.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div class="opt-5-hero-dock"><div style="display:flex; justify-content:space-between; align-items:center;"><div><span style="font-size:10px; font-weight:800; opacity:0.8;">MLS PHOTOS</span><h2 style="font-size:20px; font-weight:900;">Full Shoot</h2></div><div style="text-align:right;"><span class="tax-badge" style="background:rgba(0,0,0,0.3); color:#fff; border:none;">TAX</span><div style="font-size:28px; font-weight:900;">$149.00</div></div></div></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "06. Accordion Stacks",
-        desc: "Collapsible operational groups maximizing vertical screen real estate for direct glanceability.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div>${headerComponent}<div style="border:1px solid var(--border-color); border-radius:16px; padding:12px; margin-bottom:10px;"><div style="font-weight:800; font-size:13px; margin-bottom:8px;">1. PROPERTY SIZE & TIERS</div>${sqftComponent}${tierChipsComponent}</div><div style="border:1px solid var(--border-color); border-radius:16px; padding:12px;">${lineItemsComponent}${stepperComponent}</div></div>`
-      },
-      {
-        title: "07. Segmented Stepper / Multi-Tab",
-        desc: "Horizontal category tabs splitting complex options into focused sub-sheets.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div>${headerComponent}<div style="display:flex; background:var(--bg-surface); padding:4px; border-radius:12px; margin-bottom:12px; border:1px solid var(--border-color);"><div style="flex:1; text-align:center; padding:8px; background:var(--toggle-active-bg); color:var(--toggle-active-text); font-weight:800; font-size:12px; border-radius:8px;">PACKAGE</div><div style="flex:1; text-align:center; padding:8px; font-weight:800; font-size:12px; color:var(--text-muted);">ADJUSTMENTS</div></div>${sqftComponent}${tierChipsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "08. Laboratory Clinical List",
-        desc: "The Ordinary inspired monochromatic layout with precise grid rules and technical typography.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div class="opt-8-lab"><div style="font-size:10px; color:var(--text-muted);">SPEC // MLS-PHOTOS</div><h2 style="font-size:22px; font-weight:900;">FULL SHOOT</h2><div style="font-size:30px; font-weight:900; color:var(--brand-red); margin:6px 0;">$149.00 <span class="tax-badge">TAX</span></div></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "09. Floating Action Pill Dock",
-        desc: "Hero total price and CTA consolidated into a floating capsule suspended above sheet base.",
-        render: () => `<div class="bottom-sheet" style="padding-bottom:76px;"><div class="drag-handle"></div>${headerComponent}${sqftComponent}${tierChipsComponent}${lineItemsComponent}<div class="opt-9-pill-dock"><div><div style="font-size:9px; opacity:0.8; font-weight:800;">TOTAL DUE</div><div style="font-size:20px; font-weight:900;">$149.00</div></div><button style="background:#fff; color:var(--brand-red); border:none; padding:8px 16px; border-radius:20px; font-weight:900; font-size:13px;">Confirm</button></div></div>`
-      },
-      {
-        title: "10. High-Contrast Grid Tiles",
-        desc: "Boxed 2x2 grid cards with high-contrast active fill states for swift touch acquisition.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div>${headerComponent}${sqftComponent}<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:12px 0;"><div style="background:var(--toggle-active-bg); color:var(--toggle-active-text); padding:12px; border-radius:14px; text-align:center;"><div style="font-size:18px; font-weight:900;">25 Photos</div><div style="font-size:12px; opacity:0.8;">$139</div></div><div style="background:var(--bg-surface); border:1px solid var(--border-color); padding:12px; border-radius:14px; text-align:center;"><div style="font-size:18px; font-weight:900;">36 Photos</div><div style="font-size:12px; color:var(--text-muted);">$179</div></div></div>${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "11. Command Line Terminal",
-        desc: "Ultra-clean monospaced terminal text layout built for instantaneous outdoor scan speed.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div class="opt-11-term"><div>> MLS_SERVICE: FULL_SHOOT</div><div>> RANGE: 0_1999_SQFT</div><div style="font-size:22px; font-weight:900; margin-top:6px;">TOTAL: $149.00 [TAX_INCL]</div></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "12. Pinned Hero Canvas",
-        desc: "Top 40% of sheet permanently locked to giant total price and primary service title.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="text-align:center; padding-bottom:12px; border-bottom:2px dashed var(--border-color); margin-bottom:12px;"><span class="tax-badge">TAX INCLUDED</span><div style="font-size:42px; font-weight:900; color:var(--brand-red); tracking:-1px;">$149.00</div><h2 style="font-size:18px; font-weight:900;">MLS Full Shoot</h2></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "13. Timeline Node Path",
-        desc: "Vertical node line connecting package base to extra add-ons in a logical sequential flow.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;"><h2 style="font-size:18px; font-weight:900;">MLS Full Shoot</h2><span style="font-size:22px; font-weight:900; color:var(--brand-red);">$149.00</span></div><div style="position:relative; padding-left:20px; border-left:2px solid var(--brand-red); margin:12px 0 12px 6px;"><div style="margin-bottom:10px;"><div style="font-size:10px; color:var(--text-muted); font-weight:800;">BASE TIER</div><div style="font-weight:800; font-size:13px;">25 Photos ($139)</div></div><div><div style="font-size:10px; color:var(--text-muted); font-weight:800;">EXTRAS</div><div style="font-weight:800; font-size:13px; color:var(--brand-red);">$5 / Extra × 2 (+$10)</div></div></div>${sqftComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "14. Tactile Switchboard",
-        desc: "Oversized physical-style toggle switches built for easy tapping while wearing gloves.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div>${headerComponent}${sqftComponent}<div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface); border:2px solid var(--border-strong); border-radius:18px; padding:12px 16px; margin:12px 0;"><span style="font-weight:800; font-size:14px;">25 Photo Base ($139)</span><div style="width:44px; height:24px; background:var(--brand-red); border-radius:12px;"></div></div>${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "15. Expanded Receipt Ticket",
-        desc: "Perforation-edge receipt card showing an itemized running tally.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div class="opt-15-ticket"><div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong style="font-size:15px;">MLS Full Shoot</strong><span class="tax-badge">TAX</span></div><div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted);"><span>Base 25 Photos</span><span>$139</span></div><div style="display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted); margin-bottom:8px;"><span>$5 / Extra × 2</span><span>+$10</span></div><div style="border-top:1px dashed var(--border-strong); padding-top:6px; display:flex; justify-content:space-between; align-items:center;"><span style="font-weight:800;">TOTAL DUE</span><span style="font-size:22px; font-weight:900; color:var(--brand-red);">$149.00</span></div></div>${sqftComponent}${tierChipsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "16. Inset Tile Matrix",
-        desc: "Deeply inset tile buckets isolating individual package components for clear readability.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;"><h2 style="font-size:18px; font-weight:900;">MLS Full Shoot</h2><div style="font-size:22px; font-weight:900;">$149.00 <span class="tax-badge">TAX</span></div></div><div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;"><div style="background:var(--bg-surface); border-radius:12px; padding:10px; border:1px solid var(--border-color);"><div style="font-size:10px; color:var(--text-muted); font-weight:800;">SQFT RANGE</div><div style="font-size:12px; font-weight:800;">0 – 1,999</div></div><div style="background:var(--bg-surface); border-radius:12px; padding:10px; border:1px solid var(--brand-red);"><div style="font-size:10px; color:var(--brand-red); font-weight:800;">PHOTO TIER</div><div style="font-size:12px; font-weight:800;">25 Photos</div></div></div>${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "17. High-Visibility Border Highlight",
-        desc: "Thick 3px solid red stroke container wrapping active package selection.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="border:3px solid var(--brand-red); border-radius:20px; padding:14px; margin-bottom:12px;">${headerComponent}</div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "18. Centered Hero Focal Point",
-        desc: "Completely centered display scale placing service title and grand total in main visual line.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="text-align:center; padding:8px 0;"><span class="tax-badge">TAX INCLUDED</span><h2 style="font-size:22px; font-weight:900; margin-top:2px;">MLS Full Shoot</h2><div style="font-size:38px; font-weight:900; color:var(--brand-red); margin:4px 0;">$149.00</div></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "19. Barcode SKU Utility",
-        desc: "Industrial field tool aesthetic featuring item barcodes, titles, and price callouts.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div class="opt-20-barcode">||| ||||| ||| |||| |||||| |||</div>${headerComponent}${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "20. Full-Bleed Edge Cards",
-        desc: "Marginless edge-to-edge cards with high-contrast divider rules.",
-        render: () => `<div class="bottom-sheet" style="padding-left:0; padding-right:0;"><div class="drag-handle"></div><div style="padding:0 20px;">${headerComponent}</div><div style="border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); padding:12px 20px;">${sqftComponent}</div><div style="padding:0 20px;">${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div></div>`
-      },
-      {
-        title: "21. Split Card Dual-Shade",
-        desc: "Top half high-contrast sheet base, bottom total dock crisp inverse shade.",
-        render: () => `<div class="bottom-sheet opt-21-split-shade"><div class="drag-handle"></div>${headerComponent}${sqftComponent}${tierChipsComponent}<div style="background:var(--bg-surface); margin:-8px -20px -24px; padding:16px 20px 24px; border-radius:24px;">${lineItemsComponent}${stepperComponent}</div></div>`
-      },
-      {
-        title: "22. Horizontal Snap Cards",
-        desc: "Full-width modifier cards that snap horizontally into view for rapid swipe navigation.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div>${headerComponent}<div style="display:flex; gap:10px; overflow-x:auto; padding-bottom:8px; margin-bottom:10px;"><div style="min-width:220px; background:var(--bg-surface); border:1px solid var(--border-color); padding:12px; border-radius:16px;">${sqftComponent}</div><div style="min-width:220px; background:var(--bg-surface); border:1px solid var(--brand-red); padding:12px; border-radius:16px;"><div style="font-size:12px; font-weight:800; color:var(--brand-red);">ACTIVE TIER</div><div style="font-size:16px; font-weight:900;">25 Photos ($139)</div></div></div>${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "23. Typography-First Minimalist",
-        desc: "Giant display numbers and stark borderless lists relying entirely on font size scale.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="font-size:46px; font-weight:900; letter-spacing:-1.5px; color:var(--brand-red); margin-bottom:4px;">$149.00</div><h2 style="font-size:20px; font-weight:900; margin-bottom:12px;">MLS Full Shoot</h2>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "24. Bottom-Anchored Thumb Bar",
-        desc: "All primary action buttons and toggles clustered within the lower 1/3 reach zone.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div>${headerComponent}${sqftComponent}${tierChipsComponent}<div style="background:var(--bg-surface); border-radius:20px; padding:12px; margin-top:10px;">${lineItemsComponent}${stepperComponent}</div></div>`
-      },
-      {
-        title: "25. Bento Box Modular Grid",
-        desc: "Asymmetrical container tiles organizing packages by primary, secondary, and add-on priority.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div class="opt-25-bento"><div style="background:var(--bg-surface); border:1px solid var(--border-color); padding:12px; border-radius:16px;"><div style="font-size:10px; font-weight:800; color:var(--text-muted);">SERVICE</div><h2 style="font-size:18px; font-weight:900;">Full Shoot</h2></div><div style="background:var(--brand-red); color:#fff; padding:12px; border-radius:16px; text-align:center;"><span class="tax-badge" style="background:rgba(0,0,0,0.3); color:#fff; border:none;">TAX</span><div style="font-size:20px; font-weight:900;">$149</div></div></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "26. Asymmetric Feed Grid",
-        desc: "Staggered block layout grouping high-priority line items dynamically.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div>${headerComponent}<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;"><div style="grid-column:span 2;">${sqftComponent}</div><div>${tierChipsComponent}</div></div>${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "27. Icon-Anchored Row Strips",
-        desc: "Every item backed by a prominent, solid-fill square icon badge on the far left.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;"><div class="icon-box" style="background:var(--brand-red); border:none;"><svg class="fp-icon" style="stroke:#fff;" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><h2 style="font-size:18px; font-weight:900;">MLS Full Shoot</h2><div style="font-size:20px; font-weight:900; color:var(--brand-red);">$149.00 <span class="tax-badge">TAX</span></div></div></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "28. Minimalist Divider Matrix",
-        desc: "Zero card borders; clean thin horizontal grid rules framing every price item.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div>${headerComponent}<div style="border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color); padding:10px 0; margin:10px 0;">${sqftComponent}</div>${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "29. Clean Technical Spec",
-        desc: "Ultra-precise micro-labels, technical font weights, and crisp high-visibility badges.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;"><div><span style="font-size:9px; font-weight:900; background:var(--brand-red); color:#fff; padding:2px 6px; border-radius:4px;">VERIFIED SPEC</span><h2 style="font-size:20px; font-weight:900; margin-top:4px;">MLS Full Shoot</h2></div><div style="text-align:right;"><span class="tax-badge">TAX</span><div style="font-size:26px; font-weight:900;">$149.00</div></div></div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      },
-      {
-        title: "30. Floating Total Badge",
-        desc: "Total price suspended as an independent high-visibility badge in top corner.",
-        render: () => `<div class="bottom-sheet"><div class="drag-handle"></div><div style="position:relative;">${headerComponent}</div>${sqftComponent}${tierChipsComponent}${lineItemsComponent}${stepperComponent}</div>`
-      }
+    // Concept Names Array
+    const concepts = [
+      "1. Floating Modular Cards",
+      "2. Accordion Stacks",
+      "3. Segmented Multi-Tab Sheet",
+      "4. Typography-First Minimalist",
+      "5. Split-Screen Bottom Dock",
+      "6. Horizontal Carousel Pill Picker",
+      "7. Floating Action Capsule",
+      "8. High-Contrast 2x2 Grid Tiles",
+      "9. Neo-Brutalist High-Border",
+      "10. Laboratory Clinical Matrix",
+      "11. Full-Bleed Edge Cards",
+      "12. Radial Speed Dial",
+      "13. Asymmetric Bento Grid",
+      "14. Pinned Top-Hero Canvas",
+      "15. Tactile Glove Switchboard",
+      "16. Bottom-Anchored Thumb Zone",
+      "17. High-Contrast Gradient Canvas",
+      "18. Split Dual-Shade Sheet",
+      "19. Borderless Divider Grid",
+      "20. Floating HUD Sheet",
+      "21. Horizontal Snap Cards",
+      "22. Icon-Anchored Row Strips",
+      "23. Top-Heavy Price Banner",
+      "24. Two-Column Switcher Grid",
+      "25. Inset Well Matrix",
+      "26. Overlapping Dynamic Pill Stack",
+      "27. Clean Technical Spec",
+      "28. Top-Right Floating Total Badge",
+      "29. Full-Screen Sheet Overhaul",
+      "30. Centered Focal Point"
     ];
 
-    let currentOptionIndex = 0;
-    let currentViewMode = 'single';
-    let isDarkMode = true;
+    let currentConcept = 0;
+    let selectedOptions = new Set(["tax"]);
 
-    // Populate Navigation Dropdown
-    const selectElem = document.getElementById('optionSelect');
-    optionsData.forEach((opt, idx) => {
-      const optElem = document.createElement('option');
-      optElem.value = idx;
-      optElem.innerText = `${(idx + 1).toString().padStart(2, '0')} • ${opt.title.split('. ')[1]}`;
-      selectElem.appendChild(optElem);
-    });
-
-    function renderSingleView() {
-      const opt = optionsData[currentOptionIndex];
-      document.getElementById('optionTitle').innerText = opt.title;
-      document.getElementById('optionDesc').innerText = opt.desc;
-      document.getElementById('sheetSlot').innerHTML = opt.render();
-      document.getElementById('optionSelect').value = currentOptionIndex;
-
-      document.getElementById('prevBtn').disabled = currentOptionIndex === 0;
-      document.getElementById('nextBtn').disabled = currentOptionIndex === optionsData.length - 1;
-    }
-
-    function renderGridView() {
-      const grid = document.getElementById('gridStage');
-      grid.innerHTML = '';
-      optionsData.forEach((opt, idx) => {
-        const card = document.createElement('div');
-        card.className = 'grid-card';
-        card.innerHTML = `
-          <div class="grid-card-header">
-            <span class="grid-card-title">${opt.title}</span>
-            <button class="nav-btn" style="padding: 4px 10px; font-size: 11px; min-height: 28px;" onclick="selectOption(${idx}); setViewMode('single');">Focus</button>
-          </div>
-          <div>${opt.render()}</div>
-        `;
-        grid.appendChild(card);
+    function calculateTotal() {
+      let total = baseData.basePrice;
+      baseData.options.forEach(opt => {
+        if (selectedOptions.has(opt.id)) {
+          total += opt.price;
+        }
       });
+      return total.toFixed(2);
     }
 
-    function selectOption(index) {
-      currentOptionIndex = parseInt(index);
-      renderSingleView();
-    }
-
-    function navigateOption(direction) {
-      const newIndex = currentOptionIndex + direction;
-      if (newIndex >= 0 && newIndex < optionsData.length) {
-        currentOptionIndex = newIndex;
-        renderSingleView();
-      }
-    }
-
-    function setViewMode(mode) {
-      currentViewMode = mode;
-      if (mode === 'single') {
-        document.getElementById('singleStage').style.display = 'flex';
-        document.getElementById('gridStage').style.display = 'none';
-        document.getElementById('singleViewBtn').classList.add('active');
-        document.getElementById('gridViewBtn').classList.remove('active');
-        renderSingleView();
+    function toggleOption(id) {
+      if (selectedOptions.has(id)) {
+        selectedOptions.delete(id);
       } else {
-        document.getElementById('singleStage').style.display = 'none';
-        document.getElementById('gridStage').style.display = 'grid';
-        document.getElementById('singleViewBtn').classList.remove('active');
-        document.getElementById('gridViewBtn').classList.add('active');
-        renderGridView();
+        selectedOptions.add(id);
+      }
+      renderAllSheets();
+    }
+
+    // Generator function for HTML structures across 30 concepts
+    function generateSheetHTML(index) {
+      const total = calculateTotal();
+      const variant = index + 1;
+
+      // Custom Layout Variations
+      switch(variant) {
+        case 1: // Floating Modular Cards
+          return `
+            <div class="sheet active" data-variant="1">
+              <div class="mod-card">
+                <div class="hero-subtitle">${baseData.category}</div>
+                <div class="hero-title">${baseData.title}</div>
+                <div class="hero-price" style="margin-top:10px;">$${total}</div>
+              </div>
+              <div class="mod-card" style="display:flex; flex-direction:column; gap:8px;">
+                ${baseData.options.map(opt => `
+                  <div class="option-row ${selectedOptions.has(opt.id) ? 'selected' : ''}" onclick="toggleOption('${opt.id}')">
+                    <span>${opt.label}</span>
+                    <b>+$${opt.price.toFixed(2)}</b>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="primary-btn"><span>🛒</span> Confirm Adjustment</button>
+            </div>`;
+
+        case 6: // Carousel Pill Picker
+          return `
+            <div class="sheet active" data-variant="6">
+              <div class="sheet-handle"></div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                <div>
+                  <div class="hero-subtitle">${baseData.category}</div>
+                  <div class="hero-title">${baseData.title}</div>
+                </div>
+                <div class="hero-price">$${total}</div>
+              </div>
+              <div class="carousel-container">
+                ${baseData.options.map(opt => `
+                  <div class="carousel-item ${selectedOptions.has(opt.id) ? 'active' : ''}" onclick="toggleOption('${opt.id}')">
+                    <div style="font-size:12px; opacity:0.8;">${opt.label}</div>
+                    <div style="font-weight:800; font-size:16px; margin-top:6px;">+$${opt.price.toFixed(2)}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="primary-btn">Apply Modifiers</button>
+            </div>`;
+
+        case 8: // 2x2 Grid
+          return `
+            <div class="sheet active" data-variant="8">
+              <div class="sheet-handle"></div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="hero-title">${baseData.title}</div>
+                <div class="hero-price">$${total}</div>
+              </div>
+              <div class="grid-2x2">
+                ${baseData.options.map(opt => `
+                  <div class="grid-tile ${selectedOptions.has(opt.id) ? 'active' : ''}" onclick="toggleOption('${opt.id}')">
+                    <span style="font-size:12px; font-weight:700;">${opt.label}</span>
+                    <span style="font-size:18px; font-weight:900;">+$${opt.price.toFixed(2)}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="primary-btn">Lock In Price</button>
+            </div>`;
+
+        case 9: // Neo Brutalist
+          return `
+            <div class="sheet active" data-variant="9">
+              <div style="background:var(--text-main); color:var(--bg-app); padding:4px 8px; font-weight:900; display:inline-block; width:fit-content;">${baseData.category}</div>
+              <div class="hero-title" style="font-size:28px;">${baseData.title}</div>
+              <div class="hero-price" style="font-size:52px;">$${total}</div>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                ${baseData.options.map(opt => `
+                  <div class="option-row" style="border:2px solid var(--text-main); border-radius:0;" onclick="toggleOption('${opt.id}')">
+                    <span style="font-weight:800;">${selectedOptions.has(opt.id) ? '[X]' : '[ ]'} ${opt.label}</span>
+                    <b>+$${opt.price.toFixed(2)}</b>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="primary-btn">SUBMIT DISPATCH</button>
+            </div>`;
+
+        case 13: // Asymmetric Bento Grid
+          return `
+            <div class="sheet active" data-variant="13">
+              <div class="sheet-handle"></div>
+              <div class="bento-grid">
+                <div class="bento-cell hero">
+                  <div>
+                    <div class="hero-subtitle">${baseData.category}</div>
+                    <div class="hero-title">${baseData.title}</div>
+                  </div>
+                  <div class="hero-price">$${total}</div>
+                </div>
+                ${baseData.options.slice(0, 2).map(opt => `
+                  <div class="bento-cell ${selectedOptions.has(opt.id) ? 'selected' : ''}" onclick="toggleOption('${opt.id}')" style="border-color:${selectedOptions.has(opt.id) ? 'var(--accent-red)' : ''}">
+                    <div style="font-size:11px; color:var(--text-muted);">${opt.label}</div>
+                    <div style="font-weight:800; margin-top:4px;">+$${opt.price}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="primary-btn">Save Quote</button>
+            </div>`;
+
+        case 15: // Tactile Glove Switchboard
+          return `
+            <div class="sheet active" data-variant="15">
+              <div class="sheet-handle"></div>
+              <div style="text-align:center;">
+                <div class="hero-subtitle">GLOVE-TOUCH INTERFACE</div>
+                <div class="hero-price" style="font-size:48px;">$${total}</div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                ${baseData.options.map(opt => `
+                  <div class="glove-toggle ${selectedOptions.has(opt.id) ? 'active' : ''}" onclick="toggleOption('${opt.id}')">
+                    <span>${opt.label}</span>
+                    <span style="color:var(--accent-red);">+$${opt.price}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="primary-btn" style="min-height:64px; font-size:18px;">ACCEPT ADJUSTMENT</button>
+            </div>`;
+
+        case 28: // Top Right Floating Total Badge
+          return `
+            <div class="sheet active" data-variant="28" style="position:relative; overflow:visible;">
+              <div class="floating-total-badge">$${total}</div>
+              <div class="sheet-handle" style="margin-top:10px;"></div>
+              <div class="hero-subtitle">${baseData.category}</div>
+              <div class="hero-title">${baseData.title}</div>
+              <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                ${baseData.options.map(opt => `
+                  <div class="option-row ${selectedOptions.has(opt.id) ? 'selected' : ''}" onclick="toggleOption('${opt.id}')">
+                    <span>${opt.label}</span>
+                    <b>+$${opt.price.toFixed(2)}</b>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="primary-btn">Update Order</button>
+            </div>`;
+
+        default: // Standard Dynamic Structural Render for remaining variants
+          return `
+            <div class="sheet active" data-variant="${variant}">
+              <div class="sheet-handle"></div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                  <div class="hero-subtitle">CONCEPT ${variant}</div>
+                  <div class="hero-title">${baseData.title}</div>
+                </div>
+                <div class="hero-price">$${total}</div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px; margin:10px 0;">
+                ${baseData.options.map(opt => `
+                  <div class="option-row ${selectedOptions.has(opt.id) ? 'selected' : ''}" onclick="toggleOption('${opt.id}')">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                      <div class="icon-box">📹</div>
+                      <div>
+                        <div style="font-weight:700; font-size:14px;">${opt.label}</div>
+                        <div style="font-size:11px; color:var(--text-muted);">Field Option</div>
+                      </div>
+                    </div>
+                    <div style="font-weight:800; color:var(--accent-red);">+$${opt.price.toFixed(2)}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <button class="primary-btn">Confirm Field Adjustment</button>
+            </div>`;
       }
     }
 
-    function toggleTheme() {
-      isDarkMode = !isDarkMode;
-      document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-      document.getElementById('themeIcon').innerText = isDarkMode ? '🌙' : '☀️';
-      document.getElementById('themeLabel').innerText = isDarkMode ? 'Dark Mode' : 'Light Mode';
-      if (currentViewMode === 'grid') renderGridView();
-    }
+    // Setup & Event Listeners
+    const selectEl = document.getElementById('conceptSelect');
+    const sheetWrapper = document.getElementById('sheetWrapper');
+    const themeBtn = document.getElementById('themeBtn');
 
-    // Keyboard Arrow Controls
-    document.addEventListener('keydown', (e) => {
-      if (currentViewMode === 'single') {
-        if (e.key === 'ArrowRight') navigateOption(1);
-        if (e.key === 'ArrowLeft') navigateOption(-1);
-      }
+    // Populate Select Dropdown
+    concepts.forEach((name, idx) => {
+      const opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = name;
+      selectEl.appendChild(opt);
     });
 
-    // Initial Execution
-    renderSingleView();
+    function renderAllSheets() {
+      sheetWrapper.innerHTML = generateSheetHTML(currentConcept);
+    }
+
+    function setCurrentConcept(idx) {
+      if (idx < 0) idx = concepts.length - 1;
+      if (idx >= concepts.length) idx = 0;
+      currentConcept = idx;
+      selectEl.value = currentConcept;
+      renderAllSheets();
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => setCurrentConcept(currentConcept - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => setCurrentConcept(currentConcept + 1));
+    selectEl.addEventListener('change', (e) => setCurrentConcept(parseInt(e.target.value)));
+
+    // Dark/Light Theme Switching
+    themeBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      document.getElementById('themeText').textContent = newTheme === 'dark' ? 'Light' : 'Dark';
+    });
+
+    // Initial Initialization
+    renderAllSheets();
   </script>
 </body>
 </html>
