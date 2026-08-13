@@ -2,53 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>MLS Floor Plan - 10 Radically Distinct Bottom Sheet Archetypes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MLS Floor Plan - 20 Operational Bottom Sheet Redesigns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Brand System */
       --brand-red: #E50914;
-      --brand-red-hover: #B80710;
+      --brand-red-hover: #CC0000;
       --brand-red-subtle: rgba(229, 9, 20, 0.12);
-
-      /* Dark Theme Default */
+      
+      /* Dark Theme Tokens (Default) */
       --bg-page: #050505;
       --bg-sheet: #111111;
-      --bg-card: #1C1C1E;
-      --bg-card-hover: #2C2C2E;
+      --bg-surface: #1C1C1E;
+      --bg-surface-hover: #2C2C2E;
       --border-color: #2C2C2E;
       --border-strong: #3A3A3C;
       --text-main: #FFFFFF;
-      --text-muted: #98989D;
+      --text-muted: #8E8E93;
       --text-inverse: #000000;
-      --shadow-sheet: 0 -12px 36px rgba(0,0,0,0.8);
-      --input-bg: #1C1C1E;
+      --card-shadow: 0 24px 48px rgba(0,0,0,0.8);
+      --toggle-bg: #2C2C2E;
+      --toggle-active-bg: #FFFFFF;
+      --toggle-active-text: #000000;
+      --glass-bg: rgba(28, 28, 30, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.15);
     }
 
     [data-theme="light"] {
       --bg-page: #E5E5EA;
       --bg-sheet: #FFFFFF;
-      --bg-card: #F2F2F7;
-      --bg-card-hover: #E5E5EA;
+      --bg-surface: #F2F2F7;
+      --bg-surface-hover: #E5E5EA;
       --border-color: #D1D1D6;
       --border-strong: #C7C7CC;
       --text-main: #000000;
-      --text-muted: #666668;
+      --text-muted: #6C6C70;
       --text-inverse: #FFFFFF;
-      --shadow-sheet: 0 -10px 30px rgba(0,0,0,0.15);
-      --input-bg: #FFFFFF;
+      --card-shadow: 0 16px 36px rgba(0,0,0,0.12);
+      --toggle-bg: #E5E5EA;
+      --toggle-active-bg: #000000;
+      --toggle-active-text: #FFFFFF;
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(0, 0, 0, 0.12);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
       -webkit-tap-highlight-color: transparent;
-      user-select: none;
     }
 
     body {
@@ -58,71 +65,80 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: background-color 0.25s ease, color 0.25s ease;
+      padding-bottom: 60px;
     }
 
-    /* Top Sticky Control Bar */
-    .toolbar {
+    /* Pinned Navigation Bar */
+    .nav-bar {
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 2000;
       width: 100%;
       background: var(--bg-sheet);
-      border-bottom: 2px solid var(--border-color);
-      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
-    .toolbar-title {
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: -0.2px;
+    .nav-left, .nav-right, .nav-center {
       display: flex;
       align-items: center;
-      gap: 6px;
-      text-transform: uppercase;
+      gap: 10px;
     }
 
-    .toolbar-title span {
-      background: var(--brand-red);
-      color: #FFF;
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    .controls-center {
+    .brand-title {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: -0.3px;
       display: flex;
       align-items: center;
       gap: 8px;
+      white-space: nowrap;
     }
 
-    .nav-arrow {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
-      color: var(--text-main);
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      font-size: 16px;
+    .brand-title .badge {
+      background: var(--brand-red);
+      color: #FFF;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 6px;
       font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
+      letter-spacing: 0.5px;
     }
 
-    .nav-arrow:active { transform: scale(0.92); }
-    .nav-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+    .nav-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 40px;
+    }
 
-    .arch-select {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
+    .nav-btn:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--brand-red);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      border-color: var(--border-color);
+    }
+
+    .option-select {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
       color: var(--text-main);
       padding: 8px 12px;
       border-radius: 10px;
@@ -130,12 +146,13 @@
       font-weight: 700;
       outline: none;
       cursor: pointer;
-      max-width: 220px;
+      min-height: 40px;
+      max-width: 240px;
     }
 
     .theme-toggle {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
       color: var(--text-main);
       padding: 8px 14px;
       border-radius: 20px;
@@ -145,644 +162,1183 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      min-height: 40px;
     }
 
-    /* Presentation Canvas */
-    .stage {
+    .view-mode-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 40px;
+    }
+
+    .view-mode-btn.active {
+      background: var(--brand-red);
+      color: #FFFFFF;
+      border-color: var(--brand-red);
+    }
+
+    /* Main Container Stage */
+    .main-stage {
       width: 100%;
-      max-width: 440px;
-      padding: 20px 16px 40px;
+      max-width: 1300px;
+      padding: 24px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    .archetype-meta {
+    /* Single Mobile Stage Frame */
+    .stage-single {
       width: 100%;
-      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stage-header {
       text-align: center;
+      margin-bottom: 20px;
+      max-width: 600px;
     }
 
-    .archetype-meta h2 {
-      font-size: 20px;
+    .stage-header h2 {
+      font-size: 22px;
       font-weight: 900;
-      letter-spacing: -0.5px;
       margin-bottom: 4px;
+      letter-spacing: -0.5px;
     }
 
-    .archetype-meta p {
-      font-size: 12px;
+    .stage-header p {
       color: var(--text-muted);
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 500;
     }
 
-    /* Device Mockup Shell */
+    /* Mobile Device Outer Frame */
     .mobile-frame {
       width: 100%;
-      max-width: 380px;
-      min-height: 600px;
+      max-width: 410px;
       background: var(--bg-page);
-      border: 6px solid #2C2C2E;
-      border-radius: 40px;
+      border: 10px solid #202022;
+      border-radius: 48px;
+      box-shadow: var(--card-shadow), 0 0 0 1px rgba(255,255,255,0.08);
       position: relative;
       overflow: hidden;
+      min-height: 600px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
     }
 
-    .screen-bg {
+    .mobile-screen-bg {
       position: absolute;
-      inset: 0;
-      padding: 16px;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.85) 100%);
+      z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      opacity: 0.35;
-      pointer-events: none;
+      padding: 18px 20px;
     }
 
     .status-bar {
       display: flex;
       justify-content: space-between;
-      font-size: 11px;
+      align-items: center;
+      font-size: 12px;
       font-weight: 800;
+      color: var(--text-main);
+      z-index: 2;
     }
 
-    /* Core Universal Sheet Shell */
-    .sheet-base {
+    /* Shared Reusable Component Styles */
+    .drag-handle {
+      width: 40px;
+      height: 5px;
+      background: var(--text-muted);
+      opacity: 0.4;
+      border-radius: 3px;
+      margin: 0 auto 16px;
+    }
+
+    .bottom-sheet {
       position: relative;
       z-index: 10;
       width: 100%;
       background: var(--bg-sheet);
-      border-top-left-radius: 28px;
-      border-top-right-radius: 28px;
-      padding: 16px;
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      padding: 20px 20px 28px;
+      box-shadow: 0 -12px 36px rgba(0,0,0,0.5);
       border: 1px solid var(--border-color);
       border-bottom: none;
-      box-shadow: var(--shadow-sheet);
-      transition: all 0.25s ease;
     }
 
-    .drag-handle {
-      width: 38px;
-      height: 5px;
-      background: var(--text-muted);
-      opacity: 0.5;
-      border-radius: 3px;
-      margin: 0 auto 14px;
-    }
-
-    /* Shared Icon Box */
     .icon-box {
-      width: 40px;
-      height: 40px;
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
-      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
 
-    .icon-box svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--text-main);
-      fill: none;
-      stroke-width: 2;
-    }
-
-    .tax-tag {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
+    .tax-badge {
       font-size: 10px;
       font-weight: 900;
-      padding: 2px 6px;
-      border-radius: 4px;
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 3px 7px;
+      border-radius: 6px;
       letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
-    /* ==================== ARCHETYPE SPECIFIC STYLES ==================== */
-
-    /* ARCHETYPE 1: Floating Modular Cards */
-    .a1-sheet { background: transparent; border: none; box-shadow: none; padding: 12px; }
-    .a1-card { background: var(--bg-sheet); border: 2px solid var(--border-strong); border-radius: 20px; padding: 14px; margin-bottom: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-    .a1-header { display: flex; justify-content: space-between; align-items: center; }
-    .a1-select { width: 100%; background: var(--input-bg); border: 2px solid var(--border-color); color: var(--text-main); padding: 12px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; justify-content: space-between; }
-    .a1-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-    .a1-toggle-btn { padding: 12px; border-radius: 12px; border: 2px solid var(--border-color); background: var(--bg-card); color: var(--text-main); font-weight: 800; text-align: center; }
-    .a1-toggle-btn.active { border-color: var(--brand-red); background: var(--brand-red-subtle); color: var(--brand-red); }
-
-    /* ARCHETYPE 2: Dense Matrix Table */
-    .a2-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
-    .a2-table td { padding: 12px 8px; border-bottom: 1px solid var(--border-color); font-size: 13px; font-weight: 700; }
-    .a2-table tr.active td { background: var(--brand-red-subtle); color: var(--brand-red); font-weight: 900; }
-
-    /* ARCHETYPE 3: Accordion / Expandable Stacks */
-    .a3-accordion { border: 2px solid var(--border-color); border-radius: 16px; overflow: hidden; margin: 12px 0; }
-    .a3-item { background: var(--bg-card); border-bottom: 1px solid var(--border-color); padding: 14px; display: flex; justify-content: space-between; align-items: center; }
-    .a3-body { background: var(--bg-sheet); padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--border-color); }
-
-    /* ARCHETYPE 4: Segmented Stepper / Multi-tab */
-    .a4-tabs { display: flex; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 14px; padding: 4px; margin: 12px 0; }
-    .a4-tab { flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 800; border-radius: 10px; color: var(--text-muted); }
-    .a4-tab.active { background: var(--brand-red); color: #FFF; }
-
-    /* ARCHETYPE 5: Typography-First Minimalist */
-    .a5-hero-num { font-size: 48px; font-weight: 900; letter-spacing: -2px; line-height: 1; color: var(--text-main); }
-
-    /* ARCHETYPE 6: Split-Screen Pinned Dock */
-    .a6-dock { background: var(--brand-red); color: #FFF; padding: 16px; border-radius: 20px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; }
-
-    /* ARCHETYPE 7: Horizontal Carousel Picker */
-    .a7-carousel { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin: 12px 0; }
-    .a7-chip { flex: 0 0 auto; background: var(--bg-card); border: 2px solid var(--border-color); padding: 12px 18px; border-radius: 30px; font-weight: 800; font-size: 13px; }
-    .a7-chip.active { border-color: var(--text-main); background: var(--text-main); color: var(--text-inverse); }
-
-    /* ARCHETYPE 8: Floating Action Dock */
-    .a8-floating-bar { position: relative; bottom: -8px; background: var(--text-main); color: var(--text-inverse); padding: 12px 16px; border-radius: 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-
-    /* ARCHETYPE 9: High-Contrast Grid Cards */
-    .a9-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
-    .a9-box { background: var(--bg-card); border: 3px solid var(--border-color); border-radius: 16px; padding: 14px; text-align: center; }
-    .a9-box.active { border-color: var(--brand-red); background: var(--brand-red-subtle); }
-
-    /* ARCHETYPE 10: Nested Spatial Layering */
-    .a10-layer-bg { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 10px; margin-bottom: -16px; transform: scale(0.94); opacity: 0.6; }
-    .a10-layer-fg { background: var(--bg-sheet); border: 2px solid var(--border-strong); border-radius: 20px; padding: 16px; position: relative; z-index: 2; }
-
-    /* Common Oversized Field Button */
-    .btn-cta {
+    .sqft-dropdown {
       width: 100%;
-      min-height: 54px;
-      background: var(--text-main);
-      color: var(--text-inverse);
-      border: none;
+      min-height: 52px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px 18px;
       border-radius: 16px;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .toggle-container {
+      display: flex;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 5px;
+      width: 100%;
+    }
+
+    .toggle-opt {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      border-radius: 12px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .toggle-opt.active {
+      background: var(--toggle-active-bg);
+      color: var(--toggle-active-text);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    }
+
+    .cart-btn {
+      width: 100%;
+      min-height: 56px;
+      background: var(--toggle-active-bg);
+      color: var(--toggle-active-text);
+      border: none;
+      padding: 16px;
+      border-radius: 18px;
       font-size: 16px;
-      font-weight: 900;
+      font-weight: 800;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      cursor: pointer;
-      margin-top: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      gap: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
-    .btn-cta-red {
+    .cart-btn:hover { opacity: 0.93; }
+
+    .cart-btn-red {
       background: var(--brand-red);
       color: #FFFFFF;
     }
 
-    .btn-cta-red:active { background: var(--brand-red-hover); }
+    .cart-btn-red:hover { background: var(--brand-red-hover); }
+
+    .fp-icon {
+      width: 24px;
+      height: 24px;
+      stroke: var(--brand-red);
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Grid View Stage */
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px;
+      width: 100%;
+    }
+
+    .grid-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 28px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 6px;
+    }
+
+    .grid-card-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--brand-red);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    /* ARCHETYPE SPECIFIC OVERRIDES */
+    
+    /* 01. Floating Modular Cards */
+    .opt-1-sheet { background: transparent; border: none; box-shadow: none; padding: 0 16px 20px; }
+    .opt-1-card { background: var(--bg-sheet); border: 1px solid var(--border-color); border-radius: 24px; padding: 20px; box-shadow: var(--card-shadow); margin-bottom: 12px; }
+
+    /* 02. Neo-Brutalist High-Border */
+    .opt-2-brutal { border: 3px solid var(--text-main); box-shadow: 6px 6px 0px var(--brand-red); border-radius: 0; background: var(--bg-sheet); }
+    .opt-2-brutal .btn-brutal { border: 3px solid var(--text-main); box-shadow: 4px 4px 0px var(--text-main); font-weight: 900; background: var(--brand-red); color: #fff; text-transform: uppercase; }
+
+    /* 03. Skeuomorphic Wallet Stack */
+    .opt-3-stack { position: relative; padding-top: 40px; }
+    .opt-3-layer-1 { position: absolute; top: 0; left: 24px; right: 24px; height: 50px; background: var(--brand-red); border-radius: 20px 20px 0 0; opacity: 0.9; }
+    .opt-3-layer-2 { position: absolute; top: 16px; left: 12px; right: 12px; height: 50px; background: var(--bg-surface-hover); border-radius: 24px 24px 0 0; }
+
+    /* 04. Metric Ring Focus */
+    .opt-4-ring-box { width: 90px; height: 90px; border-radius: 50%; border: 6px solid var(--brand-red); border-left-color: var(--border-color); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 16px; }
+
+    /* 05. Split Screen Hero Dock */
+    .opt-5-hero-dock { background: var(--brand-red); color: #FFF; padding: 20px; border-radius: 24px; margin-bottom: 16px; text-align: center; }
+
+    /* 06. Dense Matrix Table */
+    .opt-6-table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; }
+    .opt-6-table td { padding: 12px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+
+    /* 07. Radial Speed Dial */
+    .opt-7-speed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+    .opt-7-dial-btn { background: var(--bg-surface); border: 2px solid var(--border-color); border-radius: 18px; padding: 14px; text-align: center; cursor: pointer; }
+    .opt-7-dial-btn.active { border-color: var(--brand-red); background: var(--brand-red-subtle); }
+
+    /* 08. Laboratory Clinical List */
+    .opt-8-lab { font-family: monospace; border-left: 3px solid var(--brand-red); padding-left: 14px; }
+
+    /* 09. Floating Action Pill Dock */
+    .opt-9-pill-dock { position: absolute; bottom: 20px; left: 16px; right: 16px; background: var(--brand-red); color: #fff; padding: 12px 20px; border-radius: 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 28px rgba(229,9,20,0.4); }
+
+    /* 10. Side-by-Side Comparison Columns */
+    .opt-10-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+    .opt-10-col { background: var(--bg-surface); border-radius: 18px; padding: 14px; border: 1px solid var(--border-color); text-align: center; }
+
+    /* 11. Command Line Terminal */
+    .opt-11-term { background: #000; color: #00FF66; border: 1px solid #333; font-family: monospace; padding: 16px; border-radius: 16px; margin-bottom: 14px; }
+
+    /* 12. Pinned Hero Top Banner */
+    .opt-12-top-pin { text-align: center; padding-bottom: 16px; border-bottom: 2px dashed var(--border-color); margin-bottom: 16px; }
+
+    /* 13. Timeline Node Path */
+    .opt-13-timeline { position: relative; padding-left: 24px; margin: 16px 0; }
+    .opt-13-timeline::before { content:''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--brand-red); }
+    .opt-13-node { position: relative; margin-bottom: 14px; }
+    .opt-13-node::before { content:''; position: absolute; left: -21px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--brand-red); }
+
+    /* 14. Bento Box Modular Layout */
+    .opt-14-bento { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin: 14px 0; }
+    .opt-14-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 20px; padding: 14px; }
+
+    /* 15. Expanded Receipt Ticket */
+    .opt-15-ticket { background: var(--bg-surface); border: 1px dashed var(--border-strong); border-radius: 16px; padding: 16px; position: relative; margin-bottom: 16px; }
+
+    /* 16. Inset Tile Matrix */
+    .opt-16-tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+    .opt-16-tile { background: var(--bg-surface); border-radius: 14px; padding: 12px; border: 1px solid var(--border-color); text-align: center; }
+
+    /* 17. High Visibility Border Stroke */
+    .opt-17-stroke { border: 3px solid var(--brand-red); border-radius: 24px; padding: 16px; margin-bottom: 14px; }
+
+    /* 18. Tactile Industrial Switchboard */
+    .opt-18-switch { display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 2px solid var(--border-strong); border-radius: 18px; padding: 14px 18px; margin-bottom: 12px; }
+
+    /* 19. Centered Focal Point Scale */
+    .opt-19-center { text-align: center; padding: 10px 0; }
+
+    /* 20. Barcode Field Utility Spec */
+    .opt-20-barcode { background: #FFF; color: #000; padding: 6px 12px; font-family: monospace; font-size: 11px; font-weight: 800; border-radius: 4px; letter-spacing: 2px; text-align: center; margin-bottom: 12px; }
   </style>
 </head>
 <body data-theme="dark">
 
-  <!-- TOP STICKY TOOLBAR -->
-  <header class="toolbar">
-    <div class="toolbar-title">
-      MLS UTILITY <span>10 ARCHETYPES</span>
+  <!-- Pinned Top Controls Toolbar -->
+  <header class="nav-bar">
+    <div class="nav-left">
+      <div class="brand-title">
+        FIELD UTIL <span class="badge">20 CONCEPTS</span>
+      </div>
     </div>
 
-    <div class="controls-center">
-      <button class="nav-arrow" id="prevBtn" onclick="navigate(-1)">←</button>
-      
-      <select class="arch-select" id="archSelect" onchange="jumpTo(this.value)">
+    <div class="nav-center">
+      <button class="nav-btn" id="prevBtn" onclick="navigateOption(-1)">
+        ‹ Prev
+      </button>
+
+      <select class="option-select" id="optionSelect" onchange="selectOption(this.value)">
         <option value="0">01 • Floating Modular Cards</option>
-        <option value="1">02 • Dense Matrix Table</option>
-        <option value="2">03 • Accordion Stack</option>
-        <option value="3">04 • Segmented Stepper</option>
-        <option value="4">05 • Typography-First</option>
-        <option value="5">06 • Split-Screen Dock</option>
-        <option value="6">07 • Horizontal Carousel</option>
-        <option value="7">08 • Floating Action Dock</option>
-        <option value="8">09 • High-Contrast Grid</option>
-        <option value="9">10 • Nested Spatial Layer</option>
+        <option value="1">02 • Neo-Brutalist High-Border</option>
+        <option value="2">03 • Skeuomorphic Pass Stack</option>
+        <option value="3">04 • Metric Ring Focus</option>
+        <option value="4">05 • Split-Screen Hero Dock</option>
+        <option value="5">06 • Dense Matrix Table</option>
+        <option value="6">07 • Radial Speed Dial</option>
+        <option value="7">08 • Laboratory Clinical List</option>
+        <option value="8">09 • Floating Action Pill Dock</option>
+        <option value="9">10 • Comparison Columns</option>
+        <option value="10">11 • Command Line Terminal</option>
+        <option value="11">12 • Pinned Hero Banner</option>
+        <option value="12">13 • Timeline Node Path</option>
+        <option value="13">14 • Bento Box Modular Grid</option>
+        <option value="14">15 • Expanded Receipt Ticket</option>
+        <option value="15">16 • Inset Tile Matrix</option>
+        <option value="16">17 • High-Visibility Stroke</option>
+        <option value="17">18 • Tactile Industrial Switch</option>
+        <option value="18">19 • Centered Focal Point</option>
+        <option value="19">20 • Barcode SKU Spec</option>
       </select>
 
-      <button class="nav-arrow" id="nextBtn" onclick="navigate(1)">→</button>
+      <button class="nav-btn" id="nextBtn" onclick="navigateOption(1)">
+        Next ›
+      </button>
     </div>
 
-    <button class="theme-toggle" onclick="toggleTheme()">
-      <span id="themeIcon">🌙</span> <span id="themeText">Dark</span>
-    </button>
+    <div class="nav-right">
+      <button class="view-mode-btn active" id="singleViewBtn" onclick="setViewMode('single')">Single View</button>
+      <button class="view-mode-btn" id="gridViewBtn" onclick="setViewMode('grid')">All 20 Grid</button>
+
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="themeIcon">🌙</span> <span id="themeLabel">Dark Mode</span>
+      </button>
+    </div>
   </header>
 
-  <!-- PRESENTATION CANVAS -->
-  <main class="stage">
-    
-    <div class="archetype-meta">
-      <h2 id="archTitle">01. Floating Modular Cards</h2>
-      <p id="archDesc">Detached floating containers with explicit touch borders for sunlight clarity.</p>
-    </div>
+  <!-- Main Presentation Stage -->
+  <main class="main-stage">
 
-    <!-- MOBILE DEVICE MOCKUP -->
-    <div class="mobile-frame">
-      <div class="screen-bg">
-        <div class="status-bar">
-          <span>09:41</span>
-          <span>5G 100%</span>
-        </div>
-        <div style="text-align:center; font-size:12px; font-weight:700; color:var(--text-muted);">
-          FIELD LOOKUP VIEW
-        </div>
+    <!-- SINGLE OPTION PREVIEW STAGE -->
+    <div class="stage-single" id="singleStage">
+      <div class="stage-header">
+        <h2 id="optionTitle">01. Floating Modular Cards</h2>
+        <p id="optionDesc">Detached floating surfaces layered over a dimmed camera preview backdrop with elevated z-index depth.</p>
       </div>
 
-      <!-- INJECTED BOTTOM SHEET -->
-      <div id="sheetContainer"></div>
+      <!-- Mobile Outer Frame Mockup -->
+      <div class="mobile-frame">
+        <div class="mobile-screen-bg">
+          <div class="status-bar">
+            <span>9:41</span>
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <span>5G</span>
+              <span>100%</span>
+            </div>
+          </div>
+          <div style="text-align: center; color: rgba(255,255,255,0.4); font-size: 11px; margin-top: 30px; font-weight: 700;">
+            [ FIELD CAMERA VIEWPORT OVERLAY ]
+          </div>
+        </div>
+
+        <!-- Dynamic Bottom Sheet Slot -->
+        <div id="sheetSlot">
+          <!-- Rendered via JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL 20 GRID COMPARISON STAGE -->
+    <div class="stage-grid" id="gridStage" style="display: none;">
+      <!-- All 20 rendered via JavaScript -->
     </div>
 
   </main>
 
   <script>
-    const archetypes = [
+    // Templates for the 20 Radically Distinct Concepts
+    const optionsData = [
       {
         title: "01. Floating Modular Cards",
-        desc: "Detached floating surface containers over a dimmed field canvas to isolate lookup controls.",
+        desc: "Detached floating surfaces layered over a dimmed backdrop with elevated z-index depth.",
         render: () => `
-          <div class="sheet-base a1-sheet">
-            <div class="a1-card">
-              <div class="a1-header">
-                <div style="display:flex; align-items:center; gap:10px;">
-                  <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <div class="bottom-sheet opt-1-sheet">
+            <div class="opt-1-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="icon-box"><svg class="fp-icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg></div>
                   <div>
-                    <div style="font-size:10px; font-weight:900; color:var(--brand-red);">MLS SERVICE</div>
-                    <div style="font-size:18px; font-weight:900;">Floor Plan</div>
+                    <div style="font-size: 11px; font-weight: 800; color: var(--brand-red);">MLS SERVICE</div>
+                    <h3 style="font-size: 20px; font-weight: 900;">Floor Plan</h3>
                   </div>
                 </div>
-                <div style="text-align:right;">
-                  <span class="tax-tag">TAX</span>
-                  <div style="font-size:22px; font-weight:900;">$99.00</div>
+                <div style="text-align: right;">
+                  <span class="tax-badge">TAX</span>
+                  <div style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px;">$99.00</div>
                 </div>
               </div>
             </div>
 
-            <div class="a1-card">
-              <div style="font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:6px;">SQUARE FOOTAGE</div>
-              <div class="a1-select">
+            <div class="opt-1-card">
+              <div class="sqft-dropdown" style="margin-bottom: 12px;">
                 <span>4,000 – 5,999 Sq Ft</span>
-                <span>▼</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
               </div>
-              <div class="a1-toggle">
-                <div class="a1-toggle-btn active">2D Layout</div>
-                <div class="a1-toggle-btn">3D Layout</div>
+              <div class="toggle-container">
+                <div class="toggle-opt active">2D</div>
+                <div class="toggle-opt">3D</div>
               </div>
             </div>
 
-            <button class="btn-cta btn-cta-red">
+            <button class="cart-btn cart-btn-red">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><path d="M12 9h6M15 6v6"/></svg>
-              <span>Add to Cart • $99.00</span>
-            </button>
-          </div>
-        `
-      },
-      {
-        title: "02. Dense Matrix Table",
-        desc: "Ultra-compact table format maximizing data density for instant outdoor scan speeds.",
-        render: () => `
-          <div class="sheet-base">
-            <div class="drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--border-color); padding-bottom:10px;">
-              <div>
-                <span style="font-size:10px; font-weight:900; color:var(--brand-red);">MLS LOOKUP</span>
-                <h3 style="font-size:18px; font-weight:900;">Floor Plan Specs</h3>
-              </div>
-              <div style="text-align:right;">
-                <span class="tax-tag">TAX INCL</span>
-                <div style="font-size:20px; font-weight:900;">$99.00</div>
-              </div>
-            </div>
-
-            <table class="a2-table">
-              <tr>
-                <td style="color:var(--text-muted);">AREA RANGE</td>
-                <td style="text-align:right;">4,000 – 5,999 Sq Ft ▼</td>
-              </tr>
-              <tr class="active">
-                <td>DIMENSION TYPE</td>
-                <td style="text-align:right;">2D SELECTED</td>
-              </tr>
-              <tr>
-                <td style="color:var(--text-muted);">3D OPTION</td>
-                <td style="text-align:right; color:var(--text-muted);">AVAILABLE</td>
-              </tr>
-            </table>
-
-            <button class="btn-cta">
-              <span>Confirm $99.00 Line Item</span>
-            </button>
-          </div>
-        `
-      },
-      {
-        title: "03. Accordion / Expandable Stack",
-        desc: "Collapsible structured groups allowing technicians to drill down into pricing parameters.",
-        render: () => `
-          <div class="sheet-base">
-            <div class="drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg></div>
-                <strong style="font-size:16px;">MLS Floor Plan</strong>
-              </div>
-              <div style="font-size:22px; font-weight:900; color:var(--brand-red);">$99.00</div>
-            </div>
-
-            <div class="a3-accordion">
-              <div class="a3-item">
-                <span style="font-size:13px; font-weight:800;">Size: 4,000 – 5,999 Sq Ft</span>
-                <span style="font-size:11px; color:var(--text-muted);">Change ▲</span>
-              </div>
-              <div class="a3-body">
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                  <span>2D Dimension</span>
-                  <strong style="color:var(--brand-red);">$99.00 (Active)</strong>
-                </div>
-                <div style="display:flex; justify-content:space-between; color:var(--text-muted);">
-                  <span>3D Dimension</span>
-                  <span>Select</span>
-                </div>
-              </div>
-            </div>
-
-            <button class="btn-cta btn-cta-red">
-              <span>Add Package • $99.00</span>
-            </button>
-          </div>
-        `
-      },
-      {
-        title: "04. Segmented Stepper / Multi-tab",
-        desc: "Split tab control sheet isolating size selection from dimensional options.",
-        render: () => `
-          <div class="sheet-base">
-            <div class="drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <h3 style="font-size:18px; font-weight:900;">MLS Floor Plan</h3>
-              <span class="tax-tag">TAX INCL.</span>
-            </div>
-
-            <div class="a4-tabs">
-              <div class="a4-tab active">2D Layout</div>
-              <div class="a4-tab">3D Layout</div>
-            </div>
-
-            <div style="background:var(--bg-card); border:1.5px solid var(--border-color); padding:14px; border-radius:14px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <div>
-                <div style="font-size:10px; color:var(--text-muted); font-weight:800;">TIER RANGE</div>
-                <div style="font-size:15px; font-weight:900;">4,000 – 5,999 Sq Ft</div>
-              </div>
-              <div style="font-size:20px; font-weight:900;">$99.00</div>
-            </div>
-
-            <button class="btn-cta btn-cta-red">
-              <span>Add to Cart</span>
-            </button>
-          </div>
-        `
-      },
-      {
-        title: "05. Typography-First Minimalist",
-        desc: "Oversized numerical focus eliminating decorative borders for absolute high-sunlight legibility.",
-        render: () => `
-          <div class="sheet-base">
-            <div class="drag-handle"></div>
-            <div style="font-size:11px; font-weight:900; color:var(--brand-red); letter-spacing:1px; margin-bottom:4px;">MLS SERVICE</div>
-            <div style="font-size:22px; font-weight:900; margin-bottom:8px;">Floor Plan</div>
-            
-            <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:14px;">
-              <span class="a5-hero-num">$99</span>
-              <span style="font-size:20px; font-weight:900; color:var(--text-muted);">.00</span>
-              <span class="tax-tag">TAX</span>
-            </div>
-
-            <div style="border-top:2px solid var(--border-color); border-bottom:2px solid var(--border-color); padding:12px 0; margin-bottom:14px; display:flex; justify-content:space-between; font-weight:800; font-size:14px;">
-              <span>4,000 – 5,999 Sq Ft</span>
-              <span style="color:var(--brand-red);">2D Selected</span>
-            </div>
-
-            <button class="btn-cta">
-              <span>Add to Cart</span>
-            </button>
-          </div>
-        `
-      },
-      {
-        title: "06. Split-Screen Dock",
-        desc: "Pinned high-contrast bottom bar taking up lower boundary with parameter selection above.",
-        render: () => `
-          <div class="sheet-base">
-            <div class="drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <strong style="font-size:16px;">MLS Floor Plan</strong>
-              <span class="tax-tag">TAX</span>
-            </div>
-
-            <div style="background:var(--bg-card); border:1.5px solid var(--border-color); padding:12px; border-radius:12px; margin-bottom:10px; font-weight:800; font-size:13px; display:flex; justify-content:space-between;">
-              <span>4,000 – 5,999 Sq Ft</span>
-              <span>▼</span>
-            </div>
-
-            <div style="display:flex; gap:8px; margin-bottom:10px;">
-              <button style="flex:1; padding:10px; border-radius:10px; border:2px solid var(--brand-red); background:var(--brand-red-subtle); color:var(--brand-red); font-weight:900;">2D</button>
-              <button style="flex:1; padding:10px; border-radius:10px; border:2px solid var(--border-color); background:var(--bg-card); color:var(--text-muted); font-weight:800;">3D</button>
-            </div>
-
-            <div class="a6-dock">
-              <div>
-                <div style="font-size:10px; opacity:0.8; font-weight:800;">TOTAL RATE</div>
-                <div style="font-size:22px; font-weight:900;">$99.00</div>
-              </div>
-              <button style="background:#FFF; color:#000; border:none; padding:12px 20px; border-radius:12px; font-weight:900; font-size:14px;">
-                + Add Cart
-              </button>
-            </div>
-          </div>
-        `
-      },
-      {
-        title: "07. Horizontal Carousel Picker",
-        desc: "Swipeable horizontal modifier chips for rapid one-handed thumb selection.",
-        render: () => `
-          <div class="sheet-base">
-            <div class="drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <span style="font-size:10px; font-weight:900; color:var(--brand-red);">MLS LOOKUP</span>
-                <h3 style="font-size:18px; font-weight:900;">Floor Plan</h3>
-              </div>
-              <div style="font-size:22px; font-weight:900;">$99.00</div>
-            </div>
-
-            <div class="a7-carousel">
-              <div class="a7-chip active">4,000 – 5,999 Sq Ft</div>
-              <div class="a7-chip">6,000+ Sq Ft</div>
-            </div>
-
-            <div style="display:flex; gap:8px; margin-bottom:12px;">
-              <div style="flex:1; background:var(--bg-card); border:2px solid var(--brand-red); padding:12px; border-radius:14px; text-align:center; font-weight:900; color:var(--brand-red);">2D Version</div>
-              <div style="flex:1; background:var(--bg-card); border:2px solid var(--border-color); padding:12px; border-radius:14px; text-align:center; font-weight:800; color:var(--text-muted);">3D Version</div>
-            </div>
-
-            <button class="btn-cta btn-cta-red">
-              <span>Add to Cart • $99.00</span>
-            </button>
-          </div>
-        `
-      },
-      {
-        title: "08. Floating Action Dock",
-        desc: "CTA and total contained inside a pill bar floating directly above the sheet base.",
-        render: () => `
-          <div class="sheet-base">
-            <div class="drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg></div>
-                <div>
-                  <h4 style="font-size:15px; font-weight:900;">MLS Floor Plan</h4>
-                  <span class="tax-tag">TAX INCL.</span>
-                </div>
-              </div>
-            </div>
-
-            <div style="background:var(--bg-card); border:1.5px solid var(--border-color); padding:10px 14px; border-radius:12px; margin-bottom:12px; font-size:13px; font-weight:800; display:flex; justify-content:space-between;">
-              <span>4,000 – 5,999 Sq Ft</span>
-              <span style="color:var(--brand-red);">2D Active</span>
-            </div>
-
-            <div class="a8-floating-bar">
-              <div>
-                <div style="font-size:9px; opacity:0.7; font-weight:900;">TOTAL</div>
-                <div style="font-size:18px; font-weight:900;">$99.00</div>
-              </div>
-              <button style="background:var(--brand-red); color:#FFF; border:none; padding:10px 18px; border-radius:30px; font-weight:900; font-size:13px;">
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        `
-      },
-      {
-        title: "09. High-Contrast Grid Cards",
-        desc: "Boxed grid tiles with bold toggle states tailored for glare resistance.",
-        render: () => `
-          <div class="sheet-base">
-            <div class="drag-handle"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-              <h3 style="font-size:18px; font-weight:900;">MLS Floor Plan</h3>
-              <div style="font-size:20px; font-weight:900; color:var(--brand-red);">$99.00</div>
-            </div>
-
-            <div style="background:var(--bg-card); border:2px solid var(--border-color); padding:10px 12px; border-radius:12px; font-size:13px; font-weight:800; margin-bottom:10px; display:flex; justify-content:space-between;">
-              <span>4,000 – 5,999 Sq Ft</span>
-              <span>▼</span>
-            </div>
-
-            <div class="a9-grid">
-              <div class="a9-box active">
-                <div style="font-size:16px; font-weight:900; color:var(--brand-red);">2D Plan</div>
-                <div style="font-size:11px; color:var(--text-muted); font-weight:700;">Standard</div>
-              </div>
-              <div class="a9-box">
-                <div style="font-size:16px; font-weight:900;">3D Tour</div>
-                <div style="font-size:11px; color:var(--text-muted); font-weight:700;">Interactive</div>
-              </div>
-            </div>
-
-            <button class="btn-cta btn-cta-red">
               <span>Confirm Selection • $99.00</span>
             </button>
           </div>
         `
       },
       {
-        title: "10. Nested Spatial Layering",
-        desc: "Stacked background sheet layers visually conveying spatial depth and state hierarchy.",
+        title: "02. Neo-Brutalist High-Border",
+        desc: "Stark heavy borders, high saturation red accents, and tactile solid block dropshadows.",
         render: () => `
-          <div style="width:100%;">
-            <div class="a10-layer-bg">
-              <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:800; color:var(--text-muted);">
-                <span>MLS SERVICE LOOKUP</span>
+          <div class="bottom-sheet opt-2-brutal">
+            <div class="drag-handle" style="background: var(--text-main); opacity: 1;"></div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+              <div>
+                <span style="background: var(--text-main); color: var(--bg-sheet); font-weight: 900; font-size: 10px; padding: 2px 6px;">MLS UTILITY</span>
+                <h2 style="font-size: 24px; font-weight: 900; text-transform: uppercase; margin-top: 4px;">Floor Plan</h2>
+              </div>
+              <div style="text-align: right;">
+                <span class="tax-badge" style="border: 2px solid var(--text-main); color: var(--text-main);">TAX</span>
+                <div style="font-size: 28px; font-weight: 900; color: var(--brand-red);">$99.00</div>
+              </div>
+            </div>
+
+            <div class="sqft-dropdown" style="border: 2.5px solid var(--text-main); border-radius: 0; margin-bottom: 12px; font-weight: 900;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container" style="border: 2.5px solid var(--text-main); border-radius: 0; margin-bottom: 16px;">
+              <div class="toggle-opt active" style="border-radius: 0; background: var(--text-main); color: var(--bg-sheet);">2D MODE</div>
+              <div class="toggle-opt" style="border-radius: 0;">3D MODE</div>
+            </div>
+
+            <button class="cart-btn btn-brutal">
+              <span>ADD TO ORDER • $99.00</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "03. Skeuomorphic Pass Stack",
+        desc: "Physical overlapping pass layers providing depth context and tactile sheet stacking.",
+        render: () => `
+          <div class="bottom-sheet opt-3-stack">
+            <div class="opt-3-layer-1"></div>
+            <div class="opt-3-layer-2"></div>
+            <div class="drag-handle"></div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="icon-box" style="border-radius: 50%;"><svg class="fp-icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg></div>
+                <div>
+                  <div style="font-size: 10px; color: var(--text-muted); font-weight: 800;">MLS PACKAGE</div>
+                  <h3 style="font-size: 18px; font-weight: 900;">Floor Plan</h3>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <span class="tax-badge">TAX</span>
+                <div style="font-size: 24px; font-weight: 900;">$99.00</div>
+              </div>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 12px;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 16px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Add Package</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "04. Metric Ring Focus",
+        desc: "Circular visual metric frame framing the hero live grand total for instant glanceability.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            
+            <div class="opt-4-ring-box">
+              <span class="tax-badge" style="font-size: 8px; padding: 1px 4px;">TAX</span>
+              <div style="font-size: 22px; font-weight: 900;">$99</div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 14px;">
+              <span style="font-size: 11px; font-weight: 800; color: var(--brand-red);">MLS SERVICE</span>
+              <h3 style="font-size: 20px; font-weight: 900;">Floor Plan</h3>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 12px;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 16px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Confirm Selection • $99.00</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "05. Split-Screen Hero Dock",
+        desc: "Top 40% permanently locked to high-contrast red hero price dock topping option list.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            
+            <div class="opt-5-hero-dock">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: left;">
+                  <span style="font-size: 10px; font-weight: 800; opacity: 0.8; text-transform: uppercase;">MLS Service</span>
+                  <h3 style="font-size: 20px; font-weight: 900;">Floor Plan</h3>
+                </div>
+                <div style="text-align: right;">
+                  <span class="tax-badge" style="background: rgba(0,0,0,0.25); color: #fff; border: none;">TAX</span>
+                  <div style="font-size: 28px; font-weight: 900;">$99.00</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 12px;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 16px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn">
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "06. Dense Matrix Table",
+        desc: "Razor-sharp row dividers and tight tabular spacing for rapid outdoor data scan speed.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <h3 style="font-size: 18px; font-weight: 900;">MLS Floor Plan</h3>
+              <span class="tax-badge">TAX</span>
+            </div>
+
+            <table class="opt-6-table">
+              <tr>
+                <td style="color: var(--text-muted); font-weight: 700;">Property Size</td>
+                <td style="text-align: right; font-weight: 800;">4,000 – 5,999 Sq Ft</td>
+              </tr>
+              <tr>
+                <td style="color: var(--text-muted); font-weight: 700;">Dimension</td>
+                <td style="text-align: right; font-weight: 800; color: var(--brand-red);">2D Version</td>
+              </tr>
+              <tr>
+                <td style="color: var(--text-muted); font-weight: 700;">Grand Total</td>
+                <td style="text-align: right; font-weight: 900; font-size: 20px;">$99.00</td>
+              </tr>
+            </table>
+
+            <div class="toggle-container" style="margin-bottom: 14px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Select Package • $99.00</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "07. Radial Speed Dial",
+        desc: "High-contrast touch tiles designed for one-thumb field operation.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div>
+                <span style="font-size: 10px; font-weight: 800; color: var(--brand-red);">MLS SERVICE</span>
+                <h3 style="font-size: 18px; font-weight: 900;">Floor Plan</h3>
+              </div>
+              <div style="font-size: 26px; font-weight: 900;">$99.00 <span class="tax-badge" style="vertical-align: middle;">TAX</span></div>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 12px;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="opt-7-speed-grid">
+              <div class="opt-7-dial-btn active">
+                <div style="font-size: 16px; font-weight: 900;">2D</div>
+                <div style="font-size: 10px; color: var(--text-muted);">Schematic</div>
+              </div>
+              <div class="opt-7-dial-btn">
+                <div style="font-size: 16px; font-weight: 900;">3D</div>
+                <div style="font-size: 10px; color: var(--text-muted);">Interactive</div>
+              </div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Add Selected Option</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "08. Laboratory Clinical List",
+        desc: "Monochromatic layout with precision alignment rules built for high-glare environments.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            <div class="opt-8-lab">
+              <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">SPEC // MLS-FP</div>
+              <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 8px;">FLOOR PLAN</h2>
+              <div style="font-size: 30px; font-weight: 900; color: var(--brand-red); margin-bottom: 12px;">$99.00 <span class="tax-badge" style="font-family: sans-serif;">TAX</span></div>
+            </div>
+
+            <div class="sqft-dropdown" style="border-radius: 8px; margin-bottom: 12px; font-family: monospace;">
+              <span>[SIZE] 4,000 – 5,999 Sq Ft</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container" style="border-radius: 8px; margin-bottom: 16px;">
+              <div class="toggle-opt active" style="border-radius: 6px; font-family: monospace;">2D_MODE</div>
+              <div class="toggle-opt" style="border-radius: 6px; font-family: monospace;">3D_MODE</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red" style="border-radius: 8px; font-family: monospace;">
+              <span>EXECUTE_ADD // $99.00</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "09. Floating Action Pill Dock",
+        desc: "Suspended action capsule holding the live total price and confirmation trigger.",
+        render: () => `
+          <div class="bottom-sheet" style="padding-bottom: 80px;">
+            <div class="drag-handle"></div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+              <div class="icon-box"><svg class="fp-icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9M15 9v12"/></svg></div>
+              <div>
+                <span class="tax-badge">TAX INCL.</span>
+                <h3 style="font-size: 18px; font-weight: 900;">MLS Floor Plan</h3>
+              </div>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 12px;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <div class="opt-9-pill-dock">
+              <div>
+                <div style="font-size: 9px; opacity: 0.8; font-weight: 800; text-transform: uppercase;">TOTAL</div>
+                <div style="font-size: 20px; font-weight: 900;">$99.00</div>
+              </div>
+              <button style="background: #fff; color: var(--brand-red); border: none; padding: 10px 18px; border-radius: 20px; font-weight: 900; font-size: 14px; cursor: pointer;">Add to Cart</button>
+            </div>
+          </div>
+        `
+      },
+      {
+        title: "10. Comparison Columns",
+        desc: "Split cards contrasting 2D baseline specs vs 3D interactive features side by side.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <div>
+                <span style="font-size: 10px; font-weight: 800; color: var(--brand-red);">MLS SERVICE</span>
+                <h3 style="font-size: 18px; font-weight: 900;">Floor Plan</h3>
+              </div>
+              <div style="font-size: 24px; font-weight: 900;">$99.00 <span class="tax-badge">TAX</span></div>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 10px;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="opt-10-col-grid">
+              <div class="opt-10-col" style="border-color: var(--brand-red); background: var(--brand-red-subtle);">
+                <span style="font-size: 9px; font-weight: 900; color: var(--brand-red);">ACTIVE</span>
+                <div style="font-size: 18px; font-weight: 900;">2D</div>
+                <div style="font-size: 11px; color: var(--text-muted);">$99.00</div>
+              </div>
+              <div class="opt-10-col">
+                <span style="font-size: 9px; font-weight: 900; color: var(--text-muted);">OPTION</span>
+                <div style="font-size: 18px; font-weight: 900;">3D</div>
+                <div style="font-size: 11px; color: var(--text-muted);">$99.00</div>
+              </div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Confirm 2D Package</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "11. Command Line Terminal",
+        desc: "High-visibility green on black terminal layout optimized for rapid glare reading.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            <div class="opt-11-term">
+              <div>> SYSTEM.LOOKUP: MLS_FLOOR_PLAN</div>
+              <div>> SQFT_RANGE: 4000_5999</div>
+              <div>> VARIANT: 2D_SCHEMATIC</div>
+              <div style="font-size: 24px; font-weight: 900; margin-top: 8px;">TOTAL: $99.00 [TAX_INCL]</div>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 14px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>> EXECUTE_ADD_TO_CART</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "12. Pinned Hero Banner",
+        desc: "Permanently locked top 30% display emphasizing grand total price and property scope.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            <div class="opt-12-top-pin">
+              <span class="tax-badge">TAX INCLUDED</span>
+              <div style="font-size: 38px; font-weight: 900; color: var(--brand-red); tracking: -1px;">$99.00</div>
+              <h3 style="font-size: 18px; font-weight: 900;">MLS Floor Plan</h3>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 12px;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 16px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "13. Timeline Node Path",
+        desc: "Sequential visual flow guiding the photographer from base service through total sum.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <h3 style="font-size: 18px; font-weight: 900;">MLS Floor Plan</h3>
+              <span class="tax-badge">TAX</span>
+            </div>
+
+            <div class="opt-13-timeline">
+              <div class="opt-13-node">
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">STEP 1: SIZE</div>
+                <div style="font-weight: 800; font-size: 14px;">4,000 – 5,999 Sq Ft</div>
+              </div>
+              <div class="opt-13-node">
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">STEP 2: DIMENSION</div>
+                <div style="font-weight: 800; font-size: 14px; color: var(--brand-red);">2D Layout Selected</div>
+              </div>
+              <div class="opt-13-node">
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">STEP 3: TOTAL</div>
+                <div style="font-weight: 900; font-size: 22px;">$99.00</div>
+              </div>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 14px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Confirm Order</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "14. Bento Box Modular Grid",
+        desc: "Asymmetrical container tiles organizing packages by primary, secondary, and add-on priority.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            
+            <div class="opt-14-bento">
+              <div class="opt-14-box">
+                <span style="font-size: 10px; font-weight: 800; color: var(--brand-red);">MLS SERVICE</span>
+                <h3 style="font-size: 18px; font-weight: 900;">Floor Plan</h3>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">4,000 – 5,999 Sq Ft</div>
+              </div>
+              <div class="opt-14-box" style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--brand-red); color: #fff;">
+                <span class="tax-badge" style="background: rgba(0,0,0,0.25); color: #fff; border: none;">TAX</span>
+                <div style="font-size: 22px; font-weight: 900;">$99</div>
+              </div>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 14px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "15. Expanded Receipt Ticket",
+        desc: "Perforated-style ticket card showing an itemized running line-item tally.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            
+            <div class="opt-15-ticket">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <strong style="font-size: 15px;">MLS Floor Plan</strong>
+                <span class="tax-badge">TAX</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">
                 <span>4,000 – 5,999 Sq Ft</span>
+                <span>Included</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+                <span>2D Dimension</span>
+                <span>Selected</span>
+              </div>
+              <div style="border-top: 1px dashed var(--border-strong); padding-top: 8px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 800;">TOTAL DUE</span>
+                <span style="font-size: 22px; font-weight: 900; color: var(--brand-red);">$99.00</span>
               </div>
             </div>
 
-            <div class="a10-layer-fg">
-              <div class="drag-handle"></div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg></div>
-                  <h3 style="font-size:17px; font-weight:900;">Floor Plan</h3>
-                </div>
-                <div style="text-align:right;">
-                  <span class="tax-tag">TAX</span>
-                  <div style="font-size:22px; font-weight:900; color:var(--brand-red);">$99.00</div>
-                </div>
-              </div>
-
-              <div style="display:flex; gap:8px; margin-bottom:12px;">
-                <button style="flex:1; padding:12px; border-radius:12px; border:2px solid var(--brand-red); background:var(--brand-red); color:#FFF; font-weight:900;">2D Active</button>
-                <button style="flex:1; padding:12px; border-radius:12px; border:2px solid var(--border-color); background:var(--bg-card); color:var(--text-main); font-weight:800;">3D Option</button>
-              </div>
-
-              <button class="btn-cta">
-                <span>Add Line Item</span>
-              </button>
+            <div class="toggle-container" style="margin-bottom: 14px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
             </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Confirm Ticket • $99.00</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "16. Inset Tile Matrix",
+        desc: "Deeply inset tile buckets isolating individual package options for rapid finger targeting.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <h3 style="font-size: 18px; font-weight: 900;">MLS Floor Plan</h3>
+              <div style="font-size: 22px; font-weight: 900;">$99.00 <span class="tax-badge">TAX</span></div>
+            </div>
+
+            <div class="opt-16-tile-grid">
+              <div class="opt-16-tile">
+                <div style="font-size: 10px; color: var(--text-muted); font-weight: 800;">SQ FT RANGE</div>
+                <div style="font-size: 13px; font-weight: 800; margin-top: 2px;">4,000 – 5,999</div>
+              </div>
+              <div class="opt-16-tile" style="border-color: var(--brand-red);">
+                <div style="font-size: 10px; color: var(--brand-red); font-weight: 800;">DIMENSION</div>
+                <div style="font-size: 13px; font-weight: 800; margin-top: 2px;">2D Active</div>
+              </div>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 14px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Add Package</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "17. High-Visibility Stroke",
+        desc: "Heavy 3px red stroke wrapping the active selection for outdoor contrast visibility.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            
+            <div class="opt-17-stroke">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <span style="font-size: 10px; font-weight: 800; color: var(--brand-red);">MLS SERVICE</span>
+                  <h3 style="font-size: 20px; font-weight: 900;">Floor Plan</h3>
+                </div>
+                <div style="text-align: right;">
+                  <span class="tax-badge">TAX</span>
+                  <div style="font-size: 26px; font-weight: 900; color: var(--brand-red);">$99.00</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 12px;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 16px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Confirm Selection • $99.00</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "18. Tactile Industrial Switch",
+        desc: "Oversized physical switch controls built for quick tapping while wearing work gloves.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            
+            <div class="opt-18-switch">
+              <div>
+                <div style="font-size: 10px; font-weight: 800; color: var(--brand-red);">MLS FLOOR PLAN</div>
+                <div style="font-size: 15px; font-weight: 800;">4,000 – 5,999 Sq Ft</div>
+              </div>
+              <div style="font-size: 24px; font-weight: 900;">$99.00 <span class="tax-badge">TAX</span></div>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 16px; min-height: 56px; padding: 6px;">
+              <div class="toggle-opt active" style="display: flex; align-items: center; justify-content: center; font-size: 16px;">2D MODE</div>
+              <div class="toggle-opt" style="display: flex; align-items: center; justify-content: center; font-size: 16px;">3D MODE</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "19. Centered Focal Point",
+        desc: "Fully centered display hierarchy placing grand total price and title directly in the visual axis.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            
+            <div class="opt-19-center">
+              <span class="tax-badge">TAX INCLUDED</span>
+              <h2 style="font-size: 22px; font-weight: 900; margin-top: 4px;">MLS Floor Plan</h2>
+              <div style="font-size: 36px; font-weight: 900; color: var(--brand-red); margin: 6px 0;">$99.00</div>
+              <div style="font-size: 13px; color: var(--text-muted); font-weight: 700; margin-bottom: 14px;">4,000 – 5,999 Sq Ft</div>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 16px;">
+              <div class="toggle-opt active">2D Layout</div>
+              <div class="toggle-opt">3D Tour</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Add Package • $99.00</span>
+            </button>
+          </div>
+        `
+      },
+      {
+        title: "20. Barcode SKU Spec",
+        desc: "Industrial field utility layout featuring item barcode codes and high-contrast spec callouts.",
+        render: () => `
+          <div class="bottom-sheet">
+            <div class="drag-handle"></div>
+            
+            <div class="opt-20-barcode">||| ||||| ||| |||| |||||| |||</div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <div>
+                <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">SKU: MLS-FP-4K</div>
+                <h3 style="font-size: 18px; font-weight: 900;">MLS Floor Plan</h3>
+              </div>
+              <div style="text-align: right;">
+                <span class="tax-badge">TAX</span>
+                <div style="font-size: 24px; font-weight: 900; color: var(--brand-red);">$99.00</div>
+              </div>
+            </div>
+
+            <div class="sqft-dropdown" style="margin-bottom: 12px; font-family: monospace;">
+              <span>4,000 – 5,999 Sq Ft</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+
+            <div class="toggle-container" style="margin-bottom: 16px;">
+              <div class="toggle-opt active">2D</div>
+              <div class="toggle-opt">3D</div>
+            </div>
+
+            <button class="cart-btn cart-btn-red">
+              <span>Confirm SKU • $99.00</span>
+            </button>
           </div>
         `
       }
     ];
 
-    let currentIndex = 0;
-    let isDark = true;
+    let currentOptionIndex = 0;
+    let currentViewMode = 'single';
+    let isDarkMode = true;
 
-    function render() {
-      const item = archetypes[currentIndex];
-      document.getElementById('archTitle').innerText = item.title;
-      document.getElementById('archDesc').innerText = item.desc;
-      document.getElementById('sheetContainer').innerHTML = item.render();
-      document.getElementById('archSelect').value = currentIndex;
+    function renderSingleView() {
+      const opt = optionsData[currentOptionIndex];
+      document.getElementById('optionTitle').innerText = opt.title;
+      document.getElementById('optionDesc').innerText = opt.desc;
+      document.getElementById('sheetSlot').innerHTML = opt.render();
+      document.getElementById('optionSelect').value = currentOptionIndex;
 
-      document.getElementById('prevBtn').disabled = currentIndex === 0;
-      document.getElementById('nextBtn').disabled = currentIndex === archetypes.length - 1;
+      document.getElementById('prevBtn').disabled = currentOptionIndex === 0;
+      document.getElementById('nextBtn').disabled = currentOptionIndex === optionsData.length - 1;
     }
 
-    function navigate(dir) {
-      const newIdx = currentIndex + dir;
-      if (newIdx >= 0 && newIdx < archetypes.length) {
-        currentIndex = newIdx;
-        render();
+    function renderGridView() {
+      const grid = document.getElementById('gridStage');
+      grid.innerHTML = '';
+      optionsData.forEach((opt, idx) => {
+        const card = document.createElement('div');
+        card.className = 'grid-card';
+        card.innerHTML = `
+          <div class="grid-card-header">
+            <span class="grid-card-title">${opt.title}</span>
+            <button class="nav-btn" style="padding: 4px 10px; font-size: 11px; min-height: 28px;" onclick="selectOption(${idx}); setViewMode('single');">Focus</button>
+          </div>
+          <div>
+            ${opt.render()}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function selectOption(index) {
+      currentOptionIndex = parseInt(index);
+      renderSingleView();
+    }
+
+    function navigateOption(direction) {
+      const newIndex = currentOptionIndex + direction;
+      if (newIndex >= 0 && newIndex < optionsData.length) {
+        currentOptionIndex = newIndex;
+        renderSingleView();
       }
     }
 
-    function jumpTo(idx) {
-      currentIndex = parseInt(idx);
-      render();
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      if (mode === 'single') {
+        document.getElementById('singleStage').style.display = 'flex';
+        document.getElementById('gridStage').style.display = 'none';
+        document.getElementById('singleViewBtn').classList.add('active');
+        document.getElementById('gridViewBtn').classList.remove('active');
+        renderSingleView();
+      } else {
+        document.getElementById('singleStage').style.display = 'none';
+        document.getElementById('gridStage').style.display = 'grid';
+        document.getElementById('singleViewBtn').classList.remove('active');
+        document.getElementById('gridViewBtn').classList.add('active');
+        renderGridView();
+      }
     }
 
     function toggleTheme() {
-      isDark = !isDark;
-      document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      document.getElementById('themeIcon').innerText = isDark ? '🌙' : '☀️';
-      document.getElementById('themeText').innerText = isDark ? 'Dark' : 'Light';
+      isDarkMode = !isDarkMode;
+      document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+      document.getElementById('themeIcon').innerText = isDarkMode ? '🌙' : '☀️';
+      document.getElementById('themeLabel').innerText = isDarkMode ? 'Dark Mode' : 'Light Mode';
+      if (currentViewMode === 'grid') {
+        renderGridView();
+      }
     }
 
-    // Keyboard Shortcuts (Arrow Keys)
+    // Keyboard Arrow Navigation Support
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') navigate(1);
-      if (e.key === 'ArrowLeft') navigate(-1);
+      if (currentViewMode === 'single') {
+        if (e.key === 'ArrowRight') navigateOption(1);
+        if (e.key === 'ArrowLeft') navigateOption(-1);
+      }
     });
 
-    // Initial Execution
-    render();
+    // Initial Render
+    renderSingleView();
   </script>
 </body>
 </html>
