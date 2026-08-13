@@ -3,1247 +3,1002 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>30 Field Utility Bottom Sheet Archetypes</title>
+  <title>Field Utility Mobile UI/UX - 30 Home Screen Layout Concepts</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Red+Hat+Display:wght@700;900&family=Unbounded:wght@600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #050505;
-      --sheet-bg: #000000;
+      --bg: #000000;
       --card-bg: #121214;
-      --text: #ffffff;
-      --text-muted: #8e8e93;
+      --card-border: #26262B;
+      --text: #FFFFFF;
+      --text-muted: #8E8E93;
       --accent: #E50914;
-      --border: #26262a;
-      --cta-bg: #ffffff;
-      --cta-text: #000000;
-      --badge-bg: #1c1c1e;
-      --badge-border: #2c2c2e;
-      --shadow: rgba(0, 0, 0, 0.9);
-      --font-main: 'Plus Jakarta Sans', sans-serif;
-      --font-display: 'Unbounded', sans-serif;
+      --accent-contrast: #FFFFFF;
+      --nav-bg: #1C1C1E;
+      --active-bg: #FFFFFF;
+      --active-text: #000000;
+      --shadow: 0 12px 32px rgba(0,0,0,0.8);
     }
 
     [data-theme="light"] {
-      --bg: #dcdcdc;
-      --sheet-bg: #ffffff;
-      --card-bg: #f2f2f7;
+      --bg: #F2F2F7;
+      --card-bg: #FFFFFF;
+      --card-border: #E5E5EA;
       --text: #000000;
-      --text-muted: #6c6c70;
+      --text-muted: #6C6C70;
       --accent: #E50914;
-      --border: #d1d1d6;
-      --cta-bg: #000000;
-      --cta-text: #ffffff;
-      --badge-bg: #e5e5ea;
-      --badge-border: #d1d1d6;
-      --shadow: rgba(0, 0, 0, 0.15);
+      --accent-contrast: #FFFFFF;
+      --nav-bg: #E5E5EA;
+      --active-bg: #000000;
+      --active-text: #FFFFFF;
+      --shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: var(--font-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
       background-color: var(--bg);
       color: var(--text);
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding-top: 75px;
-      padding-bottom: 40px;
-      transition: background-color 0.2s ease, color 0.2s ease;
+      min-height: 100vh;
+      padding-bottom: 30px;
+      transition: background-color 0.25s ease;
     }
 
-    /* Fixed App Header Navigation */
-    .app-header {
-      position: fixed;
+    /* Navigation Header */
+    .pinned-nav {
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      height: 64px;
-      background: var(--sheet-bg);
-      border-bottom: 1px solid var(--border);
+      width: 100%;
+      max-width: 440px;
+      background: var(--nav-bg);
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
-      z-index: 9999;
-      box-shadow: 0 4px 20px var(--shadow);
-    }
-
-    .nav-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      z-index: 999;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
     }
 
     .nav-btn {
       background: var(--card-bg);
       color: var(--text);
-      border: 1px solid var(--border);
-      padding: 8px 16px;
-      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 8px;
       font-weight: 800;
-      cursor: pointer;
       font-size: 16px;
+      cursor: pointer;
       min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    .nav-btn:active {
-      transform: scale(0.95);
-    }
-
-    select.sheet-select {
+    .nav-select {
       background: var(--card-bg);
       color: var(--text);
-      border: 1px solid var(--border);
+      border: 1px solid var(--card-border);
       padding: 8px 12px;
-      border-radius: 10px;
-      font-weight: 700;
+      border-radius: 8px;
+      font-weight: 800;
       font-size: 13px;
-      max-width: 210px;
-      outline: none;
       height: 44px;
+      max-width: 180px;
+      outline: none;
     }
 
     .theme-toggle {
       background: var(--accent);
-      color: #ffffff;
+      color: #FFF;
       border: none;
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-weight: 900;
-      cursor: pointer;
-      font-size: 12px;
-      letter-spacing: 0.5px;
+      padding: 0 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
       height: 44px;
+      cursor: pointer;
     }
 
-    /* Device Viewport Simulation */
-    .device-viewport {
+    /* Device Canvas Container */
+    .app-canvas {
       width: 100%;
       max-width: 420px;
-      height: 780px;
-      background: #000;
-      border-radius: 44px;
-      border: 9px solid #1c1c1e;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      align-items: center;
     }
 
-    .device-screen {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, #18181a 0%, #050505 100%);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 12px;
-      overflow-y: auto;
-    }
-
-    [data-theme="light"] .device-screen {
-      background: linear-gradient(180deg, #f0f0f3 0%, #d8d8dd 100%);
-    }
-
-    .sheet-wrapper {
+    /* Screen Variant Cards */
+    .screen-variant {
       display: none;
       width: 100%;
-      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      background: var(--bg);
+      border-radius: 36px;
+      padding: 16px;
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+      position: relative;
     }
 
-    .sheet-wrapper.active {
+    .screen-variant.active {
       display: block;
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    .variant-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #FFF;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
     }
 
-    /* Shared Micro Elements */
-    .handle-bar {
+    /* Common Components & Utility Classes */
+    .brand-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .brand-logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
+    .cart-badge {
+      position: relative;
       width: 44px;
-      height: 5px;
-      background: var(--border);
-      border-radius: 3px;
-      margin: 0 auto 12px auto;
-    }
-
-    .icon-camera {
-      display: inline-flex;
+      height: 44px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 50%;
+      display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--badge-bg);
-      border: 1px solid var(--badge-border);
-      border-radius: 16px;
-      width: 54px;
-      height: 54px;
-      flex-shrink: 0;
-      color: var(--text);
+    }
+    .cart-count {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: var(--accent);
+      color: #FFF;
+      font-size: 10px;
+      font-weight: 900;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .icon-camera svg {
-      width: 28px;
-      height: 28px;
-      fill: none;
+    .ico {
+      width: 24px;
+      height: 24px;
       stroke: currentColor;
+      fill: none;
       stroke-width: 2.2;
       stroke-linecap: round;
       stroke-linejoin: round;
-    }
-
-    .tax-tag {
-      background: var(--badge-bg);
-      border: 1px solid var(--badge-border);
-      color: var(--text-muted);
-      font-size: 11px;
-      font-weight: 900;
-      padding: 4px 8px;
-      border-radius: 6px;
-      letter-spacing: 0.8px;
       display: inline-block;
+      vertical-align: middle;
     }
 
-    .sqft-dropdown {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 18px;
-      padding: 12px 18px;
-      font-size: 16px;
-      font-weight: 800;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 52px;
-      margin-bottom: 12px;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .photo-opt {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 10px 4px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .photo-opt.active {
-      background: var(--sheet-bg);
-      border-color: var(--text);
-      box-shadow: inset 0 0 0 1px var(--text);
-    }
-
-    .photo-opt .count {
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .photo-opt .price {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-muted);
-    }
-
-    .breakdown-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      margin-bottom: 14px;
-    }
-
-    .breakdown-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      font-weight: 800;
-      font-size: 14px;
-    }
-
-    .breakdown-row.highlight {
-      background: var(--sheet-bg);
-      border-top: 1px solid var(--border);
-    }
-
-    .counter-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .counter-label {
-      font-size: 16px;
-      font-weight: 900;
-    }
-
-    .counter-pill {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 6px 16px;
-      font-size: 18px;
-      font-weight: 900;
-    }
-
-    .btn-cta {
-      background: var(--cta-bg);
-      color: var(--cta-text);
-      border: none;
-      width: 100%;
-      padding: 16px;
-      border-radius: 28px;
-      font-size: 22px;
-      font-weight: 900;
+    .pop-icon-box {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      color: #FFF;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 16px var(--shadow);
-      min-height: 56px;
+      flex-shrink: 0;
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* 30 DISTINCT ARCHITECTURES                                              */
-    /* ---------------------------------------------------------------------- */
+    .sub-tabs {
+      display: flex;
+      background: #000;
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      border: 1px solid var(--card-border);
+    }
+    .tab-item {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 13px;
+      font-weight: 800;
+      border-radius: 10px;
+      color: var(--text-muted);
+    }
+    .tab-item.active {
+      background: var(--accent);
+      color: #FFF;
+    }
 
-    /* 1. Floating Modular Cards */
-    .sheet-v1 { background: var(--sheet-bg); border-radius: 32px; padding: 20px; border: 1px solid var(--border); }
-    .sheet-v1 .row-hero { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .service-row {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      min-height: 56px;
+    }
+    .service-title { font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 10px; }
+    .service-price { font-weight: 800; font-size: 15px; color: var(--text); }
 
-    /* 2. Accordion Stacks */
-    .sheet-v2 { background: var(--sheet-bg); border-radius: 28px 28px 0 0; padding: 20px; border-top: 3px solid var(--accent); }
+    .bottom-nav-dock {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+    }
+    .dock-ico { color: var(--text-muted); padding: 6px; }
+    .dock-ico.active { color: var(--accent); }
 
-    /* 3. Segmented Multi-Tab Sheet */
-    .sheet-v3 { background: var(--sheet-bg); border-radius: 32px 32px 0 0; padding: 20px; }
-    .sheet-v3 .tabs { display: flex; background: var(--card-bg); padding: 4px; border-radius: 14px; margin-bottom: 14px; }
-    .sheet-v3 .tab { flex: 1; text-align: center; padding: 8px; font-weight: 800; font-size: 11px; border-radius: 10px; color: var(--text-muted); }
-    .sheet-v3 .tab.active { background: var(--accent); color: #fff; }
+    /* Custom Unique Layout Architectures */
+    /* V2: Neo-Brutalist */
+    .v2-box { border: 3px solid #000; box-shadow: 5px 5px 0px #000; border-radius: 0px !important; }
+    .v2-btn { background: #E50914; color: #FFF; font-weight: 900; border: 3px solid #000; box-shadow: 3px 3px 0 #000; }
 
-    /* 4. Typography-First Minimalist */
-    .sheet-v4 { background: var(--sheet-bg); padding: 20px 16px; border-top: 1px solid var(--border); }
+    /* V4: Bento Grid Architecture */
+    .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+    .bento-cell { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 16px; min-height: 100px; display: flex; flex-direction: column; justify-content: space-between; }
 
-    /* 5. Split-Screen Bottom Dock */
-    .sheet-v5 { background: var(--sheet-bg); border-radius: 24px; padding: 18px; display: grid; gap: 10px; }
+    /* V5: Pinned Left Dock */
+    .left-rail-layout { display: flex; gap: 12px; }
+    .left-rail { width: 72px; background: var(--card-bg); border-radius: 24px; padding: 12px 6px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 16px; }
 
-    /* 6. Horizontal Carousel Pill Picker */
-    .sheet-v6 { background: var(--sheet-bg); border-radius: 28px 28px 0 0; padding: 20px 0; }
+    /* V7: Stadium Pill Stack */
+    .pill-item { border-radius: 999px !important; padding: 14px 20px !important; }
 
-    /* 7. Floating Action Capsule */
-    .sheet-v7 { background: transparent; padding: 10px; }
-    .sheet-v7 .capsule { background: var(--sheet-bg); border: 2px solid var(--accent); border-radius: 36px; padding: 16px; }
+    /* V8: Tactical Switchboard */
+    .tactical-btn { min-height: 60px; border: 2px solid var(--card-border); border-radius: 12px; font-size: 17px; font-weight: 900; text-transform: uppercase; }
 
-    /* 8. High-Contrast 2x2 Grid Tiles */
-    .sheet-v8 { background: var(--sheet-bg); border-radius: 24px; padding: 18px; }
-
-    /* 9. Neo-Brutalist High-Border */
-    .sheet-v9 { background: #000; border: 4px solid #fff; padding: 18px; box-shadow: -8px -8px 0 var(--accent); }
-
-    /* 10. Laboratory Clinical Matrix */
-    .sheet-v10 { background: var(--sheet-bg); border: 1px solid var(--border); padding: 18px; font-family: monospace; }
-
-    /* 11. Full-Bleed Edge Cards */
-    .sheet-v11 { background: var(--sheet-bg); border-radius: 20px 20px 0 0; }
-    .sheet-v11 .card { background: var(--card-bg); padding: 16px; border-bottom: 2px solid var(--border); }
-
-    /* 12. Radial Speed Dial */
-    .sheet-v12 { background: var(--sheet-bg); border-radius: 30px; padding: 20px; text-align: center; }
-
-    /* 13. Asymmetric Bento Grid */
-    .sheet-v13 { background: var(--sheet-bg); border-radius: 28px; padding: 16px; }
-
-    /* 14. Pinned Top-Hero Canvas */
-    .sheet-v14 { background: var(--sheet-bg); border-radius: 24px; padding: 18px; }
-    .sheet-v14 .hero-canvas { background: var(--accent); color: #fff; padding: 18px; border-radius: 20px; margin-bottom: 12px; }
-
-    /* 15. Tactile Glove Switchboard */
-    .sheet-v15 { background: var(--sheet-bg); border-radius: 28px; padding: 18px; }
-
-    /* 16. Bottom-Anchored Thumb Zone */
-    .sheet-v16 { background: var(--sheet-bg); border-radius: 32px 32px 0 0; padding: 20px; }
-
-    /* 17. High-Contrast Gradient Canvas */
-    .sheet-v17 { background: linear-gradient(180deg, #E50914 0%, #000000 100%); border-radius: 28px; padding: 20px; color: #fff; }
-
-    /* 18. Split Dual-Shade Sheet */
-    .sheet-v18 { background: var(--card-bg); border-radius: 24px; overflow: hidden; }
-
-    /* 19. Borderless Divider Grid */
-    .sheet-v19 { background: var(--sheet-bg); padding: 18px; }
-
-    /* 20. Floating HUD Sheet */
-    .sheet-v20 { background: var(--sheet-bg); border: 2px solid var(--accent); border-radius: 24px; padding: 18px; }
-
-    /* 21. Horizontal Snap Cards */
-    .sheet-v21 { background: var(--sheet-bg); border-radius: 24px; padding: 18px; }
-
-    /* 22. Icon-Anchored Row Strips */
-    .sheet-v22 { background: var(--sheet-bg); border-radius: 28px; padding: 18px; }
-
-    /* 23. Top-Heavy Price Banner */
-    .sheet-v23 { background: var(--sheet-bg); border-radius: 28px; overflow: hidden; }
-
-    /* 24. Two-Column Switcher Grid */
-    .sheet-v24 { background: var(--sheet-bg); border-radius: 24px; padding: 18px; }
-
-    /* 25. Inset Well Matrix */
-    .sheet-v25 { background: var(--sheet-bg); border-radius: 28px; padding: 18px; }
-
-    /* 26. Overlapping Dynamic Pill Stack */
-    .sheet-v26 { background: var(--sheet-bg); border-radius: 28px; padding: 18px; }
-
-    /* 27. Clean Technical Spec */
-    .sheet-v27 { background: var(--sheet-bg); border-radius: 16px; padding: 18px; border: 1px solid var(--border); }
-
-    /* 28. Top-Right Floating Total Badge */
-    .sheet-v28 { background: var(--sheet-bg); border-radius: 28px; padding: 18px; position: relative; }
-    .sheet-v28 .float-badge { position: absolute; top: -12px; right: 20px; background: var(--accent); color: #fff; padding: 6px 14px; border-radius: 18px; font-weight: 900; font-family: var(--font-display); }
-
-    /* 29. Full-Screen Sheet Overhaul */
-    .sheet-v29 { background: var(--sheet-bg); height: 100%; border-radius: 0; padding: 24px 18px; display: flex; flex-direction: column; justify-content: space-between; }
-
-    /* 30. Centered Focal Point */
-    .sheet-v30 { background: var(--sheet-bg); border-radius: 32px; padding: 24px 18px; text-align: center; }
+    /* V10: Inset Tile Well */
+    .well-container { background: rgba(0,0,0,0.4); [data-theme="light"] & { background: rgba(0,0,0,0.06); } padding: 12px; border-radius: 20px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.4); }
 
   </style>
 </head>
 <body>
 
-  <!-- App Header Navigation Controls -->
-  <header class="app-header">
-    <div class="nav-controls">
-      <button class="nav-btn" id="prevBtn" onclick="changeSheet(-1)">←</button>
-      <select class="sheet-select" id="sheetSelect" onchange="jumpToSheet(this.value)">
-        <!-- Options populated dynamically -->
-      </select>
-      <button class="nav-btn" id="nextBtn" onclick="changeSheet(1)">→</button>
-    </div>
-    <button class="theme-toggle" onclick="toggleTheme()">DARK / LIGHT</button>
+  <!-- Navigation Header -->
+  <header class="pinned-nav">
+    <button class="nav-btn" onclick="prevScreen()">←</button>
+    <select id="variantSelect" class="nav-select" onchange="jumpToScreen(this.value)"></select>
+    <button class="nav-btn" onclick="nextScreen()">→</button>
+    <button class="theme-toggle" onclick="toggleTheme()">☀️ / 🌙</button>
   </header>
 
-  <!-- Mobile Viewport Container -->
-  <div class="device-viewport">
-    <div class="device-screen">
+  <!-- Mobile Home Frame Canvas -->
+  <main class="app-canvas">
 
-      <!-- ARCHETYPE 1: Floating Modular Cards -->
-      <div class="sheet-wrapper active" id="sheet-1">
-        <div class="sheet-v1">
-          <div class="handle-bar"></div>
-          <div class="row-hero">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div class="icon-camera" style="background:var(--accent); color:#fff; border:none;">
-                <svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg>
-              </div>
-              <div>
-                <div style="font-size:12px; color:var(--text-muted); font-weight:800;">MLS Photos</div>
-                <div style="font-size:24px; font-weight:900;">Full Shoot</div>
-              </div>
-            </div>
-            <div style="text-align:right;">
-              <span class="tax-tag">TAX</span>
-              <div style="font-size:32px; font-weight:900; font-family:var(--font-display);">$149.00</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="photo-grid">
-            <div class="photo-opt active"><div class="count">25</div><div class="price">$139</div></div>
-            <div class="photo-opt"><div class="count">36</div><div class="price">$179</div></div>
-            <div class="photo-opt"><div class="count">40</div><div class="price">$189</div></div>
-            <div class="photo-opt"><div class="count">50</div><div class="price">$224</div></div>
-          </div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div class="counter-row">
-            <span class="counter-label">Total Photos</span>
-            <div style="display:flex; gap:10px;">
-              <div class="counter-pill"><span>-</span><span>27</span><span>+</span></div>
-              <button class="btn-cta" style="width:52px; min-height:52px; border-radius:18px; padding:0;">🛒+</button>
-            </div>
-          </div>
+    <!-- VARIANT 01: Standard Baseline Home Screen -->
+    <div class="screen-variant active" id="v1">
+      <span class="variant-badge">01 · Standard Baseline</span>
+      <div class="brand-bar">
+        <div class="brand-logo">s2s</div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span>🌙</span>
+          <div class="cart-badge"><svg class="ico"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18"></path></svg><span class="cart-count">2</span></div>
         </div>
       </div>
 
-      <!-- ARCHETYPE 2: Accordion Stacks -->
-      <div class="sheet-wrapper" id="sheet-2">
-        <div class="sheet-v2">
-          <div class="handle-bar"></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <div>
-                <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-                <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-              </div>
-            </div>
-            <span class="tax-tag">TAX</span>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="photo-grid">
-            <div class="photo-opt active"><div class="count">25</div><div class="price">$139</div></div>
-            <div class="photo-opt"><div class="count">36</div><div class="price">$179</div></div>
-            <div class="photo-opt"><div class="count">40</div><div class="price">$189</div></div>
-            <div class="photo-opt"><div class="count">50</div><div class="price">$224</div></div>
-          </div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span style="font-size:14px; font-weight:800; color:var(--text-muted);">TOTAL</span>
-            <span style="font-size:36px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
+      <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 16px; margin-bottom: 12px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom: 12px;">
+          <div class="pop-icon-box"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+          <h2 style="font-size:22px; font-weight:800;">Photos</h2>
+        </div>
+
+        <div class="sub-tabs">
+          <div class="tab-item active">MLS</div>
+          <div class="tab-item">Airbnb</div>
+          <div class="tab-item">PORT</div>
+        </div>
+
+        <div class="service-row">
+          <div class="service-title"><svg class="ico"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Full Shoot</div>
+          <div class="service-price">From $139 ›</div>
+        </div>
+        <div class="service-row">
+          <div class="service-title"><svg class="ico"><path d="M23 4v6h-6M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg> Reshoot</div>
+          <div class="service-price">$89 ›</div>
+        </div>
+        <div class="service-row">
+          <div class="service-title"><svg class="ico"><path d="M3 21h18M5 21V7l8-4v18"></path></svg> Ranch Shoot</div>
+          <div class="service-price">From $299 ›</div>
+        </div>
+        <div class="service-row">
+          <div class="service-title"><svg class="ico"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg> Exterior Only</div>
+          <div class="service-price">$79 ›</div>
+        </div>
+        <div class="service-row">
+          <div class="service-title"><svg class="ico"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 3a8 8 0 0 1 8 7.2c0 7.3-8 11.8-8 11.8z"></path></svg> Mini Shoot</div>
+          <div class="service-price">$119 ›</div>
         </div>
       </div>
 
-      <!-- ARCHETYPE 3: Segmented Multi-Tab Sheet -->
-      <div class="sheet-wrapper" id="sheet-3">
-        <div class="sheet-v3">
-          <div class="handle-bar"></div>
-          <div class="tabs">
-            <div class="tab active">PHOTOS</div>
-            <div class="tab">COVERAGE</div>
-            <div class="tab">BREAKDOWN</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-            <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:22px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span class="tax-tag">TAX</span>
-            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom:8px;">
+        <div class="service-row" style="margin:0;"><div class="service-title"><svg class="ico"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2"></rect></svg> Video</div></div>
+        <div class="service-row" style="margin:0;"><div class="service-title"><svg class="ico"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> Aerial</div></div>
+        <div class="service-row" style="margin:0;"><div class="service-title"><svg class="ico"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path></svg> 360 Tour</div></div>
+        <div class="service-row" style="margin:0;"><div class="service-title"><svg class="ico"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg> Floor Plan</div></div>
       </div>
 
-      <!-- ARCHETYPE 4: Typography-First Minimalist -->
-      <div class="sheet-wrapper" id="sheet-4">
-        <div class="sheet-v4">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div class="icon-camera" style="border-radius:50%; background:var(--text); color:var(--sheet-bg);"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <div>
-                <p style="font-size:12px; font-weight:900; color:var(--accent);">MLS PHOTOS</p>
-                <h1 style="font-size:26px; font-weight:900;">Full Shoot</h1>
-              </div>
-            </div>
-            <span class="tax-tag">TAX</span>
-          </div>
-          <div style="font-size:52px; font-weight:900; font-family:var(--font-display); margin:10px 0;">$149.00</div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
+      <div class="service-row"><div class="service-title"><svg class="ico"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg> Add-Ons</div></div>
 
-      <!-- ARCHETYPE 5: Split-Screen Bottom Dock -->
-      <div class="sheet-wrapper" id="sheet-5">
-        <div class="sheet-v5">
-          <div style="display:flex; align-items:center; gap:12px;">
-            <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card" style="margin-bottom:0;">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="background:var(--card-bg); padding:14px; border-radius:18px; display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <span class="tax-tag">TAX</span>
-              <div style="font-size:28px; font-weight:900; font-family:var(--font-display);">$149.00</div>
-            </div>
-            <button class="btn-cta" style="width:auto; padding:0 28px;">🛒+</button>
-          </div>
-        </div>
+      <div class="bottom-nav-dock">
+        <span class="dock-ico active"><svg class="ico"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></span>
+        <span class="dock-ico"><svg class="ico"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2"></rect></svg></span>
+        <span class="dock-ico"><svg class="ico"><path d="M12 2L2 7l10 5 10-5-10-5z"></path></svg></span>
+        <span class="dock-ico"><svg class="ico"><circle cx="12" cy="12" r="10"></circle></svg></span>
+        <span class="dock-ico"><svg class="ico"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg></span>
+        <span class="dock-ico"><svg class="ico"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></span>
+        <div class="cart-badge" style="width:36px; height:36px;"><svg class="ico" style="width:18px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg><span class="cart-count">2</span></div>
       </div>
-
-      <!-- ARCHETYPE 6: Horizontal Carousel Pill Picker -->
-      <div class="sheet-wrapper" id="sheet-6">
-        <div class="sheet-v6">
-          <div style="padding:0 20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <div>
-                <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-                <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-              </div>
-            </div>
-            <span class="tax-tag">TAX</span>
-          </div>
-          <div style="padding:0 20px;">
-            <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-            <div class="photo-grid">
-              <div class="photo-opt active"><div class="count">25</div><div class="price">$139</div></div>
-              <div class="photo-opt"><div class="count">36</div><div class="price">$179</div></div>
-              <div class="photo-opt"><div class="count">40</div><div class="price">$189</div></div>
-              <div class="photo-opt"><div class="count">50</div><div class="price">$224</div></div>
-            </div>
-            <button class="btn-cta">🛒+ ($149.00)</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 7: Floating Action Capsule -->
-      <div class="sheet-wrapper" id="sheet-7">
-        <div class="sheet-v7">
-          <div class="capsule">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-              <div class="icon-camera" style="width:40px; height:40px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <div>
-                <div style="font-size:11px; color:var(--text-muted);">MLS Photos</div>
-                <div style="font-size:16px; font-weight:900;">Full Shoot</div>
-              </div>
-            </div>
-            <div class="breakdown-card" style="margin-bottom:10px;">
-              <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-              <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <span class="tax-tag">TAX</span>
-                <span style="font-size:22px; font-weight:900; font-family:var(--font-display); margin-left:8px;">$149.00</span>
-              </div>
-              <button class="btn-cta" style="width:50px; min-height:50px; border-radius:50%; padding:0;">🛒+</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 8: High-Contrast 2x2 Grid Tiles -->
-      <div class="sheet-wrapper" id="sheet-8">
-        <div class="sheet-v8">
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-            <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="photo-grid">
-            <div class="photo-opt active"><div class="count">25</div><div class="price">$139</div></div>
-            <div class="photo-opt"><div class="count">36</div><div class="price">$179</div></div>
-            <div class="photo-opt"><div class="count">40</div><div class="price">$189</div></div>
-            <div class="photo-opt"><div class="count">50</div><div class="price">$224</div></div>
-          </div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <button class="btn-cta">🛒+ $149.00</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 9: Neo-Brutalist High-Border -->
-      <div class="sheet-wrapper" id="sheet-9">
-        <div class="sheet-v9">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <div style="font-family:var(--font-display); font-size:12px; color:var(--accent);">MLS PHOTOS</div>
-            <div class="icon-camera" style="border:2px solid #fff; background:#000;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-          </div>
-          <div style="font-family:var(--font-display); font-size:24px; color:#fff; margin-bottom:10px;">FULL SHOOT</div>
-          <div class="sqft-dropdown" style="border:2px solid #fff; border-radius:0;"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card" style="border:2px solid #fff; border-radius:0;">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight" style="background:#222;"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span class="tax-tag" style="border:2px solid #fff; color:#fff; background:#000;">TAX</span>
-            <span style="font-family:var(--font-display); font-size:32px; color:#fff;">$149.00</span>
-          </div>
-          <button class="btn-cta" style="border-radius:0; border:3px solid #fff; background:var(--accent); color:#fff;">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 10: Laboratory Clinical Matrix -->
-      <div class="sheet-wrapper" id="sheet-10">
-        <div class="sheet-v10">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed var(--border); padding-bottom:8px; margin-bottom:8px;">
-            <span>[PKG] MLS Photos</span>
-            <span class="tax-tag">TAX</span>
-          </div>
-          <div style="font-size:18px; font-weight:bold; margin-bottom:8px;">Full Shoot</div>
-          <div style="border-bottom:1px dashed var(--border); padding-bottom:8px; margin-bottom:8px;">
-            <div>BASE: 25 Photos ($139)</div>
-            <div>EXTRA: $5 / Extra × 2 (+$10)</div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:22px; font-weight:bold; margin-bottom:12px;">
-            <span>TOTAL:</span>
-            <span>$149.00</span>
-          </div>
-          <button class="btn-cta" style="border-radius:0;">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 11: Full-Bleed Edge Cards -->
-      <div class="sheet-wrapper" id="sheet-11">
-        <div class="sheet-v11">
-          <div class="card" style="display:flex; align-items:center; gap:12px;">
-            <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="sqft-dropdown" style="margin-bottom:0;"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          </div>
-          <div class="card">
-            <div class="breakdown-row" style="padding:4px 0;"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row" style="padding:4px 0; color:var(--accent);"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="padding:16px; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-            <button class="btn-cta" style="width:auto; padding:0 28px;">🛒+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 12: Radial Speed Dial -->
-      <div class="sheet-wrapper" id="sheet-12">
-        <div class="sheet-v12">
-          <div class="icon-camera" style="margin:0 auto 10px auto;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-          <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-          <div style="font-size:22px; font-weight:900; margin-bottom:8px;">Full Shoot</div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="font-size:38px; font-weight:900; font-family:var(--font-display); margin-bottom:12px;">$149.00</div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 13: Asymmetric Bento Grid -->
-      <div class="sheet-wrapper" id="sheet-13">
-        <div class="sheet-v13">
-          <div style="background:var(--card-bg); padding:16px; border-radius:20px; margin-bottom:10px; display:flex; align-items:center; gap:12px;">
-            <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:11px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:18px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="background:var(--accent); color:#fff; padding:14px; border-radius:20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span style="font-size:12px; font-weight:900;">TOTAL</span>
-            <span style="font-size:28px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 14: Pinned Top-Hero Canvas -->
-      <div class="sheet-wrapper" id="sheet-14">
-        <div class="sheet-v14">
-          <div class="hero-canvas">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-weight:800; font-size:12px;">MLS PHOTOS</span>
-              <span class="tax-tag" style="background:#fff; color:#000;">TAX</span>
-            </div>
-            <div style="font-size:38px; font-weight:900; font-family:var(--font-display); margin-top:6px;">$149.00</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-            <div class="icon-camera" style="width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 15: Tactile Glove Switchboard -->
-      <div class="sheet-wrapper" id="sheet-15">
-        <div class="sheet-v15">
-          <div style="background:var(--card-bg); border:3px solid var(--border); border-radius:18px; padding:12px; display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div class="icon-camera" style="width:38px; height:38px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <span style="font-size:18px; font-weight:900;">Full Shoot</span>
-            </div>
-            <span class="tax-tag">TAX</span>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="background:var(--accent); color:#fff; border-radius:18px; padding:14px; text-align:center; font-size:28px; font-weight:900; font-family:var(--font-display); margin-bottom:10px;">$149.00</div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 16: Bottom-Anchored Thumb Zone -->
-      <div class="sheet-wrapper" id="sheet-16">
-        <div class="sheet-v16">
-          <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
-            <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:22px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px;">
-            <span class="tax-tag">TAX</span>
-            <div style="font-size:38px; font-weight:900; font-family:var(--font-display);">$149.00</div>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 17: High-Contrast Gradient Canvas -->
-      <div class="sheet-wrapper" id="sheet-17">
-        <div class="sheet-v17">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <div class="icon-camera" style="width:36px; height:36px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <span style="font-size:12px; opacity:0.9; font-weight:800;">MLS Photos</span>
-            </div>
-            <span class="tax-tag" style="background:rgba(255,255,255,0.2); color:#fff; border:none;">TAX</span>
-          </div>
-          <div style="font-size:24px; font-weight:900; margin:8px 0;">Full Shoot</div>
-          <div class="sqft-dropdown" style="background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2);"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card" style="background:rgba(0,0,0,0.3); border-color:rgba(255,255,255,0.1);">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="font-size:38px; font-weight:900; font-family:var(--font-display); margin-bottom:12px;">$149.00</div>
-          <button class="btn-cta" style="background:#fff; color:#000;">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 18: Split Dual-Shade Sheet -->
-      <div class="sheet-wrapper" id="sheet-18">
-        <div class="sheet-v18">
-          <div style="padding:18px; background:var(--sheet-bg);">
-            <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
-              <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <div>
-                <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-                <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-              </div>
-            </div>
-            <div class="sqft-dropdown" style="margin-bottom:0;"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          </div>
-          <div style="padding:18px;">
-            <div class="breakdown-card">
-              <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-              <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <span class="tax-tag">TAX</span>
-              <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-            </div>
-            <button class="btn-cta">🛒+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 19: Borderless Divider Grid -->
-      <div class="sheet-wrapper" id="sheet-19">
-        <div class="sheet-v19">
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border);">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <div class="icon-camera" style="width:32px; height:32px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <span style="color:var(--text-muted);">Service</span>
-            </div>
-            <span style="font-weight:900;">Full Shoot</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);">
-            <span style="color:var(--text-muted);">Coverage</span>
-            <span style="font-weight:800;">0 – 1,999 Sq Ft</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);">
-            <span style="color:var(--text-muted);">Base 25 Photos</span>
-            <span style="font-weight:800;">$139</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);">
-            <span style="color:var(--text-muted);">$5 / Extra × 2</span>
-            <span style="font-weight:800; color:var(--accent);">+$10</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0;">
-            <span style="font-weight:900;">Total</span>
-            <span style="font-weight:900; font-size:32px; font-family:var(--font-display); color:var(--accent);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 20: Floating HUD Sheet -->
-      <div class="sheet-wrapper" id="sheet-20">
-        <div class="sheet-v20">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <div class="icon-camera" style="width:32px; height:32px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <span style="font-size:14px; font-weight:900;">Full Shoot</span>
-            </div>
-            <span class="tax-tag">TAX</span>
-          </div>
-          <div class="sqft-dropdown" style="padding:8px 12px; min-height:40px; font-size:13px; margin-bottom:8px;"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card" style="margin-bottom:8px;">
-            <div class="breakdown-row" style="padding:6px 12px; font-size:12px;"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight" style="padding:6px 12px; font-size:12px;"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:26px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-            <button class="btn-cta" style="width:auto; padding:0 20px; min-height:44px; font-size:18px;">🛒+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 21: Horizontal Snap Cards -->
-      <div class="sheet-wrapper" id="sheet-21">
-        <div class="sheet-v21">
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-            <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:12px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span class="tax-tag">TAX</span>
-            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 22: Icon-Anchored Row Strips -->
-      <div class="sheet-wrapper" id="sheet-22">
-        <div class="sheet-v22">
-          <div style="display:flex; align-items:center; gap:12px; background:var(--card-bg); padding:10px; border-radius:16px; margin-bottom:10px;">
-            <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:11px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:18px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span class="tax-tag">TAX</span>
-            <span style="font-size:30px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 23: Top-Heavy Price Banner -->
-      <div class="sheet-wrapper" id="sheet-23">
-        <div class="sheet-v23">
-          <div style="background:var(--accent); padding:20px; color:#fff; text-align:center;">
-            <span class="tax-tag" style="background:#000; color:#fff;">TAX</span>
-            <div style="font-size:42px; font-weight:900; font-family:var(--font-display); margin-top:4px;">$149.00</div>
-          </div>
-          <div style="padding:18px;">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-              <div class="icon-camera" style="width:36px; height:36px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <div style="font-size:20px; font-weight:900;">Full Shoot</div>
-            </div>
-            <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-            <div class="breakdown-card">
-              <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-              <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-            </div>
-            <button class="btn-cta">🛒+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 24: Two-Column Switcher Grid -->
-      <div class="sheet-wrapper" id="sheet-24">
-        <div class="sheet-v24">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
-            <div style="background:var(--card-bg); padding:12px; border-radius:16px;">
-              <div class="icon-camera" style="width:34px; height:34px; margin-bottom:4px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <div style="font-size:15px; font-weight:900;">Full Shoot</div>
-            </div>
-            <div style="background:var(--card-bg); padding:12px; border-radius:16px; text-align:right; display:flex; flex-direction:column; justify-content:space-between;">
-              <span class="tax-tag" style="align-self:flex-end;">TAX</span>
-              <div style="font-size:22px; font-weight:900; font-family:var(--font-display);">$149.00</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 25: Inset Well Matrix -->
-      <div class="sheet-wrapper" id="sheet-25">
-        <div class="sheet-v25">
-          <div style="background:var(--bg); padding:12px; border-radius:16px; border:1px solid var(--border); display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-            <div class="icon-camera" style="width:36px; height:36px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div>
-              <div style="font-size:11px; color:var(--text-muted);">MLS Photos</div>
-              <div style="font-size:18px; font-weight:900;">Full Shoot</div>
-            </div>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span class="tax-tag">TAX</span>
-            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 26: Overlapping Dynamic Pill Stack -->
-      <div class="sheet-wrapper" id="sheet-26">
-        <div class="sheet-v26">
-          <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
-            <div class="icon-camera" style="width:32px; height:32px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <span style="background:var(--card-bg); border:1px solid var(--border); padding:4px 10px; border-radius:16px; font-size:12px; font-weight:800;">MLS Photos</span>
-            <span class="tax-tag">TAX</span>
-          </div>
-          <div style="font-size:24px; font-weight:900; margin-bottom:8px;">Full Shoot</div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="background:var(--accent); color:#fff; padding:14px; border-radius:18px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span style="font-weight:900; font-size:12px;">TOTAL</span>
-            <span style="font-size:30px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 27: Clean Technical Spec -->
-      <div class="sheet-wrapper" id="sheet-27">
-        <div class="sheet-v27">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:8px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <div class="icon-camera" style="width:30px; height:30px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <span style="font-size:11px; color:var(--text-muted); font-weight:800;">PHOTO_SPEC</span>
-            </div>
-            <span style="font-size:14px; font-weight:900;">Full Shoot</span>
-          </div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span class="tax-tag">TAX</span>
-            <span style="font-size:32px; font-weight:900; font-family:var(--font-display);">$149.00</span>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 28: Top-Right Floating Total Badge -->
-      <div class="sheet-wrapper" id="sheet-28">
-        <div class="sheet-v28">
-          <div class="float-badge">$149.00</div>
-          <div style="margin-top:6px;">
-            <div class="icon-camera" style="margin-bottom:6px;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-            <div style="font-size:12px; color:var(--text-muted); font-weight:800;">MLS Photos</div>
-            <div style="font-size:22px; font-weight:900; margin-bottom:8px;">Full Shoot</div>
-            <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-            <div class="breakdown-card">
-              <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-              <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-            </div>
-          </div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 29: Full-Screen Sheet Overhaul -->
-      <div class="sheet-wrapper" id="sheet-29" style="height:100%;">
-        <div class="sheet-v29">
-          <div>
-            <div class="handle-bar"></div>
-            <div style="display:flex; align-items:center; gap:12px; margin-top:10px; margin-bottom:8px;">
-              <div class="icon-camera"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-              <div>
-                <div style="font-size:12px; color:var(--accent); font-weight:800;">MLS PHOTOS</div>
-                <div style="font-size:26px; font-weight:900;">Full Shoot</div>
-              </div>
-            </div>
-            <div class="sqft-dropdown" style="margin-top:14px;"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-            <div class="breakdown-card">
-              <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-              <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-            </div>
-            <span class="tax-tag">TAX</span>
-          </div>
-          <div>
-            <div style="font-size:46px; font-weight:900; font-family:var(--font-display); margin-bottom:14px;">$149.00</div>
-            <button class="btn-cta">🛒+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ARCHETYPE 30: Centered Focal Point -->
-      <div class="sheet-wrapper" id="sheet-30">
-        <div class="sheet-v30">
-          <div class="icon-camera" style="margin:0 auto 8px auto;"><svg viewBox="0 0 24 24"><path d="M3 9l4-4h10l4 4v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><circle cx="12" cy="13" r="4"/></svg></div>
-          <div style="font-size:12px; color:var(--text-muted); font-weight:800;">MLS Photos</div>
-          <div style="font-size:24px; font-weight:900; margin-bottom:6px;">Full Shoot</div>
-          <div class="sqft-dropdown"><span>0 – 1,999 Sq Ft</span><span>▼</span></div>
-          <div class="breakdown-card">
-            <div class="breakdown-row"><span>Base 25 Photos</span><span>$139</span></div>
-            <div class="breakdown-row highlight"><span>$5 / Extra × 2</span><span>+$10</span></div>
-          </div>
-          <div style="margin-bottom:8px;"><span class="tax-tag">TAX</span></div>
-          <div style="font-size:38px; font-weight:900; font-family:var(--font-display); margin-bottom:12px;">$149.00</div>
-          <button class="btn-cta">🛒+</button>
-        </div>
-      </div>
-
     </div>
-  </div>
+
+    <!-- VARIANT 02: Neo-Brutalist High-Contrast Deck -->
+    <div class="screen-variant" id="v2">
+      <span class="variant-badge">02 · Neo-Brutalist Heavy</span>
+      <div class="brand-bar">
+        <div style="font-size:32px; font-weight:900; text-transform:uppercase; color:#000; background:#FFF; padding:2px 10px; border:3px solid #000;">S2S</div>
+        <div class="v2-btn" style="padding:8px 16px;">CART (2)</div>
+      </div>
+
+      <div class="v2-box" style="background:#FFF; color:#000; padding:12px; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <div class="pop-icon-box v2-box" style="background:#000;"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+          <h2 style="font-size:26px; font-weight:900; text-transform:uppercase;">PHOTOS</h2>
+        </div>
+        <div style="display:flex; gap:4px; margin-bottom:8px;">
+          <button class="v2-btn" style="flex:1; padding:8px;">MLS</button>
+          <button style="flex:1; background:#FFF; border:2px solid #000; font-weight:900;">Airbnb</button>
+          <button style="flex:1; background:#FFF; border:2px solid #000; font-weight:900;">PORT</button>
+        </div>
+        <div class="v2-box" style="padding:10px; margin-bottom:6px; font-weight:900; display:flex; justify-content:space-between;"><span>FULL SHOOT</span><span>FROM $139 ›</span></div>
+        <div class="v2-box" style="padding:10px; margin-bottom:6px; font-weight:900; display:flex; justify-content:space-between;"><span>RESHOOT</span><span>$89 ›</span></div>
+        <div class="v2-box" style="padding:10px; margin-bottom:6px; font-weight:900; display:flex; justify-content:space-between;"><span>RANCH SHOOT</span><span>FROM $299 ›</span></div>
+        <div class="v2-box" style="padding:10px; margin-bottom:6px; font-weight:900; display:flex; justify-content:space-between;"><span>EXTERIOR ONLY</span><span>$79 ›</span></div>
+        <div class="v2-box" style="padding:10px; font-weight:900; display:flex; justify-content:space-between;"><span>MINI SHOOT</span><span>$119 ›</span></div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px;">
+        <div class="v2-box" style="padding:12px; background:#FFF; color:#000; font-weight:900;">VIDEO</div>
+        <div class="v2-box" style="padding:12px; background:#FFF; color:#000; font-weight:900;">AERIAL</div>
+        <div class="v2-box" style="padding:12px; background:#FFF; color:#000; font-weight:900;">360 TOUR</div>
+        <div class="v2-box" style="padding:12px; background:#FFF; color:#000; font-weight:900;">FLOOR PLAN</div>
+      </div>
+      <div class="v2-box" style="padding:14px; background:#E50914; color:#FFF; font-weight:900; text-align:center;">ADD-ONS</div>
+    </div>
+
+    <!-- VARIANT 03: Split Dual-Shade Dock -->
+    <div class="screen-variant" id="v3">
+      <span class="variant-badge">03 · Split Dual-Shade Dock</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><span class="variant-badge" style="margin:0;">CART: 2</span></div>
+      <div style="background:var(--accent); color:#FFF; padding:16px; border-radius:24px; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <div class="pop-icon-box" style="background:#FFF; color:#000;"><svg class="ico" style="stroke:#000;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+          <h2 style="font-size:24px; font-weight:900;">Photos Options</h2>
+        </div>
+        <div class="sub-tabs" style="background:rgba(0,0,0,0.2); border:none;">
+          <div class="tab-item active" style="background:#FFF; color:#000;">MLS</div>
+          <div class="tab-item" style="color:#FFF;">Airbnb</div>
+          <div class="tab-item" style="color:#FFF;">PORT</div>
+        </div>
+      </div>
+
+      <div style="background:var(--card-bg); border-radius:24px; padding:12px; border:1px solid var(--card-border);">
+        <div class="service-row"><span>Full Shoot</span><strong>From $139 ›</strong></div>
+        <div class="service-row"><span>Reshoot</span><strong>$89 ›</strong></div>
+        <div class="service-row"><span>Ranch Shoot</span><strong>From $299 ›</strong></div>
+        <div class="service-row"><span>Exterior Only</span><strong>$79 ›</strong></div>
+        <div class="service-row"><span>Mini Shoot</span><strong>$119 ›</strong></div>
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:6px; margin:8px 0;">
+          <div class="service-row" style="margin:0;">Video</div>
+          <div class="service-row" style="margin:0;">Aerial</div>
+          <div class="service-row" style="margin:0;">360 Tour</div>
+          <div class="service-row" style="margin:0;">Floor Plan</div>
+        </div>
+        <div class="service-row" style="background:var(--active-bg); color:var(--active-text);"><span>Add-Ons</span><strong>+</strong></div>
+      </div>
+    </div>
+
+    <!-- VARIANT 04: Asymmetric Bento Grid Architecture -->
+    <div class="screen-variant" id="v4">
+      <span class="variant-badge">04 · Asymmetric Bento Grid</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div class="bento-grid">
+        <div class="bento-cell" style="grid-column: span 2; background:var(--accent); color:#FFF;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="pop-icon-box" style="background:#FFF; color:#000;"><svg class="ico" style="stroke:#000;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+            <span style="font-weight:900; font-size:18px;">PHOTOS</span>
+          </div>
+          <div style="display:flex; gap:6px; margin-top:10px;">
+            <span style="background:#FFF; color:#000; padding:4px 10px; border-radius:8px; font-weight:800; font-size:12px;">MLS</span>
+            <span style="background:rgba(0,0,0,0.2); padding:4px 10px; border-radius:8px; font-weight:800; font-size:12px;">Airbnb</span>
+            <span style="background:rgba(0,0,0,0.2); padding:4px 10px; border-radius:8px; font-weight:800; font-size:12px;">PORT</span>
+          </div>
+        </div>
+        <div class="bento-cell"><span style="font-size:12px; color:var(--text-muted);">FULL SHOOT</span><span style="font-size:20px; font-weight:900;">From $139</span></div>
+        <div class="bento-cell"><span style="font-size:12px; color:var(--text-muted);">RESHOOT</span><span style="font-size:20px; font-weight:900;">$89</span></div>
+        <div class="bento-cell"><span style="font-size:12px; color:var(--text-muted);">RANCH SHOOT</span><span style="font-size:20px; font-weight:900;">From $299</span></div>
+        <div class="bento-cell"><span style="font-size:12px; color:var(--text-muted);">EXTERIOR ONLY</span><span style="font-size:20px; font-weight:900;">$79</span></div>
+        <div class="bento-cell" style="grid-column: span 2;"><span style="font-size:12px; color:var(--text-muted);">MINI SHOOT</span><span style="font-size:22px; font-weight:900;">$119</span></div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:8px;">
+        <div class="bento-cell" style="padding:8px; text-align:center; min-height:60px;">Video</div>
+        <div class="bento-cell" style="padding:8px; text-align:center; min-height:60px;">Aerial</div>
+        <div class="bento-cell" style="padding:8px; text-align:center; min-height:60px;">360 Tour</div>
+        <div class="bento-cell" style="padding:8px; text-align:center; min-height:60px;">Floor Plan</div>
+      </div>
+      <div class="service-row" style="background:var(--accent); color:#FFF;"><span style="font-weight:900;">Add-Ons</span><span>+</span></div>
+    </div>
+
+    <!-- VARIANT 05: Pinned Left-Rail Sidebar Dock -->
+    <div class="screen-variant" id="v5">
+      <span class="variant-badge">05 · Pinned Left Rail</span>
+      <div class="left-rail-layout">
+        <div class="left-rail">
+          <div class="brand-logo" style="font-size:18px;">s2s</div>
+          <div class="pop-icon-box"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+          <svg class="ico"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2"></rect></svg>
+          <svg class="ico"><path d="M12 2L2 7l10 5 10-5-10-5z"></path></svg>
+          <svg class="ico"><circle cx="12" cy="12" r="10"></circle></svg>
+          <div class="cart-badge" style="width:36px; height:36px;"><span class="cart-count">2</span>🛒</div>
+        </div>
+
+        <div style="flex:1;">
+          <h2 style="font-size:22px; font-weight:900; margin-bottom:8px;">Photos Catalog</h2>
+          <div class="sub-tabs">
+            <div class="tab-item active">MLS</div>
+            <div class="tab-item">Airbnb</div>
+            <div class="tab-item">PORT</div>
+          </div>
+          <div class="service-row"><span>Full Shoot</span><small>From $139</small></div>
+          <div class="service-row"><span>Reshoot</span><small>$89</small></div>
+          <div class="service-row"><span>Ranch Shoot</span><small>From $299</small></div>
+          <div class="service-row"><span>Exterior Only</span><small>$79</small></div>
+          <div class="service-row"><span>Mini Shoot</span><small>$119</small></div>
+          <div style="font-size:12px; font-weight:800; margin:8px 0; color:var(--text-muted);">OTHER SERVICES</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
+            <div class="service-row" style="padding:8px; font-size:12px;">Video</div>
+            <div class="service-row" style="padding:8px; font-size:12px;">Aerial</div>
+            <div class="service-row" style="padding:8px; font-size:12px;">360 Tour</div>
+            <div class="service-row" style="padding:8px; font-size:12px;">Floor Plan</div>
+          </div>
+          <div class="service-row" style="margin-top:6px; background:var(--accent); color:#FFF;"><span>Add-Ons</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VARIANT 06: Giant Typography-First Minimalist -->
+    <div class="screen-variant" id="v6">
+      <span class="variant-badge">06 · Typography-First Minimalist</span>
+      <div class="brand-bar"><div class="brand-logo" style="font-size:32px;">s2s</div><span style="font-weight:900;">CART (2)</span></div>
+      <h1 style="font-size:48px; font-weight:900; line-height:0.9; margin-bottom:12px;">PHOTOS</h1>
+      <div style="display:flex; gap:12px; font-weight:900; font-size:16px; margin-bottom:16px; border-bottom:2px solid var(--text); padding-bottom:8px;">
+        <span style="color:var(--accent);">[ MLS ]</span>
+        <span style="color:var(--text-muted);">Airbnb</span>
+        <span style="color:var(--text-muted);">PORT</span>
+      </div>
+      <div style="border-bottom:1px solid var(--card-border); padding:10px 0;" class="brand-bar"><span style="font-size:20px; font-weight:800;">Full Shoot</span><span style="font-size:20px; font-weight:900;">From $139</span></div>
+      <div style="border-bottom:1px solid var(--card-border); padding:10px 0;" class="brand-bar"><span style="font-size:20px; font-weight:800;">Reshoot</span><span style="font-size:20px; font-weight:900;">$89</span></div>
+      <div style="border-bottom:1px solid var(--card-border); padding:10px 0;" class="brand-bar"><span style="font-size:20px; font-weight:800;">Ranch Shoot</span><span style="font-size:20px; font-weight:900;">From $299</span></div>
+      <div style="border-bottom:1px solid var(--card-border); padding:10px 0;" class="brand-bar"><span style="font-size:20px; font-weight:800;">Exterior Only</span><span style="font-size:20px; font-weight:900;">$79</span></div>
+      <div style="border-bottom:1px solid var(--card-border); padding:10px 0;" class="brand-bar"><span style="font-size:20px; font-weight:800;">Mini Shoot</span><span style="font-size:20px; font-weight:900;">$119</span></div>
+      <div style="margin-top:16px; font-weight:900; font-size:14px; color:var(--accent);">VIDEO · AERIAL · 360 TOUR · FLOOR PLAN · ADD-ONS</div>
+    </div>
+
+    <!-- VARIANT 07: Stadium Pill Stack Architecture -->
+    <div class="screen-variant" id="v7">
+      <span class="variant-badge">07 · Stadium Pill Stack</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div class="service-row pill-item" style="background:var(--accent); color:#FFF;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div class="pop-icon-box" style="width:32px; height:32px; border-radius:50%; background:#FFF;"><svg class="ico" style="stroke:#000; width:16px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+          <span style="font-weight:900; font-size:18px;">Photos Menu</span>
+        </div>
+        <span style="font-weight:800; font-size:12px; background:rgba(0,0,0,0.2); padding:4px 10px; border-radius:20px;">MLS</span>
+      </div>
+      <div class="service-row pill-item"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row pill-item"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row pill-item"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row pill-item"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row pill-item"><span>Mini Shoot</span><strong>$119</strong></div>
+      <div style="display:flex; gap:6px; margin-top:10px;">
+        <div class="service-row pill-item" style="flex:1; justify-content:center; font-size:12px;">Video</div>
+        <div class="service-row pill-item" style="flex:1; justify-content:center; font-size:12px;">Aerial</div>
+        <div class="service-row pill-item" style="flex:1; justify-content:center; font-size:12px;">360 Tour</div>
+      </div>
+      <div class="service-row pill-item" style="justify-content:center; background:var(--active-bg); color:var(--active-text); margin-top:6px;">Floor Plan & Add-Ons</div>
+    </div>
+
+    <!-- VARIANT 08: Tactical Glove Switchboard -->
+    <div class="screen-variant" id="v8">
+      <span class="variant-badge">08 · Tactical Glove Switchboard</span>
+      <div class="brand-bar"><div class="brand-logo" style="font-weight:900; font-size:28px;">S2S FIELD</div><div class="tactical-btn" style="padding:6px 12px;">CART: 2</div></div>
+      <div class="tactical-btn" style="background:var(--accent); color:#FFF; display:flex; align-items:center; justify-content:space-between; padding:0 16px; margin-bottom:10px;">
+        <span>PHOTOS CATEGORY</span>
+        <span>MLS ▼</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr; gap:8px; margin-bottom:10px;">
+        <button class="tactical-btn" style="background:var(--card-bg); color:var(--text); display:flex; justify-content:space-between; padding:0 16px; align-items:center;"><span>FULL SHOOT</span><span>$139+</span></button>
+        <button class="tactical-btn" style="background:var(--card-bg); color:var(--text); display:flex; justify-content:space-between; padding:0 16px; align-items:center;"><span>RESHOOT</span><span>$89</span></button>
+        <button class="tactical-btn" style="background:var(--card-bg); color:var(--text); display:flex; justify-content:space-between; padding:0 16px; align-items:center;"><span>RANCH SHOOT</span><span>$299+</span></button>
+        <button class="tactical-btn" style="background:var(--card-bg); color:var(--text); display:flex; justify-content:space-between; padding:0 16px; align-items:center;"><span>EXTERIOR ONLY</span><span>$79</span></button>
+        <button class="tactical-btn" style="background:var(--card-bg); color:var(--text); display:flex; justify-content:space-between; padding:0 16px; align-items:center;"><span>MINI SHOOT</span><span>$119</span></button>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:6px;">
+        <button class="tactical-btn" style="font-size:13px;">VIDEO</button>
+        <button class="tactical-btn" style="font-size:13px;">AERIAL</button>
+        <button class="tactical-btn" style="font-size:13px;">360 TOUR</button>
+        <button class="tactical-btn" style="font-size:13px;">FLOOR PLAN</button>
+      </div>
+    </div>
+
+    <!-- VARIANT 09: Clinical Spec Technical Layout -->
+    <div class="screen-variant" id="v9" style="font-family:monospace;">
+      <span class="variant-badge">09 · Clinical Technical Spec</span>
+      <div class="brand-bar"><div>[SYS_ID: S2S_MOBILE]</div><div>[QTY: 02]</div></div>
+      <div style="border: 1px dashed var(--text); padding: 12px; margin-bottom: 12px;">
+        <div style="font-weight:900; font-size:18px; margin-bottom:6px;">> CAT: PHOTOS_SUITE</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">SELECT: [MLS]  AIRBNB  PORT</div>
+        <div style="border-top: 1px dashed var(--text); padding-top: 8px;">
+          <div>1. FULL_SHOOT ........ FROM $139</div>
+          <div>2. RESHOOT ........... $89</div>
+          <div>3. RANCH_SHOOT ...... FROM $299</div>
+          <div>4. EXTERIOR_ONLY ..... $79</div>
+          <div>5. MINI_SHOOT ........ $119</div>
+        </div>
+      </div>
+      <div style="border: 1px dashed var(--text); padding: 12px; font-size:12px;">
+        <div>> AUX_SERVICES:</div>
+        <div>- VIDEO | AERIAL | 360_TOUR | FLOOR_PLAN</div>
+        <div>- ADD-ONS_MODULE</div>
+      </div>
+    </div>
+
+    <!-- VARIANT 10: Inset Tile Well Matrix -->
+    <div class="screen-variant" id="v10">
+      <span class="variant-badge">10 · Inset Tile Well Matrix</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div class="well-container" style="margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <div class="pop-icon-box"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+          <h2 style="font-size:20px; font-weight:800;">Photos Module</h2>
+        </div>
+        <div class="sub-tabs"><div class="tab-item active">MLS</div><div class="tab-item">Airbnb</div><div class="tab-item">PORT</div></div>
+        <div class="well-container" style="background:var(--card-bg); margin-bottom:6px;">
+          <div class="brand-bar" style="margin:0;"><span style="font-weight:800;">Full Shoot</span><span style="font-weight:900;">From $139 ›</span></div>
+        </div>
+        <div class="well-container" style="background:var(--card-bg); margin-bottom:6px;">
+          <div class="brand-bar" style="margin:0;"><span style="font-weight:800;">Reshoot</span><span style="font-weight:900;">$89 ›</span></div>
+        </div>
+        <div class="well-container" style="background:var(--card-bg); margin-bottom:6px;">
+          <div class="brand-bar" style="margin:0;"><span style="font-weight:800;">Ranch Shoot</span><span style="font-weight:900;">From $299 ›</span></div>
+        </div>
+        <div class="well-container" style="background:var(--card-bg); margin-bottom:6px;">
+          <div class="brand-bar" style="margin:0;"><span style="font-weight:800;">Exterior Only</span><span style="font-weight:900;">$79 ›</span></div>
+        </div>
+        <div class="well-container" style="background:var(--card-bg);">
+          <div class="brand-bar" style="margin:0;"><span style="font-weight:800;">Mini Shoot</span><span style="font-weight:900;">$119 ›</span></div>
+        </div>
+      </div>
+      <div class="well-container" style="display:grid; grid-template-columns:repeat(2,1fr); gap:6px;">
+        <div style="background:var(--card-bg); padding:10px; border-radius:10px; text-align:center; font-weight:800;">Video</div>
+        <div style="background:var(--card-bg); padding:10px; border-radius:10px; text-align:center; font-weight:800;">Aerial</div>
+        <div style="background:var(--card-bg); padding:10px; border-radius:10px; text-align:center; font-weight:800;">360 Tour</div>
+        <div style="background:var(--card-bg); padding:10px; border-radius:10px; text-align:center; font-weight:800;">Floor Plan</div>
+      </div>
+    </div>
+
+    <!-- VARIANTS 11 THROUGH 30 CONCEPTIONS (COMPREHENSIVE CATALOG) -->
+
+    <!-- Variant 11: Top Floating Glass Hero -->
+    <div class="screen-variant" id="v11">
+      <span class="variant-badge">11 · Top Floating Hero</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="background:rgba(229,9,20,0.15); border:1px solid var(--accent); padding:16px; border-radius:24px; margin-bottom:12px; text-align:center;">
+        <div class="pop-icon-box" style="margin:0 auto 8px auto;"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+        <h2 style="font-size:24px; font-weight:900;">Photos [MLS]</h2>
+      </div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+      <div class="service-row" style="background:var(--card-bg);"><span>Video · Aerial · 360 · Floor Plan</span></div>
+    </div>
+
+    <!-- Variant 12: High-Contrast Gradient Canvas -->
+    <div class="screen-variant" id="v12" style="background:linear-gradient(180deg, rgba(229,9,20,0.2) 0%, var(--bg) 60%);">
+      <span class="variant-badge">12 · High-Contrast Gradient</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <h2 style="font-size:28px; font-weight:900; margin-bottom:8px;">Photos</h2>
+      <div class="sub-tabs"><div class="tab-item active">MLS</div><div class="tab-item">Airbnb</div><div class="tab-item">PORT</div></div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139 ›</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89 ›</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299 ›</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79 ›</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119 ›</strong></div>
+      <div class="service-row" style="background:var(--accent); color:#FFF;"><span>Video / Aerial / 360 / Floor Plan / Add-Ons</span></div>
+    </div>
+
+    <!-- Variant 13: Full-Bleed Edge Cards -->
+    <div class="screen-variant" id="v13" style="padding:16px 0;">
+      <div style="padding:0 16px;"><span class="variant-badge">13 · Full-Bleed Edge Cards</span></div>
+      <div style="padding:0 16px;" class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="border-top:1px solid var(--card-border); border-bottom:1px solid var(--card-border); padding:14px 16px; font-size:22px; font-weight:900; background:var(--card-bg);">
+        Photos (MLS)
+      </div>
+      <div style="border-bottom:1px solid var(--card-border); padding:14px 16px;" class="brand-bar"><span style="font-weight:800;">Full Shoot</span><strong>From $139</strong></div>
+      <div style="border-bottom:1px solid var(--card-border); padding:14px 16px;" class="brand-bar"><span style="font-weight:800;">Reshoot</span><strong>$89</strong></div>
+      <div style="border-bottom:1px solid var(--card-border); padding:14px 16px;" class="brand-bar"><span style="font-weight:800;">Ranch Shoot</span><strong>From $299</strong></div>
+      <div style="border-bottom:1px solid var(--card-border); padding:14px 16px;" class="brand-bar"><span style="font-weight:800;">Exterior Only</span><strong>$79</strong></div>
+      <div style="border-bottom:1px solid var(--card-border); padding:14px 16px;" class="brand-bar"><span style="font-weight:800;">Mini Shoot</span><strong>$119</strong></div>
+      <div style="padding:14px 16px; background:var(--accent); color:#FFF; font-weight:900; text-align:center;">Video · Aerial · 360 Tour · Floor Plan · Add-Ons</div>
+    </div>
+
+    <!-- Variant 14: Horizontal Carousel Chip Picker -->
+    <div class="screen-variant" id="v14">
+      <span class="variant-badge">14 · Carousel Chip Picker</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:12px;">
+        <div style="padding:10px 16px; background:var(--accent); color:#FFF; border-radius:20px; font-weight:900; white-space:nowrap;">Photos (MLS)</div>
+        <div style="padding:10px 16px; background:var(--card-bg); border-radius:20px; font-weight:800; white-space:nowrap;">Video</div>
+        <div style="padding:10px 16px; background:var(--card-bg); border-radius:20px; font-weight:800; white-space:nowrap;">Aerial</div>
+        <div style="padding:10px 16px; background:var(--card-bg); border-radius:20px; font-weight:800; white-space:nowrap;">360 Tour</div>
+        <div style="padding:10px 16px; background:var(--card-bg); border-radius:20px; font-weight:800; white-space:nowrap;">Floor Plan</div>
+      </div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+      <div class="service-row" style="background:var(--active-bg); color:var(--active-text);"><span>Add-Ons</span><strong>+</strong></div>
+    </div>
+
+    <!-- Variant 15: Centered Focal Point Scale -->
+    <div class="screen-variant" id="v15" style="text-align:center;">
+      <span class="variant-badge">15 · Centered Focal Scale</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div class="pop-icon-box" style="margin:0 auto 8px auto; width:52px; height:52px;"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+      <h1 style="font-size:32px; font-weight:900; margin-bottom:4px;">PHOTOS</h1>
+      <div style="font-size:12px; font-weight:800; color:var(--accent); margin-bottom:16px;">MLS | AIRBNB | PORT</div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+      <div style="font-weight:800; font-size:13px; margin-top:12px;">Video • Aerial • 360 Tour • Floor Plan • Add-Ons</div>
+    </div>
+
+    <!-- Variant 16: Bottom Thumb Reach Zone -->
+    <div class="screen-variant" id="v16">
+      <span class="variant-badge">16 · Bottom Thumb Reach Zone</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="opacity:0.6; padding:12px; font-weight:800; margin-bottom:40px;">
+        <div>Photos catalog selected: MLS</div>
+        <small>Full Shoot ($139+), Reshoot ($89), Ranch ($299+)...</small>
+      </div>
+      <div style="background:var(--card-bg); border:2px solid var(--accent); border-radius:28px; padding:16px;">
+        <div style="font-weight:900; font-size:18px; margin-bottom:10px;">QUICK SELECT CONTROL</div>
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:6px;">
+          <button class="service-row" style="margin:0; font-size:12px;">Full Shoot ($139+)</button>
+          <button class="service-row" style="margin:0; font-size:12px;">Reshoot ($89)</button>
+          <button class="service-row" style="margin:0; font-size:12px;">Ranch Shoot ($299+)</button>
+          <button class="service-row" style="margin:0; font-size:12px;">Exterior ($79)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variant 17: Overlapping Card Stack -->
+    <div class="screen-variant" id="v17">
+      <span class="variant-badge">17 · Overlapping Dynamic Stack</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="position:relative; height:320px;">
+        <div style="position:absolute; top:0; width:100%; background:var(--card-bg); border:1px solid var(--card-border); padding:16px; border-radius:20px; font-weight:800;">Photos: MLS Category</div>
+        <div style="position:absolute; top:40px; width:100%; background:var(--card-border); padding:16px; border-radius:20px; font-weight:800;" class="brand-bar"><span>Full Shoot</span><strong>From $139</strong></div>
+        <div style="position:absolute; top:80px; width:100%; background:var(--card-bg); border:1px solid var(--card-border); padding:16px; border-radius:20px; font-weight:800;" class="brand-bar"><span>Reshoot</span><strong>$89</strong></div>
+        <div style="position:absolute; top:120px; width:100%; background:var(--accent); color:#FFF; padding:16px; border-radius:20px; font-weight:800;" class="brand-bar"><span>Ranch Shoot</span><strong>From $299</strong></div>
+        <div style="position:absolute; top:160px; width:100%; background:var(--card-bg); border:1px solid var(--card-border); padding:16px; border-radius:20px; font-weight:800;" class="brand-bar"><span>Exterior Only</span><strong>$79</strong></div>
+        <div style="position:absolute; top:200px; width:100%; background:var(--active-bg); color:var(--active-text); padding:16px; border-radius:20px; font-weight:800;" class="brand-bar"><span>Mini Shoot</span><strong>$119</strong></div>
+      </div>
+      <div style="margin-top:20px; font-weight:800; font-size:12px; text-align:center;">Video · Aerial · 360 Tour · Floor Plan · Add-Ons</div>
+    </div>
+
+    <!-- Variant 18: Radial Action Center -->
+    <div class="screen-variant" id="v18">
+      <span class="variant-badge">18 · Radial Action Center</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="text-align:center; padding:20px 0;">
+        <div class="pop-icon-box" style="width:70px; height:70px; border-radius:50%; margin:0 auto 12px auto;"><svg class="ico" style="stroke:#FFF; width:36px; height:36px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+        <h2 style="font-size:26px; font-weight:900;">PHOTOS SUITE</h2>
+      </div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+    </div>
+
+    <!-- Variant 19: High Contrast Badge Block -->
+    <div class="screen-variant" id="v19">
+      <span class="variant-badge">19 · High Contrast Badge Block</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="background:var(--active-bg); color:var(--active-text); padding:16px; border-radius:20px; margin-bottom:12px;" class="brand-bar">
+        <div style="display:flex; align-items:center; gap:8px;"><div class="pop-icon-box"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div><span style="font-size:22px; font-weight:900;">PHOTOS</span></div>
+        <span style="font-weight:900; background:var(--accent); color:#FFF; padding:4px 10px; border-radius:8px;">MLS</span>
+      </div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+      <div class="service-row" style="background:var(--card-bg);"><span>Video | Aerial | 360 Tour | Floor Plan | Add-Ons</span></div>
+    </div>
+
+    <!-- Variant 20: Accordion Collapsible Stack -->
+    <div class="screen-variant" id="v20">
+      <span class="variant-badge">20 · Accordion Expandable Stack</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <details open style="background:var(--card-bg); padding:12px; border-radius:16px; border:1px solid var(--card-border); margin-bottom:8px;">
+        <summary style="font-weight:900; font-size:18px; cursor:pointer;">📷 Photos (MLS)</summary>
+        <div style="padding-top:10px;">
+          <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+          <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+          <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+          <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+          <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+        </div>
+      </details>
+      <details style="background:var(--card-bg); padding:12px; border-radius:16px; border:1px solid var(--card-border); margin-bottom:8px;">
+        <summary style="font-weight:900; font-size:18px; cursor:pointer;">🎥 Video & Aerial</summary>
+        <div style="padding-top:10px;"><div class="service-row">Video</div><div class="service-row">Aerial</div></div>
+      </details>
+      <details style="background:var(--card-bg); padding:12px; border-radius:16px; border:1px solid var(--card-border);">
+        <summary style="font-weight:900; font-size:18px; cursor:pointer;">🌐 360 Tour, Floor Plan & Add-Ons</summary>
+        <div style="padding-top:10px;"><div class="service-row">360 Tour</div><div class="service-row">Floor Plan</div><div class="service-row">Add-Ons</div></div>
+      </details>
+    </div>
+
+    <!-- Variant 21: Borderless Grid Matrix -->
+    <div class="screen-variant" id="v21">
+      <span class="variant-badge">21 · Borderless Grid Matrix</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <h2 style="font-size:24px; font-weight:900; border-bottom:2px solid var(--text); padding-bottom:6px; margin-bottom:12px;">PHOTOS (MLS)</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+        <div><div style="font-weight:900; font-size:18px;">Full Shoot</div><div style="color:var(--accent); font-weight:800;">From $139</div></div>
+        <div><div style="font-weight:900; font-size:18px;">Reshoot</div><div style="color:var(--accent); font-weight:800;">$89</div></div>
+        <div><div style="font-weight:900; font-size:18px;">Ranch Shoot</div><div style="color:var(--accent); font-weight:800;">From $299</div></div>
+        <div><div style="font-weight:900; font-size:18px;">Exterior Only</div><div style="color:var(--accent); font-weight:800;">$79</div></div>
+        <div><div style="font-weight:900; font-size:18px;">Mini Shoot</div><div style="color:var(--accent); font-weight:800;">$119</div></div>
+      </div>
+      <div style="border-top:1px solid var(--card-border); padding-top:10px; font-weight:800; font-size:12px;">VIDEO · AERIAL · 360 TOUR · FLOOR PLAN · ADD-ONS</div>
+    </div>
+
+    <!-- Variant 22: Frosted Glass Overlay -->
+    <div class="screen-variant" id="v22" style="backdrop-filter:blur(12px); background:rgba(255,255,255,0.05);">
+      <span class="variant-badge">22 · Frosted Glass Depth</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="padding:16px; background:rgba(255,255,255,0.1); border-radius:24px; border:1px solid rgba(255,255,255,0.2); margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <div class="pop-icon-box"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+          <h2 style="font-size:22px; font-weight:900;">Photos (MLS)</h2>
+        </div>
+        <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+        <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+        <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+        <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+        <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+      </div>
+    </div>
+
+    <!-- Variant 23: Accent Border Framing -->
+    <div class="screen-variant" id="v23" style="border:3px solid var(--accent);">
+      <span class="variant-badge">23 · Accent Border Frame</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <h2 style="font-size:24px; font-weight:900; color:var(--accent); margin-bottom:8px;">PHOTOS CATALOG</h2>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+    </div>
+
+    <!-- Variant 24: Snap Horizontal Cards -->
+    <div class="screen-variant" id="v24">
+      <span class="variant-badge">24 · Snap Card Switcher</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="padding:16px; background:var(--card-bg); border-radius:20px; border-left:6px solid var(--accent); margin-bottom:12px;">
+        <div style="font-weight:900; font-size:20px;">Photos Suite [MLS]</div>
+        <div style="font-size:13px; color:var(--text-muted);">Active Category</div>
+      </div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+    </div>
+
+    <!-- Variant 25: Full-Screen Canvas Overhaul -->
+    <div class="screen-variant" id="v25" style="min-height:500px;">
+      <span class="variant-badge">25 · Full-Screen Modal Canvas</span>
+      <div class="brand-bar"><div class="brand-logo" style="font-size:28px;">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="text-align:center; padding:16px 0;">
+        <div class="pop-icon-box" style="margin:0 auto 10px auto; width:64px; height:64px;"><svg class="ico" style="stroke:#FFF; width:32px; height:32px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+        <h1 style="font-size:36px; font-weight:900;">PHOTOS</h1>
+        <div style="font-weight:800; color:var(--accent);">MLS · AIRBNB · PORT</div>
+      </div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139 ›</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89 ›</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299 ›</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79 ›</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119 ›</strong></div>
+    </div>
+
+    <!-- Variant 26: Icon Anchored Strip Rows -->
+    <div class="screen-variant" id="v26">
+      <span class="variant-badge">26 · Icon-Anchored Strips</span>
+      <div class="brand-bar"><div class="brand-logo">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div class="service-row"><span style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">🏠</span> Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">🔄</span> Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">🏚️</span> Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">🧱</span> Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span style="display:flex; align-items:center; gap:8px;"><span style="color:var(--accent);">🚗</span> Mini Shoot</span><strong>$119</strong></div>
+      <div class="service-row" style="background:var(--card-bg);"><span>🎥 Video | 🚁 Aerial | 🌐 360 | 📐 Floor Plan | ➕ Add-Ons</span></div>
+    </div>
+
+    <!-- Variant 27: Floating Modular Card Layer -->
+    <div class="screen-variant" id="v27" style="background:transparent; border:none; box-shadow:none;">
+      <span class="variant-badge">27 · Modular Floating Cards</span>
+      <div style="background:var(--card-bg); padding:16px; border-radius:20px; border:1px solid var(--card-border); margin-bottom:8px;" class="brand-bar">
+        <div style="display:flex; align-items:center; gap:8px;"><div class="pop-icon-box"><svg class="ico" style="stroke:#FFF;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div><span style="font-weight:900; font-size:20px;">Photos (MLS)</span></div>
+      </div>
+      <div style="background:var(--card-bg); padding:12px; border-radius:20px; border:1px solid var(--card-border); margin-bottom:8px;">
+        <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+        <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+        <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+        <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+        <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+      </div>
+    </div>
+
+    <!-- Variant 28: Ultra-Bold Hero Deck -->
+    <div class="screen-variant" id="v28">
+      <span class="variant-badge">28 · Ultra-Bold Hero Deck</span>
+      <div class="brand-bar"><div class="brand-logo" style="font-size:32px; font-weight:900;">s2s</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="background:var(--accent); color:#FFF; padding:20px; border-radius:24px; margin-bottom:12px;">
+        <div style="font-weight:900; font-size:12px; text-transform:uppercase;">PRIMARY MODULE</div>
+        <div style="font-size:32px; font-weight:900; line-height:1; margin-top:4px;">PHOTOS</div>
+        <div style="font-weight:800; font-size:14px; margin-top:8px;">MLS · AIRBNB · PORT</div>
+      </div>
+      <div class="service-row"><span>Full Shoot</span><strong>From $139</strong></div>
+      <div class="service-row"><span>Reshoot</span><strong>$89</strong></div>
+      <div class="service-row"><span>Ranch Shoot</span><strong>From $299</strong></div>
+      <div class="service-row"><span>Exterior Only</span><strong>$79</strong></div>
+      <div class="service-row"><span>Mini Shoot</span><strong>$119</strong></div>
+    </div>
+
+    <!-- Variant 29: Stark Contrast Inversion -->
+    <div class="screen-variant" id="v29" style="background:#FFF; color:#000;">
+      <span class="variant-badge">29 · Stark Contrast Inversion</span>
+      <div class="brand-bar"><div class="brand-logo" style="color:#000;">s2s</div><div style="font-weight:900;">CART (2)</div></div>
+      <h2 style="font-size:28px; font-weight:900; margin-bottom:12px;">PHOTOS CATALOG</h2>
+      <div style="background:#000; color:#FFF; padding:12px; font-weight:900; margin-bottom:8px;" class="brand-bar"><span>FULL SHOOT</span><span>FROM $139</span></div>
+      <div style="background:#F2F2F7; color:#000; padding:12px; font-weight:900; margin-bottom:8px;" class="brand-bar"><span>RESHOOT</span><span>$89</span></div>
+      <div style="background:#F2F2F7; color:#000; padding:12px; font-weight:900; margin-bottom:8px;" class="brand-bar"><span>RANCH SHOOT</span><span>FROM $299</span></div>
+      <div style="background:#F2F2F7; color:#000; padding:12px; font-weight:900; margin-bottom:8px;" class="brand-bar"><span>EXTERIOR ONLY</span><span>$79</span></div>
+      <div style="background:#F2F2F7; color:#000; padding:12px; font-weight:900; margin-bottom:8px;" class="brand-bar"><span>MINI SHOOT</span><span>$119</span></div>
+    </div>
+
+    <!-- Variant 30: Grand Master Integrated Switchboard -->
+    <div class="screen-variant" id="v30">
+      <span class="variant-badge">30 · Grand Master Switchboard</span>
+      <div class="brand-bar"><div class="brand-logo" style="font-size:28px;">s2s PRO</div><div class="cart-badge"><span class="cart-count">2</span>🛒</div></div>
+      <div style="background:var(--card-bg); border:2px solid var(--accent); border-radius:24px; padding:16px; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="pop-icon-box" style="width:40px; height:40px;"><svg class="ico" style="stroke:#FFF; width:20px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path></svg></div>
+            <span style="font-size:22px; font-weight:900;">PHOTOS</span>
+          </div>
+          <span style="background:var(--accent); color:#FFF; font-weight:900; font-size:12px; padding:4px 8px; border-radius:6px;">MLS</span>
+        </div>
+
+        <div class="service-row"><span>Full Shoot</span><strong>From $139 ›</strong></div>
+        <div class="service-row"><span>Reshoot</span><strong>$89 ›</strong></div>
+        <div class="service-row"><span>Ranch Shoot</span><strong>From $299 ›</strong></div>
+        <div class="service-row"><span>Exterior Only</span><strong>$79 ›</strong></div>
+        <div class="service-row"><span>Mini Shoot</span><strong>$119 ›</strong></div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:6px;">
+        <div class="service-row" style="margin:0; justify-content:center; font-weight:800;">Video</div>
+        <div class="service-row" style="margin:0; justify-content:center; font-weight:800;">Aerial</div>
+        <div class="service-row" style="margin:0; justify-content:center; font-weight:800;">360 Tour</div>
+        <div class="service-row" style="margin:0; justify-content:center; font-weight:800;">Floor Plan</div>
+      </div>
+      <div class="service-row" style="margin-top:6px; background:var(--active-bg); color:var(--active-text); justify-content:center; font-weight:900;">Add-Ons</div>
+    </div>
+
+  </main>
 
   <script>
-    let activeIndex = 1;
-    const maxSheets = 30;
+    let currentScreen = 1;
+    const totalScreens = 30;
 
-    const names = [
-      "01. Floating Modular Cards",
-      "02. Accordion Stacks",
-      "03. Segmented Multi-Tab Sheet",
-      "04. Typography-First Minimalist",
-      "05. Split-Screen Bottom Dock",
-      "06. Horizontal Carousel Pill Picker",
-      "07. Floating Action Capsule",
-      "08. High-Contrast 2x2 Grid Tiles",
-      "09. Neo-Brutalist High-Border",
-      "10. Laboratory Clinical Matrix",
-      "11. Full-Bleed Edge Cards",
-      "12. Radial Speed Dial",
-      "13. Asymmetric Bento Grid",
-      "14. Pinned Top-Hero Canvas",
-      "15. Tactile Glove Switchboard",
-      "16. Bottom-Anchored Thumb Zone",
-      "17. High-Contrast Gradient Canvas",
-      "18. Split Dual-Shade Sheet",
-      "19. Borderless Divider Grid",
-      "20. Floating HUD Sheet",
-      "21. Horizontal Snap Cards",
-      "22. Icon-Anchored Row Strips",
-      "23. Top-Heavy Price Banner",
-      "24. Two-Column Switcher Grid",
-      "25. Inset Well Matrix",
-      "26. Overlapping Dynamic Pill Stack",
-      "27. Clean Technical Spec",
-      "28. Top-Right Floating Total Badge",
-      "29. Full-Screen Sheet Overhaul",
-      "30. Centered Focal Point"
-    ];
-
-    const dropdown = document.getElementById('sheetSelect');
-    names.forEach((name, i) => {
+    const selectEl = document.getElementById('variantSelect');
+    for (let i = 1; i <= totalScreens; i++) {
       const opt = document.createElement('option');
-      opt.value = i + 1;
-      opt.textContent = name;
-      dropdown.appendChild(opt);
-    });
+      opt.value = i;
+      opt.textContent = `Variant ${i < 10 ? '0' + i : i} / 30`;
+      selectEl.appendChild(opt);
+    }
 
-    function displaySheet(id) {
-      document.querySelectorAll('.sheet-wrapper').forEach(s => s.classList.remove('active'));
-      const target = document.getElementById(`sheet-${id}`);
-      if (target) {
-        target.classList.add('active');
+    function showScreen(num) {
+      document.querySelectorAll('.screen-variant').forEach(card => {
+        card.classList.remove('active');
+        card.style.display = 'none';
+      });
+      const activeCard = document.getElementById(`v${num}`);
+      if (activeCard) {
+        activeCard.classList.add('active');
+        activeCard.style.display = 'block';
       }
-      dropdown.value = id;
-      activeIndex = id;
+      selectEl.value = num;
+      currentScreen = num;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function changeSheet(delta) {
-      let next = activeIndex + delta;
-      if (next < 1) next = maxSheets;
-      if (next > maxSheets) next = 1;
-      displaySheet(next);
+    function prevScreen() {
+      let prev = currentScreen - 1;
+      if (prev < 1) prev = totalScreens;
+      showScreen(prev);
     }
 
-    function jumpToSheet(val) {
-      displaySheet(parseInt(val, 10));
+    function nextScreen() {
+      let next = currentScreen + 1;
+      if (next > totalScreens) next = 1;
+      showScreen(next);
+    }
+
+    function jumpToScreen(val) {
+      showScreen(parseInt(val, 10));
     }
 
     function toggleTheme() {
-      const html = document.documentElement;
-      const current = html.getAttribute('data-theme');
-      html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
     }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') prevScreen();
+      if (e.key === 'ArrowRight') nextScreen();
+    });
+
+    showScreen(1);
   </script>
 </body>
 </html>
