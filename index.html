@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MLS Photos Bottom Sheet Redesigns - 10 Options</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-red: #E50914;
+      --brand-red-hover: #CC0000;
+      --brand-black: #121212;
+      --brand-dark-surface: #1E1E1E;
+      --brand-gray-border: #2A2A2A;
+      --brand-text-muted: #A1A1AA;
+      --brand-white: #FFFFFF;
+      --brand-light-bg: #F4F4F5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #0A0A0A;
+      color: var(--brand-white);
+      padding: 30px 16px 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 600px;
+    }
+
+    .page-header h1 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      color: var(--brand-text-muted);
+      font-size: 14px;
+    }
+
+    /* Grid Layout */
+    .showroom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      width: 100%;
+      max-width: 1400px;
+    }
+
+    /* Base Bottom Sheet Canvas Mockup */
+    .sheet-card {
+      background: var(--brand-black);
+      border: 1px solid var(--brand-gray-border);
+      border-radius: 28px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .option-label {
+      align-self: flex-start;
+      background: rgba(229, 9, 20, 0.15);
+      color: var(--brand-red);
+      border: 1px solid rgba(229, 9, 20, 0.3);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .drag-handle {
+      width: 36px;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+      margin: 0 auto 16px;
+    }
+
+    /* Reusable UI Components */
+    .icon-box {
+      width: 38px;
+      height: 38px;
+      background: var(--brand-dark-surface);
+      border: 1px solid var(--brand-gray-border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tax-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: #282828;
+      color: var(--brand-text-muted);
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .price-tag {
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .select-dropdown {
+      width: 100%;
+      background: var(--brand-dark-surface);
+      border: 1px solid var(--brand-gray-border);
+      color: var(--brand-white);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    /* --- OPTION 1: Modern Crimson Accent --- */
+    .opt-1 .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .opt-1 .title-group { display: flex; align-items: center; gap: 12px; }
+    .opt-1 .title-text h3 { font-size: 18px; font-weight: 700; }
+    .opt-1 .title-text p { font-size: 12px; color: var(--brand-text-muted); }
+    .opt-1 .price-box { text-align: right; }
+    .opt-1 .price-box .val { font-size: 22px; color: var(--brand-white); }
+    .opt-1 .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
+    .opt-1 .photo-card { background: var(--brand-dark-surface); border: 1px solid var(--brand-gray-border); border-radius: 12px; padding: 10px; text-align: center; }
+    .opt-1 .photo-card.active { background: var(--brand-red); border-color: var(--brand-red); }
+    .opt-1 .photo-card .count { font-size: 16px; font-weight: 700; }
+    .opt-1 .photo-card .price { font-size: 11px; opacity: 0.8; }
+    .opt-1 .breakdown { background: #181818; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; }
+    .opt-1 .breakdown-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .opt-1 .breakdown-row:last-child { margin-bottom: 0; color: var(--brand-text-muted); }
+    .opt-1 .footer-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .opt-1 .stepper { display: flex; align-items: center; background: var(--brand-dark-surface); border-radius: 12px; padding: 6px 12px; gap: 12px; font-size: 14px; font-weight: 700; }
+    .opt-1 .stepper button { background: none; border: none; color: var(--brand-white); font-size: 18px; cursor: pointer; }
+    .opt-1 .action-btns { display: flex; gap: 8px; }
+    .opt-1 .btn-wiz { background: transparent; border: 1px solid var(--brand-gray-border); color: var(--brand-white); border-radius: 12px; padding: 10px 14px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .opt-1 .btn-cart { background: var(--brand-red); border: none; color: var(--brand-white); border-radius: 12px; padding: 10px 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+
+    /* --- OPTION 2: High-Contrast Red Header Hero --- */
+    .opt-2 .hero-banner { background: var(--brand-red); border-radius: 16px; padding: 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--brand-white); }
+    .opt-2 .hero-left { display: flex; align-items: center; gap: 10px; }
+    .opt-2 .hero-left h3 { font-size: 16px; font-weight: 700; }
+    .opt-2 .hero-left p { font-size: 11px; opacity: 0.9; }
+    .opt-2 .hero-price { text-align: right; font-size: 22px; font-weight: 800; }
+    .opt-2 .pills-row { display: flex; gap: 8px; overflow-x: auto; margin: 16px 0; padding-bottom: 4px; }
+    .opt-2 .pill { flex: 1; background: var(--brand-dark-surface); border: 1px solid var(--brand-gray-border); border-radius: 30px; padding: 10px; text-align: center; min-width: 70px; }
+    .opt-2 .pill.active { background: var(--brand-white); color: var(--brand-black); font-weight: 700; }
+    .opt-2 .summary-box { border-left: 3px solid var(--brand-red); padding-left: 12px; margin-bottom: 16px; }
+    .opt-2 .summary-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+    .opt-2 .cta-bar { display: flex; gap: 10px; }
+    .opt-2 .btn-main { flex: 1; background: var(--brand-white); color: var(--brand-black); border-radius: 14px; font-weight: 700; padding: 14px; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+    /* --- OPTION 3: Compact Segmented Tab Navigation --- */
+    .opt-3 .title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .opt-3 .seg-control { display: flex; background: #181818; border-radius: 10px; padding: 4px; margin: 12px 0; }
+    .opt-3 .seg-item { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; border-radius: 8px; color: var(--brand-text-muted); }
+    .opt-3 .seg-item.active { background: var(--brand-dark-surface); color: var(--brand-white); border: 1px solid var(--brand-gray-border); }
+    .opt-3 .card-breakdown { background: var(--brand-dark-surface); border-radius: 14px; padding: 14px; margin-bottom: 16px; }
+    .opt-3 .full-btn { background: var(--brand-red); color: var(--brand-white); border: none; width: 100%; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
+
+    /* --- OPTION 4: Card-Based Tiered Horizontal Flow --- */
+    .opt-4 .tier-cards { display: flex; gap: 8px; margin: 16px 0; }
+    .opt-4 .tier-card { flex: 1; background: var(--brand-dark-surface); border: 1px solid var(--brand-gray-border); border-radius: 16px; padding: 12px 8px; text-align: center; position: relative; }
+    .opt-4 .tier-card.selected { border: 2px solid var(--brand-red); background: rgba(229, 9, 20, 0.05); }
+    .opt-4 .badge-pop { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: var(--brand-red); color: white; font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 10px; text-transform: uppercase; }
+    .opt-4 .btn-checkout { width: 100%; background: var(--brand-white); color: var(--brand-black); padding: 14px; border-radius: 14px; border: none; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; }
+
+    /* --- OPTION 5: Glassmorphism Floating Sheet --- */
+    .opt-5 { background: rgba(20, 20, 20, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); }
+    .opt-5 .glass-box { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 14px; margin-bottom: 12px; }
+    .opt-5 .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+    .opt-5 .grid-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 10px 14px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .opt-5 .grid-item.active { border-color: var(--brand-red); background: rgba(229, 9, 20, 0.12); }
+
+    /* --- OPTION 6: Minimalist Border Line & Direct Stepper --- */
+    .opt-6 .header-clean { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--brand-gray-border); }
+    .opt-6 .stepper-hero { display: flex; align-items: center; justify-content: space-between; background: var(--brand-dark-surface); padding: 12px 16px; border-radius: 16px; margin: 16px 0; }
+    .opt-6 .count-large { font-size: 22px; font-weight: 800; color: var(--brand-red); }
+
+    /* --- OPTION 7: Sticky Interactive Bottom Dock --- */
+    .opt-7 .dock-bar { background: var(--brand-white); color: var(--brand-black); border-radius: 16px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+    .opt-7 .dock-left .total { font-size: 18px; font-weight: 800; }
+    .opt-7 .btn-dark-add { background: var(--brand-black); color: var(--brand-white); padding: 10px 16px; border-radius: 10px; font-weight: 600; border: none; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+
+    /* --- OPTION 8: Soft Neumorphic Dark UI --- */
+    .opt-8 .neu-card { background: #161616; box-shadow: inset 2px 2px 5px #0c0c0c, inset -2px -2px 5px #202020; border-radius: 14px; padding: 12px; margin-bottom: 12px; }
+    .opt-8 .neu-btn { background: #161616; box-shadow: 4px 4px 8px #0d0d0d, -4px -4px 8px #1f1f1f; border-radius: 12px; padding: 12px; border: none; color: var(--brand-white); font-weight: 600; }
+
+    /* --- OPTION 9: High Contrast Light Mode Hybrid --- */
+    .opt-9 { background: var(--brand-light-bg); color: var(--brand-black); border-color: #E4E4E7; }
+    .opt-9 .icon-box { background: var(--brand-white); border-color: #E4E4E7; }
+    .opt-9 .select-dropdown { background: var(--brand-white); border-color: #E4E4E7; color: var(--brand-black); }
+    .opt-9 .photo-card { background: var(--brand-white); border: 1px solid #E4E4E7; border-radius: 12px; padding: 10px; text-align: center; color: var(--brand-black); }
+    .opt-9 .photo-card.active { background: var(--brand-black); color: var(--brand-white); }
+    .opt-9 .btn-red-full { background: var(--brand-red); color: var(--brand-white); border: none; border-radius: 12px; padding: 14px; font-weight: 700; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; }
+
+    /* --- OPTION 10: Wizard Featured Prominent Action --- */
+    .opt-10 .wiz-banner { background: linear-gradient(135deg, rgba(229, 9, 20, 0.2) 0%, rgba(18, 18, 18, 1) 100%); border: 1px solid var(--brand-red); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .opt-10 .wiz-badge { background: var(--brand-red); color: var(--brand-white); font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>MLS Photos Price Sheet Redesigns</h1>
+    <p>10 distinct UI/UX mobile layout options maintaining all contextual data points.</p>
+  </div>
+
+  <div class="showroom-grid">
+
+    <!-- OPTION 1: Modern Crimson Accent -->
+    <div class="sheet-card opt-1">
+      <span class="option-label">Option 01 • Classic Clean Accent</span>
+      <div class="drag-handle"></div>
+      
+      <div class="header-row">
+        <div class="title-group">
+          <div class="icon-box">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          </div>
+          <div class="title-text">
+            <p>MLS Photos</p>
+            <h3>Full Shoot</h3>
+          </div>
+        </div>
+        <div class="price-box">
+          <span class="tax-badge">TAX INCL.</span>
+          <div class="val">$179.00</div>
+        </div>
+      </div>
+
+      <div class="select-dropdown">
+        <span>0 – 1,999 Sq Ft</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo-card">
+          <div class="count">25</div>
+          <div class="price">$139</div>
+        </div>
+        <div class="photo-card active">
+          <div class="count">36</div>
+          <div class="price">$179</div>
+        </div>
+        <div class="photo-card">
+          <div class="count">40</div>
+          <div class="price">$189</div>
+        </div>
+        <div class="photo-card">
+          <div class="count">50</div>
+          <div class="price">$224</div>
+        </div>
+      </div>
+
+      <div class="breakdown">
+        <div class="breakdown-row"><span>Base 36 Photos</span><strong>$179</strong></div>
+        <div class="breakdown-row"><span>$5 / Extra Photo</span><strong>$0</strong></div>
+      </div>
+
+      <div class="footer-actions">
+        <div class="stepper">
+          <button>-</button>
+          <span>36</span>
+          <button>+</button>
+        </div>
+        <div class="action-btns">
+          <button class="btn-wiz">✦ Wizard</button>
+          <button class="btn-cart">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 2: High-Contrast Red Header Hero -->
+    <div class="sheet-card opt-2">
+      <span class="option-label">Option 02 • Red Hero Banner</span>
+      <div class="drag-handle"></div>
+
+      <div class="hero-banner">
+        <div class="hero-left">
+          <div class="icon-box" style="background: rgba(0,0,0,0.2); border: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          </div>
+          <div>
+            <p>MLS Photos</p>
+            <h3>Full Shoot</h3>
+          </div>
+        </div>
+        <div>
+          <span class="tax-badge" style="background: rgba(0,0,0,0.3); color: #fff;">TAX</span>
+          <div class="hero-price">$179</div>
+        </div>
+      </div>
+
+      <div class="select-dropdown" style="margin-bottom: 12px;">
+        <span>0 – 1,999 Sq Ft</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+
+      <div class="pills-row">
+        <div class="pill"><div style="font-size: 14px;">25</div><div style="font-size: 10px;">$139</div></div>
+        <div class="pill active"><div style="font-size: 14px;">36</div><div style="font-size: 10px;">$179</div></div>
+        <div class="pill"><div style="font-size: 14px;">40</div><div style="font-size: 10px;">$189</div></div>
+        <div class="pill"><div style="font-size: 14px;">50</div><div style="font-size: 10px;">$224</div></div>
+      </div>
+
+      <div class="summary-box">
+        <div class="summary-row"><span>Base 36 Photos</span><strong>$179</strong></div>
+        <div class="summary-row" style="color: var(--brand-text-muted);"><span>$5 / Extra</span><strong>$0</strong></div>
+      </div>
+
+      <div class="cta-bar">
+        <button class="btn-main">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span>Add Total (36 Photos)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- OPTION 3: Segmented Tab Layout -->
+    <div class="sheet-card opt-3">
+      <span class="option-label">Option 03 • Segmented Control</span>
+      <div class="drag-handle"></div>
+
+      <div class="title-bar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <strong style="font-size: 16px;">MLS Photos - Full Shoot</strong>
+        </div>
+        <span class="tax-badge">TAX</span>
+      </div>
+
+      <div class="select-dropdown">
+        <span>0 – 1,999 Sq Ft</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+
+      <div class="seg-control">
+        <div class="seg-item">25 ($139)</div>
+        <div class="seg-item active">36 ($179)</div>
+        <div class="seg-item">40 ($189)</div>
+        <div class="seg-item">50 ($224)</div>
+      </div>
+
+      <div class="card-breakdown">
+        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
+          <span>Base 36 Package</span>
+          <strong>$179</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--brand-text-muted);">
+          <span>Extra Photos ($5/ea)</span>
+          <strong>0 ($0)</strong>
+        </div>
+      </div>
+
+      <button class="full-btn">
+        <span>✦ Wizard Helper</span>
+        <span>Add to Cart • $179.00</span>
+      </button>
+    </div>
+
+    <!-- OPTION 4: Tiered Cards Highlight -->
+    <div class="sheet-card opt-4">
+      <span class="option-label">Option 04 • Tiered Card Highlight</span>
+      <div class="drag-handle"></div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div>
+          <h3 style="font-size: 18px;">MLS Photos Full Shoot</h3>
+          <p style="font-size: 12px; color: var(--brand-text-muted);">0 – 1,999 Sq Ft • Tax Included</p>
+        </div>
+        <div style="font-size: 22px; font-weight: 800; color: var(--brand-red);">$179</div>
+      </div>
+
+      <div class="tier-cards">
+        <div class="tier-card">
+          <div style="font-size: 15px; font-weight: 700;">25</div>
+          <div style="font-size: 11px; color: var(--brand-text-muted);">$139</div>
+        </div>
+        <div class="tier-card selected">
+          <span class="badge-pop">Popular</span>
+          <div style="font-size: 15px; font-weight: 800;">36</div>
+          <div style="font-size: 11px; color: var(--brand-red); font-weight: 700;">$179</div>
+        </div>
+        <div class="tier-card">
+          <div style="font-size: 15px; font-weight: 700;">40</div>
+          <div style="font-size: 11px; color: var(--brand-text-muted);">$189</div>
+        </div>
+        <div class="tier-card">
+          <div style="font-size: 15px; font-weight: 700;">50</div>
+          <div style="font-size: 11px; color: var(--brand-text-muted);">$224</div>
+        </div>
+      </div>
+
+      <div style="background: var(--brand-dark-surface); padding: 10px 14px; border-radius: 12px; display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 12px;">
+        <span>Extras: $5/photo</span>
+        <span>Count: 36 photos</span>
+      </div>
+
+      <button class="btn-checkout">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span>Confirm 36 Photos • $179.00</span>
+      </button>
+    </div>
+
+    <!-- OPTION 5: Glassmorphism Floating Sheet -->
+    <div class="sheet-card opt-5">
+      <span class="option-label">Option 05 • Glassmorphism Blur</span>
+      <div class="drag-handle"></div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="icon-box" style="border-color: rgba(255,255,255,0.2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div>
+            <h4 style="font-size: 15px;">MLS Photos: Full Shoot</h4>
+            <span class="tax-badge">TAX</span>
+          </div>
+        </div>
+        <div style="font-size: 20px; font-weight: 800;">$179.00</div>
+      </div>
+
+      <div class="glass-box">
+        <div style="font-size: 12px; color: var(--brand-text-muted); margin-bottom: 6px;">Square Footage</div>
+        <div style="font-size: 14px; font-weight: 600; display: flex; justify-content: space-between;">
+          <span>0 – 1,999 Sq Ft</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <div class="grid-2x2">
+        <div class="grid-item"><span>25 Photos</span><strong>$139</strong></div>
+        <div class="grid-item active"><span>36 Photos</span><strong>$179</strong></div>
+        <div class="grid-item"><span>40 Photos</span><strong>$189</strong></div>
+        <div class="grid-item"><span>50 Photos</span><strong>$224</strong></div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+        <span style="font-size: 12px; color: var(--brand-text-muted);">✦ Wizard Available</span>
+        <button style="background: var(--brand-red); color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px;">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- OPTION 6: Minimalist Border Line & Direct Stepper -->
+    <div class="sheet-card opt-6">
+      <span class="option-label">Option 06 • Minimalist Line Focus</span>
+      <div class="drag-handle"></div>
+
+      <div class="header-clean">
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: var(--brand-red); font-weight: 700;">MLS Photos</div>
+          <h3 style="font-size: 18px;">Full Shoot</h3>
+        </div>
+        <div style="text-align: right;">
+          <span class="tax-badge">TAX</span>
+          <div style="font-size: 20px; font-weight: 800;">$179.00</div>
+        </div>
+      </div>
+
+      <div style="margin: 14px 0 6px; font-size: 13px; color: var(--brand-text-muted);">Property Size: 0 – 1,999 Sq Ft</div>
+
+      <div class="stepper-hero">
+        <div>
+          <div style="font-size: 11px; color: var(--brand-text-muted);">Total Selected Photos</div>
+          <div class="count-large">36 Photos</div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button style="background: #252525; border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 18px;">-</button>
+          <button style="background: #252525; border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 18px;">+</button>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 12px; padding: 0 4px 14px; border-bottom: 1px dashed var(--brand-gray-border);">
+        <span>Base Package (36)</span>
+        <strong>$179</strong>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 14px;">
+        <button style="flex: 1; background: transparent; border: 1px solid var(--brand-gray-border); color: #fff; border-radius: 12px; padding: 12px; font-size: 13px;">✦ Wizard</button>
+        <button style="flex: 2; background: var(--brand-red); color: #fff; border: none; border-radius: 12px; padding: 12px; font-weight: 700; font-size: 14px;">Select Package</button>
+      </div>
+    </div>
+
+    <!-- OPTION 7: Sticky Bottom Dock -->
+    <div class="sheet-card opt-7">
+      <span class="option-label">Option 07 • Floating Bottom Dock</span>
+      <div class="drag-handle"></div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E50914" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div>
+            <h4 style="font-size: 15px;">MLS Photos Full Shoot</h4>
+            <span style="font-size: 11px; color: var(--brand-text-muted);">0 – 1,999 Sq Ft</span>
+          </div>
+        </div>
+        <span class="tax-badge">TAX</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 12px 0;">
+        <div style="background: var(--brand-dark-surface); padding: 8px; border-radius: 10px; text-align: center; font-size: 12px;">25 ($139)</div>
+        <div style="background: var(--brand-red); color: #fff; padding: 8px; border-radius: 10px; text-align: center; font-size: 12px; font-weight: 700;">36 ($179)</div>
+        <div style="background: var(--brand-dark-surface); padding: 8px; border-radius: 10px; text-align: center; font-size: 12px;">40 ($189)</div>
+        <div style="background: var(--brand-dark-surface); padding: 8px; border-radius: 10px; text-align: center; font-size: 12px;">50 ($224)</div>
+      </div>
+
+      <div class="dock-bar">
+        <div class="dock-left">
+          <div style="font-size: 10px; color: #666; text-transform: uppercase;">Total Price</div>
+          <div class="total">$179.00</div>
+        </div>
+        <button class="btn-dark-add">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <!-- OPTION 8: Neumorphic Soft UI -->
+    <div class="sheet-card opt-8">
+      <span class="option-label">Option 08 • Soft Neumorphic</span>
+      <div class="drag-handle"></div>
+
+      <div class="neu-card" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 11px; color: var(--brand-red); font-weight: 700;">MLS Photos</div>
+          <div style="font-size: 16px; font-weight: 700;">Full Shoot</div>
+        </div>
+        <div style="font-size: 20px; font-weight: 800;">$179.00</div>
+      </div>
+
+      <div style="font-size: 12px; color: var(--brand-text-muted); margin: 8px 0 4px;">Square Footage: 0 – 1,999 Sq Ft</div>
+
+      <div style="display: flex; justify-content: space-between; margin: 12px 0;">
+        <button class="neu-btn" style="flex: 1; margin-right: 6px;">25 / $139</button>
+        <button class="neu-btn" style="flex: 1; margin-right: 6px; border: 1px solid var(--brand-red); color: var(--brand-red);">36 / $179</button>
+        <button class="neu-btn" style="flex: 1;">40 / $189</button>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+        <button class="neu-btn" style="padding: 10px 16px; font-size: 12px;">✦ Wizard</button>
+        <button class="neu-btn" style="background: var(--brand-red); color: #fff; font-weight: 700;">Confirm Order</button>
+      </div>
+    </div>
+
+    <!-- OPTION 9: High Contrast Light Mode Hybrid -->
+    <div class="sheet-card opt-9">
+      <span class="option-label" style="background: rgba(0,0,0,0.06); color: var(--brand-black); border-color: #DDD;">Option 09 • Light Mode Minimal</span>
+      <div class="drag-handle" style="background: #CCC;"></div>
+
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+        <div>
+          <p style="font-size: 12px; color: #666;">MLS Photos</p>
+          <h3 style="font-size: 18px; font-weight: 800;">Full Shoot</h3>
+        </div>
+        <div style="text-align: right;">
+          <span class="tax-badge" style="background: #E4E4E7; color: #333;">TAX</span>
+          <div style="font-size: 22px; font-weight: 800; color: var(--brand-black);">$179.00</div>
+        </div>
+      </div>
+
+      <div class="select-dropdown" style="margin-bottom: 12px;">
+        <span>0 – 1,999 Sq Ft</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 16px;">
+        <div class="photo-card"><div style="font-weight: 700;">25</div><div style="font-size: 10px;">$139</div></div>
+        <div class="photo-card active"><div style="font-weight: 700;">36</div><div style="font-size: 10px;">$179</div></div>
+        <div class="photo-card"><div style="font-weight: 700;">40</div><div style="font-size: 10px;">$189</div></div>
+        <div class="photo-card"><div style="font-weight: 700;">50</div><div style="font-size: 10px;">$224</div></div>
+      </div>
+
+      <button class="btn-red-full">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Add to Cart • $179.00
+      </button>
+    </div>
+
+    <!-- OPTION 10: Wizard Featured Focus -->
+    <div class="sheet-card opt-10">
+      <span class="option-label">Option 10 • Wizard Assist Featured</span>
+      <div class="drag-handle"></div>
+
+      <div class="wiz-banner">
+        <div>
+          <span class="wiz-badge">SMART ASSIST</span>
+          <h4 style="font-size: 14px; margin-top: 4px;">Need help choosing photo count?</h4>
+        </div>
+        <button style="background: #fff; color: #000; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 12px;">✦ Wizard</button>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div>
+          <h3 style="font-size: 16px;">MLS Photos - Full Shoot</h3>
+          <p style="font-size: 12px; color: var(--brand-text-muted);">0 – 1,999 Sq Ft</p>
+        </div>
+        <div style="font-size: 20px; font-weight: 800;">$179</div>
+      </div>
+
+      <div style="background: var(--brand-dark-surface); border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <span style="font-size: 13px;">Selected Package: <strong>36 Photos</strong></span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button style="background: #2A2A2A; border: none; color: #fff; width: 28px; height: 28px; border-radius: 6px;">-</button>
+          <span>36</span>
+          <button style="background: #2A2A2A; border: none; color: #fff; width: 28px; height: 28px; border-radius: 6px;">+</button>
+        </div>
+      </div>
+
+      <button style="width: 100%; background: var(--brand-red); color: #fff; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        Add Selected Package to Order
+      </button>
+    </div>
+
+  </div>
+
+</body>
+</html>
