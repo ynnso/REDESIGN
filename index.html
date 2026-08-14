@@ -1,166 +1,371 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ isDark: true, activeSheet: null }" :class="isDark ? 'dark' : ''">
+<html lang="en" class="light" x-data="appData()">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>S2S Field App - Elite UI</title>
+  <title>S2S Field Hub - 10 Design Experiments</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
-    /* CORE ARCHITECTURE & PHYSICS */
     :root {
       --spring-snappy: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --curve-smooth: cubic-bezier(0.25, 1, 0.5, 1);
     }
-    
+
+    /* BASE SURFACE & HIGH-GLARE SUNLIGHT OPTIMIZATION */
+    html.light {
+      background-color: #e6e9ef;
+      color: #1a1d24;
+    }
+    html.dark {
+      background-color: #0d0e12;
+      color: #f0f2f5;
+    }
+
     html, body { 
       overscroll-behavior-y: none; 
       -webkit-tap-highlight-color: transparent; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
-    
-    /* Hide scrollbars for slick mobile view */
+
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* HIGH-CONTRAST NEUMORPHIC UTILITIES */
-    .dark .neo-raise { 
-      box-shadow: 8px 8px 16px #090909, -8px -8px 16px #1b1b1b; 
-      background: #121212; 
+    /* ==========================================================
+       NEUMORPHIC DYNAMIC SHADOW ENGINE (LIGHT & DARK ACCELERATED)
+       ========================================================== */
+    /* Light Mode Shadows (High Sunlight Contrast) */
+    html.light .neo-raise {
+      background: linear-gradient(145deg, #f5f8ff, #cfd3dc);
+      box-shadow: 7px 7px 15px #b8bcfe40, 7px 7px 14px #b0b4be, -7px -7px 14px #ffffff;
     }
-    .dark .neo-inset { 
-      box-shadow: inset 6px 6px 12px #090909, inset -6px -6px 12px #1b1b1b; 
-      background: #121212; 
+    html.light .neo-inset {
+      background: #e2e5ec;
+      box-shadow: inset 4px 4px 8px #babbc2, inset -4px -4px 8px #ffffff;
     }
-    .dark .neo-active:active { 
-      box-shadow: inset 4px 4px 8px #090909, inset -4px -4px 8px #1b1b1b; 
-    }
-    
-    .neo-raise { 
-      box-shadow: 8px 8px 16px #d1d5db, -8px -8px 16px #ffffff; 
-      background: #f5f5f5; 
-    }
-    .neo-inset { 
-      box-shadow: inset 6px 6px 12px #d1d5db, inset -6px -6px 12px #ffffff; 
-      background: #f5f5f5; 
-    }
-    .neo-active:active { 
-      box-shadow: inset 4px 4px 8px #d1d5db, inset -4px -4px 8px #ffffff; 
+    html.light .neo-pill-white {
+      background: #ffffff;
+      box-shadow: 5px 5px 12px #becee2, -5px -5px 12px #ffffff;
     }
 
-    /* SHEET PHYSICS */
+    /* Dark Mode Shadows */
+    html.dark .neo-raise {
+      background: linear-gradient(145deg, #14161c, #090a0d);
+      box-shadow: 6px 6px 14px #040507, -6px -6px 14px #1c1f27;
+    }
+    html.dark .neo-inset {
+      background: #090a0d;
+      box-shadow: inset 4px 4px 8px #030305, inset -4px -4px 8px #1a1d25;
+    }
+    html.dark .neo-pill-white {
+      background: #181a20;
+      box-shadow: 5px 5px 12px #050608, -5px -5px 12px #20242e;
+    }
+
+    /* Tactile Interactions */
+    .neo-active {
+      transition: all 0.18s var(--spring-snappy);
+    }
+    .neo-active:active {
+      transform: scale(0.96);
+    }
+    html.light .neo-active:active {
+      box-shadow: inset 3px 3px 6px #b0b4be, inset -3px -3px 6px #ffffff !important;
+    }
+    html.dark .neo-active:active {
+      box-shadow: inset 3px 3px 6px #030305, inset -3px -3px 6px #1a1d25 !important;
+    }
+
+    /* Hover Physics Desktop */
+    @media (hover: hover) {
+      .neo-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 9px 9px 18px #a8abb4, -9px -9px 18px #ffffff;
+      }
+      html.dark .neo-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 8px 8px 18px #020203, -8px -8px 18px #222630;
+      }
+    }
+
+    /* TEXTURE OVERLAYS */
+    .texture-carbon {
+      background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 0);
+      background-size: 8px 8px;
+    }
+    html.dark .texture-carbon {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 0);
+    }
+
     .sheet-transition { 
-      transition: transform 0.35s var(--spring-snappy), opacity 0.25s ease-out; 
+      transition: transform 0.32s var(--spring-snappy), opacity 0.22s ease-out; 
     }
   </style>
 </head>
-<body class="w-full min-h-screen transition-colors duration-300 dark:bg-[#121212] bg-[#f5f5f5] dark:text-white text-neutral-900 font-sans flex flex-col justify-between"
-      x-data="appData()">
+<body class="w-full min-h-screen flex flex-col justify-between items-center relative overflow-x-hidden pt-14">
 
-  <!-- HEADER NAV -->
-  <header class="px-6 pt-8 pb-4 grid grid-cols-3 items-center z-30 w-full max-w-md mx-auto">
-    <!-- Logo -->
-    <div class="justify-self-start flex items-center justify-center w-12 h-12 rounded-xl neo-raise neo-active cursor-pointer">
-      <span class="font-bold text-lg">S<span class="text-red-500 font-black">2</span>S</span>
+  <!-- ==========================================================
+       TOP PERSISTENT HTML OPTION SWITCHER BAR
+       ========================================================== -->
+  <div class="fixed top-0 inset-x-0 h-12 bg-black/90 text-white z-50 backdrop-blur-md flex items-center justify-between px-3 text-xs border-b border-white/10 shadow-lg">
+    <!-- Prev Arrow -->
+    <button @click="prevVariant()" class="px-2.5 py-1 rounded-lg bg-neutral-800 hover:bg-neutral-700 active:scale-95 transition text-neutral-200 font-bold flex items-center gap-1">
+      <span>‹</span> Prev
+    </button>
+
+    <!-- Option Selector Dropdown -->
+    <div class="flex items-center gap-2">
+      <span class="hidden sm:inline font-bold uppercase tracking-wider text-[10px] text-red-500">Variant:</span>
+      <select x-model="selectedVariant" class="bg-neutral-900 text-white font-bold rounded-lg px-2 py-1 border border-neutral-700 focus:outline-none focus:border-red-500 text-xs">
+        <template x-for="(variant, idx) in variants" :key="idx">
+          <option :value="idx" x-text="(idx + 1) + '. ' + variant.name"></option>
+        </template>
+      </select>
     </div>
-    
-    <!-- Theme Toggle -->
-    <div class="justify-self-center">
-      <button @click="isDark = !isDark" class="w-12 h-12 rounded-full flex items-center justify-center neo-raise neo-active focus:outline-none">
-        <svg x-show="isDark" class="w-6 h-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m0 13.5V21m8.966-8.966h-2.25m-13.5 0H3m15.364-6.364l-1.591 1.591M6.758 17.242l-1.591 1.591m12.728 0l-1.591-1.591M6.758 6.758L5.167 5.167M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
-        </svg>
-        <svg x-show="!isDark" class="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display: none;">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-        </svg>
+
+    <!-- Next Arrow & Theme Switch -->
+    <div class="flex items-center gap-2">
+      <button @click="toggleTheme()" class="p-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 active:scale-95 transition text-amber-400" title="Toggle Light/Dark">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
       </button>
-    </div>
 
-    <!-- Cart Badge -->
-    <div class="justify-self-end">
-      <button class="w-12 h-12 rounded-full flex items-center justify-center neo-raise neo-active relative focus:outline-none">
-        <svg class="w-6 h-6" viewBox="0 0 24 24" stroke-width="1.8" fill="none" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17"/>
-        </svg>
-        <div class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-900">1</div>
-      </button>
-    </div>
-  </header>
-
-  <!-- HOME SCREEN: CENTRALLY ALIGNED GRID -->
-  <main class="flex-1 flex flex-col justify-center px-6 pb-24 w-full max-w-md mx-auto">
-    <div class="grid grid-cols-2 gap-5 place-items-center">
-      <template x-for="item in ['Photos', 'Video', 'Aerial', '360 Tour', 'Floor Plan', 'Add-Ons']">
-        <button @click="if(item === 'Photos') activeSheet = 'photosScreen'" class="w-full aspect-square rounded-3xl flex flex-col items-center justify-center gap-3 neo-raise neo-active transition-transform active:scale-95">
-          <div class="w-12 h-12 rounded-2xl neo-inset flex items-center justify-center">
-             <div class="w-5 h-5 bg-current rounded-sm opacity-70"></div>
-          </div>
-          <span class="font-bold tracking-wide text-xs uppercase" x-text="item"></span>
-        </button>
-      </template>
-    </div>
-  </main>
-
-  <!-- PERSISTENT BOTTOM BAR -->
-  <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-sm h-16 rounded-2xl neo-raise z-40 flex items-center justify-around px-4">
-    <button class="p-3 neo-active rounded-xl text-red-500"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2l8 8h-3v8H5v-8H2l8-8z"/></svg></button>
-    <button class="p-3 neo-active rounded-xl"><svg class="w-6 h-6 opacity-60 hover:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v10h10V5H5z"/></svg></button>
-    <button class="p-3 neo-active rounded-xl"><svg class="w-6 h-6 opacity-60 hover:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg></button>
-  </nav>
-
-  <!-- BOTTOM SHEET 1: PHOTOS OVERVIEW SCREEN -->
-  <div x-show="activeSheet === 'photosScreen'" 
-       x-transition:enter="sheet-transition" 
-       x-transition:enter-start="translate-y-full opacity-0" 
-       x-transition:enter-end="translate-y-0 opacity-100" 
-       x-transition:leave="sheet-transition" 
-       x-transition:leave-start="translate-y-0 opacity-100" 
-       x-transition:leave-end="translate-y-full opacity-0"
-       class="fixed inset-0 z-50 flex flex-col justify-end" style="display: none;">
-    
-    <!-- BACKDROP -->
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="activeSheet = null"></div>
-
-    <!-- SHEET CONTAINER -->
-    <div class="relative w-full max-w-md mx-auto h-[80vh] neo-raise rounded-t-[2.5rem] p-6 flex flex-col justify-between">
-      <div>
-        <div class="w-12 h-1.5 bg-neutral-400/40 rounded-full mx-auto mb-6 neo-inset cursor-pointer" @click="activeSheet = null"></div>
-        
-        <h2 class="text-2xl font-black tracking-tight mb-6 text-center">Select Photo Package</h2>
-        
-        <div class="space-y-6 overflow-y-auto no-scrollbar max-h-[55vh] pr-1">
-          <!-- MLS CONTAINER -->
-          <div class="p-5 neo-raise rounded-2xl">
-            <h3 class="text-xs font-black uppercase tracking-widest opacity-50 mb-4">MLS Standard Services</h3>
-            <div class="grid grid-cols-2 gap-4">
-              <button @click="activeSheet = 'mlsFullShoot'" class="p-4 neo-inset rounded-xl flex flex-col items-center text-center neo-active transition-transform active:scale-95">
-                <span class="font-bold text-sm">Full Shoot</span>
-                <span class="text-xs mt-1 text-red-500 font-black">From $139</span>
-              </button>
-              <button class="p-4 neo-inset rounded-xl flex flex-col items-center text-center neo-active transition-transform active:scale-95 opacity-60">
-                <span class="font-bold text-sm">Mini Shoot</span>
-                <span class="text-xs mt-1 text-red-500 font-black">From $119</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- AIRBNB CONTAINER -->
-          <div class="p-5 neo-raise rounded-2xl">
-            <h3 class="text-xs font-black uppercase tracking-widest opacity-50 mb-4">Short-Term Rentals</h3>
-            <button class="w-full p-4 neo-inset rounded-xl flex justify-between items-center neo-active transition-transform active:scale-95 opacity-60">
-              <span class="font-bold text-sm">Airbnb / VRBO Special</span>
-              <span class="text-red-500 font-black text-sm">From $169</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <button @click="activeSheet = null" class="w-full py-4 rounded-xl neo-raise neo-active text-xs font-bold uppercase tracking-wider opacity-70">
-        Back to Dashboard
+      <button @click="nextVariant()" class="px-2.5 py-1 rounded-lg bg-neutral-800 hover:bg-neutral-700 active:scale-95 transition text-neutral-200 font-bold flex items-center gap-1">
+        Next <span>›</span>
       </button>
     </div>
   </div>
 
-  <!-- BOTTOM SHEET 2: FULL SHOOT CONFIGURATOR -->
+  <!-- APP HEADER -->
+  <header class="w-full max-w-md px-6 pt-4 pb-2 grid grid-cols-3 items-center z-30">
+    <div @click="activeScreen = 'home'; activeSheet = null" class="justify-self-start flex items-center justify-center w-12 h-12 rounded-2xl neo-raise neo-active cursor-pointer">
+      <span class="font-black text-xl tracking-tighter">S<span class="text-red-600">2</span>S</span>
+    </div>
+    
+    <div class="justify-self-center text-center">
+      <div class="text-[10px] font-black uppercase tracking-widest text-neutral-400">Field Hub</div>
+      <div class="text-[9px] font-extrabold text-red-600 uppercase" x-text="variants[selectedVariant].badge"></div>
+    </div>
+
+    <div class="justify-self-end">
+      <button class="w-12 h-12 rounded-2xl flex items-center justify-center neo-raise neo-active relative">
+        <svg class="w-5 h-5 text-neutral-700 dark:text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <div class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-black" x-text="cartCount">1</div>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================
+       SCREEN 1: HOME SCREEN (10 EXPERIMENTAL LAYOUTS)
+       ========================================================== -->
+  <main x-show="activeScreen === 'home'" class="flex-1 w-full max-w-md px-6 pb-28 flex flex-col justify-center my-auto">
+    
+    <div :class="[
+      variants[selectedVariant].gridStyle === 'circle' ? 'grid grid-cols-2 gap-6' : 'grid grid-cols-2 gap-5',
+      variants[selectedVariant].hasTexture ? 'texture-carbon p-2 rounded-3xl' : ''
+    ]">
+      
+      <!-- Photos Category Button -->
+      <button @click="activeScreen = 'photos'" 
+              :class="[
+                variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full aspect-square' : 'rounded-3xl aspect-square',
+                variants[selectedVariant].accentMode === 'red-glow' ? 'border-2 border-red-600/30' : ''
+              ]"
+              class="w-full p-5 flex flex-col items-center justify-center gap-3 neo-raise neo-hover neo-active relative overflow-hidden group">
+        <div :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full' : 'rounded-2xl'" class="w-14 h-14 neo-inset flex items-center justify-center text-red-600">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </div>
+        <span class="font-extrabold text-xs uppercase tracking-wider">Photos</span>
+      </button>
+
+      <!-- Video Category -->
+      <button :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full aspect-square' : 'rounded-3xl aspect-square'"
+              class="w-full p-5 flex flex-col items-center justify-center gap-3 neo-raise neo-hover neo-active">
+        <div :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full' : 'rounded-2xl'" class="w-14 h-14 neo-inset flex items-center justify-center text-neutral-500">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <span class="font-extrabold text-xs uppercase tracking-wider">Video</span>
+      </button>
+
+      <!-- Aerial Category -->
+      <button :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full aspect-square' : 'rounded-3xl aspect-square'"
+              class="w-full p-5 flex flex-col items-center justify-center gap-3 neo-raise neo-hover neo-active">
+        <div :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full' : 'rounded-2xl'" class="w-14 h-14 neo-inset flex items-center justify-center text-neutral-500">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+        </div>
+        <span class="font-extrabold text-xs uppercase tracking-wider">Aerial</span>
+      </button>
+
+      <!-- 360 Tour Category -->
+      <button :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full aspect-square' : 'rounded-3xl aspect-square'"
+              class="w-full p-5 flex flex-col items-center justify-center gap-3 neo-raise neo-hover neo-active">
+        <div :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full' : 'rounded-2xl'" class="w-14 h-14 neo-inset flex items-center justify-center text-neutral-500">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8" />
+          </svg>
+        </div>
+        <span class="font-extrabold text-xs uppercase tracking-wider">360 Tour</span>
+      </button>
+
+      <!-- Floor Plan Category -->
+      <button :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full aspect-square' : 'rounded-3xl aspect-square'"
+              class="w-full p-5 flex flex-col items-center justify-center gap-3 neo-raise neo-hover neo-active">
+        <div :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full' : 'rounded-2xl'" class="w-14 h-14 neo-inset flex items-center justify-center text-neutral-500">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M11 4v16" />
+          </svg>
+        </div>
+        <span class="font-extrabold text-xs uppercase tracking-wider">Floor Plan</span>
+      </button>
+
+      <!-- Add-Ons Category -->
+      <button :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full aspect-square' : 'rounded-3xl aspect-square'"
+              class="w-full p-5 flex flex-col items-center justify-center gap-3 neo-raise neo-hover neo-active">
+        <div :class="variants[selectedVariant].gridStyle === 'circle' ? 'rounded-full' : 'rounded-2xl'" class="w-14 h-14 neo-inset flex items-center justify-center text-neutral-500">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+        <span class="font-extrabold text-xs uppercase tracking-wider">Add-Ons</span>
+      </button>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================
+       SCREEN 2: PHOTOS OPTION SELECTION SCREEN
+       ========================================================== -->
+  <main x-show="activeScreen === 'photos'" class="flex-1 w-full max-w-md px-6 pb-28 flex flex-col justify-start pt-4">
+    <!-- Screen Header & Back Navigation -->
+    <div class="flex items-center justify-between mb-6">
+      <button @click="activeScreen = 'home'" class="p-3 rounded-2xl neo-raise neo-active text-neutral-600 dark:text-neutral-300 flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        <span class="text-xs font-black uppercase tracking-wider">Back</span>
+      </button>
+      <h2 class="text-sm font-black uppercase tracking-widest text-neutral-500">Photo Packages</h2>
+    </div>
+
+    <!-- CONCRETE OPTIONS LIST -->
+    <div class="space-y-4">
+      
+      <!-- Full Shoot Option Tile -->
+      <button @click="activeSheet = 'mlsFullShoot'" 
+              :class="[
+                variants[selectedVariant].photoTileStyle === 'white-pill' ? 'neo-pill-white text-black' : 'neo-raise text-current',
+                variants[selectedVariant].photoTileStyle === 'inset-row' ? 'neo-inset' : ''
+              ]"
+              class="w-full rounded-2xl py-4 px-5 flex items-center justify-between neo-active neo-hover border border-white/10 transition-all">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl neo-inset flex items-center justify-center text-red-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <span class="font-extrabold text-base tracking-tight">Full Shoot</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold opacity-60">from</span>
+          <span class="text-xl font-black text-red-600">$139</span>
+          <svg class="w-5 h-5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+
+      <!-- Reshoot Option Tile -->
+      <button :class="[
+                variants[selectedVariant].photoTileStyle === 'white-pill' ? 'neo-pill-white text-black' : 'neo-raise text-current',
+                variants[selectedVariant].photoTileStyle === 'inset-row' ? 'neo-inset' : ''
+              ]"
+              class="w-full rounded-2xl py-4 px-5 flex items-center justify-between neo-active neo-hover border border-white/10 transition-all">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl neo-inset flex items-center justify-center text-neutral-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <span class="font-extrabold text-base tracking-tight">Reshoot</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xl font-black">$89</span>
+          <svg class="w-5 h-5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+
+      <!-- Ranch Shoot Option Tile -->
+      <button :class="[
+                variants[selectedVariant].photoTileStyle === 'white-pill' ? 'neo-pill-white text-black' : 'neo-raise text-current',
+                variants[selectedVariant].photoTileStyle === 'inset-row' ? 'neo-inset' : ''
+              ]"
+              class="w-full rounded-2xl py-4 px-5 flex items-center justify-between neo-active neo-hover border border-white/10 transition-all">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl neo-inset flex items-center justify-center text-neutral-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+            </svg>
+          </div>
+          <span class="font-extrabold text-base tracking-tight">Ranch Shoot</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold opacity-60">from</span>
+          <span class="text-xl font-black">$299</span>
+          <svg class="w-5 h-5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+
+      <!-- Exterior Only Option Tile -->
+      <button :class="[
+                variants[selectedVariant].photoTileStyle === 'white-pill' ? 'neo-pill-white text-black' : 'neo-raise text-current',
+                variants[selectedVariant].photoTileStyle === 'inset-row' ? 'neo-inset' : ''
+              ]"
+              class="w-full rounded-2xl py-4 px-5 flex items-center justify-between neo-active neo-hover border border-white/10 transition-all">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl neo-inset flex items-center justify-center text-neutral-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <span class="font-extrabold text-base tracking-tight">Exterior Only</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xl font-black">$79</span>
+          <svg class="w-5 h-5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+
+      <!-- Mini Shoot Option Tile -->
+      <button :class="[
+                variants[selectedVariant].photoTileStyle === 'white-pill' ? 'neo-pill-white text-black' : 'neo-raise text-current',
+                variants[selectedVariant].photoTileStyle === 'inset-row' ? 'neo-inset' : ''
+              ]"
+              class="w-full rounded-2xl py-4 px-5 flex items-center justify-between neo-active neo-hover border border-white/10 transition-all">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl neo-inset flex items-center justify-center text-neutral-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+          <span class="font-extrabold text-base tracking-tight">Mini Shoot</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xl font-black">$119</span>
+          <svg class="w-5 h-5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================
+       SCREEN 3: FULL SHOOT CONFIGURATOR BOTTOM SHEET
+       ========================================================== -->
   <div x-show="activeSheet === 'mlsFullShoot'" 
        x-transition:enter="sheet-transition" 
        x-transition:enter-start="translate-y-full opacity-0" 
@@ -170,87 +375,166 @@
        x-transition:leave-end="translate-y-full opacity-0"
        class="fixed inset-0 z-50 flex flex-col justify-end" style="display: none;">
     
-    <!-- BACKDROP -->
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="activeSheet = 'photosScreen'"></div>
+    <!-- Backdrop Overlay -->
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-md" @click="activeSheet = null"></div>
 
-    <!-- SHEET CONTAINER -->
-    <div class="relative w-full max-w-md mx-auto h-[90vh] neo-raise rounded-t-[2.5rem] p-6 flex flex-col justify-between">
+    <!-- Bottom Sheet Container -->
+    <div class="relative w-full max-w-md mx-auto h-[90vh] bg-[#e6e9ef] dark:bg-[#0d0e12] rounded-t-[2.5rem] p-6 flex flex-col justify-between border-t border-white/20 shadow-2xl overflow-y-auto no-scrollbar">
       <div>
-        <div class="w-12 h-1.5 bg-neutral-400/40 rounded-full mx-auto mb-4 neo-inset cursor-pointer" @click="activeSheet = 'photosScreen'"></div>
+        <!-- Drag Handle Indicator -->
+        <div class="w-12 h-1.5 bg-neutral-400 dark:bg-neutral-700 rounded-full mx-auto mb-5 cursor-pointer" @click="activeSheet = null"></div>
         
-        <!-- HERO HEADER & PRICING -->
-        <div class="neo-raise p-5 rounded-2xl flex justify-between items-center mb-6">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 neo-inset rounded-xl flex items-center justify-center text-red-500">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-            </div>
-            <div>
-              <h2 class="text-lg font-black leading-tight">Full Shoot</h2>
-              <p class="text-[10px] font-black opacity-50 tracking-wider">MLS PACKAGE</p>
-            </div>
+        <!-- Header Section -->
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 rounded-2xl neo-inset flex items-center justify-center text-red-600">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
           </div>
-
-          <!-- DYNAMIC PRICE TAG -->
-          <div class="neo-inset px-3 py-1.5 rounded-xl flex items-start">
-            <span class="text-sm font-bold mt-1 opacity-60">$</span>
-            <span class="text-3xl font-black tabular-nums tracking-tighter" x-text="fullShootPrice">139</span>
-            <div class="flex flex-col items-start ml-1 mt-1">
-              <span class="text-[8px] font-black text-red-500 tracking-wider leading-none mb-0.5">EST</span>
-              <span class="text-xs font-bold opacity-60 leading-none">.00</span>
-            </div>
+          <div>
+            <p class="text-xs font-black uppercase tracking-widest text-neutral-400">MLS Photos</p>
+            <h1 class="text-3xl font-black tracking-tight">Full Shoot</h1>
           </div>
         </div>
 
-        <!-- SLIDER CONTAINER -->
-        <div class="p-6 neo-raise rounded-2xl">
-          <div class="flex justify-between items-center mb-6">
-            <h3 class="font-bold text-sm tracking-wide">Image Quantity</h3>
-            <div class="px-3 py-1 neo-inset rounded-lg font-black text-xs text-red-500" x-text="photoCount + ' Photos'"></div>
+        <!-- Big Dynamic Price Display -->
+        <div class="flex items-baseline gap-0.5 my-3">
+          <span class="text-red-600 font-black text-3xl">$</span>
+          <span class="text-red-600 font-black text-6xl tracking-tighter" x-text="fullShootPrice">139</span>
+          <span class="text-red-600 font-black text-3xl">.00</span>
+          <span class="ml-2 px-2 py-0.5 rounded neo-inset text-[10px] font-black tracking-wider uppercase text-neutral-500">Tax</span>
+        </div>
+
+        <!-- Square Feet Dropdown Selector -->
+        <div class="my-5">
+          <button class="w-full py-4 px-5 rounded-2xl neo-inset flex justify-between items-center font-black text-base">
+            <span>0 – 1,999 Sq Ft</span>
+            <svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+        </div>
+
+        <!-- Preset Selection Matrix Tiles -->
+        <div class="grid grid-cols-4 gap-2.5 mb-5">
+          <template x-for="preset in presets">
+            <button @click="photoCount = preset.count" 
+                    :class="photoCount === preset.count ? 'bg-red-600 text-white shadow-lg scale-105' : 'neo-raise text-current'"
+                    class="rounded-2xl py-3 flex flex-col items-center justify-center transition-all duration-200">
+              <span class="text-xl font-black leading-tight" x-text="preset.count"></span>
+              <span class="text-xs font-bold opacity-80" x-text="'$' + preset.price"></span>
+            </button>
+          </template>
+        </div>
+
+        <!-- Pricing Breakdown Card -->
+        <div class="neo-inset rounded-2xl p-4 space-y-3 mb-5">
+          <div class="flex justify-between items-center text-sm font-bold">
+            <span class="text-neutral-500">Base 25 Photos</span>
+            <span class="font-black">$139</span>
           </div>
-          
-          <!-- TACTILE SLIDER -->
-          <div class="relative w-full h-4 neo-inset rounded-full flex items-center my-4">
-            <input type="range" min="25" max="150" step="5" x-model.number="photoCount" class="absolute w-full h-full opacity-0 z-20 cursor-pointer">
-            
-            <!-- Track Fill -->
-            <div class="absolute left-0 h-full bg-red-600 rounded-full z-10" :style="'width: ' + ((photoCount - 25) / 125 * 100) + '%'"></div>
-            
-            <!-- Custom Handle -->
-            <div class="absolute w-7 h-7 rounded-full bg-[#f5f5f5] dark:bg-[#121212] z-10 flex items-center justify-center neo-raise transition-all duration-75 pointer-events-none" 
-                 :style="'left: calc(' + ((photoCount - 25) / 125 * 100) + '% - 14px)'">
-                 <div class="w-2.5 h-2.5 rounded-full bg-red-500 neo-inset"></div>
-            </div>
-          </div>
-          
-          <div class="flex justify-between text-[10px] font-bold opacity-40 px-1 mt-2">
-            <span>25 (Standard)</span>
-            <span>150 (Max)</span>
+          <div class="flex justify-between items-center text-sm font-bold">
+            <span class="text-neutral-500">$5 / Extra Photo</span>
+            <span class="font-black" x-text="'$' + ((photoCount - 25) * 5)"></span>
           </div>
         </div>
+
+        <!-- Photo Counter Touch Controls -->
+        <div class="flex justify-between items-center my-4">
+          <span class="text-lg font-black uppercase tracking-wider">Total Photos</span>
+          
+          <div class="flex items-center gap-4 neo-inset rounded-2xl p-1.5 px-4">
+            <button @click="if(photoCount > 25) photoCount -= 1" class="text-neutral-400 hover:text-red-600 text-2xl font-black px-2 active:scale-90 transition">-</button>
+            <span class="text-red-600 font-black text-2xl w-8 text-center" x-text="photoCount"></span>
+            <button @click="photoCount += 1" class="text-neutral-400 hover:text-red-600 text-2xl font-black px-2 active:scale-90 transition">+</button>
+          </div>
+        </div>
+
       </div>
 
-      <!-- FOOTER ACTIONS -->
-      <div class="space-y-3">
-        <button @click="activeSheet = null" class="w-full py-4 rounded-2xl bg-red-600 text-white font-black text-base tracking-wide shadow-lg shadow-red-600/30 active:scale-95 transition-transform">
-          Save Configuration
-        </button>
-        <button @click="activeSheet = 'photosScreen'" class="w-full py-3 rounded-xl neo-raise neo-active text-xs font-bold uppercase tracking-wider opacity-70">
-          Back
+      <!-- Add to Cart White/Red Accent Button -->
+      <div class="mt-4 pb-2">
+        <button @click="addToCart()" class="w-full py-4 bg-red-600 text-white rounded-2xl font-black text-lg tracking-wider flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-transform">
+          <span>ADD TO CART</span>
+          <svg class="w-6 h-6 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
+          </svg>
         </button>
       </div>
 
     </div>
   </div>
 
+  <!-- PERSISTENT BOTTOM NAVIGATION BAR -->
+  <nav class="fixed bottom-4 w-[calc(100%-3rem)] max-w-sm h-16 rounded-3xl neo-raise z-40 flex items-center justify-around px-4 border border-white/20">
+    <button @click="activeScreen = 'home'; activeSheet = null" :class="activeScreen === 'home' ? 'text-red-600 scale-110' : 'text-neutral-500'" class="p-3 neo-active rounded-2xl transition-all">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2l8 8h-3v8H5v-8H2l8-8z"/></svg>
+    </button>
+    <button @click="activeScreen = 'photos'" :class="activeScreen === 'photos' ? 'text-red-600 scale-110' : 'text-neutral-500'" class="p-3 neo-active rounded-2xl transition-all">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v10h10V5H5z"/></svg>
+    </button>
+    <button class="p-3 neo-active rounded-2xl text-neutral-500 hover:text-red-600 transition-all">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+    </button>
+  </nav>
+
+  <!-- ALPINE STATE CONTROLLER & 10 DESIGN VARIANTS MATRIX -->
   <script>
     function appData() {
       return {
-        isDark: true,
-        activeSheet: null,
+        activeScreen: 'home', // 'home' | 'photos'
+        activeSheet: null,    // null | 'mlsFullShoot'
+        selectedVariant: 0,
         photoCount: 25,
-        basePrice: 139,
+        cartCount: 1,
+
+        // 10 EXPERIMENTAL DESIGN VARIANTS MATRIX
+        variants: [
+          { name: "Sunlight Crisp (Light Default)", gridStyle: "square", photoTileStyle: "raised-tile", accentMode: "standard", hasTexture: false, badge: "Light Sunlight" },
+          { name: "Circular Tactile Grid", gridStyle: "circle", photoTileStyle: "raised-tile", accentMode: "standard", hasTexture: false, badge: "Circular Mesh" },
+          { name: "High Contrast Inset Rows", gridStyle: "square", photoTileStyle: "inset-row", accentMode: "standard", hasTexture: false, badge: "Inset Depth" },
+          { name: "High-Gloss White Pills", gridStyle: "square", photoTileStyle: "white-pill", accentMode: "standard", hasTexture: false, badge: "White Gloss" },
+          { name: "Textured Carbon Surface", gridStyle: "square", photoTileStyle: "raised-tile", accentMode: "standard", hasTexture: true, badge: "Carbon Texture" },
+          { name: "Red Edge Glow Matrix", gridStyle: "square", photoTileStyle: "raised-tile", accentMode: "red-glow", hasTexture: false, badge: "Red Glow" },
+          { name: "Circular + Inset Combo", gridStyle: "circle", photoTileStyle: "inset-row", accentMode: "standard", hasTexture: false, badge: "Circle + Inset" },
+          { name: "Textured + Circular Mesh", gridStyle: "circle", photoTileStyle: "raised-tile", accentMode: "standard", hasTexture: true, badge: "Circle Carbon" },
+          { name: "White Pill + Red Accent", gridStyle: "square", photoTileStyle: "white-pill", accentMode: "red-glow", hasTexture: false, badge: "Hybrid Pill" },
+          { name: "Ultra-Contrast Field Pro", gridStyle: "circle", photoTileStyle: "inset-row", accentMode: "red-glow", hasTexture: true, badge: "Ultra Field Pro" }
+        ],
+
+        presets: [
+          { count: 25, price: 139 },
+          { count: 36, price: 179 },
+          { count: 40, price: 189 },
+          { count: 50, price: 224 }
+        ],
+
         get fullShootPrice() {
-          return this.basePrice + (Math.max(0, this.photoCount - 25) * 2);
+          if (this.photoCount <= 25) return 139;
+          return 139 + ((this.photoCount - 25) * 5);
+        },
+
+        nextVariant() {
+          this.selectedVariant = (this.selectedVariant + 1) % this.variants.length;
+        },
+
+        prevVariant() {
+          this.selectedVariant = (this.selectedVariant - 1 + this.variants.length) % this.variants.length;
+        },
+
+        toggleTheme() {
+          const html = document.documentElement;
+          if (html.classList.contains('light')) {
+            html.classList.remove('light');
+            html.classList.add('dark');
+          } else {
+            html.classList.remove('dark');
+            html.classList.add('light');
+          }
+        },
+
+        addToCart() {
+          this.cartCount++;
+          this.activeSheet = null;
         }
       }
     }
