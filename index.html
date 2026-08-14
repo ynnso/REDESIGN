@@ -1,198 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" x-data="{ isDark: true, activeSheet: null }" :class="isDark ? 'dark' : ''">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>s2s — Neumorphic x Current Style Test</title>
-<style>
-  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; margin:0; padding:0; }
-  html,body{ height:100%; overflow:hidden; }
-  body{ font-family:-apple-system,sans-serif; max-width:430px; margin:0 auto; height:100vh; position:relative; transition:background .3s, color .3s; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>S2S Field App - Elite UI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    /* CORE ARCHITECTURE & PHYSICS */
+    :root {
+      --spring-snappy: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --curve-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    
+    html, body { 
+      overscroll-behavior-y: none; 
+      -webkit-tap-highlight-color: transparent; 
+    }
+    
+    /* Hide scrollbars for slick mobile view */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  body.dark{ background:#0d0d0d; color:#fff; }
-  body.light{ background:#f0f0f0; color:#1a1a1a; }
+    /* HIGH-CONTRAST NEUMORPHIC UTILITIES */
+    .dark .neo-raise { 
+      box-shadow: 8px 8px 16px #090909, -8px -8px 16px #1b1b1b; 
+      background: #121212; 
+    }
+    .dark .neo-inset { 
+      box-shadow: inset 6px 6px 12px #090909, inset -6px -6px 12px #1b1b1b; 
+      background: #121212; 
+    }
+    .dark .neo-active:active { 
+      box-shadow: inset 4px 4px 8px #090909, inset -4px -4px 8px #1b1b1b; 
+    }
+    
+    .neo-raise { 
+      box-shadow: 8px 8px 16px #d1d5db, -8px -8px 16px #ffffff; 
+      background: #f5f5f5; 
+    }
+    .neo-inset { 
+      box-shadow: inset 6px 6px 12px #d1d5db, inset -6px -6px 12px #ffffff; 
+      background: #f5f5f5; 
+    }
+    .neo-active:active { 
+      box-shadow: inset 4px 4px 8px #d1d5db, inset -4px -4px 8px #ffffff; 
+    }
 
-  .mode-toggle{ position:absolute; top:16px; left:20px; z-index:200; display:flex; background:rgba(128,128,128,0.2); border-radius:100px; padding:3px; backdrop-filter:blur(10px); }
-  .mode-toggle button{ padding:6px 12px; border:none; background:transparent; font-size:11px; font-weight:700; border-radius:100px; font-family:inherit; color:inherit; opacity:0.5; }
-  .mode-toggle button.active{ background:#E50914; color:#fff; opacity:1; }
-
-  /* ===== TOP NAV ===== */
-  header{ padding:16px 20px 10px; display:flex; justify-content:space-between; align-items:center; }
-  .brand{ font-weight:800; font-size:16px; }
-  .brand .accent{ color:#E50914; }
-  .cart-btn{ width:38px; height:38px; border-radius:100px; display:flex; align-items:center; justify-content:center; position:relative; }
-  body.dark .cart-btn{ background:#0d0d0d; box-shadow:5px 5px 10px #060606, -5px -5px 10px #141414; }
-  body.light .cart-btn{ background:#f0f0f0; box-shadow:5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff; }
-  .cart-btn svg{ width:17px; height:17px; }
-  body.dark .cart-btn svg{ stroke:#fff; }
-  body.light .cart-btn svg{ stroke:#1a1a1a; }
-  .badge{ position:absolute; top:-2px; right:-2px; background:#E50914; color:#fff; font-size:9px; font-weight:800; width:15px; height:15px; border-radius:100px; display:flex; align-items:center; justify-content:center; }
-
-  /* ===== HOME SCREEN ===== */
-  #home{ padding-top:0; height:100%; display:flex; flex-direction:column; justify-content:center; }
-  .grid{ padding:8px 24px 90px; display:grid; grid-template-columns:1fr 1fr; gap:22px; }
-  .tile{ aspect-ratio:1; border-radius:24px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:10px; }
-  body.dark .tile{ background:#0d0d0d; box-shadow:9px 9px 18px #060606, -9px -9px 18px #141414; }
-  body.light .tile{ background:#f0f0f0; box-shadow:9px 9px 18px #d1d1d1, -9px -9px 18px #ffffff; }
-  .icon-well{ width:94px; height:94px; border-radius:24px; display:flex; align-items:center; justify-content:center; }
-  body.dark .icon-well{ background:#0d0d0d; box-shadow:inset 4px 4px 8px #060606, inset -4px -4px 8px #141414; }
-  body.light .icon-well{ background:#f0f0f0; box-shadow:inset 4px 4px 8px #d1d1d1, inset -4px -4px 8px #ffffff; }
-  .tile svg{ width:72px; height:72px; color:#E50914; }
-  body.dark .tile svg{ color:#fff; }
-  .tile .name{ font-size:19px; font-weight:800; letter-spacing:-0.01em; text-align:center; }
-
-  /* ===== BOTTOM NAV ===== */
-  .bottom-nav{ position:absolute; bottom:10px; left:50%; transform:translateX(-50%); width:88%; max-width:360px; height:58px; border-radius:100px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; z-index:20; }
-  body.dark .bottom-nav{ background:#0d0d0d; box-shadow:8px 8px 16px #060606, -8px -8px 16px #141414; }
-  body.light .bottom-nav{ background:#f0f0f0; box-shadow:8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff; }
-  .nav-icon{ width:22px; height:22px; opacity:0.5; }
-  .nav-icon.active{ opacity:1; color:#E50914; }
-  body.dark .nav-icon{ stroke:#fff; }
-  body.light .nav-icon{ stroke:#1a1a1a; }
-  .nav-icon.active{ stroke:#E50914; }
-
-  /* ===== SHEET ===== */
-  #sheetScreen{ display:none; position:absolute; inset:0; z-index:100; }
-  #sheetScreen.active{ display:block; }
-  .sheet{ position:absolute; left:0; right:0; bottom:0; top:0; border-radius:0; padding:16px 20px 24px; overflow-y:auto; z-index:100; }
-  body.dark .sheet{ background:#0d0d0d; }
-  body.light .sheet{ background:#f0f0f0; }
-  .handle{ width:36px; height:5px; border-radius:100px; margin:0 auto 18px; }
-  body.dark .handle{ background:#2a2a2a; }
-  body.light .handle{ background:#d5d5d5; }
-  .sheet-header{ display:flex; align-items:center; gap:14px; margin:36px 0 20px; }
-  .sheet-icon{ width:70px; height:70px; border-radius:20px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  body.dark .sheet-icon{ background:#0d0d0d; box-shadow:inset 5px 5px 10px #060606, inset -5px -5px 10px #141414; }
-  body.light .sheet-icon{ background:#f0f0f0; box-shadow:inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff; }
-  .sheet-icon svg{ width:34px; height:34px; }
-  .sheet-eyebrow{ font-size:14px; font-weight:700; opacity:0.55; }
-  .sheet-title{ font-size:30px; font-weight:800; letter-spacing:-0.01em; }
-  .price-row{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:20px; }
-  .price{ font-size:64px; font-weight:800; letter-spacing:-0.03em; color:#E50914; display:flex; align-items:baseline; }
-  .price .cents{ font-size:26px; }
-  .price .dollar{ font-size:26px; margin-right:2px; }
-  .tax-chip{ font-size:11px; font-weight:700; padding:6px 11px; border-radius:10px; opacity:0.6; }
-  body.dark .tax-chip{ background:#0d0d0d; box-shadow:4px 4px 8px #060606, -4px -4px 8px #141414; }
-  body.light .tax-chip{ background:#f0f0f0; box-shadow:4px 4px 8px #d1d1d1, -4px -4px 8px #ffffff; }
-  .dropdown{ border-radius:18px; padding:16px 18px; text-align:center; font-weight:700; font-size:18px; margin-bottom:18px; }
-  body.dark .dropdown{ background:#0d0d0d; box-shadow:inset 5px 5px 10px #060606, inset -5px -5px 10px #141414; }
-  body.light .dropdown{ background:#f0f0f0; box-shadow:inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff; }
-  .tier-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px; }
-  .tier{ border-radius:18px; padding:14px 4px; text-align:center; }
-  body.dark .tier{ background:#0d0d0d; box-shadow:6px 6px 12px #060606, -6px -6px 12px #141414; }
-  body.light .tier{ background:#f0f0f0; box-shadow:6px 6px 12px #d1d1d1, -6px -6px 12px #ffffff; }
-  .tier.sel{ color:#E50914; }
-  body.dark .tier.sel{ box-shadow:inset 5px 5px 10px #060606, inset -5px -5px 10px #141414; }
-  body.light .tier.sel{ box-shadow:inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff; }
-  .tier .n{ font-size:17px; font-weight:800; }
-  .tier .p{ font-size:13px; opacity:0.6; margin-top:2px; }
-  .rows{ border-radius:18px; overflow:hidden; margin-bottom:18px; }
-  body.dark .rows{ background:#0d0d0d; box-shadow:inset 5px 5px 10px #060606, inset -5px -5px 10px #141414; }
-  body.light .rows{ background:#f0f0f0; box-shadow:inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff; }
-  .row{ display:flex; justify-content:space-between; padding:15px 18px; font-size:16px; font-weight:600; }
-  body.dark .row{ border-bottom:1px solid rgba(255,255,255,0.05); }
-  body.light .row{ border-bottom:1px solid rgba(0,0,0,0.05); }
-  .row:last-child{ border:none; }
-  .stepper-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
-  .stepper-label{ font-size:18px; font-weight:700; }
-  .stepper{ display:flex; align-items:center; gap:14px; border-radius:16px; padding:8px 16px; }
-  body.dark .stepper{ background:#0d0d0d; box-shadow:6px 6px 12px #060606, -6px -6px 12px #141414; }
-  body.light .stepper{ background:#f0f0f0; box-shadow:6px 6px 12px #d1d1d1, -6px -6px 12px #ffffff; }
-  .stepper button{ width:30px; height:30px; border-radius:10px; border:none; font-weight:700; font-size:16px; background:transparent; color:inherit; }
-  .stepper .val{ font-size:18px; font-weight:800; color:#E50914; width:26px; text-align:center; }
-  .cta{ width:100%; border:none; border-radius:20px; height:60px; font-size:18px; font-weight:800; display:flex; align-items:center; justify-content:center; gap:10px; }
-  body.dark .cta{ background:#0d0d0d; color:#fff; box-shadow:8px 8px 16px #060606, -8px -8px 16px #141414; }
-  body.light .cta{ background:#f0f0f0; color:#1a1a1a; box-shadow:8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff; }
-  .back-btn{ position:absolute; top:16px; right:20px; z-index:5; width:38px; height:38px; border-radius:100px; display:flex; align-items:center; justify-content:center; }
-  body.dark .back-btn{ background:#0d0d0d; box-shadow:5px 5px 10px #060606, -5px -5px 10px #141414; }
-  body.light .back-btn{ background:#f0f0f0; box-shadow:5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff; }
-</style>
+    /* SHEET PHYSICS */
+    .sheet-transition { 
+      transition: transform 0.35s var(--spring-snappy), opacity 0.25s ease-out; 
+    }
+  </style>
 </head>
-<body class="dark">
+<body class="w-full min-h-screen transition-colors duration-300 dark:bg-[#121212] bg-[#f5f5f5] dark:text-white text-neutral-900 font-sans flex flex-col justify-between"
+      x-data="appData()">
 
-<div class="mode-toggle">
-  <button class="active" onclick="setMode('dark', this)">Dark</button>
-  <button onclick="setMode('light', this)">Light</button>
-</div>
+  <!-- HEADER NAV -->
+  <header class="px-6 pt-8 pb-4 grid grid-cols-3 items-center z-30 w-full max-w-md mx-auto">
+    <!-- Logo -->
+    <div class="justify-self-start flex items-center justify-center w-12 h-12 rounded-xl neo-raise neo-active cursor-pointer">
+      <span class="font-bold text-lg">S<span class="text-red-500 font-black">2</span>S</span>
+    </div>
+    
+    <!-- Theme Toggle -->
+    <div class="justify-self-center">
+      <button @click="isDark = !isDark" class="w-12 h-12 rounded-full flex items-center justify-center neo-raise neo-active focus:outline-none">
+        <svg x-show="isDark" class="w-6 h-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m0 13.5V21m8.966-8.966h-2.25m-13.5 0H3m15.364-6.364l-1.591 1.591M6.758 17.242l-1.591 1.591m12.728 0l-1.591-1.591M6.758 6.758L5.167 5.167M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
+        </svg>
+        <svg x-show="!isDark" class="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display: none;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+        </svg>
+      </button>
+    </div>
 
-<div id="home">
-  <header>
-    <div class="brand">s<span class="accent">2</span>s</div>
-    <div class="cart-btn">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17"/></svg>
-      <div class="badge">2</div>
+    <!-- Cart Badge -->
+    <div class="justify-self-end">
+      <button class="w-12 h-12 rounded-full flex items-center justify-center neo-raise neo-active relative focus:outline-none">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" stroke-width="1.8" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17"/>
+        </svg>
+        <div class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-900">1</div>
+      </button>
     </div>
   </header>
 
-  <div class="grid">
-    <div class="tile" onclick="openSheet()"><div class="icon-well"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574v9.176A2.25 2.25 0 004.5 21h15a2.25 2.25 0 002.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3" fill="none"/></svg></div><div class="name">Photos</div></div>
-    <div class="tile"><div class="icon-well"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 10L18.5768 8.45392C19.3699 7.97803 19.7665 7.74009 20.0928 7.77051C20.3773 7.79703 20.6369 7.944 20.806 8.17433C21 8.43848 21 8.90095 21 9.8259V14.1741C21 15.099 21 15.5615 20.806 15.8257C20.6369 16.056 20.3773 16.203 20.0928 16.2295C19.7665 16.2599 19.3699 16.022 18.5768 15.5461L16 14M6.2 18H12.8C13.9201 18 14.4802 18 14.908 17.782C15.2843 17.5903 15.5903 17.2843 15.782 16.908C16 16.4802 16 15.9201 16 14.8V9.2C16 8.0799 16 7.51984 15.782 7.09202C15.5903 6.71569 15.2843 6.40973 14.908 6.21799C14.4802 6 13.9201 6 12.8 6H6.2C5.0799 6 4.51984 6 4.09202 6.21799C3.71569 6.40973 3.40973 6.71569 3.21799 7.09202C3 7.51984 3 8.07989 3 9.2V14.8C3 15.9201 3 16.4802 3.21799 16.908C3.40973 17.2843 3.71569 17.5903 4.09202 17.782C4.51984 18 5.07989 18 6.2 18Z" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="name">Video</div></div>
-    <div class="tile"><div class="icon-well"><svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M20,7H18V5h2a1,1,0,0,0,0-2H14a1,1,0,0,0,0,2h2V7H8V5h2a1,1,0,0,0,0-2H4A1,1,0,0,0,4,5H6V7H4a3,3,0,0,0,0,6H6.1a4.955,4.955,0,0,0,.99,2.092A5,5,0,0,0,3,20a1,1,0,0,0,2,0,3,3,0,0,1,3-3h3v2a1,1,0,0,0,2,0V17h3a3,3,0,0,1,3,3,1,1,0,0,0,2,0,5,5,0,0,0-4.091-4.908A4.955,4.955,0,0,0,17.9,13H20a3,3,0,0,0,0-6Zm0,4H17a1,1,0,0,0-1,1,3,3,0,0,1-3,3H11a3,3,0,0,1-3-3,1,1,0,0,0-1-1H4A1,1,0,0,1,4,9H20a1,1,0,0,1,0,2Zm-6,1a2,2,0,0,1-4,0,1.929,1.929,0,0,1,.1-.581A1,1,0,1,0,11.417,10.1,1.978,1.978,0,0,1,12,10,2,2,0,0,1,14,12Z"/></svg></div><div class="name">Aerial</div></div>
-    <div class="tile"><div class="icon-well"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="4" r="2"/><path d="M12 18h2v-5h2V9c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v4h2v5h2z"/><path d="m18.446 11.386-.893 1.789C19.108 13.95 20 14.98 20 16c0 1.892-3.285 4-8 4s-8-2.108-8-4c0-1.02.892-2.05 2.446-2.825l-.893-1.789C3.295 12.512 2 14.193 2 16c0 3.364 4.393 6 10 6s10-2.636 10-6c0-1.807-1.295-3.488-3.554-4.614z"/></svg></div><div class="name">360 Tour</div></div>
-    <div class="tile"><div class="icon-well"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 2v18h3v-1H3v-6h3V9h5V8H6V3h15v5h-6v1h6v5h-4v1h4v6H11v-7h-1v5H8v1h2v2h12V2zm3 4H3V5h2zm-2 6v-1h2v1zm2-2H3V9h2zM3 8V7h2v1zm2-4H3V3h2z"/></svg></div><div class="name">Floor Plan</div></div>
-    <div class="tile"><div class="icon-well"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4" fill="none"/><path d="M12 8v8M8 12h8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="name">Add-Ons</div></div>
+  <!-- HOME SCREEN: CENTRALLY ALIGNED GRID -->
+  <main class="flex-1 flex flex-col justify-center px-6 pb-24 w-full max-w-md mx-auto">
+    <div class="grid grid-cols-2 gap-5 place-items-center">
+      <template x-for="item in ['Photos', 'Video', 'Aerial', '360 Tour', 'Floor Plan', 'Add-Ons']">
+        <button @click="if(item === 'Photos') activeSheet = 'photosScreen'" class="w-full aspect-square rounded-3xl flex flex-col items-center justify-center gap-3 neo-raise neo-active transition-transform active:scale-95">
+          <div class="w-12 h-12 rounded-2xl neo-inset flex items-center justify-center">
+             <div class="w-5 h-5 bg-current rounded-sm opacity-70"></div>
+          </div>
+          <span class="font-bold tracking-wide text-xs uppercase" x-text="item"></span>
+        </button>
+      </template>
+    </div>
+  </main>
+
+  <!-- PERSISTENT BOTTOM BAR -->
+  <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-sm h-16 rounded-2xl neo-raise z-40 flex items-center justify-around px-4">
+    <button class="p-3 neo-active rounded-xl text-red-500"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2l8 8h-3v8H5v-8H2l8-8z"/></svg></button>
+    <button class="p-3 neo-active rounded-xl"><svg class="w-6 h-6 opacity-60 hover:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v10h10V5H5z"/></svg></button>
+    <button class="p-3 neo-active rounded-xl"><svg class="w-6 h-6 opacity-60 hover:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg></button>
+  </nav>
+
+  <!-- BOTTOM SHEET 1: PHOTOS OVERVIEW SCREEN -->
+  <div x-show="activeSheet === 'photosScreen'" 
+       x-transition:enter="sheet-transition" 
+       x-transition:enter-start="translate-y-full opacity-0" 
+       x-transition:enter-end="translate-y-0 opacity-100" 
+       x-transition:leave="sheet-transition" 
+       x-transition:leave-start="translate-y-0 opacity-100" 
+       x-transition:leave-end="translate-y-full opacity-0"
+       class="fixed inset-0 z-50 flex flex-col justify-end" style="display: none;">
+    
+    <!-- BACKDROP -->
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="activeSheet = null"></div>
+
+    <!-- SHEET CONTAINER -->
+    <div class="relative w-full max-w-md mx-auto h-[80vh] neo-raise rounded-t-[2.5rem] p-6 flex flex-col justify-between">
+      <div>
+        <div class="w-12 h-1.5 bg-neutral-400/40 rounded-full mx-auto mb-6 neo-inset cursor-pointer" @click="activeSheet = null"></div>
+        
+        <h2 class="text-2xl font-black tracking-tight mb-6 text-center">Select Photo Package</h2>
+        
+        <div class="space-y-6 overflow-y-auto no-scrollbar max-h-[55vh] pr-1">
+          <!-- MLS CONTAINER -->
+          <div class="p-5 neo-raise rounded-2xl">
+            <h3 class="text-xs font-black uppercase tracking-widest opacity-50 mb-4">MLS Standard Services</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <button @click="activeSheet = 'mlsFullShoot'" class="p-4 neo-inset rounded-xl flex flex-col items-center text-center neo-active transition-transform active:scale-95">
+                <span class="font-bold text-sm">Full Shoot</span>
+                <span class="text-xs mt-1 text-red-500 font-black">From $139</span>
+              </button>
+              <button class="p-4 neo-inset rounded-xl flex flex-col items-center text-center neo-active transition-transform active:scale-95 opacity-60">
+                <span class="font-bold text-sm">Mini Shoot</span>
+                <span class="text-xs mt-1 text-red-500 font-black">From $119</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- AIRBNB CONTAINER -->
+          <div class="p-5 neo-raise rounded-2xl">
+            <h3 class="text-xs font-black uppercase tracking-widest opacity-50 mb-4">Short-Term Rentals</h3>
+            <button class="w-full p-4 neo-inset rounded-xl flex justify-between items-center neo-active transition-transform active:scale-95 opacity-60">
+              <span class="font-bold text-sm">Airbnb / VRBO Special</span>
+              <span class="text-red-500 font-black text-sm">From $169</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button @click="activeSheet = null" class="w-full py-4 rounded-xl neo-raise neo-active text-xs font-bold uppercase tracking-wider opacity-70">
+        Back to Dashboard
+      </button>
+    </div>
   </div>
 
-  <div class="bottom-nav">
-    <svg class="nav-icon active" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574v9.176A2.25 2.25 0 004.5 21h15a2.25 2.25 0 002.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M16 10L18.5768 8.45392C19.3699 7.97803 19.7665 7.74009 20.0928 7.77051C20.3773 7.79703 20.6369 7.944 20.806 8.17433C21 8.43848 21 8.90095 21 9.8259V14.1741C21 15.099 21 15.5615 20.806 15.8257C20.6369 16.056 20.3773 16.203 20.0928 16.2295C19.7665 16.2599 19.3699 16.022 18.5768 15.5461L16 14M6.2 18H12.8C13.9201 18 14.4802 18 14.908 17.782C15.2843 17.5903 15.5903 17.2843 15.782 16.908C16 16.4802 16 15.9201 16 14.8V9.2C16 8.0799 16 7.51984 15.782 7.09202C15.5903 6.71569 15.2843 6.40973 14.908 6.21799C14.4802 6 13.9201 6 12.8 6H6.2C5.0799 6 4.51984 6 4.09202 6.21799C3.71569 6.40973 3.40973 6.71569 3.21799 7.09202C3 7.51984 3 8.07989 3 9.2V14.8C3 15.9201 3 16.4802 3.21799 16.908C3.40973 17.2843 3.71569 17.5903 4.09202 17.782C4.51984 18 5.07989 18 6.2 18Z" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M20,7H18V5h2a1,1,0,0,0,0-2H14a1,1,0,0,0,0,2h2V7H8V5h2a1,1,0,0,0,0-2H4A1,1,0,0,0,4,5H6V7H4a3,3,0,0,0,0,6H6.1a4.955,4.955,0,0,0,.99,2.092A5,5,0,0,0,3,20a1,1,0,0,0,2,0,3,3,0,0,1,3-3h3v2a1,1,0,0,0,2,0V17h3a3,3,0,0,1,3,3,1,1,0,0,0,2,0,5,5,0,0,0-4.091-4.908A4.955,4.955,0,0,0,17.9,13H20a3,3,0,0,0,0-6Zm0,4H17a1,1,0,0,0-1,1,3,3,0,0,1-3,3H11a3,3,0,0,1-3-3,1,1,0,0,0-1-1H4A1,1,0,0,1,4,9H20a1,1,0,0,1,0,2Zm-6,1a2,2,0,0,1-4,0,1.929,1.929,0,0,1,.1-.581A1,1,0,1,0,11.417,10.1,1.978,1.978,0,0,1,12,10,2,2,0,0,1,14,12Z"/></svg>
-    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="4" r="2"/><path d="M12 18h2v-5h2V9c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v4h2v5h2z"/><path d="m18.446 11.386-.893 1.789C19.108 13.95 20 14.98 20 16c0 1.892-3.285 4-8 4s-8-2.108-8-4c0-1.02.892-2.05 2.446-2.825l-.893-1.789C3.295 12.512 2 14.193 2 16c0 3.364 4.393 6 10 6s10-2.636 10-6c0-1.807-1.295-3.488-3.554-4.614z"/></svg>
-    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M2 2v18h3v-1H3v-6h3V9h5V8H6V3h15v5h-6v1h6v5h-4v1h4v6H11v-7h-1v5H8v1h2v2h12V2zm3 4H3V5h2zm-2 6v-1h2v1zm2-2H3V9h2zM3 8V7h2v1zm2-4H3V3h2z"/></svg>
-    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4" fill="none"/><path d="M12 8v8M8 12h8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </div>
-</div>
+  <!-- BOTTOM SHEET 2: FULL SHOOT CONFIGURATOR -->
+  <div x-show="activeSheet === 'mlsFullShoot'" 
+       x-transition:enter="sheet-transition" 
+       x-transition:enter-start="translate-y-full opacity-0" 
+       x-transition:enter-end="translate-y-0 opacity-100" 
+       x-transition:leave="sheet-transition" 
+       x-transition:leave-start="translate-y-0 opacity-100" 
+       x-transition:leave-end="translate-y-full opacity-0"
+       class="fixed inset-0 z-50 flex flex-col justify-end" style="display: none;">
+    
+    <!-- BACKDROP -->
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="activeSheet = 'photosScreen'"></div>
 
-<div id="sheetScreen">
-  <div class="sheet">
-    <div class="back-btn" onclick="closeSheet()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <div class="handle"></div>
-    <div class="sheet-header">
-      <div class="sheet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
-      <div><div class="sheet-eyebrow">MLS Photos</div><div class="sheet-title">Full Shoot</div></div>
-    </div>
-    <div class="price-row">
-      <div class="price"><span class="dollar">$</span>139<span class="cents">.00</span></div>
-      <div class="tax-chip">TAX</div>
-    </div>
-    <div class="dropdown">0 – 1,999 Sq Ft ⌄</div>
-    <div class="tier-grid">
-      <div class="tier sel"><div class="n">25</div><div class="p">$139</div></div>
-      <div class="tier"><div class="n">36</div><div class="p">$179</div></div>
-      <div class="tier"><div class="n">40</div><div class="p">$189</div></div>
-      <div class="tier"><div class="n">50</div><div class="p">$224</div></div>
-    </div>
-    <div class="rows">
-      <div class="row"><span>Base 25 Photos</span><span>$139</span></div>
-      <div class="row"><span>$5 / Extra</span><span>$0</span></div>
-    </div>
-    <div class="stepper-row">
-      <span class="stepper-label">Total Photos</span>
-      <div class="stepper"><button>–</button><span class="val">25</span><button>+</button></div>
-    </div>
-    <button class="cta">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 6V18M6 12H18" stroke-linecap="round"/></svg>
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17"/></svg>
-    </button>
-  </div>
-</div>
+    <!-- SHEET CONTAINER -->
+    <div class="relative w-full max-w-md mx-auto h-[90vh] neo-raise rounded-t-[2.5rem] p-6 flex flex-col justify-between">
+      <div>
+        <div class="w-12 h-1.5 bg-neutral-400/40 rounded-full mx-auto mb-4 neo-inset cursor-pointer" @click="activeSheet = 'photosScreen'"></div>
+        
+        <!-- HERO HEADER & PRICING -->
+        <div class="neo-raise p-5 rounded-2xl flex justify-between items-center mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 neo-inset rounded-xl flex items-center justify-center text-red-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            </div>
+            <div>
+              <h2 class="text-lg font-black leading-tight">Full Shoot</h2>
+              <p class="text-[10px] font-black opacity-50 tracking-wider">MLS PACKAGE</p>
+            </div>
+          </div>
 
-<script>
-  function setMode(mode, btn){
-    document.body.className = mode;
-    document.querySelectorAll('.mode-toggle button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-  function openSheet(){
-    document.getElementById('sheetScreen').classList.add('active');
-    document.getElementById('home').style.display = 'none';
-  }
-  function closeSheet(){
-    document.getElementById('sheetScreen').classList.remove('active');
-    document.getElementById('home').style.display = 'flex';
-  }
-</script>
+          <!-- DYNAMIC PRICE TAG -->
+          <div class="neo-inset px-3 py-1.5 rounded-xl flex items-start">
+            <span class="text-sm font-bold mt-1 opacity-60">$</span>
+            <span class="text-3xl font-black tabular-nums tracking-tighter" x-text="fullShootPrice">139</span>
+            <div class="flex flex-col items-start ml-1 mt-1">
+              <span class="text-[8px] font-black text-red-500 tracking-wider leading-none mb-0.5">EST</span>
+              <span class="text-xs font-bold opacity-60 leading-none">.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDER CONTAINER -->
+        <div class="p-6 neo-raise rounded-2xl">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="font-bold text-sm tracking-wide">Image Quantity</h3>
+            <div class="px-3 py-1 neo-inset rounded-lg font-black text-xs text-red-500" x-text="photoCount + ' Photos'"></div>
+          </div>
+          
+          <!-- TACTILE SLIDER -->
+          <div class="relative w-full h-4 neo-inset rounded-full flex items-center my-4">
+            <input type="range" min="25" max="150" step="5" x-model.number="photoCount" class="absolute w-full h-full opacity-0 z-20 cursor-pointer">
+            
+            <!-- Track Fill -->
+            <div class="absolute left-0 h-full bg-red-600 rounded-full z-10" :style="'width: ' + ((photoCount - 25) / 125 * 100) + '%'"></div>
+            
+            <!-- Custom Handle -->
+            <div class="absolute w-7 h-7 rounded-full bg-[#f5f5f5] dark:bg-[#121212] z-10 flex items-center justify-center neo-raise transition-all duration-75 pointer-events-none" 
+                 :style="'left: calc(' + ((photoCount - 25) / 125 * 100) + '% - 14px)'">
+                 <div class="w-2.5 h-2.5 rounded-full bg-red-500 neo-inset"></div>
+            </div>
+          </div>
+          
+          <div class="flex justify-between text-[10px] font-bold opacity-40 px-1 mt-2">
+            <span>25 (Standard)</span>
+            <span>150 (Max)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER ACTIONS -->
+      <div class="space-y-3">
+        <button @click="activeSheet = null" class="w-full py-4 rounded-2xl bg-red-600 text-white font-black text-base tracking-wide shadow-lg shadow-red-600/30 active:scale-95 transition-transform">
+          Save Configuration
+        </button>
+        <button @click="activeSheet = 'photosScreen'" class="w-full py-3 rounded-xl neo-raise neo-active text-xs font-bold uppercase tracking-wider opacity-70">
+          Back
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function appData() {
+      return {
+        isDark: true,
+        activeSheet: null,
+        photoCount: 25,
+        basePrice: 139,
+        get fullShootPrice() {
+          return this.basePrice + (Math.max(0, this.photoCount - 25) * 2);
+        }
+      }
+    }
+  </script>
 </body>
 </html>
