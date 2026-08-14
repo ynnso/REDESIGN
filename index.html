@@ -15,7 +15,7 @@
       --s2s-red-glow: rgba(230, 57, 70, 0.4);
       --s2s-red-dark: #C52233;
       
-      /* Active Theme: Variant 1 (Default Soft Gray Light - Sunlight High Contrast) */
+      /* Active Theme: Variant 1 (Default Soft Gray Light - Outdoor High-Contrast) */
       --bg-color: #E0E5EC;
       --surface-color: #E0E5EC;
       --text-main: #2D3748;
@@ -24,13 +24,13 @@
       --shadow-dark: #A3B1C6;
       --inset-shadow-dark: rgba(163, 177, 198, 0.7);
       --inset-shadow-light: rgba(255, 255, 255, 0.9);
-      --border-accent: rgba(230, 57, 70, 0.2);
-      --card-radius: 20px;
-      --btn-radius: 14px;
+      --border-accent: rgba(230, 57, 70, 0.3);
+      --card-radius: 18px;
+      --btn-radius: 12px;
       --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
-    /* Theme Variant 2: Slate Modern Dark */
+    /* Variant 2: Slate Modern Dark */
     [data-theme="2"] {
       --bg-color: #1A202C;
       --surface-color: #1A202C;
@@ -42,7 +42,7 @@
       --inset-shadow-light: rgba(36, 45, 61, 0.8);
     }
 
-    /* Theme Variant 3: Crisp Pure White Light */
+    /* Variant 3: Crisp Pure White Light */
     [data-theme="3"] {
       --bg-color: #F8FAFC;
       --surface-color: #F8FAFC;
@@ -54,7 +54,7 @@
       --inset-shadow-light: rgba(255, 255, 255, 1);
     }
 
-    /* Theme Variant 4: Midnight Crimson Obsidian */
+    /* Variant 4: Crimson Obsidian Dark */
     [data-theme="4"] {
       --bg-color: #0D0D11;
       --surface-color: #0D0D11;
@@ -66,7 +66,7 @@
       --inset-shadow-light: rgba(26, 26, 34, 0.6);
     }
 
-    /* Theme Variant 5: Warm Sand Outdoor Light */
+    /* Variant 5: Warm Sand Outdoor Light */
     [data-theme="5"] {
       --bg-color: #EFECE6;
       --surface-color: #EFECE6;
@@ -78,7 +78,7 @@
       --inset-shadow-light: rgba(255, 255, 255, 0.9);
     }
 
-    /* Theme Variant 6: Steel Tech Industrial Dark */
+    /* Variant 6: Steel Tech Industrial Dark */
     [data-theme="6"] {
       --bg-color: #252A34;
       --surface-color: #252A34;
@@ -90,7 +90,7 @@
       --inset-shadow-light: rgba(47, 53, 66, 0.7);
     }
 
-    /* Theme Variant 7: Vivid Solar Sun-Glare Light */
+    /* Variant 7: Vivid Solar Sun-Glare Light */
     [data-theme="7"] {
       --bg-color: #E8ECEF;
       --surface-color: #E8ECEF;
@@ -102,7 +102,7 @@
       --inset-shadow-light: rgba(255, 255, 255, 1);
     }
 
-    /* Theme Variant 8: Deep Velvet Matte Dark */
+    /* Variant 8: Deep Velvet Matte Dark */
     [data-theme="8"] {
       --bg-color: #121212;
       --surface-color: #121212;
@@ -114,7 +114,7 @@
       --inset-shadow-light: rgba(30, 30, 30, 0.7);
     }
 
-    /* Theme Variant 9: Arctic Studio Ice Light */
+    /* Variant 9: Arctic Studio Ice Light */
     [data-theme="9"] {
       --bg-color: #E5E9F0;
       --surface-color: #E5E9F0;
@@ -126,7 +126,7 @@
       --inset-shadow-light: rgba(255, 255, 255, 0.9);
     }
 
-    /* Theme Variant 10: High-Contrast Monochromatic Dark */
+    /* Variant 10: High-Contrast Monochromatic Dark */
     [data-theme="10"] {
       --bg-color: #000000;
       --surface-color: #000000;
@@ -139,7 +139,7 @@
     }
 
     /* ==========================================================================
-       2. RESET & BASE LAYOUT
+       2. RESET & LAYOUT CANVAS
        ========================================================================== */
     * {
       box-sizing: border-box;
@@ -151,7 +151,7 @@
 
     body {
       font-family: var(--font-family);
-      background-color: #111;
+      background-color: #0B0D11;
       color: var(--text-main);
       display: flex;
       flex-direction: column;
@@ -161,15 +161,15 @@
       overflow-x: hidden;
     }
 
-    /* Switcher Top Navigation Bar */
+    /* Persistent Top Navigation Switcher Bar */
     .switcher-bar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       height: 48px;
-      background: #1A1D24;
-      border-bottom: 1px solid #2D323E;
+      background: #161920;
+      border-bottom: 1px solid #282E3D;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -182,17 +182,17 @@
     .switcher-controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .switcher-btn {
-      background: #2A2F3D;
+      background: #252B3B;
       color: #FFF;
-      border: 1px solid #3A4152;
+      border: 1px solid #363E54;
       padding: 5px 10px;
       border-radius: 6px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: background 0.2s;
     }
@@ -202,33 +202,33 @@
     }
 
     .switcher-select {
-      background: #2A2F3D;
+      background: #252B3B;
       color: #FFF;
-      border: 1px solid #3A4152;
+      border: 1px solid #363E54;
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 12px;
       outline: none;
     }
 
-    /* Primary Device Canvas Frame (Strict 375px–430px bounds) */
+    /* Pure Mobile Canvas Enforcer (Fits 375px–430px bounds cleanly) */
     .device-container {
       margin-top: 58px;
       margin-bottom: 20px;
       width: 100%;
-      max-width: 412px;
-      height: 840px;
+      max-width: 400px;
+      height: 780px;
       background: var(--bg-color);
       border-radius: 36px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 12px #22252B;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 10px #1E222B;
       display: flex;
       flex-direction: column;
       transition: background-color 0.3s ease;
     }
 
-    /* Screen Views Wrapper */
+    /* Screen Views State Structure (Strictly 3 Screens) */
     .screen-view {
       position: absolute;
       top: 0;
@@ -242,7 +242,7 @@
       opacity: 0;
       pointer-events: none;
       transform: translateX(30px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
+      transition: opacity 0.22s ease, transform 0.22s ease;
       overflow-y: auto;
       overflow-x: hidden;
     }
@@ -260,24 +260,18 @@
     }
 
     /* ==========================================================================
-       3. NEUMORPHIC UTILITIES & REUSABLE COMPONENTS
+       3. NEUMORPHIC TACTILE COMPONENTS & UTILITIES
        ========================================================================== */
     .neu-flat {
       background: var(--surface-color);
-      box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+      box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light);
       border-radius: var(--card-radius);
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .neu-pressed {
-      background: var(--surface-color);
-      box-shadow: inset 4px 4px 8px var(--inset-shadow-dark), inset -4px -4px 8px var(--inset-shadow-light);
-      border-radius: var(--card-radius);
-    }
-
     .neu-btn {
       background: var(--surface-color);
-      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
       border-radius: var(--btn-radius);
       display: inline-flex;
       align-items: center;
@@ -288,12 +282,11 @@
       font-weight: 700;
       transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      overflow: hidden;
     }
 
     .neu-btn:active, .neu-btn.is-pressed {
       box-shadow: inset 3px 3px 6px var(--inset-shadow-dark), inset -3px -3px 6px var(--inset-shadow-light);
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
 
     .neu-btn-red {
@@ -305,7 +298,7 @@
     .neu-btn-red:active {
       background: var(--s2s-red-dark);
       box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.5);
-      transform: scale(0.96);
+      transform: scale(0.95);
     }
 
     /* Header Bar Component */
@@ -313,13 +306,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
-      padding: 4px 0;
+      margin-bottom: 14px;
+      padding: 2px 0;
       flex-shrink: 0;
     }
 
     .header-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       letter-spacing: -0.3px;
       color: var(--text-main);
@@ -339,10 +332,10 @@
     }
 
     .icon-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      font-size: 15px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      font-size: 14px;
     }
 
     .cart-badge {
@@ -367,38 +360,36 @@
       transform: scale(1.35);
     }
 
-    /* Top Dead-Zone Edit Bar Indicator */
+    /* Top Dead-Zone Edit Bar Banner */
     .edit-mode-bar {
-      height: 32px;
+      height: 30px;
       background: rgba(230, 57, 70, 0.12);
       border: 1px dashed var(--s2s-red);
-      border-radius: 10px;
+      border-radius: 8px;
       display: none;
       align-items: center;
       justify-content: space-between;
-      padding: 0 12px;
-      margin-bottom: 12px;
-      font-size: 12px;
-      font-weight: 700;
+      padding: 0 10px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      font-weight: 800;
       color: var(--s2s-red);
     }
 
     .edit-mode-bar.active {
       display: flex;
-      animation: fadeIn 0.2s ease;
     }
 
     /* ==========================================================================
-       4. SCREEN 1: HOME TILE MATRIX (STRICT 6-TILE GRID FIT)
+       4. SCREEN 1: HOME SCREEN (STRICT 6-TILE MATRIX)
        ========================================================================== */
     .tile-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      gap: 14px;
+      gap: 12px;
       flex-grow: 1;
-      height: calc(100% - 130px);
-      max-height: 680px;
+      height: calc(100% - 70px);
     }
 
     .home-tile {
@@ -407,7 +398,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 14px;
       text-align: center;
       cursor: pointer;
       user-select: none;
@@ -417,52 +408,51 @@
 
     .home-tile:active {
       box-shadow: inset 4px 4px 8px var(--inset-shadow-dark), inset -4px -4px 8px var(--inset-shadow-light);
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
 
     .tile-icon-wrapper {
-      width: 58px;
-      height: 58px;
-      border-radius: 16px;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 22px;
       color: var(--s2s-red);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
       background: var(--surface-color);
-      transition: transform 0.2s ease;
     }
 
     .tile-label {
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 800;
       color: var(--text-main);
       line-height: 1.2;
     }
 
     .tile-sub {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
-      margin-top: 4px;
-      font-weight: 500;
+      margin-top: 3px;
+      font-weight: 600;
     }
 
-    /* Dead-Zone Handle Specifics */
+    /* Designated Dead-Zone Drag Handle */
     .dead-zone-handle {
       position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
+      top: 6px;
+      right: 6px;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--text-muted);
-      font-size: 12px;
-      opacity: 0.5;
+      font-size: 11px;
+      opacity: 0.4;
       touch-action: none;
     }
 
@@ -477,22 +467,22 @@
     }
 
     @keyframes wiggle {
-      0% { transform: rotate(-1.2deg); }
-      100% { transform: rotate(1.2deg); }
+      0% { transform: rotate(-1deg); }
+      100% { transform: rotate(1deg); }
     }
 
     /* ==========================================================================
-       5. SCREEN 2: PHOTOS SERVICES GRID (TACTILE PARITY + CASCAding)
+       5. SCREEN 2: PHOTOS CATEGORY VIEW (GRID TILES + CASCAding)
        ========================================================================== */
     .services-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      padding-bottom: 20px;
+      gap: 12px;
+      padding-bottom: 10px;
     }
 
     .service-card {
-      padding: 18px 12px;
+      padding: 16px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -505,16 +495,14 @@
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
+    /* Cascading Row-by-Row Domino Entrance */
     .screen-view.active .service-card {
       animation: cascadeIn 0.35s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
     }
 
-    .service-card:nth-child(1) { animation-delay: 0.04s; }
-    .service-card:nth-child(2) { animation-delay: 0.08s; }
-    .service-card:nth-child(3) { animation-delay: 0.12s; }
-    .service-card:nth-child(4) { animation-delay: 0.16s; }
-    .service-card:nth-child(5) { animation-delay: 0.20s; }
-    .service-card:nth-child(6) { animation-delay: 0.24s; }
+    .service-card:nth-child(1), .service-card:nth-child(2) { animation-delay: 0.04s; }
+    .service-card:nth-child(3), .service-card:nth-child(4) { animation-delay: 0.10s; }
+    .service-card:nth-child(5), .service-card:nth-child(6) { animation-delay: 0.16s; }
 
     @keyframes cascadeIn {
       to {
@@ -525,54 +513,54 @@
 
     .service-card:active {
       box-shadow: inset 4px 4px 8px var(--inset-shadow-dark), inset -4px -4px 8px var(--inset-shadow-light);
-      transform: scale(0.97) !important;
+      transform: scale(0.96) !important;
     }
 
     .service-icon {
-      font-size: 34px; /* 3x–4x Icon Scale */
+      font-size: 36px; /* 3x–4x Icon Scale for Instant Recognition */
       color: var(--s2s-red);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .service-title {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       color: var(--text-main);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
 
     .service-price {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 3px;
     }
 
     .card-add-btn {
-      margin-top: 10px;
-      width: 32px;
-      height: 32px;
+      margin-top: 8px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--s2s-red);
     }
 
     /* ==========================================================================
-       6. SCREEN 3: FULL SHOOT SHEET & COMPACT FLOATING CTA BAR
+       6. SCREEN 3: FULL SHOOT VIEW / BOTTOM SHEET & COMPACT CTA DOCK
        ========================================================================== */
     .sheet-body {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      padding-bottom: 85px; /* Clear space for compact bottom CTA */
+      gap: 14px;
+      padding-bottom: 80px; /* Clears exact space for compact CTA bar */
     }
 
     .shoot-hero-card {
-      padding: 16px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .shoot-title-row {
@@ -584,9 +572,9 @@
     .shoot-tag {
       background: var(--s2s-red);
       color: white;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 800;
-      padding: 3px 8px;
+      padding: 3px 7px;
       border-radius: 20px;
       text-transform: uppercase;
     }
@@ -594,12 +582,12 @@
     .option-group {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .option-label {
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -607,16 +595,16 @@
 
     .option-selector {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
 
     .opt-chip {
       flex: 1;
-      padding: 10px;
-      font-size: 12px;
+      padding: 8px 4px;
+      font-size: 11px;
       font-weight: 700;
       text-align: center;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
@@ -626,14 +614,14 @@
       border: 1px solid var(--border-accent);
     }
 
-    /* Compact Bottom Sheet Docked Bar (Fix for Half-Screen Bug) */
+    /* COMPACT FLOATING CTA DOCK BAR (Cleanly Docked Without Screen Block) */
     .compact-cta-dock {
       position: absolute;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
-      height: 64px;
-      padding: 8px 14px;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      height: 60px;
+      padding: 6px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -647,26 +635,26 @@
     }
 
     .cta-hero-price {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 900;
       color: var(--text-main);
       line-height: 1;
     }
 
     .cta-tax-indicator {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
       color: var(--text-muted);
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     .primary-action-btn {
-      height: 46px;
-      padding: 0 20px;
-      font-size: 14px;
+      height: 42px;
+      padding: 0 16px;
+      font-size: 13px;
       font-weight: 800;
-      letter-spacing: 0.3px;
-      gap: 8px;
+      letter-spacing: 0.2px;
+      gap: 6px;
     }
 
     .primary-action-btn i {
@@ -678,27 +666,27 @@
     }
 
     /* ==========================================================================
-       7. TOAST NOTIFICATION & ANIMATION SEQUENCES
+       7. TOAST NOTIFICATION & PULSE ANIMATIONS
        ========================================================================== */
     .neu-toast {
       position: absolute;
-      top: 68px;
+      top: 62px;
       left: 50%;
       transform: translateX(-50%) translateY(-20px);
       background: var(--surface-color);
       box-shadow: 6px 6px 16px var(--shadow-dark), -6px -6px 16px var(--shadow-light);
       border: 1px solid var(--s2s-red);
-      padding: 10px 18px;
+      padding: 8px 16px;
       border-radius: 30px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 12px;
+      gap: 8px;
+      font-size: 11px;
       font-weight: 800;
       color: var(--text-main);
       opacity: 0;
       pointer-events: none;
-      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 1000;
     }
 
@@ -709,27 +697,25 @@
 
     .neu-toast i {
       color: var(--s2s-red);
-      font-size: 14px;
+      font-size: 13px;
     }
 
     @keyframes pulseGlow {
       0% { box-shadow: 0 0 0 0 var(--s2s-red-glow); }
-      70% { box-shadow: 0 0 0 12px rgba(230, 57, 70, 0); }
+      70% { box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); }
       100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
     }
 
     .pulse-active {
-      animation: pulseGlow 0.6s ease-out;
+      animation: pulseGlow 0.5s ease-out;
     }
 
-    /* Utility helper classes */
-    .text-red { color: var(--s2s-red); }
     .flex-row { display: flex; align-items: center; justify-content: space-between; }
   </style>
 </head>
 <body>
 
-  <!-- Persistent 10-Design Switcher Bar -->
+  <!-- Persistent Top Navigation Switcher Bar (10 Variants) -->
   <div class="switcher-bar">
     <div style="font-weight: 800; letter-spacing: -0.2px;">
       <span style="color: var(--s2s-red);">S2S</span> Field Suite v2.6
@@ -752,7 +738,7 @@
     </div>
   </div>
 
-  <!-- Primary Mobile Device Canvas (375px–430px bounds) -->
+  <!-- Primary Mobile Canvas (Fit 375px–430px bounds) -->
   <div class="device-container" id="appCanvas">
 
     <!-- Floating Self-Dismissing Toast Notification -->
@@ -762,7 +748,7 @@
     </div>
 
     <!-- ==========================================================================
-         SCREEN 1: HOME TILE MATRIX
+         SCREEN 1: HOME SCREEN
          ========================================================================== -->
     <div class="screen-view active" id="screen1">
       <div class="app-header">
@@ -787,9 +773,10 @@
         <span style="font-size: 10px; cursor: pointer;" id="closeEditBtn">DONE</span>
       </div>
 
-      <!-- 6 Main Home Tiles Grid -->
+      <!-- Strict 6-Tile Home Matrix -->
       <div class="tile-grid" id="tileGrid">
         
+        <!-- Tile 1 -> Directly Triggers Navigation to Screen 2 -->
         <div class="home-tile neu-flat" data-target="screen2">
           <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
           <div class="tile-icon-wrapper">
@@ -799,15 +786,17 @@
           <div class="tile-sub">HDR & Flash Grid</div>
         </div>
 
+        <!-- Tile 2 -> Directly Triggers Navigation to Screen 3 -->
         <div class="home-tile neu-flat" data-target="screen3">
           <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
           <div class="tile-icon-wrapper">
             <i class="fa-solid fa-video"></i>
           </div>
           <div class="tile-label">Video Shoots</div>
-          <div class="tile-sub">4K Cinematic</div>
+          <div class="tile-sub">4K Cinema Reel</div>
         </div>
 
+        <!-- Tiles 3-6: Quick Action Field Additions -->
         <div class="home-tile neu-flat" data-action="quick-add" data-title="360 Tour">
           <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
           <div class="tile-icon-wrapper">
@@ -848,7 +837,7 @@
     </div>
 
     <!-- ==========================================================================
-         SCREEN 2: PHOTOS SERVICES GRID
+         SCREEN 2: PHOTOS CATEGORY VIEW
          ========================================================================== -->
     <div class="screen-view" id="screen2">
       <div class="app-header">
@@ -864,45 +853,45 @@
         </button>
       </div>
 
-      <!-- High-Contrast Services Grid -->
+      <!-- High-Contrast Services Grid with Large Icons & Deep Inset Physics -->
       <div class="services-grid">
         
-        <div class="service-card neu-flat" data-item="HDR Interior Photography" data-price="175">
+        <div class="service-card neu-flat" data-item="HDR Interior Photography">
           <i class="fa-solid fa-house-chimney-window service-icon"></i>
           <div class="service-title">HDR Interior</div>
           <div class="service-price">$175.00</div>
           <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
         </div>
 
-        <div class="service-card neu-flat" data-item="Twilight Exterior" data-price="225">
+        <div class="service-card neu-flat" data-item="Twilight Exterior Shoot">
           <i class="fa-solid fa-moon service-icon"></i>
           <div class="service-title">Twilight Shoot</div>
           <div class="service-price">$225.00</div>
           <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
         </div>
 
-        <div class="service-card neu-flat" data-item="Detail / Detail Closeups" data-price="95">
+        <div class="service-card neu-flat" data-item="Detail Closeups">
           <i class="fa-solid fa-camera-retro service-icon"></i>
           <div class="service-title">Detail Shots</div>
           <div class="service-price">$95.00</div>
           <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
         </div>
 
-        <div class="service-card neu-flat" data-item="Aerial Photo Stills" data-price="150">
+        <div class="service-card neu-flat" data-item="Aerial Photo Stills">
           <i class="fa-solid fa-plane-skyline service-icon"></i>
           <div class="service-title">Aerial Stills</div>
           <div class="service-price">$150.00</div>
           <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
         </div>
 
-        <div class="service-card neu-flat" data-item="Virtual Dusk Enhancement" data-price="110">
+        <div class="service-card neu-flat" data-item="Virtual Dusk Enhancement">
           <i class="fa-solid fa-sun-plant-wilt service-icon"></i>
           <div class="service-title">Virtual Dusk</div>
           <div class="service-price">$110.00</div>
           <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
         </div>
 
-        <div class="service-card neu-flat" data-item="Architectural Speed Run" data-price="320">
+        <div class="service-card neu-flat" data-item="Architectural Pro Speed">
           <i class="fa-solid fa-building-user service-icon"></i>
           <div class="service-title">Arch. Pro</div>
           <div class="service-price">$320.00</div>
@@ -913,7 +902,7 @@
     </div>
 
     <!-- ==========================================================================
-         SCREEN 3: FULL SHOOT SHEET
+         SCREEN 3: FULL SHOOT VIEW / BOTTOM SHEET
          ========================================================================== -->
     <div class="screen-view" id="screen3">
       <div class="app-header">
@@ -933,13 +922,13 @@
         <div class="shoot-hero-card neu-flat">
           <div class="shoot-title-row">
             <div>
-              <div style="font-size: 16px; font-weight: 800;">Ultra Video & Photo Shoot</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Full Property Coverage</div>
+              <div style="font-size: 15px; font-weight: 800;">Ultra Cinema & Photo Shoot</div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Full Property Coverage</div>
             </div>
             <span class="shoot-tag">POPULAR</span>
           </div>
-          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">
-            Includes 4K Cinema Reel, 35 High-Res Interior/Exterior HDR Stills, and FAA Drone Flyover.
+          <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+            Includes 4K Cinema Reel, 35 High-Res HDR Stills, and FAA Drone Flyover video.
           </div>
         </div>
 
@@ -953,23 +942,23 @@
         </div>
 
         <div class="option-group">
-          <div class="option-label">Turnaround Time</div>
+          <div class="option-label">Turnaround Delivery</div>
           <div class="option-selector">
             <div class="opt-chip neu-btn active" data-speed-price="0">24 Hours</div>
             <div class="opt-chip neu-btn" data-speed-price="75">Same Day (+ $75)</div>
           </div>
         </div>
 
-        <div class="shoot-hero-card neu-flat" style="padding: 12px 16px;">
+        <div class="shoot-hero-card neu-flat" style="padding: 10px 14px;">
           <div class="flex-row">
-            <span style="font-size: 13px; font-weight: 700;">Include Social Teaser Reel</span>
-            <input type="checkbox" id="reelAddon" style="accent-color: var(--s2s-red); width: 18px; height: 18px;">
+            <span style="font-size: 12px; font-weight: 800;">Include Social Teaser Reel</span>
+            <input type="checkbox" id="reelAddon" style="accent-color: var(--s2s-red); width: 16px; height: 16px;">
           </div>
         </div>
 
       </div>
 
-      <!-- COMPACT FLOATING CTA DOCK BAR (Compact Sheet Bottom Fix) -->
+      <!-- COMPACT FLOATING CTA DOCK BAR -->
       <div class="compact-cta-dock neu-flat">
         <div class="cta-price-block">
           <div class="cta-hero-price" id="sheetHeroPrice">$350.00</div>
@@ -986,23 +975,23 @@
   </div>
 
   <!-- Photographer Field UX Testing Checklist Protocol -->
-  <div style="max-width: 412px; width: 100%; padding: 12px; font-size: 11px; color: #888; line-height: 1.4; text-align: left;">
+  <div style="max-width: 400px; width: 100%; padding: 12px; font-size: 11px; color: #888; line-height: 1.4; text-align: left;">
     <strong style="color: #FFF;">PHOTOGRAPHER FIELD TEST PROTOCOL:</strong>
     <ol style="margin-left: 16px; margin-top: 4px;">
-      <li><strong>Dead-Zone Edit:</strong> Tap/press tiles directly to navigate instantly. Long-press ONLY top-right vertical dots or toggle top icon to trigger edit layout.</li>
-      <li><strong>Sunlight Readability:</strong> Toggle top bar (Variants 1, 3, 5, 7) for maximum contrast under high outdoor glare.</li>
-      <li><strong>Tactile Depth & Animations:</strong> Tap Screen 2 cards or Bottom Sheet CTA to test instant elevation spring bounce and toast responses.</li>
-      <li><strong>Bottom Sheet Fit:</strong> Verify screen 3 CTA bar is slim, floating, and does not block shoot configuration options.</li>
+      <li><strong>Strict 3-Screen Navigation:</strong> Tap Photos (Screen 1 -&gt; 2) or Video Shoots (Screen 1 -&gt; 3) and verify instantaneous navigation.</li>
+      <li><strong>Dead-Zone Edit Mode:</strong> Tap tiles directly to navigate immediately. Hold down ONLY top-right vertical dots or click top icon to trigger edit layout.</li>
+      <li><strong>Outdoor Sunlight Readability:</strong> Toggle switcher bar (Variants 1, 3, 5, 7) for glare-proof high contrast.</li>
+      <li><strong>CTA Animations & Bottom Sheet Compactness:</strong> Tap Screen 3 CTA bar to test deep inset press physics, icon state transition, and compact floating dock height.</li>
     </ol>
   </div>
 
   <!-- ==========================================================================
-     8. JAVASCRIPT: LOGIC, DEAD-ZONE GESTURES & INTERACTIONS
+     8. JAVASCRIPT: STRICT 3-SCREEN STATE ENGINE & INTERACTION LOGIC
      ========================================================================== -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       
-      // Global App State
+      // Strict Application State
       const state = {
         cartCount: 0,
         editMode: false,
@@ -1012,7 +1001,7 @@
         sheetReelAddon: 0
       };
 
-      // Element References
+      // UI References
       const themeSelect = document.getElementById('themeSelect');
       const prevThemeBtn = document.getElementById('prevThemeBtn');
       const nextThemeBtn = document.getElementById('nextThemeBtn');
@@ -1025,7 +1014,7 @@
       const tileGrid = document.getElementById('tileGrid');
       
       /* ------------------------------------------------------------------------
-         1. SWITCHER BAR & THEME CONTROLLER (10 VARIANTS)
+         1. 10-DESIGN VARIANT SWITCHER LOGIC
          ------------------------------------------------------------------------ */
       function setTheme(themeNum) {
         state.theme = parseInt(themeNum);
@@ -1048,7 +1037,7 @@
       });
 
       /* ------------------------------------------------------------------------
-         2. NAVIGATION & SCREEN TRANSITIONS
+         2. STRICT 3-SCREEN NAVIGATION CONTROLLER
          ------------------------------------------------------------------------ */
       function navigateTo(targetScreenId) {
         const activeScreen = document.querySelector('.screen-view.active');
@@ -1067,10 +1056,7 @@
 
       document.querySelectorAll('[data-target]').forEach(trigger => {
         trigger.addEventListener('click', function(e) {
-          // If in edit mode, prevent screen navigation
           if (state.editMode) return;
-          
-          // Check if click originated from dead-zone drag handle
           if (e.target.closest('[data-deadzone="true"]')) return;
 
           const target = this.getAttribute('data-target');
@@ -1086,7 +1072,7 @@
       });
 
       /* ------------------------------------------------------------------------
-         3. DEAD-ZONE LONG-PRESS & REARRANGE PROTECTION
+         3. DEAD-ZONE LONG-PRESS DETECTOR (600ms TIMER)
          ------------------------------------------------------------------------ */
       let longPressTimer = null;
       let touchStartX = 0;
@@ -1107,7 +1093,6 @@
       toggleEditBtn.addEventListener('click', () => toggleEditMode());
       closeEditBtn.addEventListener('click', () => toggleEditMode(false));
 
-      // Attach Touch Dead-Zone Detection strictly to Designated Handles
       document.querySelectorAll('[data-deadzone="true"]').forEach(handle => {
         handle.addEventListener('touchstart', (e) => {
           touchStartX = e.touches[0].clientX;
@@ -1116,13 +1101,12 @@
           longPressTimer = setTimeout(() => {
             toggleEditMode(true);
             if (navigator.vibrate) navigator.vibrate(50);
-          }, 600); // Strict 600ms long press threshold
+          }, 600);
         }, { passive: true });
 
         handle.addEventListener('touchmove', (e) => {
           const moveX = e.touches[0].clientX;
           const moveY = e.touches[0].clientY;
-          // Cancel timer if user is scrolling/moving finger
           if (Math.abs(moveX - touchStartX) > 8 || Math.abs(moveY - touchStartY) > 8) {
             clearTimeout(longPressTimer);
           }
@@ -1134,14 +1118,14 @@
       });
 
       /* ------------------------------------------------------------------------
-         4. CART & TOAST FEEDBACK MICRO-INTERACTIONS
+         4. CART & TOAST ANIMATIONS
          ------------------------------------------------------------------------ */
       function showToast(message) {
         toastMsg.textContent = message;
         appToast.classList.add('show');
         setTimeout(() => {
           appToast.classList.remove('show');
-        }, 2200);
+        }, 2000);
       }
 
       function updateCartCount(inc = 1) {
@@ -1149,7 +1133,7 @@
         cartBadgeCounts.forEach(badge => {
           badge.textContent = state.cartCount;
           badge.classList.add('bump');
-          setTimeout(() => badge.classList.remove('bump'), 300);
+          setTimeout(() => badge.classList.remove('bump'), 250);
         });
       }
 
@@ -1161,20 +1145,19 @@
 
           const title = this.getAttribute('data-title') || 'Item';
           this.classList.add('pulse-active');
-          setTimeout(() => this.classList.remove('pulse-active'), 600);
+          setTimeout(() => this.classList.remove('pulse-active'), 500);
           
           updateCartCount(1);
           showToast(`Added ${title} to Quote`);
         });
       });
 
-      // Screen 2: Photo Services Grid Click Handling
+      // Screen 2: Photo Services Grid Clicks
       document.querySelectorAll('.service-card').forEach(card => {
         card.addEventListener('click', function() {
           const itemName = this.getAttribute('data-item');
-          
           this.classList.add('pulse-active');
-          setTimeout(() => this.classList.remove('pulse-active'), 600);
+          setTimeout(() => this.classList.remove('pulse-active'), 500);
 
           updateCartCount(1);
           showToast(`Added ${itemName}`);
@@ -1182,7 +1165,7 @@
       });
 
       /* ------------------------------------------------------------------------
-         5. SCREEN 3: COMPACT SHEET CALCULATION & CTA
+         5. SCREEN 3: COMPACT SHEET PRICING & PRIMARY CTA
          ------------------------------------------------------------------------ */
       const sheetHeroPrice = document.getElementById('sheetHeroPrice');
       const sheetAddCta = document.getElementById('sheetAddCta');
@@ -1193,7 +1176,6 @@
         sheetHeroPrice.textContent = `$${total.toFixed(2)}`;
       }
 
-      // SqFt selector chips
       document.querySelectorAll('[data-sqft-price]').forEach(chip => {
         chip.addEventListener('click', function() {
           this.parentElement.querySelectorAll('.opt-chip').forEach(c => c.classList.remove('active'));
@@ -1203,7 +1185,6 @@
         });
       });
 
-      // Speed selector chips
       document.querySelectorAll('[data-speed-price]').forEach(chip => {
         chip.addEventListener('click', function() {
           this.parentElement.querySelectorAll('.opt-chip').forEach(c => c.classList.remove('active'));
@@ -1213,7 +1194,6 @@
         });
       });
 
-      // Social Reel Checkbox
       if (reelAddon) {
         reelAddon.addEventListener('change', function() {
           state.sheetReelAddon = this.checked ? 120 : 0;
@@ -1221,7 +1201,6 @@
         });
       }
 
-      // Sheet Primary CTA Action
       sheetAddCta.addEventListener('click', function() {
         this.classList.add('is-pressed', 'pulse-active');
         const icon = this.querySelector('i');
