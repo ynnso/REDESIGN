@@ -1,502 +1,495 @@
 <!DOCTYPE html>
-<html lang="en" class="dark" x-data="appCore()">
+<html lang="en" class="light" x-data="appCore()">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>S2S Field Hub - 10 Neumorphic Design Variants</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>S2S Field Hub - Production Field App</title>
   
   <!-- Tailwind CSS & Alpine.js -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <style>
-    /* Global Physics & Smooth Reset */
     :root {
       --spring-physics: cubic-bezier(0.34, 1.56, 0.64, 1);
       --fast-ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* Global Touch & Anti-Glare Defaults */
     html, body {
       overscroll-behavior-y: none;
       -webkit-tap-highlight-color: transparent;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-color 0.25s ease, color 0.25s ease;
       user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
     }
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Motion Transitions */
-    .sheet-transition {
-      transition: transform 0.35s var(--spring-physics), opacity 0.25s var(--fast-ease);
+    /* Tile Rearrange Edit Mode Wiggle Animation */
+    @keyframes tileWiggle {
+      0% { transform: rotate(-1.2deg) scale(0.98); }
+      50% { transform: rotate(1.2deg) scale(1.02); }
+      100% { transform: rotate(-1.2deg) scale(0.98); }
     }
+    .wiggle-active {
+      animation: tileWiggle 0.22s infinite ease-in-out;
+      border: 2px dashed #dc2626 !important;
+      z-index: 20;
+    }
+
+    /* Staggered Grid Motion Physics */
+    .tile-enter {
+      animation: tileSlideIn 0.22s var(--spring-physics) forwards;
+      opacity: 0;
+      transform: translateY(18px) scale(0.94);
+    }
+    @keyframes tileSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Tactile Press & Hover States */
     .hover-lift {
       transition: transform 0.18s var(--fast-ease), box-shadow 0.18s var(--fast-ease);
     }
     .hover-lift:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
-    .hover-lift:active, .neo-press:active {
-      transform: translateY(1px) scale(0.98) !important;
+    .neo-press:active, .hover-lift:active {
+      transform: translateY(1px) scale(0.97) !important;
     }
 
-    /* Textured Micro-Surface Backgrounds */
-    .bg-texture-dark {
-      background-color: #080808;
-      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-      background-size: 12px 12px;
-    }
+    /* Tactile Surface Micro-Texture */
     .bg-texture-light {
       background-color: #e6e9ef;
-      background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 0);
-      background-size: 12px 12px;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0);
+      background-size: 10px 10px;
+    }
+    .bg-texture-dark {
+      background-color: #09090b;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+      background-size: 10px 10px;
     }
 
-    /* Dynamic Neumorphic Class Generator across 10 Variants */
-
-    /* Dark Mode Defaults (Standard High-Contrast Gloss) */
-    .dark .v-dark-base { background: linear-gradient(145deg, #141414, #0a0a0a); }
-    
-    /* Variant 01: Pure Standard Gloss */
-    .dark .v1-raise { box-shadow: 6px 6px 14px #020202, -6px -6px 14px #1c1c1c; background: #0f0f0f; }
-    .dark .v1-inset { box-shadow: inset 4px 4px 8px #040404, inset -4px -4px 8px #181818; background: #0a0a0a; }
-
-    /* Variant 02: Intense High-Gloss & Crisp Highlights */
-    .dark .v2-raise { box-shadow: 8px 8px 18px #000000, -8px -8px 18px #222222; background: linear-gradient(145deg, #161616, #080808); }
-    .dark .v2-inset { box-shadow: inset 5px 5px 10px #000000, inset -5px -5px 10px #202020; background: #0d0d0d; }
-
-    /* Variant 03: Soft Matte Dark Surface */
-    .dark .v3-raise { box-shadow: 4px 4px 10px #030303, -4px -4px 10px #151515; background: #111111; }
-    .dark .v3-inset { box-shadow: inset 3px 3px 6px #020202, inset -3px -3px 6px #1a1a1a; background: #0c0c0c; }
-
-    /* Variant 04: Tactical Red Accent Borders */
-    .dark .v4-raise { box-shadow: 6px 6px 14px #000, -6px -6px 14px #1c1c1c; background: #0d0d0d; border: 1px solid rgba(220, 38, 38, 0.2); }
-    .dark .v4-inset { box-shadow: inset 4px 4px 8px #000, inset -4px -4px 8px #1a1a1a; background: #080808; border: 1px solid rgba(220, 38, 38, 0.15); }
-
-    /* Variant 05: Extra Deep Sunken Wells */
-    .dark .v5-raise { box-shadow: 10px 10px 22px #000, -10px -10px 22px #202020; background: #121212; }
-    .dark .v5-inset { box-shadow: inset 7px 7px 14px #000, inset -7px -7px 14px #222; background: #070707; }
-
-    /* Variant 06: Minimal Monochrome Contour */
-    .dark .v6-raise { box-shadow: 5px 5px 12px #020202, -5px -5px 12px #181818; background: #0e0e0e; border: 1px solid #1a1a1a; }
-    .dark .v6-inset { box-shadow: inset 4px 4px 8px #020202, inset -4px -4px 8px #181818; background: #080808; }
-
-    /* Variant 07: Bold High-Contrast Floating Cards */
-    .dark .v7-raise { box-shadow: 8px 8px 16px #000, -8px -8px 16px #242424; background: linear-gradient(135deg, #181818, #0c0c0c); }
-    .dark .v7-inset { box-shadow: inset 5px 5px 10px #000, inset -5px -5px 10px #242424; background: #0a0a0a; }
-
-    /* Variant 08: Sharp Architectural Geometry */
-    .dark .v8-raise { box-shadow: 6px 6px 12px #000, -6px -6px 12px #1e1e1e; background: #101010; border-radius: 0.75rem !important; }
-    .dark .v8-inset { box-shadow: inset 4px 4px 8px #000, inset -4px -4px 8px #1e1e1e; background: #0a0a0a; border-radius: 0.75rem !important; }
-
-    /* Variant 09: Ultra Soft Organic Curves */
-    .dark .v9-raise { box-shadow: 7px 7px 15px #000, -7px -7px 15px #1a1a1a; background: #121212; border-radius: 2rem !important; }
-    .dark .v9-inset { box-shadow: inset 4px 4px 8px #000, inset -4px -4px 8px #1a1a1a; background: #090909; border-radius: 2rem !important; }
-
-    /* Variant 10: Red Glow Dynamic Elevation */
-    .dark .v10-raise { box-shadow: 6px 6px 16px #000, -6px -6px 16px #1c1c1c, 0 0 12px rgba(220, 38, 38, 0.08); background: #101010; }
-    .dark .v10-inset { box-shadow: inset 4px 4px 8px #000, inset -4px -4px 8px #1c1c1c; background: #0a0a0a; }
-
-
-    /* Light Mode Variants (Harsh Outdoor Sunlight Anti-Glare Precision) */
-    .light .v-light-base { background: #e6e9ef; }
-
-    .light .v1-raise, .light .v2-raise, .light .v3-raise, .light .v4-raise, .light .v5-raise,
-    .light .v6-raise, .light .v7-raise, .light .v8-raise, .light .v9-raise, .light .v10-raise {
-      box-shadow: 7px 7px 14px #c2c5cc, -7px -7px 14px #ffffff;
-      background: #e6e9ef;
-      color: #111827;
+    /* Dynamic Custom Range Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: transparent;
     }
-    .light .v1-inset, .light .v2-inset, .light .v3-inset, .light .v4-inset, .light .v5-inset,
-    .light .v6-inset, .light .v7-inset, .light .v8-inset, .light .v9-inset, .light .v10-inset {
-      box-shadow: inset 5px 5px 9px #c2c5cc, inset -5px -5px 9px #ffffff;
-      background: #e0e3ea;
-      color: #111827;
+    input[type=range]:focus {
+      outline: none;
     }
-    .light .v4-raise { border: 1px solid rgba(220, 38, 38, 0.3); }
-    .light .v8-raise, .light .v8-inset { border-radius: 0.75rem !important; }
-    .light .v9-raise, .light .v9-inset { border-radius: 2rem !important; }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 28px;
+      width: 28px;
+      border-radius: 50%;
+      background: #dc2626;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(220, 38, 38, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+      margin-top: -10px;
+      transition: transform 0.1s var(--spring-physics);
+    }
+    input[type=range]::-webkit-slider-thumb:active {
+      transform: scale(1.25);
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      border-radius: 999px;
+    }
+
+    /* ======================================================== */
+    /* 10 NEUMORPHIC DESIGN VARIANTS GENERATOR                  */
+    /* ======================================================== */
+
+    /* Light Mode Variants (Outdoor Sunlight Ultra-Contrast Defaults) */
+    .light .v1-raise  { box-shadow: 7px 7px 14px #c2c5cc, -7px -7px 14px #ffffff; background: #e6e9ef; color: #09090b; }
+    .light .v1-inset  { box-shadow: inset 5px 5px 9px #c2c5cc, inset -5px -5px 9px #ffffff; background: #e0e3ea; color: #09090b; }
+
+    .light .v2-raise  { box-shadow: 10px 10px 20px #babbc2, -10px -10px 20px #ffffff; background: linear-gradient(145deg, #eff2f8, #dbe0e8); color: #000; }
+    .light .v2-inset  { box-shadow: inset 6px 6px 12px #b8bbc2, inset -6px -6px 12px #ffffff; background: #dce0e8; color: #000; }
+
+    .light .v3-raise  { box-shadow: 5px 5px 10px #cbced5, -5px -5px 10px #ffffff; background: #e6e9ef; color: #111827; }
+    .light .v3-inset  { box-shadow: inset 3px 3px 6px #cbced5, inset -3px -3px 6px #ffffff; background: #e2e5ec; color: #111827; }
+
+    .light .v4-raise  { box-shadow: 7px 7px 14px #c2c5cc, -7px -7px 14px #ffffff; background: #e6e9ef; border: 1.5px solid rgba(220, 38, 38, 0.4); color: #09090b; }
+    .light .v4-inset  { box-shadow: inset 5px 5px 9px #c2c5cc, inset -5px -5px 9px #ffffff; background: #e0e3ea; border: 1px solid rgba(220, 38, 38, 0.25); color: #09090b; }
+
+    .light .v5-raise  { box-shadow: 11px 11px 22px #babbc2, -11px -11px 22px #ffffff; background: #e6e9ef; color: #09090b; }
+    .light .v5-inset  { box-shadow: inset 8px 8px 15px #b2b5bc, inset -8px -8px 15px #ffffff; background: #dadde4; color: #09090b; }
+
+    .light .v6-raise  { box-shadow: 6px 6px 12px #c5c8cf, -6px -6px 12px #ffffff; background: #e6e9ef; border: 1px solid #d1d5db; color: #000; }
+    .light .v6-inset  { box-shadow: inset 4px 4px 8px #c5c8cf, inset -4px -4px 8px #ffffff; background: #dfe2e9; color: #000; }
+
+    .light .v7-raise  { box-shadow: 8px 8px 16px #bcbfc6, -8px -8px 16px #ffffff; background: linear-gradient(135deg, #ffffff, #dce0e8); color: #09090b; }
+    .light .v7-inset  { box-shadow: inset 5px 5px 10px #bcbfc6, inset -5px -5px 10px #ffffff; background: #dce0e8; color: #09090b; }
+
+    .light .v8-raise  { box-shadow: 6px 6px 12px #c2c5cc, -6px -6px 12px #ffffff; background: #e6e9ef; border-radius: 0.75rem !important; color: #09090b; }
+    .light .v8-inset  { box-shadow: inset 4px 4px 8px #c2c5cc, inset -4px -4px 8px #ffffff; background: #e0e3ea; border-radius: 0.75rem !important; color: #09090b; }
+
+    .light .v9-raise  { box-shadow: 8px 8px 16px #c2c5cc, -8px -8px 16px #ffffff; background: #e6e9ef; border-radius: 2.25rem !important; color: #09090b; }
+    .light .v9-inset  { box-shadow: inset 5px 5px 9px #c2c5cc, inset -5px -5px 9px #ffffff; background: #e0e3ea; border-radius: 2.25rem !important; color: #09090b; }
+
+    .light .v10-raise { box-shadow: 7px 7px 15px #c2c5cc, -7px -7px 15px #ffffff, 0 0 12px rgba(220, 38, 38, 0.15); background: #e6e9ef; color: #09090b; }
+    .light .v10-inset { box-shadow: inset 5px 5px 9px #c2c5cc, inset -5px -5px 9px #ffffff; background: #e0e3ea; color: #09090b; }
+
+    /* Dark Mode Variants */
+    .dark .v1-raise  { box-shadow: 6px 6px 14px #020203, -6px -6px 14px #1a1a1f; background: #0f0f12; color: #f4f4f5; }
+    .dark .v1-inset  { box-shadow: inset 4px 4px 8px #020203, inset -4px -4px 8px #18181d; background: #0a0a0d; color: #f4f4f5; }
+
+    .dark .v2-raise  { box-shadow: 9px 9px 18px #000000, -9px -9px 18px #222228; background: linear-gradient(145deg, #141418, #070709); color: #fff; }
+    .dark .v2-inset  { box-shadow: inset 6px 6px 11px #000000, inset -6px -6px 11px #202026; background: #0c0c0f; color: #fff; }
+
+    .dark .v3-raise  { box-shadow: 4px 4px 10px #030304, -4px -4px 10px #151518; background: #111114; color: #e4e4e7; }
+    .dark .v3-inset  { box-shadow: inset 3px 3px 6px #020203, inset -3px -3px 6px #1a1a1d; background: #0c0c0e; color: #e4e4e7; }
+
+    .dark .v4-raise  { box-shadow: 6px 6px 14px #000000, -6px -6px 14px #1c1c20; background: #0d0d10; border: 1.5px solid rgba(220, 38, 38, 0.35); color: #f4f4f5; }
+    .dark .v4-inset  { box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #1a1a1e; background: #08080a; border: 1px solid rgba(220, 38, 38, 0.2); color: #f4f4f5; }
+
+    .dark .v5-raise  { box-shadow: 10px 10px 22px #000000, -10px -10px 22px #202026; background: #121216; color: #f4f4f5; }
+    .dark .v5-inset  { box-shadow: inset 7px 7px 14px #000000, inset -7px -7px 14px #222228; background: #070709; color: #f4f4f5; }
+
+    .dark .v6-raise  { box-shadow: 5px 5px 12px #020203, -5px -5px 12px #18181c; background: #0e0e11; border: 1px solid #27272a; color: #fff; }
+    .dark .v6-inset  { box-shadow: inset 4px 4px 8px #020203, inset -4px -4px 8px #18181c; background: #08080a; color: #fff; }
+
+    .dark .v7-raise  { box-shadow: 8px 8px 16px #000000, -8px -8px 16px #24242a; background: linear-gradient(135deg, #18181c, #0c0c0e); color: #f4f4f5; }
+    .dark .v7-inset  { box-shadow: inset 5px 5px 10px #000000, inset -5px -5px 10px #24242a; background: #0a0a0c; color: #f4f4f5; }
+
+    .dark .v8-raise  { box-shadow: 6px 6px 12px #000000, -6px -6px 12px #1e1e22; background: #101013; border-radius: 0.75rem !important; color: #f4f4f5; }
+    .dark .v8-inset  { box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #1e1e22; background: #0a0a0c; border-radius: 0.75rem !important; color: #f4f4f5; }
+
+    .dark .v9-raise  { box-shadow: 7px 7px 15px #000000, -7px -7px 15px #1a1a1e; background: #121215; border-radius: 2.25rem !important; color: #f4f4f5; }
+    .dark .v9-inset  { box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #1a1a1e; background: #09090b; border-radius: 2.25rem !important; color: #f4f4f5; }
+
+    .dark .v10-raise { box-shadow: 6px 6px 16px #000000, -6px -6px 16px #1c1c20, 0 0 12px rgba(220, 38, 38, 0.12); background: #101013; color: #f4f4f5; }
+    .dark .v10-inset { box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #1c1c20; background: #0a0a0c; color: #f4f4f5; }
   </style>
 </head>
 
-<body :class="[isDark ? 'dark bg-texture-dark text-white' : 'light bg-texture-light text-neutral-900']" class="w-full min-h-screen flex flex-col justify-between items-center relative overflow-x-hidden">
+<body :class="[isDark ? 'dark bg-texture-dark text-white' : 'light bg-texture-light text-neutral-900']" class="w-full min-h-screen flex flex-col justify-between items-center relative overflow-x-hidden selection:bg-red-600 selection:text-white">
 
   <!-- ========================================== -->
-  <!-- PERSISTENT TOP HTML OPTION SWITCHER BAR    -->
+  <!-- PERSISTENT HTML DESIGN VARIANT SWITCHER    -->
   <!-- ========================================== -->
-  <div class="w-full bg-black/90 backdrop-blur-md text-white border-b border-white/10 py-2.5 px-4 fixed top-0 left-0 right-0 z-50 flex items-center justify-between text-xs font-mono shadow-2xl">
+  <div class="w-full bg-neutral-950/95 backdrop-blur-lg text-white border-b border-white/10 py-2 px-3 fixed top-0 left-0 right-0 z-50 flex items-center justify-between text-xs font-mono shadow-2xl h-12">
     
-    <!-- Left Switcher Controls -->
-    <div class="flex items-center gap-2">
-      <button @click="prevVariant()" class="px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 active:bg-red-600 transition-colors font-bold text-white flex items-center gap-1">
-        <span>&#9664;</span> Prev
+    <!-- Left Controls -->
+    <div class="flex items-center gap-1.5">
+      <button @click="prevVariant()" class="px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700 active:bg-red-600 transition-colors font-bold text-white flex items-center gap-1 neo-press">
+        <span>&#9664;</span> <span class="hidden sm:inline">Prev</span>
       </button>
 
-      <div class="flex items-center gap-1.5 bg-neutral-900 border border-neutral-700 px-2 py-0.5 rounded">
+      <div class="flex items-center gap-1 bg-neutral-900 border border-neutral-700 px-2 py-0.5 rounded">
         <span class="text-red-500 font-bold">OPT</span>
-        <select x-model="currentVariant" class="bg-transparent text-white font-bold focus:outline-none cursor-pointer">
+        <select x-model.number="currentVariant" class="bg-transparent text-white font-bold focus:outline-none cursor-pointer">
           <template x-for="n in 10" :key="n">
             <option :value="n" x-text="n < 10 ? '0' + n : n" class="bg-neutral-900 text-white"></option>
           </template>
         </select>
-        <span class="text-neutral-500">/ 10</span>
+        <span class="text-neutral-500 text-[10px]">/10</span>
       </div>
 
-      <button @click="nextVariant()" class="px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 active:bg-red-600 transition-colors font-bold text-white flex items-center gap-1">
-        Next <span>&#9654;</span>
+      <button @click="nextVariant()" class="px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700 active:bg-red-600 transition-colors font-bold text-white flex items-center gap-1 neo-press">
+        <span class="hidden sm:inline">Next</span> <span>&#9654;</span>
       </button>
     </div>
 
-    <!-- Variant Metadata Title -->
-    <div class="hidden sm:flex items-center gap-2">
-      <span class="text-neutral-400">Style:</span>
+    <!-- Variant Metadata -->
+    <div class="hidden md:flex items-center gap-2">
+      <span class="text-neutral-400">Variant:</span>
       <span class="text-red-400 font-bold uppercase tracking-wider" x-text="variantTitles[currentVariant - 1]"></span>
     </div>
 
-    <!-- Screen State & Light/Dark Mode Toggle -->
+    <!-- Mode & Edit Controls -->
     <div class="flex items-center gap-2">
-      <button @click="toggleTheme()" class="px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-white font-bold transition-colors flex items-center gap-1">
-        <span x-text="isDark ? '☀️ Sunlight' : '🌙 Dark'"></span>
+      <button x-show="activeScreen === 'home'" @click="isRearranging = !isRearranging" 
+              :class="isRearranging ? 'bg-red-600 text-white font-black' : 'bg-neutral-800 text-neutral-300'"
+              class="px-2.5 py-1 rounded text-[11px] font-bold transition-all flex items-center gap-1">
+        <span x-text="isRearranging ? 'Done' : 'Rearrange'"></span>
+      </button>
+
+      <button @click="toggleTheme()" class="px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-white font-bold transition-colors flex items-center gap-1 neo-press">
+        <span x-text="isDark ? '☀️ Light' : '🌙 Dark'"></span>
       </button>
     </div>
   </div>
 
 
-  <!-- APP HEADER FRAMEWORK -->
-  <header class="w-full max-w-md px-6 pt-16 pb-4 grid grid-cols-3 items-center z-30">
+  <!-- ========================================== -->
+  <!-- APP HEADER (NAV INTEGRITY PRESERVED)       -->
+  <!-- ========================================== -->
+  <header class="w-full max-w-md px-6 pt-16 pb-3 grid grid-cols-3 items-center z-30">
     <!-- Brand Logo -->
-    <div class="justify-self-start flex items-center justify-center w-12 h-12 rounded-2xl hover-lift cursor-pointer" :class="getRaiseClass()">
-      <span class="font-extrabold text-xl tracking-tighter">S<span class="text-red-600">2</span>S</span>
+    <div @click="activeScreen = 'home'" class="justify-self-start flex items-center justify-center w-11 h-11 rounded-2xl hover-lift cursor-pointer neo-press" :class="getRaiseClass()">
+      <span class="font-extrabold text-lg tracking-tighter">S<span class="text-red-600">2</span>S</span>
     </div>
     
-    <!-- Nav Center Indicator -->
-    <div class="justify-self-center text-[10px] font-black uppercase tracking-widest opacity-60">
-      <span x-text="activeScreen === 'home' ? 'Field Hub' : (activeScreen === 'photosScreen' ? 'Photo Services' : 'Configurator')"></span>
+    <!-- Screen Breadcrumb Indicator -->
+    <div class="justify-self-center text-center">
+      <span class="text-[10px] font-black uppercase tracking-widest opacity-50 block" x-text="activeScreen === 'home' ? 'Field Hub' : 'Service Grid'"></span>
+      <span class="text-xs font-black uppercase tracking-wider text-red-600" x-text="activeScreen === 'home' ? 'Categories' : 'Photo Options'"></span>
     </div>
 
-    <!-- Dynamic Cart Badge -->
+    <!-- Cart Badge & Trigger -->
     <div class="justify-self-end">
-      <button @click="activeSheet = 'mlsFullShoot'" class="w-12 h-12 rounded-2xl flex items-center justify-center hover-lift relative focus:outline-none" :class="getRaiseClass()">
-        <svg class="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <button @click="openConfigurator('MLS Full Shoot')" class="w-11 h-11 rounded-2xl flex items-center justify-center hover-lift relative focus:outline-none neo-press" :class="getRaiseClass()">
+        <svg class="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
         </svg>
-        <div class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-black" x-text="cartCount">1</div>
+        <div x-show="cartCount > 0" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-neutral-900" x-text="cartCount"></div>
       </button>
     </div>
   </header>
 
 
   <!-- ========================================== -->
-  <!-- SCREEN 1: HOME SCREEN GRID                 -->
+  <!-- SCREEN 1: HOME SCREEN (WITH REARRANGE MODE)-->
   <!-- ========================================== -->
-  <main x-show="activeScreen === 'home'" class="flex-1 w-full max-w-md px-6 pb-28 flex flex-col justify-center">
+  <main x-show="activeScreen === 'home'" class="flex-1 w-full max-w-md px-6 pt-2 pb-28 flex flex-col justify-start">
     
-    <div class="text-center mb-6">
-      <h1 class="text-2xl font-black tracking-tight mb-1">Service Categories</h1>
-      <p class="text-xs font-semibold opacity-50">Select a real estate service to configure</p>
+    <!-- Title & Edit Banner -->
+    <div class="text-left mb-4 flex items-end justify-between">
+      <div>
+        <h1 class="text-2xl font-black tracking-tight">Main Hub</h1>
+        <p class="text-xs font-bold opacity-50">Hold tile to enter custom field layout</p>
+      </div>
+      <span x-show="isRearranging" class="text-[10px] font-black bg-red-600 text-white px-2 py-0.5 rounded uppercase tracking-wider animate-pulse">Drag / Tap Swap</span>
     </div>
 
-    <div class="grid grid-cols-2 gap-5">
-      
-      <!-- Photos Tile -->
-      <button @click="openPhotosScreen()" class="w-full aspect-square rounded-3xl p-5 flex flex-col items-center justify-center gap-3 hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-red-500" :class="getInsetClass()">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </div>
-        <span class="font-bold text-xs uppercase tracking-wider opacity-90">Photos</span>
-      </button>
+    <!-- 6 CATEGORY GRID WITH LONG-PRESS REORDER -->
+    <div class="grid grid-cols-2 gap-4.5 relative">
+      <template x-for="(tile, index) in homeTiles" :key="tile.id">
+        <div 
+          @touchstart="startTouchHold(index)"
+          @touchend="endTouchHold()"
+          @mousedown="startMouseHold(index)"
+          @mouseup="endMouseHold()"
+          @click="handleTileClick(tile)"
+          :class="[
+            getRaiseClass(),
+            isRearranging ? 'wiggle-active cursor-grab' : 'hover-lift neo-press cursor-pointer',
+            selectedSwapIndex === index ? 'border-2 border-red-500 scale-105' : ''
+          ]"
+          class="w-full aspect-square rounded-3xl p-4 flex flex-col items-center justify-center gap-2.5 transition-all relative select-none">
+          
+          <!-- Tactile Inner Icon Container -->
+          <div class="w-13 h-13 rounded-2xl flex items-center justify-center transition-transform" 
+               :class="[getInsetClass(), tile.id === 'photos' ? 'text-red-600' : 'opacity-70']">
+            
+            <!-- Dynamic Category SVG Icons -->
+            <template x-if="tile.icon === 'camera'">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </template>
+            <template x-if="tile.icon === 'video'">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </template>
+            <template x-if="tile.icon === 'drone'">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            </template>
+            <template x-if="tile.icon === '360'">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8"/></svg>
+            </template>
+            <template x-if="tile.icon === 'floorplan'">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M11 4v16"/></svg>
+            </template>
+            <template x-if="tile.icon === 'plus'">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+            </template>
 
-      <!-- Video Tile -->
-      <button class="w-full aspect-square rounded-3xl p-5 flex flex-col items-center justify-center gap-3 hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-        </div>
-        <span class="font-bold text-xs uppercase tracking-wider opacity-90">Video</span>
-      </button>
+          </div>
 
-      <!-- Aerial Tile -->
-      <button class="w-full aspect-square rounded-3xl p-5 flex flex-col items-center justify-center gap-3 hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-          </svg>
-        </div>
-        <span class="font-bold text-xs uppercase tracking-wider opacity-90">Aerial</span>
-      </button>
+          <!-- Label -->
+          <span class="font-black text-xs uppercase tracking-wider opacity-90 text-center" x-text="tile.title"></span>
 
-      <!-- 360 Tour Tile -->
-      <button class="w-full aspect-square rounded-3xl p-5 flex flex-col items-center justify-center gap-3 hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8" />
-          </svg>
+          <!-- Move Handle Indicator (Rearrange Active) -->
+          <div x-show="isRearranging" class="absolute top-2 right-2 text-red-500 font-bold text-xs">
+            &#8942;&#8942;
+          </div>
         </div>
-        <span class="font-bold text-xs uppercase tracking-wider opacity-90">360 Tour</span>
-      </button>
-
-      <!-- Floor Plan Tile -->
-      <button class="w-full aspect-square rounded-3xl p-5 flex flex-col items-center justify-center gap-3 hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M11 4v16" />
-          </svg>
-        </div>
-        <span class="font-bold text-xs uppercase tracking-wider opacity-90">Floor Plan</span>
-      </button>
-
-      <!-- Add-Ons Tile -->
-      <button class="w-full aspect-square rounded-3xl p-5 flex flex-col items-center justify-center gap-3 hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-        </div>
-        <span class="font-bold text-xs uppercase tracking-wider opacity-90">Add-Ons</span>
-      </button>
-
+      </template>
     </div>
   </main>
 
 
   <!-- ========================================== -->
-  <!-- SCREEN 2: PHOTOS CATEGORY LIST SCREEN      -->
+  <!-- SCREEN 2: PHOTOS CATEGORY (TACTILE GRID)   -->
   <!-- ========================================== -->
-  <main x-show="activeScreen === 'photosScreen'" class="flex-1 w-full max-w-md px-6 pb-28 flex flex-col justify-start pt-2">
+  <main x-show="activeScreen === 'photosGrid'" class="flex-1 w-full max-w-md px-6 pt-2 pb-28 flex flex-col justify-start">
     
-    <!-- Top Back Row -->
-    <div class="flex items-center justify-between mb-5">
-      <button @click="activeScreen = 'home'" class="px-4 py-2 rounded-2xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover-lift neo-press" :class="getRaiseClass()">
-        <span>&#8592;</span> Back
+    <!-- Navigation Back Header -->
+    <div class="flex items-center justify-between mb-4">
+      <button @click="activeScreen = 'home'" class="px-3.5 py-1.5 rounded-2xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 hover-lift neo-press" :class="getRaiseClass()">
+        <span>&#8592;</span> Hub
       </button>
-      <span class="text-xs font-black uppercase tracking-widest text-red-600">Package List</span>
+      <span class="text-[10px] font-black uppercase tracking-widest text-red-600 bg-red-600/10 px-2 py-1 rounded-lg">Photo Services</span>
     </div>
 
-    <!-- Category Header -->
-    <div class="text-left mb-6">
-      <h2 class="text-2xl font-black tracking-tight">Photo Services</h2>
-      <p class="text-xs font-semibold opacity-50">Select a photo shoot configuration</p>
+    <div class="text-left mb-4">
+      <h2 class="text-2xl font-black tracking-tight">Photo Packages</h2>
+      <p class="text-xs font-bold opacity-50">Select package to customize on-site</p>
     </div>
 
-    <!-- CONCRETE CATEGORY OPTIONS LIST -->
-    <div class="space-y-4">
-      
-      <!-- Option 1: Full Shoot -->
-      <button @click="openConfigurator('Full Shoot')" class="w-full rounded-2xl py-4 px-5 flex items-center justify-between hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center text-red-500" :class="getInsetClass()">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
+    <!-- CONCRETE PHOTO SERVICES (RENDERED AS HOME-STYLE TILES WITH STAGGER MOTION) -->
+    <div class="grid grid-cols-2 gap-4">
+      <template x-for="(service, idx) in photoServices" :key="service.id">
+        <div 
+          @click="openConfigurator(service.title)"
+          :style="'animation-delay: ' + (idx * 40) + 'ms'"
+          class="tile-enter w-full aspect-square rounded-3xl p-3.5 flex flex-col justify-between hover-lift neo-press cursor-pointer transition-all relative border border-white/5"
+          :class="getRaiseClass()">
+          
+          <div class="flex items-center justify-between w-full">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-red-600" :class="getInsetClass()">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+              </svg>
+            </div>
+            <span class="text-[10px] font-black px-1.5 py-0.5 rounded text-red-500 uppercase tracking-tight" x-text="service.badge"></span>
           </div>
-          <div class="text-left">
-            <span class="font-bold text-base tracking-tight block">Full Shoot</span>
-            <span class="text-[10px] font-semibold opacity-50">Interior & Exterior MLS</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-semibold opacity-50">from</span>
-          <span class="text-lg font-black text-red-600">$139</span>
-          <svg class="w-4 h-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        </div>
-      </button>
 
-      <!-- Option 2: Reshoot -->
-      <button @click="openConfigurator('Reshoot')" class="w-full rounded-2xl py-4 px-5 flex items-center justify-between hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
+          <div class="text-left my-1">
+            <h3 class="font-black text-xs uppercase tracking-wider leading-tight" x-text="service.title"></h3>
+            <p class="text-[9px] font-bold opacity-50 line-clamp-1 mt-0.5" x-text="service.desc"></p>
           </div>
-          <div class="text-left">
-            <span class="font-bold text-base tracking-tight block">Reshoot</span>
-            <span class="text-[10px] font-semibold opacity-50">Update Existing Listing</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-lg font-black text-red-600">$89</span>
-          <svg class="w-4 h-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        </div>
-      </button>
 
-      <!-- Option 3: Ranch Shoot -->
-      <button @click="openConfigurator('Ranch Shoot')" class="w-full rounded-2xl py-4 px-5 flex items-center justify-between hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
-            </svg>
-          </div>
-          <div class="text-left">
-            <span class="font-bold text-base tracking-tight block">Ranch Shoot</span>
-            <span class="text-[10px] font-semibold opacity-50">Large Acreage & Land</span>
+          <div class="flex items-center justify-between pt-1 border-t border-black/5 dark:border-white/5">
+            <span class="text-[10px] font-bold opacity-50">Starting</span>
+            <span class="text-sm font-black text-red-600" x-text="'$' + service.basePrice"></span>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-semibold opacity-50">from</span>
-          <span class="text-lg font-black text-red-600">$299</span>
-          <svg class="w-4 h-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        </div>
-      </button>
-
-      <!-- Option 4: Exterior Only -->
-      <button @click="openConfigurator('Exterior Only')" class="w-full rounded-2xl py-4 px-5 flex items-center justify-between hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <div class="text-left">
-            <span class="font-bold text-base tracking-tight block">Exterior Only</span>
-            <span class="text-[10px] font-semibold opacity-50">Front, Back & Elevation</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-lg font-black text-red-600">$79</span>
-          <svg class="w-4 h-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        </div>
-      </button>
-
-      <!-- Option 5: Mini Shoot -->
-      <button @click="openConfigurator('Mini Shoot')" class="w-full rounded-2xl py-4 px-5 flex items-center justify-between hover-lift neo-press transition-all" :class="getRaiseClass()">
-        <div class="flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center opacity-60" :class="getInsetClass()">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          </div>
-          <div class="text-left">
-            <span class="font-bold text-base tracking-tight block">Mini Shoot</span>
-            <span class="text-[10px] font-semibold opacity-50">Rental / Small Condo</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-lg font-black text-red-600">$119</span>
-          <svg class="w-4 h-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        </div>
-      </button>
-
+      </template>
     </div>
   </main>
 
 
   <!-- ========================================== -->
-  <!-- SCREEN 3: FULL SHOOT CONFIGURATOR BOTTOM SHEET -->
+  <!-- SCREEN 3: FULL SHOOT CONFIG BOTTOM SHEET   -->
   <!-- ========================================== -->
-  <div x-show="activeSheet === 'mlsFullShoot'" 
-       x-transition:enter="sheet-transition" 
+  <div x-show="activeSheet === 'configurator'" 
+       x-transition:enter="transition ease-out duration-300 transform" 
        x-transition:enter-start="translate-y-full opacity-0" 
        x-transition:enter-end="translate-y-0 opacity-100" 
-       x-transition:leave="sheet-transition" 
+       x-transition:leave="transition ease-in duration-200 transform" 
        x-transition:leave-start="translate-y-0 opacity-100" 
        x-transition:leave-end="translate-y-full opacity-0"
        class="fixed inset-0 z-50 flex flex-col justify-end" style="display: none;">
     
-    <!-- Dim Backdrop -->
-    <div class="absolute inset-0 bg-black/75 backdrop-blur-md" @click="activeSheet = null"></div>
+    <!-- Dim Backdrop with Fast Dismiss -->
+    <div class="absolute inset-0 bg-neutral-950/80 backdrop-blur-md" @click="activeSheet = null"></div>
 
-    <!-- Bottom Sheet Container -->
-    <div class="relative w-full max-w-md mx-auto h-[92vh] rounded-t-[2.5rem] p-6 flex flex-col justify-between border-t border-white/10 shadow-2xl overflow-y-auto no-scrollbar"
-         :class="isDark ? 'bg-[#080808] text-white' : 'bg-[#e6e9ef] text-neutral-900'">
+    <!-- Sheet Panel Container -->
+    <div class="relative w-full max-w-md mx-auto max-h-[88vh] h-auto rounded-t-[2.5rem] p-6 flex flex-col justify-between shadow-2xl overflow-y-auto no-scrollbar border-t border-white/10"
+         :class="isDark ? 'bg-[#09090b] text-white' : 'bg-[#e6e9ef] text-neutral-900'">
       
       <div>
         <!-- Drag Handle Indicator -->
-        <div class="w-12 h-1 bg-neutral-600/40 rounded-full mx-auto mb-5 cursor-pointer" @click="activeSheet = null"></div>
+        <div class="w-14 h-1.5 bg-neutral-500/40 rounded-full mx-auto mb-4 cursor-pointer" @click="activeSheet = null"></div>
         
         <!-- Header Itemization -->
-        <div class="flex items-center gap-4 mb-3">
-          <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-red-600" :class="getInsetClass()">
-            <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-xs font-bold uppercase tracking-widest opacity-50">MLS Photos</p>
-            <h1 class="text-3xl font-black tracking-tight" x-text="selectedPackageName">Full Shoot</h1>
-          </div>
-        </div>
-
-        <!-- Hero Dynamic Price Readout -->
-        <div class="flex items-baseline gap-0.5 my-3">
-          <span class="text-red-600 font-extrabold text-3xl">$</span>
-          <span class="text-red-600 font-black text-6xl tracking-tighter" x-text="calculatedPrice">139</span>
-          <span class="text-red-600 font-black text-3xl">.00</span>
-          <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider border border-white/10" :class="getInsetClass()">Tax Included</span>
-        </div>
-
-        <!-- Square Footage Selector -->
-        <div class="my-5">
-          <label class="text-xs font-bold uppercase tracking-wider opacity-60 mb-2 block">Property Size (Sq Ft)</label>
-          <div class="relative">
-            <select x-model="selectedSqFtIndex" class="w-full py-3.5 px-5 rounded-2xl font-extrabold text-base focus:outline-none cursor-pointer appearance-none border border-white/5" :class="getInsetClass()">
-              <template x-for="(tier, idx) in sqFtTiers" :key="idx">
-                <option :value="idx" x-text="tier.label + (tier.surcharge > 0 ? ' (+$' + tier.surcharge + ')' : '')" class="bg-neutral-900 text-white"></option>
-              </template>
-            </select>
-            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-red-600" :class="getInsetClass()">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </div>
+            <div>
+              <span class="text-[10px] font-black uppercase tracking-widest opacity-50 block">Selected Service</span>
+              <h1 class="text-xl font-black tracking-tight" x-text="selectedPackageName">MLS Full Shoot</h1>
             </div>
           </div>
+          <button @click="activeSheet = null" class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs opacity-60 hover:opacity-100" :class="getRaiseClass()">&#10005;</button>
         </div>
 
-        <!-- Preset Selection Matrix Tiles -->
+        <!-- Dynamic Live Price Readout -->
+        <div class="flex items-baseline justify-between my-3 px-1">
+          <div class="flex items-baseline">
+            <span class="text-red-600 font-extrabold text-2xl">$</span>
+            <span class="text-red-600 font-black text-5xl tracking-tighter" x-text="calculatedPrice"></span>
+            <span class="text-red-600 font-black text-2xl">.00</span>
+          </div>
+          <span class="px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border border-white/10 opacity-70" :class="getInsetClass()">On-Site Total</span>
+        </div>
+
+        <!-- Continuous Photo Slider with Dynamic Floating Price -->
+        <div class="my-5 p-4 rounded-2xl border border-white/5" :class="getInsetClass()">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-xs font-black uppercase tracking-wider opacity-70">Photo Count Adjuster</label>
+            <span class="text-sm font-black text-red-600" x-text="photoCount + ' Photos'"></span>
+          </div>
+
+          <div class="relative py-2">
+            <input type="range" min="15" max="60" step="1" x-model.number="photoCount" class="w-full">
+          </div>
+          <div class="flex justify-between text-[10px] font-bold opacity-40 mt-1">
+            <span>15 (Min)</span>
+            <span>25 (Std)</span>
+            <span>40 (Pro)</span>
+            <span>60 (Max)</span>
+          </div>
+        </div>
+
+        <!-- Preset Fast Selector Tiles -->
         <div class="mb-5">
-          <label class="text-xs font-bold uppercase tracking-wider opacity-60 mb-2 block">Quick Presets</label>
-          <div class="grid grid-cols-4 gap-2.5">
+          <label class="text-xs font-black uppercase tracking-wider opacity-70 mb-2 block">Quick Photo Presets</label>
+          <div class="grid grid-cols-4 gap-2">
             <template x-for="preset in presets" :key="preset.count">
               <button @click="photoCount = preset.count" 
-                      :class="photoCount === preset.count ? 'bg-red-600 text-white shadow-lg scale-105 font-black' : getRaiseClass() + ' opacity-80'"
-                      class="rounded-2xl py-3 flex flex-col items-center justify-center transition-all duration-150 border border-white/5">
-                <span class="text-xl leading-tight" x-text="preset.count"></span>
-                <span class="text-[10px] font-bold opacity-80" x-text="'$' + (preset.price + sqFtTiers[selectedSqFtIndex].surcharge)"></span>
+                      :class="photoCount === preset.count ? 'bg-red-600 text-white font-black scale-105 shadow-lg' : getRaiseClass() + ' opacity-80'"
+                      class="rounded-xl py-2.5 flex flex-col items-center justify-center transition-all duration-150 neo-press">
+                <span class="text-base leading-none" x-text="preset.count"></span>
+                <span class="text-[9px] font-bold opacity-80 mt-1" x-text="'$' + (preset.price + sqFtTiers[selectedSqFtIndex].surcharge)"></span>
               </button>
             </template>
           </div>
         </div>
 
-        <!-- Pricing Breakdown Card -->
-        <div class="rounded-2xl p-4 space-y-2.5 mb-5 border border-white/5" :class="getInsetClass()">
-          <div class="flex justify-between items-center text-xs font-semibold">
-            <span class="opacity-60">Base Package (25 Photos)</span>
-            <span class="font-bold">$139.00</span>
-          </div>
-          <div class="flex justify-between items-center text-xs font-semibold" x-show="sqFtTiers[selectedSqFtIndex].surcharge > 0">
-            <span class="opacity-60">Sq Footage Adjustment</span>
-            <span class="font-bold text-red-500" x-text="'+$' + sqFtTiers[selectedSqFtIndex].surcharge + '.00'"></span>
-          </div>
-          <div class="flex justify-between items-center text-xs font-semibold">
-            <span class="opacity-60">Additional Photos (<span x-text="photoCount > 25 ? photoCount - 25 : 0"></span> extra @ $5/ea)</span>
-            <span class="font-bold" x-text="'$' + (photoCount > 25 ? (photoCount - 25) * 5 : 0) + '.00'"></span>
+        <!-- Square Footage Selector -->
+        <div class="mb-4">
+          <label class="text-xs font-black uppercase tracking-wider opacity-70 mb-1.5 block">Property Size (Sq Ft)</label>
+          <div class="relative">
+            <select x-model.number="selectedSqFtIndex" class="w-full py-3 px-4 rounded-xl font-bold text-xs focus:outline-none cursor-pointer appearance-none border border-white/5" :class="getInsetClass()">
+              <template x-for="(tier, idx) in sqFtTiers" :key="idx">
+                <option :value="idx" x-text="tier.label + (tier.surcharge > 0 ? ' (+$' + tier.surcharge + ')' : ' (Included)')" class="bg-neutral-900 text-white"></option>
+              </template>
+            </select>
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
           </div>
         </div>
 
-        <!-- Photo Counter Control -->
-        <div class="flex justify-between items-center my-4">
-          <span class="text-base font-extrabold">Total Photos</span>
-          
-          <div class="flex items-center gap-4 rounded-2xl p-1.5 px-4 border border-white/5" :class="getInsetClass()">
-            <button @click="if(photoCount > 25) photoCount -= 1" class="text-neutral-400 hover:text-white text-2xl font-black px-1 neo-press">-</button>
-            <span class="text-red-600 font-black text-xl w-8 text-center" x-text="photoCount"></span>
-            <button @click="photoCount += 1" class="text-neutral-400 hover:text-white text-2xl font-black px-1 neo-press">+</button>
+        <!-- Order Summary Matrix -->
+        <div class="rounded-xl p-3.5 space-y-2 mb-4 text-xs font-semibold border border-white/5" :class="getInsetClass()">
+          <div class="flex justify-between items-center opacity-70">
+            <span>Base Package (Standard)</span>
+            <span class="font-bold text-neutral-200" x-text="'$' + basePackagePrice"></span>
+          </div>
+          <div class="flex justify-between items-center opacity-70" x-show="sqFtTiers[selectedSqFtIndex].surcharge > 0">
+            <span>Sq Footage Surcharge</span>
+            <span class="font-bold text-red-500" x-text="'+$' + sqFtTiers[selectedSqFtIndex].surcharge"></span>
+          </div>
+          <div class="flex justify-between items-center opacity-70" x-show="photoCount != 25">
+            <span>Photo Count Delta (<span x-text="photoCount"></span>)</span>
+            <span class="font-bold text-neutral-200" x-text="(photoCount > 25 ? '+$' : '-$') + Math.abs((photoCount - 25) * 5)"></span>
           </div>
         </div>
 
       </div>
 
-      <!-- Bottom Add To Cart Button -->
-      <div class="mt-6">
-        <button @click="addToCart()" class="w-full py-4 bg-red-600 text-white rounded-2xl font-black text-base tracking-wider uppercase flex items-center justify-center gap-3 shadow-2xl active:scale-[0.98] transition-transform">
-          <span>Add To Order</span>
-          <svg class="w-6 h-6 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Add To Order Action -->
+      <div class="pt-2">
+        <button @click="addToCart()" class="w-full py-3.5 bg-red-600 text-white rounded-2xl font-black text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-2xl active:scale-[0.98] transition-all hover:bg-red-700 neo-press">
+          <span>Add To Field Cart</span>
+          <svg class="w-5 h-5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
         </button>
@@ -507,93 +500,122 @@
 
 
   <!-- ========================================== -->
-  <!-- PERSISTENT BOTTOM NAVIGATION BAR           -->
+  <!-- PERSISTENT FIELD NAVIGATION BAR            -->
   <!-- ========================================== -->
-  <nav class="fixed bottom-6 w-[calc(100%-3rem)] max-w-sm h-16 rounded-3xl z-40 flex items-center justify-around px-4 border border-white/5" :class="getRaiseClass()">
+  <nav class="fixed bottom-4 w-[calc(100%-2.5rem)] max-w-sm h-15 rounded-3xl z-40 flex items-center justify-around px-3 border border-white/5 backdrop-blur-md shadow-2xl" :class="getRaiseClass()">
     
-    <!-- Home Button -->
-    <button @click="activeScreen = 'home'" :class="activeScreen === 'home' ? 'text-red-600' : 'opacity-50 hover:opacity-100'" class="p-3 neo-press rounded-2xl transition-all">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2l8 8h-3v8H5v-8H2l8-8z"/></svg>
+    <!-- Home Tab -->
+    <button @click="activeScreen = 'home'" :class="activeScreen === 'home' ? 'text-red-600 font-black' : 'opacity-50 hover:opacity-100'" class="p-2.5 neo-press rounded-2xl transition-all flex flex-col items-center gap-0.5">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2l8 8h-3v8H5v-8H2l8-8z"/></svg>
+      <span class="text-[9px] uppercase tracking-wider">Hub</span>
     </button>
 
-    <!-- Services Button -->
-    <button @click="openPhotosScreen()" :class="activeScreen === 'photosScreen' ? 'text-red-600' : 'opacity-50 hover:opacity-100'" class="p-3 neo-press rounded-2xl transition-all">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v10h10V5H5z"/></svg>
+    <!-- Services Grid Tab -->
+    <button @click="activeScreen = 'photosGrid'" :class="activeScreen === 'photosGrid' ? 'text-red-600 font-black' : 'opacity-50 hover:opacity-100'" class="p-2.5 neo-press rounded-2xl transition-all flex flex-col items-center gap-0.5">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v10h10V5H5z"/></svg>
+      <span class="text-[9px] uppercase tracking-wider">Photos</span>
     </button>
 
-    <!-- Cart Button -->
-    <button @click="activeSheet = 'mlsFullShoot'" class="p-3 neo-press rounded-2xl opacity-50 hover:opacity-100 transition-all">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7 1a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+    <!-- Direct Shoot Config Tab -->
+    <button @click="openConfigurator('MLS Full Shoot')" class="p-2.5 neo-press rounded-2xl opacity-50 hover:opacity-100 transition-all flex flex-col items-center gap-0.5">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7 1a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+      <span class="text-[9px] uppercase tracking-wider">Config</span>
     </button>
   </nav>
 
 
-  <!-- APPLICATION LOGIC & DYNAMIC CLASS SWITCHER -->
+  <!-- ========================================== -->
+  <!-- APPLICATION STATE & PHYSICS ENGINE         -->
+  <!-- ========================================== -->
   <script>
     function appCore() {
       return {
-        // Option Variant State (1 to 10)
+        // App Core State
         currentVariant: 1,
-        isDark: true,
-
-        // Screen Routing State
-        activeScreen: 'home', // 'home' | 'photosScreen'
-        activeSheet: null,    // null | 'mlsFullShoot'
-        selectedPackageName: 'Full Shoot',
-
-        // Cart State
+        isDark: false, // Default light mode for high-glare sunlight testing
+        activeScreen: 'home', // 'home' | 'photosGrid'
+        activeSheet: null,    // null | 'configurator'
         cartCount: 1,
 
-        // Configurator State
+        // Long-Press Rearrange State
+        isRearranging: false,
+        pressTimer: null,
+        selectedSwapIndex: null,
+
+        // Configurator Options
+        selectedPackageName: 'MLS Full Shoot',
         photoCount: 25,
         selectedSqFtIndex: 0,
 
-        // Dynamic Sq Ft Tiers
+        // Home Screen Tiles Dataset
+        homeTiles: [
+          { id: 'photos', title: 'Photos', icon: 'camera' },
+          { id: 'video', title: 'Video', icon: 'video' },
+          { id: 'aerial', title: 'Aerial Drone', icon: 'drone' },
+          { id: 'tour', title: '360 Virtual', icon: '360' },
+          { id: 'floorplan', title: 'Floor Plan', icon: 'floorplan' },
+          { id: 'addons', title: 'Add-Ons', icon: 'plus' }
+        ],
+
+        // Concrete Photos Category Services Grid Dataset
+        photoServices: [
+          { id: 'full', title: 'MLS Full Shoot', desc: 'Complete Interior & Exterior', basePrice: 139, badge: 'Popular' },
+          { id: 'reshoot', title: 'Reshoot', desc: 'Listing Updates & Edits', basePrice: 89, badge: 'Fast' },
+          { id: 'ranch', title: 'Ranch Shoot', desc: 'Acreage & Estate Land', basePrice: 299, badge: 'Pro' },
+          { id: 'exterior', title: 'Exterior Only', desc: 'Front, Rear & Elevation', basePrice: 79, badge: 'Basic' },
+          { id: 'mini', title: 'Mini Shoot', desc: 'Small Condo & Rental', basePrice: 119, badge: 'Compact' },
+          { id: 'airbnb', title: 'Airbnb / Rental', desc: 'High-End Hospitality Focus', basePrice: 189, badge: 'Prime' }
+        ],
+
+        // Sq Ft Surcharge Tiers
         sqFtTiers: [
           { label: '0 – 1,999 Sq Ft', surcharge: 0 },
-          { label: '2,000 – 2,999 Sq Ft', surcharge: 20 },
-          { label: '3,000 – 3,999 Sq Ft', surcharge: 40 },
-          { label: '4,000 – 4,999 Sq Ft', surcharge: 60 },
-          { label: '5,000+ Sq Ft', surcharge: 90 }
+          { label: '2,000 – 2,999 Sq Ft', surcharge: 25 },
+          { label: '3,000 – 3,999 Sq Ft', surcharge: 45 },
+          { label: '4,000 – 4,999 Sq Ft', surcharge: 70 },
+          { label: '5,000+ Sq Ft', surcharge: 100 }
         ],
 
-        // Preset Matrix
+        // Quick Presets
         presets: [
+          { count: 20, price: 114 },
           { count: 25, price: 139 },
-          { count: 36, price: 179 },
-          { count: 40, price: 189 },
-          { count: 50, price: 224 }
+          { count: 36, price: 194 },
+          { count: 50, price: 264 }
         ],
 
-        // Titles for the 10 Variations
+        // Titles for Variant Switcher Bar
         variantTitles: [
-          "01. Pure Standard Gloss",
-          "02. High-Gloss High-Contrast",
-          "03. Soft Dark Matte",
-          "04. Tactical Red Contour",
-          "05. Extra Deep Sunken Wells",
-          "06. Minimalist Monochrome",
-          "07. Bold Floating Depth",
-          "08. Sharp Architectural",
-          "09. Ultra Soft Organic",
-          "10. Red Glow Elevation"
+          "01. Pure Sunlight Gloss",
+          "02. Ultra-High Glare Contrast",
+          "03. Soft Field Matte",
+          "04. Tactical Red Border",
+          "05. Deep Sunken Wells",
+          "06. Architectural Contour",
+          "07. Elevated Floating Cards",
+          "08. Sharp Precision Geometry",
+          "09. Soft Ergonomic Pill Curves",
+          "10. High-Tech Red Backglow"
         ],
 
-        // Calculated Total Price
-        get calculatedPrice() {
-          let base = 139;
-          if (this.selectedPackageName === 'Reshoot') base = 89;
-          if (this.selectedPackageName === 'Ranch Shoot') base = 299;
-          if (this.selectedPackageName === 'Exterior Only') base = 79;
-          if (this.selectedPackageName === 'Mini Shoot') base = 119;
-
-          let extraPhotos = this.photoCount > 25 ? (this.photoCount - 25) * 5 : 0;
-          let sqFtFee = this.sqFtTiers[this.selectedSqFtIndex].surcharge;
-
-          return base + extraPhotos + sqFtFee;
+        // Package Price Calculator Logic
+        get basePackagePrice() {
+          if (this.selectedPackageName === 'Reshoot') return 89;
+          if (this.selectedPackageName === 'Ranch Shoot') return 299;
+          if (this.selectedPackageName === 'Exterior Only') return 79;
+          if (this.selectedPackageName === 'Mini Shoot') return 119;
+          if (this.selectedPackageName === 'Airbnb / Rental') return 189;
+          return 139; // MLS Full Shoot
         },
 
-        // Helper methods for switching CSS based on variant
+        get calculatedPrice() {
+          let base = this.basePackagePrice;
+          let extraPhotosDelta = (this.photoCount - 25) * 5;
+          let sqFtFee = this.sqFtTiers[this.selectedSqFtIndex].surcharge;
+          return base + extraPhotosDelta + sqFtFee;
+        },
+
+        // Neumorphic Styling Helpers
         getRaiseClass() {
           return `v${this.currentVariant}-raise`;
         },
@@ -601,7 +623,7 @@
           return `v${this.currentVariant}-inset`;
         },
 
-        // Navigation Switcher Helpers
+        // Switcher Logic
         prevVariant() {
           this.currentVariant = this.currentVariant > 1 ? this.currentVariant - 1 : 10;
         },
@@ -612,13 +634,52 @@
           this.isDark = !this.isDark;
         },
 
-        // Action Handlers
-        openPhotosScreen() {
-          this.activeScreen = 'photosScreen';
+        // Tile Long-Press Rearrange Mechanics
+        startTouchHold(index) {
+          this.pressTimer = setTimeout(() => {
+            this.isRearranging = true;
+            this.selectedSwapIndex = index;
+          }, 500);
         },
-        openConfigurator(pkgName) {
-          this.selectedPackageName = pkgName;
-          this.activeSheet = 'mlsFullShoot';
+        endTouchHold() {
+          clearTimeout(this.pressTimer);
+        },
+        startMouseHold(index) {
+          this.pressTimer = setTimeout(() => {
+            this.isRearranging = true;
+            this.selectedSwapIndex = index;
+          }, 500);
+        },
+        endMouseHold() {
+          clearTimeout(this.pressTimer);
+        },
+        handleTileClick(tile) {
+          if (this.isRearranging) {
+            if (this.selectedSwapIndex !== null) {
+              // Swap positions in array
+              let fromIdx = this.selectedSwapIndex;
+              let toIdx = this.homeTiles.findIndex(t => t.id === tile.id);
+              let temp = this.homeTiles[fromIdx];
+              this.homeTiles[fromIdx] = this.homeTiles[toIdx];
+              this.homeTiles[toIdx] = temp;
+              this.selectedSwapIndex = null;
+            } else {
+              this.selectedSwapIndex = this.homeTiles.findIndex(t => t.id === tile.id);
+            }
+            return;
+          }
+
+          if (tile.id === 'photos') {
+            this.activeScreen = 'photosGrid';
+          } else {
+            this.openConfigurator(tile.title);
+          }
+        },
+
+        // Action Routines
+        openConfigurator(pkgTitle) {
+          this.selectedPackageName = pkgTitle;
+          this.activeSheet = 'configurator';
         },
         addToCart() {
           this.cartCount++;
