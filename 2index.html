@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en" class="light" x-data="appCore()">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>S2S Field Hub - Production Build</title>
+  
+  <!-- Tailwind CSS & Alpine.js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    :root {
+      --spring-physics: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --fast-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --sheet-speed: 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    /* Global Touch & Structural Guardrails */
+    html, body {
+      overscroll-behavior: none;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Wiggle Animation for Tile Rearrange Mode */
+    @keyframes tileWiggle {
+      0% { transform: rotate(-1.5deg) scale(0.98); }
+      50% { transform: rotate(1.5deg) scale(1.02); }
+      100% { transform: rotate(-1.5deg) scale(0.98); }
+    }
+    .wiggle-active {
+      animation: tileWiggle 0.22s infinite ease-in-out;
+      border: 2px dashed #dc2626 !important;
+      z-index: 20;
+    }
+
+    /* Staggered Grid Motion Physics */
+    .tile-enter {
+      animation: tileSlideIn 0.2s var(--spring-physics) forwards;
+      opacity: 0;
+      transform: translateY(18px) scale(0.94);
+    }
+    @keyframes tileSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Tactile Interactions */
+    .hover-lift {
+      transition: transform 0.18s var(--fast-ease), box-shadow 0.18s var(--fast-ease);
+    }
+    .hover-lift:hover {
+      transform: translateY(-2px);
+    }
+    .neo-press:active {
+      transform: translateY(2px) scale(0.96) !important;
+    }
+
+    /* Tactile Textures */
+    .bg-texture-light {
+      background-color: #e6e9ef;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 0);
+      background-size: 12px 12px;
+    }
+    .bg-texture-dark {
+      background-color: #09090b;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+      background-size: 12px 12px;
+    }
+
+    /* Dynamic Range Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: transparent;
+    }
+    input[type=range]:focus {
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 32px;
+      width: 32px;
+      border-radius: 50%;
+      background: #dc2626;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+      margin-top: -12px;
+      transition: transform 0.1s var(--spring-physics);
+    }
+    input[type=range]::-webkit-slider-thumb:active {
+      transform: scale(1.3);
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      border-radius: 999px;
+    }
+
+    /* Bottom Sheet Dynamic Slide Transition */
+    .sheet-transition {
+      transition: transform var(--sheet-speed);
+    }
+
+    /* ======================================================== */
+    /* 10 NEUMORPHIC DESIGN VARIANTS (RED / BLACK / WHITE)      */
+    /* ======================================================== */
+
+    /* Light Mode Variants */
+    .light .v1-raise  { box-shadow: 8px 8px 16px #c2c5cc, -8px -8px 16px #ffffff; background: #e6e9ef; color: #09090b; }
+    .light .v1-inset  { box-shadow: inset 6px 6px 10px #c2c5cc, inset -6px -6px 10px #ffffff; background: #e0e3ea; color: #09090b; }
+
+    .light .v2-raise  { box-shadow: 10px 10px 20px #babbc2, -10px -10px 20px #ffffff; background: linear-gradient(145deg, #eff2f8, #dbe0e8); color: #000; }
+    .light .v2-inset  { box-shadow: inset 6px 6px 12px #b8bbc2, inset -6px -6px 12px #ffffff; background: #dce0e8; color: #000; }
+
+    .light .v3-raise  { box-shadow: 5px 5px 10px #cbced5, -5px -5px 10px #ffffff; background: #e6e9ef; color: #111827; }
+    .light .v3-inset  { box-shadow: inset 4px 4px 7px #cbced5, inset -4px -4px 7px #ffffff; background: #e2e5ec; color: #111827; }
+
+    .light .v4-raise  { box-shadow: 7px 7px 14px #c2c5cc, -7px -7px 14px #ffffff; background: #e6e9ef; border: 2px solid rgba(220, 38, 38, 0.4); color: #09090b; }
+    .light .v4-inset  { box-shadow: inset 5px 5px 9px #c2c5cc, inset -5px -5px 9px #ffffff; background: #e0e3ea; border: 1px solid rgba(220, 38, 38, 0.25); color: #09090b; }
+
+    .light .v5-raise  { box-shadow: 12px 12px 24px #babbc2, -12px -12px 24px #ffffff; background: #e6e9ef; color: #09090b; }
+    .light .v5-inset  { box-shadow: inset 9px 9px 16px #b2b5bc, inset -9px -9px 16px #ffffff; background: #dadde4; color: #09090b; }
+
+    .light .v6-raise  { box-shadow: 6px 6px 12px #c5c8cf, -6px -6px 12px #ffffff; background: #e6e9ef; border: 1px solid #d1d5db; color: #000; }
+    .light .v6-inset  { box-shadow: inset 4px 4px 8px #c5c8cf, inset -4px -4px 8px #ffffff; background: #dfe2e9; color: #000; }
+
+    .light .v7-raise  { box-shadow: 8px 8px 16px #bcbfc6, -8px -8px 16px #ffffff; background: linear-gradient(135deg, #ffffff, #dce0e8); color: #09090b; }
+    .light .v7-inset  { box-shadow: inset 5px 5px 10px #bcbfc6, inset -5px -5px 10px #ffffff; background: #dce0e8; color: #09090b; }
+
+    .light .v8-raise  { box-shadow: 6px 6px 12px #c2c5cc, -6px -6px 12px #ffffff; background: #e6e9ef; border-radius: 0.85rem !important; color: #09090b; }
+    .light .v8-inset  { box-shadow: inset 4px 4px 8px #c2c5cc, inset -4px -4px 8px #ffffff; background: #e0e3ea; border-radius: 0.85rem !important; color: #09090b; }
+
+    .light .v9-raise  { box-shadow: 8px 8px 16px #c2c5cc, -8px -8px 16px #ffffff; background: #e6e9ef; border-radius: 2.5rem !important; color: #09090b; }
+    .light .v9-inset  { box-shadow: inset 5px 5px 9px #c2c5cc, inset -5px -5px 9px #ffffff; background: #e0e3ea; border-radius: 2.5rem !important; color: #09090b; }
+
+    .light .v10-raise { box-shadow: 7px 7px 15px #c2c5cc, -7px -7px 15px #ffffff, 0 0 14px rgba(220, 38, 38, 0.2); background: #e6e9ef; color: #09090b; }
+    .light .v10-inset { box-shadow: inset 5px 5px 9px #c2c5cc, inset -5px -5px 9px #ffffff; background: #e0e3ea; color: #09090b; }
+
+    /* Dark Mode Variants */
+    .dark .v1-raise  { box-shadow: 6px 6px 14px #020203, -6px -6px 14px #1a1a1f; background: #0f0f12; color: #f4f4f5; }
+    .dark .v1-inset  { box-shadow: inset 4px 4px 8px #020203, inset -4px -4px 8px #18181d; background: #0a0a0d; color: #f4f4f5; }
+
+    .dark .v2-raise  { box-shadow: 9px 9px 18px #000000, -9px -9px 18px #222228; background: linear-gradient(145deg, #141418, #070709); color: #fff; }
+    .dark .v2-inset  { box-shadow: inset 6px 6px 11px #000000, inset -6px -6px 11px #202026; background: #0c0c0f; color: #fff; }
+
+    .dark .v3-raise  { box-shadow: 4px 4px 10px #030304, -4px -4px 10px #151518; background: #111114; color: #e4e4e7; }
+    .dark .v3-inset  { box-shadow: inset 3px 3px 6px #020203, inset -3px -3px 6px #1a1a1d; background: #0c0c0e; color: #e4e4e7; }
+
+    .dark .v4-raise  { box-shadow: 6px 6px 14px #000000, -6px -6px 14px #1c1c20; background: #0d0d10; border: 2px solid rgba(220, 38, 38, 0.4); color: #f4f4f5; }
+    .dark .v4-inset  { box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #1a1a1e; background: #08080a; border: 1px solid rgba(220, 38, 38, 0.25); color: #f4f4f5; }
+
+    .dark .v5-raise  { box-shadow: 10px 10px 22px #000000, -10px -10px 22px #202026; background: #121216; color: #f4f4f5; }
+    .dark .v5-inset  { box-shadow: inset 7px 7px 14px #000000, inset -7px -7px 14px #222228; background: #070709; color: #f4f4f5; }
+
+    .dark .v6-raise  { box-shadow: 5px 5px 12px #020203, -5px -5px 12px #18181c; background: #0e0e11; border: 1px solid #27272a; color: #fff; }
+    .dark .v6-inset  { box-shadow: inset 4px 4px 8px #020203, inset -4px -4px 8px #18181c; background: #08080a; color: #fff; }
+
+    .dark .v7-raise  { box-shadow: 8px 8px 16px #000000, -8px -8px 16px #24242a; background: linear-gradient(135deg, #18181c, #0c0c0e); color: #f4f4f5; }
+    .dark .v7-inset  { box-shadow: inset 5px 5px 10px #000000, inset -5px -5px 10px #24242a; background: #0a0a0c; color: #f4f4f5; }
+
+    .dark .v8-raise  { box-shadow: 6px 6px 12px #000000, -6px -6px 12px #1e1e22; background: #101013; border-radius: 0.85rem !important; color: #f4f4f5; }
+    .dark .v8-inset  { box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #1e1e22; background: #0a0a0c; border-radius: 0.85rem !important; color: #f4f4f5; }
+
+    .dark .v9-raise  { box-shadow: 7px 7px 15px #000000, -7px -7px 15px #1a1a1e; background: #121215; border-radius: 2.5rem !important; color: #f4f4f5; }
+    .dark .v9-inset  { box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #1a1a1e; background: #09090b; border-radius: 2.5rem !important; color: #f4f4f5; }
+
+    .dark .v10-raise { box-shadow: 6px 6px 16px #000000, -6px -6px 16px #1c1c20, 0 0 14px rgba(220, 38, 38, 0.2); background: #101013; color: #f4f4f5; }
+    .dark .v10-inset { box-shadow: inset 4px 4px 8px #000000, inset -4px -4px 8px #1c1c20; background: #0a0a0c; color: #f4f4f5; }
+  </style>
+</head>
+
+<body :class="[isDark ? 'dark bg-texture-dark text-white' : 'light bg-texture-light text-neutral-900']" class="w-full h-full flex flex-col justify-between items-center relative overflow-x-hidden selection:bg-red-600 selection:text-white">
+
+  <!-- ========================================== -->
+  <!-- PERSISTENT HTML DESIGN VARIANT SWITCHER    -->
+  <!-- ========================================== -->
+  <div class="w-full bg-neutral-950/95 backdrop-blur-xl text-white border-b border-white/10 py-2 px-3 fixed top-0 left-0 right-0 z-50 flex items-center justify-between text-xs font-mono shadow-2xl h-12">
+    
+    <!-- Controls Left -->
+    <div class="flex items-center gap-1.5">
+      <button @click="prevVariant()" class="px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700 active:bg-red-600 transition-colors font-bold text-white flex items-center gap-1 neo-press">
+        <span>&#9664;</span> <span class="hidden sm:inline">Prev</span>
+      </button>
+
+      <div class="flex items-center gap-1 bg-neutral-900 border border-neutral-700 px-2 py-0.5 rounded">
+        <span class="text-red-500 font-bold">OPT</span>
+        <select x-model.number="currentVariant" class="bg-transparent text-white font-bold focus:outline-none cursor-pointer">
+          <template x-for="n in 10" :key="n">
+            <option :value="n" x-text="n < 10 ? '0' + n : n" class="bg-neutral-900 text-white"></option>
+          </template>
+        </select>
+        <span class="text-neutral-500 text-[10px]">/10</span>
+      </div>
+
+      <button @click="nextVariant()" class="px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700 active:bg-red-600 transition-colors font-bold text-white flex items-center gap-1 neo-press">
+        <span class="hidden sm:inline">Next</span> <span>&#9654;</span>
+      </button>
+    </div>
+
+    <!-- Variant Metadata -->
+    <div class="hidden md:flex items-center gap-2">
+      <span class="text-neutral-400">Variant:</span>
+      <span class="text-red-400 font-bold uppercase tracking-wider" x-text="variantTitles[currentVariant - 1]"></span>
+    </div>
+
+    <!-- Controls Right -->
+    <div class="flex items-center gap-2">
+      <button x-show="activeScreen === 'home'" @click="isRearranging = !isRearranging" 
+              :class="isRearranging ? 'bg-red-600 text-white font-black' : 'bg-neutral-800 text-neutral-300'"
+              class="px-2.5 py-1 rounded text-[11px] font-bold transition-all flex items-center gap-1">
+        <span x-text="isRearranging ? 'Done' : 'Rearrange'"></span>
+      </button>
+
+      <button @click="toggleTheme()" class="px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-white font-bold transition-colors flex items-center gap-1 neo-press">
+        <span x-text="isDark ? '☀️ Light' : '🌙 Dark'"></span>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- APP HEADER (NAV INTEGRITY PRESERVED)       -->
+  <!-- ========================================== -->
+  <header class="w-full max-w-md px-5 pt-15 pb-2 grid grid-cols-3 items-center z-30 shrink-0">
+    <!-- Brand Logo -->
+    <div @click="activeScreen = 'home'" class="justify-self-start flex items-center justify-center w-11 h-11 rounded-2xl hover-lift cursor-pointer neo-press" :class="getRaiseClass()">
+      <span class="font-extrabold text-lg tracking-tighter">S<span class="text-red-600">2</span>S</span>
+    </div>
+    
+    <!-- Screen Indicator -->
+    <div class="justify-self-center text-center">
+      <span class="text-[10px] font-black uppercase tracking-widest opacity-50 block" x-text="activeScreen === 'home' ? 'Field Hub' : 'Service Grid'"></span>
+      <span class="text-xs font-black uppercase tracking-wider text-red-600" x-text="activeScreen === 'home' ? 'Categories' : 'Photo Options'"></span>
+    </div>
+
+    <!-- Cart Badge & Trigger -->
+    <div class="justify-self-end">
+      <button @click="openConfigurator('MLS Full Shoot')" class="w-11 h-11 rounded-2xl flex items-center justify-center hover-lift relative focus:outline-none neo-press" :class="getRaiseClass()">
+        <svg class="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <div x-show="cartCount > 0" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-neutral-900" x-text="cartCount"></div>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ========================================== -->
+  <!-- SCREEN 1: HOME SCREEN (LARGE TARGET TILES) -->
+  <!-- ========================================== -->
+  <main x-show="activeScreen === 'home'" class="flex-1 w-full max-w-md px-5 pt-1 pb-24 flex flex-col justify-start overflow-y-auto no-scrollbar">
+    
+    <!-- Header Banner -->
+    <div class="text-left my-2 flex items-end justify-between">
+      <div>
+        <h1 class="text-2xl font-black tracking-tight">Main Hub</h1>
+        <p class="text-xs font-bold opacity-50">Hold tile to enter custom field layout</p>
+      </div>
+      <span x-show="isRearranging" class="text-[10px] font-black bg-red-600 text-white px-2 py-0.5 rounded uppercase tracking-wider animate-pulse">Drag / Tap Swap</span>
+    </div>
+
+    <!-- 6 PRIMARY TILE GRID (ENLARGED TARGETS FOR FIELD USE) -->
+    <div class="grid grid-cols-2 gap-3.5 relative">
+      <template x-for="(tile, index) in homeTiles" :key="tile.id">
+        <div 
+          draggable="true"
+          @dragstart="onDragStart(index)"
+          @dragover.prevent
+          @drop="onDrop(index)"
+          @touchstart="onTouchStart($event, index)"
+          @touchmove="onTouchMove($event)"
+          @touchend="onTouchEnd(index)"
+          @mousedown="startMouseHold(index)"
+          @mouseup="endMouseHold()"
+          @click="handleTileClick(tile)"
+          :class="[
+            getRaiseClass(),
+            isRearranging ? 'wiggle-active cursor-grab' : 'hover-lift neo-press cursor-pointer',
+            selectedSwapIndex === index ? 'border-2 border-red-500 scale-105' : ''
+          ]"
+          class="w-full aspect-[0.95] rounded-3xl p-3 flex flex-col items-center justify-center gap-2 transition-all relative select-none">
+          
+          <!-- Large Inset Icon Container (3x-4x Scale) -->
+          <div class="w-20 h-20 rounded-2xl flex items-center justify-center transition-transform" 
+               :class="[getInsetClass(), tile.id === 'photos' ? 'text-red-600' : 'opacity-80']">
+            
+            <template x-if="tile.icon === 'camera'">
+              <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </template>
+            <template x-if="tile.icon === 'video'">
+              <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </template>
+            <template x-if="tile.icon === 'drone'">
+              <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            </template>
+            <template x-if="tile.icon === '360'">
+              <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8"/></svg>
+            </template>
+            <template x-if="tile.icon === 'floorplan'">
+              <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M11 4v16"/></svg>
+            </template>
+            <template x-if="tile.icon === 'plus'">
+              <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+            </template>
+
+          </div>
+
+          <!-- Enlarged Label Typography (2x Scale) -->
+          <span class="font-black text-sm uppercase tracking-wider text-center opacity-95 leading-none" x-text="tile.title"></span>
+
+          <!-- Drag Handle Indicator -->
+          <div x-show="isRearranging" class="absolute top-2 right-2 text-red-500 font-bold text-xs">
+            &#8942;&#8942;
+          </div>
+        </div>
+      </template>
+    </div>
+  </main>
+
+
+  <!-- ========================================== -->
+  <!-- SCREEN 2: PHOTOS CATEGORY (TACTILE GRID)   -->
+  <!-- ========================================== -->
+  <main x-show="activeScreen === 'photosGrid'" class="flex-1 w-full max-w-md px-5 pt-1 pb-24 flex flex-col justify-start overflow-y-auto no-scrollbar">
+    
+    <!-- Navigation Back Bar -->
+    <div class="flex items-center justify-between my-2">
+      <button @click="activeScreen = 'home'" class="px-3.5 py-1.5 rounded-2xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 hover-lift neo-press" :class="getRaiseClass()">
+        <span>&#8592;</span> Hub
+      </button>
+      <span class="text-[10px] font-black uppercase tracking-widest text-red-600 bg-red-600/10 px-2 py-1 rounded-lg">Photo Services</span>
+    </div>
+
+    <div class="text-left mb-3">
+      <h2 class="text-2xl font-black tracking-tight">Photo Packages</h2>
+      <p class="text-xs font-bold opacity-50">Select package to customize on-site</p>
+    </div>
+
+    <!-- CONCRETE PHOTO SERVICES GRID -->
+    <div class="grid grid-cols-2 gap-3.5">
+      <template x-for="(service, idx) in photoServices" :key="service.id">
+        <div 
+          @click="openConfigurator(service.title)"
+          :style="'animation-delay: ' + (idx * 35) + 'ms'"
+          class="tile-enter w-full aspect-square rounded-3xl p-3.5 flex flex-col justify-between hover-lift neo-press cursor-pointer transition-all relative border border-white/5"
+          :class="getRaiseClass()">
+          
+          <div class="flex items-center justify-between w-full">
+            <div class="w-11 h-11 rounded-2xl flex items-center justify-center text-red-600" :class="getInsetClass()">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+              </svg>
+            </div>
+            <span class="text-[10px] font-black px-1.5 py-0.5 rounded text-red-500 uppercase tracking-tight" x-text="service.badge"></span>
+          </div>
+
+          <div class="text-left my-1">
+            <h3 class="font-black text-xs uppercase tracking-wider leading-tight" x-text="service.title"></h3>
+            <p class="text-[9px] font-bold opacity-50 line-clamp-1 mt-0.5" x-text="service.desc"></p>
+          </div>
+
+          <div class="flex items-center justify-between pt-1 border-t border-black/5 dark:border-white/5">
+            <span class="text-[10px] font-bold opacity-50">Starting</span>
+            <span class="text-sm font-black text-red-600" x-text="'$' + service.basePrice"></span>
+          </div>
+        </div>
+      </template>
+    </div>
+  </main>
+
+
+  <!-- ========================================== -->
+  <!-- SCREEN 3: SMOOTH DRAGGABLE BOTTOM SHEET    -->
+  <!-- ========================================== -->
+  <div x-show="sheetOpen" 
+       class="fixed inset-0 z-50 flex flex-col justify-end" style="display: none;">
+    
+    <!-- Backdrop with Sync Blur -->
+    <div class="absolute inset-0 bg-neutral-950/80 backdrop-blur-md transition-opacity duration-300" 
+         :class="sheetOpen ? 'opacity-100' : 'opacity-0'" 
+         @click="closeSheet()"></div>
+
+    <!-- Draggable Bottom Sheet Container -->
+    <div x-ref="sheet"
+         @touchstart="onSheetTouchStart($event)"
+         @touchmove="onSheetTouchMove($event)"
+         @touchend="onSheetTouchEnd()"
+         :style="'transform: translateY(' + sheetY + 'px)'"
+         :class="[isDraggingSheet ? '' : 'sheet-transition', isDark ? 'bg-[#09090b] text-white' : 'bg-[#e6e9ef] text-neutral-900']"
+         class="relative w-full max-w-md mx-auto max-h-[88vh] rounded-t-[2.5rem] p-5 flex flex-col justify-between shadow-2xl overflow-y-auto no-scrollbar border-t border-white/10 touch-none">
+      
+      <div>
+        <!-- Drag Handle Target Zone -->
+        <div class="w-full py-2 cursor-grab flex items-center justify-center">
+          <div class="w-16 h-1.5 bg-neutral-500/50 rounded-full"></div>
+        </div>
+        
+        <!-- Service Title Header -->
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-red-600 shrink-0" :class="getInsetClass()">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </div>
+            <div>
+              <span class="text-[10px] font-black uppercase tracking-widest opacity-50 block">Selected Package</span>
+              <h1 class="text-xl font-black tracking-tight" x-text="selectedPackageName">MLS Full Shoot</h1>
+            </div>
+          </div>
+          <button @click="closeSheet()" class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs opacity-60 hover:opacity-100 neo-press" :class="getRaiseClass()">&#10005;</button>
+        </div>
+
+        <!-- Dynamic Live Price Readout -->
+        <div class="flex items-baseline justify-between my-3 px-1">
+          <div class="flex items-baseline">
+            <span class="text-red-600 font-extrabold text-2xl">$</span>
+            <span class="text-red-600 font-black text-5xl tracking-tighter" x-text="calculatedPrice"></span>
+            <span class="text-red-600 font-black text-2xl">.00</span>
+          </div>
+          <span class="px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border border-white/10 opacity-70" :class="getInsetClass()">On-Site Total</span>
+        </div>
+
+        <!-- Photo Count Range Slider -->
+        <div class="my-4 p-4 rounded-2xl border border-white/5" :class="getInsetClass()">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-xs font-black uppercase tracking-wider opacity-70">Photo Count Adjuster</label>
+            <span class="text-sm font-black text-red-600" x-text="photoCount + ' Photos'"></span>
+          </div>
+
+          <div class="relative py-2">
+            <input type="range" min="15" max="60" step="1" x-model.number="photoCount" class="w-full cursor-pointer">
+          </div>
+          <div class="flex justify-between text-[10px] font-bold opacity-40 mt-1">
+            <span>15 (Min)</span>
+            <span>25 (Std)</span>
+            <span>40 (Pro)</span>
+            <span>60 (Max)</span>
+          </div>
+        </div>
+
+        <!-- Quick Preset Selector Tiles -->
+        <div class="mb-4">
+          <label class="text-xs font-black uppercase tracking-wider opacity-70 mb-2 block">Quick Photo Presets</label>
+          <div class="grid grid-cols-4 gap-2">
+            <template x-for="preset in presets" :key="preset.count">
+              <button @click="photoCount = preset.count" 
+                      :class="photoCount === preset.count ? 'bg-red-600 text-white font-black scale-105 shadow-lg' : getRaiseClass() + ' opacity-80'"
+                      class="rounded-xl py-2.5 flex flex-col items-center justify-center transition-all duration-150 neo-press">
+                <span class="text-base leading-none" x-text="preset.count"></span>
+                <span class="text-[9px] font-bold opacity-80 mt-1" x-text="'$' + (preset.price + sqFtTiers[selectedSqFtIndex].surcharge)"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- Property Size Dropdown Selector -->
+        <div class="mb-4">
+          <label class="text-xs font-black uppercase tracking-wider opacity-70 mb-1.5 block">Property Size (Sq Ft)</label>
+          <div class="relative">
+            <select x-model.number="selectedSqFtIndex" class="w-full py-3 px-4 rounded-xl font-bold text-xs focus:outline-none cursor-pointer appearance-none border border-white/5" :class="getInsetClass()">
+              <template x-for="(tier, idx) in sqFtTiers" :key="idx">
+                <option :value="idx" x-text="tier.label + (tier.surcharge > 0 ? ' (+$' + tier.surcharge + ')' : ' (Included)')" class="bg-neutral-900 text-white"></option>
+              </template>
+            </select>
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-50">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Breakdown -->
+        <div class="rounded-xl p-3 space-y-1.5 mb-4 text-xs font-semibold border border-white/5" :class="getInsetClass()">
+          <div class="flex justify-between items-center opacity-70">
+            <span>Base Package Fee</span>
+            <span class="font-bold text-neutral-200" x-text="'$' + basePackagePrice"></span>
+          </div>
+          <div class="flex justify-between items-center opacity-70" x-show="sqFtTiers[selectedSqFtIndex].surcharge > 0">
+            <span>Sq Footage Surcharge</span>
+            <span class="font-bold text-red-500" x-text="'+$' + sqFtTiers[selectedSqFtIndex].surcharge"></span>
+          </div>
+          <div class="flex justify-between items-center opacity-70" x-show="photoCount != 25">
+            <span>Photo Count Adjustment (<span x-text="photoCount"></span>)</span>
+            <span class="font-bold text-neutral-200" x-text="(photoCount > 25 ? '+$' : '-$') + Math.abs((photoCount - 25) * 5)"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Submit Action Button -->
+      <div class="pt-2">
+        <button @click="addToCart()" class="w-full py-3.5 bg-red-600 text-white rounded-2xl font-black text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-2xl active:scale-[0.98] transition-all hover:bg-red-700 neo-press">
+          <span>Add To Field Order</span>
+          <svg class="w-5 h-5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- PERSISTENT FIELD BOTTOM NAVIGATION         -->
+  <!-- ========================================== -->
+  <nav class="fixed bottom-3 w-[calc(100%-2rem)] max-w-sm h-14 rounded-3xl z-40 flex items-center justify-around px-2 border border-white/5 backdrop-blur-md shadow-2xl" :class="getRaiseClass()">
+    
+    <!-- Home Tab -->
+    <button @click="activeScreen = 'home'" :class="activeScreen === 'home' ? 'text-red-600 font-black' : 'opacity-50 hover:opacity-100'" class="p-2 neo-press rounded-2xl transition-all flex flex-col items-center gap-0.5">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2l8 8h-3v8H5v-8H2l8-8z"/></svg>
+      <span class="text-[9px] uppercase tracking-wider">Hub</span>
+    </button>
+
+    <!-- Photos Tab -->
+    <button @click="activeScreen = 'photosGrid'" :class="activeScreen === 'photosGrid' ? 'text-red-600 font-black' : 'opacity-50 hover:opacity-100'" class="p-2 neo-press rounded-2xl transition-all flex flex-col items-center gap-0.5">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v10h10V5H5z"/></svg>
+      <span class="text-[9px] uppercase tracking-wider">Photos</span>
+    </button>
+
+    <!-- Direct Config Tab -->
+    <button @click="openConfigurator('MLS Full Shoot')" class="p-2 neo-press rounded-2xl opacity-50 hover:opacity-100 transition-all flex flex-col items-center gap-0.5">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7 1a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+      <span class="text-[9px] uppercase tracking-wider">Config</span>
+    </button>
+  </nav>
+
+
+  <!-- ========================================== -->
+  <!-- APPLICATION ENGINE & INTERACTIVE LOGIC     -->
+  <!-- ========================================== -->
+  <script>
+    function appCore() {
+      return {
+        // App Core State
+        currentVariant: 1,
+        isDark: false, // Default Light Mode for Direct Sunlight Readability
+        activeScreen: 'home', // 'home' | 'photosGrid'
+        cartCount: 1,
+
+        // Bottom Sheet State Mechanics
+        sheetOpen: false,
+        sheetY: 0,
+        sheetStartY: 0,
+        isDraggingSheet: false,
+
+        // Tile Drag/Swap State
+        isRearranging: false,
+        draggedIdx: null,
+        touchStartIdx: null,
+        pressTimer: null,
+        selectedSwapIndex: null,
+
+        // Configurator Model
+        selectedPackageName: 'MLS Full Shoot',
+        photoCount: 25,
+        selectedSqFtIndex: 0,
+
+        // Concrete Home Screen Tiles
+        homeTiles: [
+          { id: 'photos', title: 'Photos', icon: 'camera' },
+          { id: 'video', title: 'Video', icon: 'video' },
+          { id: 'aerial', title: 'Aerial Drone', icon: 'drone' },
+          { id: 'tour', title: '360 Virtual', icon: '360' },
+          { id: 'floorplan', title: 'Floor Plan', icon: 'floorplan' },
+          { id: 'addons', title: 'Add-Ons', icon: 'plus' }
+        ],
+
+        // Concrete Photo Services
+        photoServices: [
+          { id: 'full', title: 'MLS Full Shoot', desc: 'Complete Interior & Exterior', basePrice: 139, badge: 'Popular' },
+          { id: 'reshoot', title: 'Reshoot', desc: 'Listing Updates & Edits', basePrice: 89, badge: 'Fast' },
+          { id: 'ranch', title: 'Ranch Shoot', desc: 'Acreage & Estate Land', basePrice: 299, badge: 'Pro' },
+          { id: 'exterior', title: 'Exterior Only', desc: 'Front, Rear & Elevation', basePrice: 79, badge: 'Basic' },
+          { id: 'mini', title: 'Mini Shoot', desc: 'Small Condo & Rental', basePrice: 119, badge: 'Compact' },
+          { id: 'airbnb', title: 'Airbnb / Rental', desc: 'High-End Hospitality Focus', basePrice: 189, badge: 'Prime' }
+        ],
+
+        // Sq Footage Tiers
+        sqFtTiers: [
+          { label: '0 – 1,999 Sq Ft', surcharge: 0 },
+          { label: '2,000 – 2,999 Sq Ft', surcharge: 25 },
+          { label: '3,000 – 3,999 Sq Ft', surcharge: 45 },
+          { label: '4,000 – 4,999 Sq Ft', surcharge: 70 },
+          { label: '5,000+ Sq Ft', surcharge: 100 }
+        ],
+
+        // Photo Presets
+        presets: [
+          { count: 20, price: 114 },
+          { count: 25, price: 139 },
+          { count: 36, price: 194 },
+          { count: 50, price: 264 }
+        ],
+
+        // Switcher Bar Labels
+        variantTitles: [
+          "01. Pure Sunlight Gloss",
+          "02. Ultra-High Glare Contrast",
+          "03. Soft Field Matte",
+          "04. Tactical Red Border",
+          "05. Deep Sunken Wells",
+          "06. Architectural Contour",
+          "07. Elevated Floating Cards",
+          "08. Sharp Precision Geometry",
+          "09. Soft Ergonomic Pill Curves",
+          "10. High-Tech Red Backglow"
+        ],
+
+        // Pricing Calculation Logic
+        get basePackagePrice() {
+          if (this.selectedPackageName === 'Reshoot') return 89;
+          if (this.selectedPackageName === 'Ranch Shoot') return 299;
+          if (this.selectedPackageName === 'Exterior Only') return 79;
+          if (this.selectedPackageName === 'Mini Shoot') return 119;
+          if (this.selectedPackageName === 'Airbnb / Rental') return 189;
+          return 139; // MLS Full Shoot Default
+        },
+
+        get calculatedPrice() {
+          let base = this.basePackagePrice;
+          let extraPhotosDelta = (this.photoCount - 25) * 5;
+          let sqFtFee = this.sqFtTiers[this.selectedSqFtIndex].surcharge;
+          return base + extraPhotosDelta + sqFtFee;
+        },
+
+        // Neumorphic Utility Helpers
+        getRaiseClass() {
+          return `v${this.currentVariant}-raise`;
+        },
+        getInsetClass() {
+          return `v${this.currentVariant}-inset`;
+        },
+
+        // Switcher Logic
+        prevVariant() {
+          this.currentVariant = this.currentVariant > 1 ? this.currentVariant - 1 : 10;
+        },
+        nextVariant() {
+          this.currentVariant = this.currentVariant < 10 ? this.currentVariant + 1 : 1;
+        },
+        toggleTheme() {
+          this.isDark = !this.isDark;
+        },
+
+        // Desktop HTML5 Drag & Drop
+        onDragStart(idx) {
+          this.draggedIdx = idx;
+        },
+        onDrop(targetIdx) {
+          if (this.draggedIdx !== null && this.draggedIdx !== targetIdx) {
+            let item = this.homeTiles.splice(this.draggedIdx, 1)[0];
+            this.homeTiles.splice(targetIdx, 0, item);
+          }
+          this.draggedIdx = null;
+        },
+
+        // Mobile Touch Hold & Swap
+        onTouchStart(e, index) {
+          this.touchStartIdx = index;
+          this.pressTimer = setTimeout(() => {
+            this.isRearranging = true;
+            this.selectedSwapIndex = index;
+          }, 450);
+        },
+        onTouchMove(e) {
+          clearTimeout(this.pressTimer);
+        },
+        onTouchEnd(index) {
+          clearTimeout(this.pressTimer);
+        },
+        startMouseHold(index) {
+          this.pressTimer = setTimeout(() => {
+            this.isRearranging = true;
+            this.selectedSwapIndex = index;
+          }, 450);
+        },
+        endMouseHold() {
+          clearTimeout(this.pressTimer);
+        },
+        handleTileClick(tile) {
+          if (this.isRearranging) {
+            let targetIdx = this.homeTiles.findIndex(t => t.id === tile.id);
+            if (this.selectedSwapIndex !== null && this.selectedSwapIndex !== targetIdx) {
+              let temp = this.homeTiles[this.selectedSwapIndex];
+              this.homeTiles[this.selectedSwapIndex] = this.homeTiles[targetIdx];
+              this.homeTiles[targetIdx] = temp;
+              this.selectedSwapIndex = null;
+            } else {
+              this.selectedSwapIndex = targetIdx;
+            }
+            return;
+          }
+
+          if (tile.id === 'photos') {
+            this.activeScreen = 'photosGrid';
+          } else {
+            this.openConfigurator(tile.title);
+          }
+        },
+
+        // Bottom Sheet Touch Physics
+        openConfigurator(pkgTitle) {
+          this.selectedPackageName = pkgTitle;
+          this.sheetY = 0;
+          this.sheetOpen = true;
+        },
+        closeSheet() {
+          this.sheetY = 600;
+          setTimeout(() => {
+            this.sheetOpen = false;
+            this.sheetY = 0;
+          }, 200);
+        },
+        onSheetTouchStart(e) {
+          this.isDraggingSheet = true;
+          this.sheetStartY = e.touches[0].clientY;
+        },
+        onSheetTouchMove(e) {
+          if (!this.isDraggingSheet) return;
+          let deltaY = e.touches[0].clientY - this.sheetStartY;
+          if (deltaY > 0) {
+            this.sheetY = deltaY;
+          }
+        },
+        onSheetTouchEnd() {
+          this.isDraggingSheet = false;
+          if (this.sheetY > 120) {
+            this.closeSheet();
+          } else {
+            this.sheetY = 0;
+          }
+        },
+        addToCart() {
+          this.cartCount++;
+          this.closeSheet();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
