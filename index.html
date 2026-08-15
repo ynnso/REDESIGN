@@ -8,27 +8,37 @@
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     
     :root {
-      --bg: #e6e9ef; --text-primary: #1e2530; --text-secondary: #64748b;
-      --s2s-red: #e60000; --shadow-light: #ffffff; --shadow-dark: #b8bec9;
-      --inset-dark: #c1c7d0; --border-radius: 24px; --transition-speed: 0.35s;
+      --bg: #e6e9ef;
+      --text-primary: #1e2530;
+      --text-secondary: #64748b;
+      --s2s-red: #e60000;
+      --shadow-light: #ffffff;
+      --shadow-dark: #b8bec9;
+      --inset-dark: #c1c7d0;
+      --border-radius: 22px;
     }
     [data-theme="dark"] {
-      --bg: #1e232a; --text-primary: #f1f5f9; --text-secondary: #94a3b8;
-      --s2s-red: #ff2a2a; --shadow-light: #282e38; --shadow-dark: #14171c; --inset-dark: #12151a;
+      --bg: #1e232a;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --s2s-red: #ff2a2a;
+      --shadow-light: #282e38;
+      --shadow-dark: #14171c;
+      --inset-dark: #12151a;
     }
     
     /* 10 Visual Variants */
     [data-variant="v2"] { --s2s-red: #ff003c; }
-    [data-variant="v3"] { --border-radius: 32px; }
+    [data-variant="v3"] { --border-radius: 28px; }
     [data-variant="v4"] { --bg: #eef2f5; }
     [data-variant="v5"] { --shadow-dark: #afb6c2; }
     [data-variant="v6"] { --s2s-red: #d90429; }
     [data-variant="v7"] { --bg: #f4f6f9; }
-    [data-variant="v8"] { --border-radius: 18px; }
+    [data-variant="v8"] { --border-radius: 16px; }
     [data-variant="v9"] { --shadow-dark: #abb2bf; }
     [data-variant="v10"] { --s2s-red: #ef233c; }
 
-    body { background: #0b0d10; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+    body { background: #090b0e; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
 
     /* PERSISTENT TOP SWITCHER */
     #switcher-bar {
@@ -38,102 +48,103 @@
     .switcher-controls { display: flex; gap: 6px; }
     .switcher-btn, select { background: #222a36; color: #fff; border: none; padding: 4px 8px; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; }
 
-    /* APP CONTAINER */
+    /* MAIN CONTAINER */
     #app-container {
       width: 100%; max-width: 412px; height: calc(100vh - 44px); max-height: 840px; margin-top: 44px;
       background: var(--bg); position: relative; overflow: hidden; display: flex; flex-direction: column;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
 
-    /* TOP NAV */
-    .top-nav { height: 66px; padding: 10px 20px 0 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    /* TOP NAVIGATION */
+    .top-nav { height: 68px; padding: 10px 18px 0 18px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
     
     .brand-logo-btn {
-      padding: 8px 16px; border-radius: 16px; background: var(--bg);
-      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      padding: 8px 18px; border-radius: 18px; background: var(--bg);
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
       display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
       transition: all 0.2s ease;
     }
-    .brand-logo-btn:active { box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.95); }
-    .brand-logo { font-size: 22px; font-weight: 900; color: var(--text-primary); letter-spacing: -1px; }
+    .brand-logo-btn:active { box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.96); }
+    .brand-logo { font-size: 22px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px; }
     .brand-logo span { color: var(--s2s-red); }
 
     .nav-actions { display: flex; gap: 12px; }
     .icon-btn {
-      width: 44px; height: 44px; border-radius: 50%; background: var(--bg);
-      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      width: 46px; height: 46px; border-radius: 50%; background: var(--bg);
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
       display: flex; align-items: center; justify-content: center; border: none; color: var(--text-primary); cursor: pointer;
       transition: all 0.2s ease;
     }
-    .icon-btn:active { box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.92); }
+    .icon-btn:active { box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.93); }
     .icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
-    /* VIEW CANVAS */
+    /* SCREEN CANVAS */
     .view-container { flex: 1; position: relative; overflow: hidden; }
     .screen {
-      position: absolute; inset: 0; padding: 16px 20px 80px 20px; opacity: 0; pointer-events: none;
-      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1); transform: scale(0.95) translateY(20px);
+      position: absolute; inset: 0; padding: 12px 18px 76px 18px; opacity: 0; pointer-events: none;
+      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1); transform: scale(0.96) translateY(15px);
+      display: flex; flex-direction: column; justify-content: space-around;
     }
     .screen.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
 
-    /* UNIFIED GRID TILES (PRISTINE NO-PRICE HOME GRID & SCREEN 2 GRID) */
-    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; padding-top: 8px; }
+    /* GRID TILES */
+    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; margin: auto 0; }
     
     .tile {
       background: var(--bg); border-radius: var(--border-radius);
-      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-      aspect-ratio: 1 / 1.05; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 16px; position: relative; cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 7px 7px 14px var(--shadow-dark), -7px -7px 14px var(--shadow-light);
+      aspect-ratio: 1 / 1.02; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 14px; position: relative; cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .tile:active { box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light); transform: scale(0.93); }
+    .tile:active { box-shadow: inset 6px 6px 12px var(--inset-dark), inset -6px -6px 12px var(--shadow-light); transform: scale(0.94); }
     
-    .drag-handle { position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; opacity: 0.25; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+    .drag-handle { position: absolute; top: 8px; right: 10px; width: 24px; height: 24px; opacity: 0.3; display: flex; align-items: center; justify-content: center; font-size: 11px; }
     .tile.editing { animation: wiggle 0.25s infinite alternate ease-in-out; border: 2px dashed var(--s2s-red); }
     @keyframes wiggle { 0% { transform: rotate(-1.5deg); } 100% { transform: rotate(1.5deg); } }
 
-    /* Extra-Large Icon Well */
+    /* XL POPPING ICON WELL */
     .icon-well {
-      width: 78px; height: 78px; border-radius: 22px; background: var(--bg);
+      width: 82px; height: 82px; border-radius: 24px; background: var(--bg);
       box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; margin-bottom: 12px; pointer-events: none;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 8px; pointer-events: none;
     }
-    .icon-well svg { width: 44px; height: 44px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-well svg { width: 48px; height: 48px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
-    .tile-label { font-size: 17px; font-weight: 800; color: var(--text-primary); text-align: center; pointer-events: none; }
+    .tile-label { font-size: 16px; font-weight: 800; color: var(--text-primary); text-align: center; pointer-events: none; }
+    .tile-price { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-top: 2px; }
 
-    /* SCREEN 2 STAGGER & UPDATED 3-OPTION HEADER */
-    .screen-header-s2 { display: flex; flex-direction: column; gap: 14px; margin-bottom: 12px; }
-    .s2-top-row { display: flex; align-items: center; gap: 16px; }
-    .s2-icon-box {
-      width: 52px; height: 52px; border-radius: 16px; background: var(--bg);
-      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    /* SCREEN 2 HEADER & RAISED FILTERS */
+    .screen-header-s2 { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-bottom: 6px; }
+    .s2-top-row { display: flex; align-items: center; gap: 14px; }
+    
+    .raised-header-box {
+      flex: 1; padding: 10px 16px; border-radius: 18px; background: var(--bg);
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      display: flex; align-items: center; gap: 12px;
     }
-    .s2-icon-box svg { width: 28px; height: 28px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
-    .s2-title { font-size: 26px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px; }
+    .raised-header-box svg { width: 26px; height: 26px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
+    .s2-title { font-size: 22px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px; }
 
-    /* 3-Option Header Segmented Control */
-    .segmented-control {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 6px; border-radius: 18px;
-      background: var(--bg); box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+    .raised-filter-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+    .raised-filter-btn {
+      border: none; background: var(--bg); padding: 12px 0; border-radius: 16px; font-size: 15px; font-weight: 900;
+      color: var(--text-secondary); cursor: pointer; text-align: center;
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      transition: all 0.25s ease;
     }
-    .segment-btn {
-      border: none; background: transparent; padding: 10px 0; border-radius: 14px; font-size: 13px; font-weight: 800;
-      color: var(--text-secondary); cursor: pointer; transition: all 0.25s ease; text-align: center;
-    }
-    .segment-btn.active {
+    .raised-filter-btn.active {
       background: var(--s2s-red); color: #ffffff;
-      box-shadow: 4px 4px 8px rgba(230,0,0,0.3), inset 2px 2px 4px rgba(255,255,255,0.2);
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), inset -2px -2px 4px rgba(255,255,255,0.25);
     }
 
-    .cascading-tile { opacity: 0; transform: translateY(30px) scale(0.92); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.32, 0.72, 0, 1); }
-    .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.05s; }
-    .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.10s; }
-    .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.15s; }
-    .screen.active .cascading-tile:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.20s; }
-    .screen.active .cascading-tile:nth-child(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.25s; }
-    .screen.active .cascading-tile:nth-child(6) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.30s; }
+    .cascading-tile { opacity: 0; transform: translateY(35px) scale(0.9); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.32, 0.72, 0, 1); }
+    .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.09s; }
+    .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.18s; }
+    .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.27s; }
+    .screen.active .cascading-tile:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.36s; }
+    .screen.active .cascading-tile:nth-child(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.45s; }
+    .screen.active .cascading-tile:nth-child(6) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.54s; }
 
     /* BOTTOM NAV */
     .bottom-nav {
@@ -149,79 +160,97 @@
     .bottom-nav .nav-item.active { color: var(--s2s-red); box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); }
     .bottom-nav .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
-    /* SCREEN 3 BOTTOM SHEET OVERLAY */
+    /* BOTTOM SHEET */
     .bottom-sheet-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(5px); z-index: 200;
+      position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); z-index: 200;
       opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
     }
     .bottom-sheet-overlay.active { opacity: 1; pointer-events: auto; }
     
     .bottom-sheet {
-      position: absolute; left: 0; right: 0; bottom: 0; background: var(--bg); border-radius: 30px 30px 0 0;
-      box-shadow: 0 -10px 35px rgba(0,0,0,0.3); padding: 14px 22px 24px 22px; z-index: 201;
+      position: absolute; left: 0; right: 0; bottom: 0; background: var(--bg); border-radius: 28px 28px 0 0;
+      box-shadow: 0 -10px 35px rgba(0,0,0,0.35); padding: 12px 20px 20px 20px; z-index: 201;
       transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
-      display: flex; flex-direction: column; align-items: center; text-align: center;
+      display: flex; flex-direction: column; gap: 10px;
     }
     .bottom-sheet.active { transform: translateY(0); }
-    .sheet-handle { width: 44px; height: 5px; border-radius: 3px; background: var(--shadow-dark); margin: 0 auto 12px auto; }
+    .sheet-handle { width: 40px; height: 5px; border-radius: 3px; background: var(--shadow-dark); margin: 0 auto 2px auto; }
     
-    /* HORIZONTAL HEADER ROW (ICON + TITLE SAME ROW) */
-    .sheet-header-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 8px; width: 100%; }
-    .sheet-header-row .icon-well { width: 54px; height: 54px; margin-bottom: 0; border-radius: 16px; }
-    .sheet-header-row .icon-well svg { width: 30px; height: 30px; }
-    .sheet-main-title { font-size: 28px; font-weight: 900; color: var(--text-primary); text-shadow: 2px 2px 4px var(--shadow-dark); }
+    /* INLINE HEADER ROW */
+    .sheet-header-row { display: flex; align-items: center; gap: 14px; width: 100%; }
+    .sheet-header-row .icon-well { width: 50px; height: 50px; margin-bottom: 0; border-radius: 14px; flex-shrink: 0; }
+    .sheet-header-row .icon-well svg { width: 28px; height: 28px; }
+    .sheet-title-stack { display: flex; flex-direction: column; text-align: left; }
+    .sheet-eyebrow { font-size: 12px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+    .sheet-main-title { font-size: 24px; font-weight: 900; color: var(--text-primary); line-height: 1.1; }
 
-    /* TIGHT & COHESIVE 2X HERO PRICE CONTAINER */
+    /* FULL WIDTH 4X HERO PRICE */
     .hero-price-container {
-      margin: 8px 0 14px 0; padding: 10px 24px; border-radius: 20px; background: var(--bg);
-      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; width: 100%; max-width: 260px;
+      width: 100%; padding: 10px 0; border-radius: 20px; background: var(--bg);
+      box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
+      display: flex; align-items: center; justify-content: center;
     }
-    .sheet-hero-price-2x {
-      font-size: 48px; font-weight: 900; color: var(--s2s-red); display: flex; align-items: baseline; justify-content: center;
-      line-height: 1; letter-spacing: -1.5px;
+    .sheet-hero-price-4x {
+      font-size: 52px; font-weight: 900; color: var(--s2s-red); display: flex; align-items: baseline; justify-content: center;
+      line-height: 1; letter-spacing: -2px;
     }
-    .sheet-hero-price-2x .cents { font-size: 24px; font-weight: 800; margin-left: -1px; }
-    .tax-badge-centered { font-size: 10px; font-weight: 800; background: var(--shadow-dark); color: var(--text-primary); padding: 2px 6px; border-radius: 6px; margin-left: 6px; letter-spacing: 0; }
+    .sheet-hero-price-4x .cents { font-size: 26px; font-weight: 800; margin-left: -2px; }
+    .tax-badge-centered { font-size: 10px; font-weight: 800; background: var(--shadow-dark); color: var(--text-primary); padding: 2px 6px; border-radius: 6px; margin-left: 8px; letter-spacing: 0; }
 
-    /* PILLS & STEPPER WITH DEEP TACTILE RECESSED RED */
-    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 6px 0 14px 0; width: 100%; }
+    /* RESTORED FORM ELEMENTS */
+    .sqft-dropdown {
+      width: 100%; padding: 10px 16px; border-radius: 16px; background: var(--bg); border: none;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 800; color: var(--text-primary);
+    }
+    .sqft-dropdown svg { width: 18px; height: 18px; stroke: var(--text-secondary); }
+
+    .line-item-card {
+      width: 100%; padding: 10px 16px; border-radius: 16px; background: var(--bg);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .line-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--text-primary); }
+    .line-row .sub { color: var(--text-secondary); }
+
+    /* PILL SELECTOR WITH DEEP RECESSED RED */
+    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
     
     .pill-btn {
-      background: var(--bg); border-radius: 16px; padding: 10px 4px; text-align: center;
-      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light); border: none; cursor: pointer;
+      background: var(--bg); border-radius: 16px; padding: 8px 4px; text-align: center;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light); border: none; cursor: pointer;
       transition: all 0.25s ease;
     }
     .pill-btn.active {
       box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.45), inset -2px -2px 5px rgba(255, 255, 255, 0.25);
-      background: var(--s2s-red); transform: scale(0.97);
+      background: var(--s2s-red); transform: scale(0.96);
     }
     .pill-btn.active .count, .pill-btn.active .price { color: #ffffff !important; }
     .pill-btn .count { font-size: 15px; font-weight: 800; color: var(--text-primary); }
-    .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+    .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
 
     .stepper-row {
-      display: flex; align-items: center; justify-content: space-between; margin: 2px 0 16px 0; padding: 8px 16px; width: 100%;
-      background: var(--bg); border-radius: 18px; box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex; align-items: center; justify-content: space-between; padding: 6px 14px; width: 100%;
+      background: var(--bg); border-radius: 16px; box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
     }
-    .stepper-controls { display: flex; align-items: center; gap: 14px; }
+    .stepper-controls { display: flex; align-items: center; gap: 12px; }
     .step-btn {
-      width: 34px; height: 34px; border-radius: 10px; background: var(--bg);
-      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-      border: none; font-weight: 800; font-size: 18px; color: var(--text-primary); cursor: pointer; transition: all 0.15s ease;
+      width: 32px; height: 32px; border-radius: 10px; background: var(--bg);
+      box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+      border: none; font-weight: 800; font-size: 16px; color: var(--text-primary); cursor: pointer; transition: all 0.15s ease;
     }
     .step-btn:active { box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light); transform: scale(0.92); }
-    .step-value { font-size: 17px; font-weight: 900; color: var(--s2s-red); min-width: 24px; text-align: center; }
+    .step-value { font-size: 16px; font-weight: 900; color: var(--s2s-red); min-width: 22px; text-align: center; }
 
-    /* ICON-ONLY CTA BUTTON (TEXT REMOVED) */
-    .compact-cta-bar { display: flex; align-items: center; justify-content: center; width: 100%; }
+    /* ICON-ONLY CTA BUTTON (+ AND CART NO OVERLAP) */
+    .compact-cta-bar { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 4px; }
     .cta-button-icon {
-      width: 100%; height: 52px; border-radius: 18px; background: var(--s2s-red); color: #fff; border: none;
-      display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;
-      box-shadow: 5px 5px 15px rgba(230, 0, 0, 0.4), 4px 4px 8px var(--shadow-dark); transition: all 0.2s ease;
+      width: 100%; height: 50px; border-radius: 18px; background: var(--s2s-red); color: #fff; border: none;
+      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+      box-shadow: 5px 5px 15px rgba(230, 0, 0, 0.4); transition: all 0.2s ease;
     }
-    .cta-button-icon:active { transform: scale(0.96); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5); filter: brightness(0.9); }
-    .cta-button-icon svg { width: 26px; height: 26px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .cta-button-icon:active { transform: scale(0.96); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5); }
+    .cta-button-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
     .toast {
       position: absolute; top: 75px; left: 50%; transform: translateX(-50%) translateY(-20px);
@@ -261,7 +290,7 @@
     <!-- TOP NAVIGATION -->
     <header class="top-nav">
       <button class="brand-logo-btn" id="logo-btn" aria-label="S2S Home">
-        <div class="brand-logo">s2<span>s</span></div>
+        <div class="brand-logo">s<span>2</span>s</div>
       </button>
 
       <div class="nav-actions">
@@ -276,7 +305,7 @@
 
     <main class="view-container">
 
-      <!-- SCREEN 1: PRISTINE HOME SCREEN (NO PRICES) -->
+      <!-- SCREEN 1: PRISTINE COVER PAGE (NO PRICES) -->
       <section class="screen active" id="screen-1">
         <div class="grid-container" id="home-grid">
           
@@ -331,19 +360,22 @@
         </div>
       </section>
 
-      <!-- SCREEN 2: PHOTOS GRID VIEW (NEW 3-OPTION HEADER) -->
+      <!-- SCREEN 2: PHOTOS GRID VIEW WITH PRICES & 3 RAISED BUTTONS -->
       <section class="screen" id="screen-2">
         <div class="screen-header-s2">
           <div class="s2-top-row">
-            <div class="s2-icon-box" id="back-to-1">
+            <button class="icon-btn" id="back-to-1" aria-label="Back">
+              <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <div class="raised-header-box">
               <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <div class="s2-title">Photos</div>
             </div>
-            <div class="s2-title">Photos</div>
           </div>
-          <div class="segmented-control">
-            <button class="segment-btn active">MLS</button>
-            <button class="segment-btn">Airbnb</button>
-            <button class="segment-btn">PORT</button>
+          <div class="raised-filter-group">
+            <button class="raised-filter-btn active">MLS</button>
+            <button class="raised-filter-btn">Airbnb</button>
+            <button class="raised-filter-btn">PORT</button>
           </div>
         </div>
 
@@ -354,6 +386,7 @@
               <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
             </div>
             <div class="tile-label">Full Shoot</div>
+            <div class="tile-price">from $139</div>
           </div>
 
           <div class="tile cascading-tile">
@@ -361,6 +394,7 @@
               <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             </div>
             <div class="tile-label">Reshoot</div>
+            <div class="tile-price">from $99</div>
           </div>
 
           <div class="tile cascading-tile">
@@ -368,6 +402,7 @@
               <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
             </div>
             <div class="tile-label">Ranch Shoot</div>
+            <div class="tile-price">from $199</div>
           </div>
 
           <div class="tile cascading-tile">
@@ -375,6 +410,7 @@
               <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
             <div class="tile-label">Exterior Only</div>
+            <div class="tile-price">from $89</div>
           </div>
 
           <div class="tile cascading-tile">
@@ -382,6 +418,7 @@
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/></svg>
             </div>
             <div class="tile-label">Mini Shoot</div>
+            <div class="tile-price">from $109</div>
           </div>
 
           <div class="tile cascading-tile">
@@ -389,6 +426,7 @@
               <svg viewBox="0 0 24 24"><path d="M10 20l4-16M6 8l-4 4 4 4M18 8l4 4-4 4"/></svg>
             </div>
             <div class="tile-label">Airbnb</div>
+            <div class="tile-price">from $159</div>
           </div>
 
         </div>
@@ -401,23 +439,44 @@
       <div class="bottom-sheet" id="bottom-sheet">
         <div class="sheet-handle"></div>
         
-        <!-- Header Row (Icon & Title inline on same row) -->
+        <!-- Header Row (Icon + Stacked Titles) -->
         <div class="sheet-header-row">
           <div class="icon-well">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
           </div>
-          <h1 class="sheet-main-title">Photos</h1>
+          <div class="sheet-title-stack">
+            <span class="sheet-eyebrow">MLS Photos</span>
+            <h1 class="sheet-main-title">Full Shoot</h1>
+          </div>
         </div>
 
-        <!-- Tight & Cohesive 2X Hero Price Container -->
+        <!-- Full-Width 4X Hero Price -->
         <div class="hero-price-container">
-          <div class="sheet-hero-price-2x">
+          <div class="sheet-hero-price-4x">
             $<span id="hero-price">139</span><span class="cents">.00</span>
             <span class="tax-badge-centered">Tax</span>
           </div>
         </div>
 
-        <!-- Pill Selector with Deep Recessed Tactile Red Accent -->
+        <!-- Restored Sq Ft Selector -->
+        <button class="sqft-dropdown">
+          <span>0 – 1,999 Sq Ft</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+
+        <!-- Restored Line Items -->
+        <div class="line-item-card">
+          <div class="line-row">
+            <span>Base 25 Photos</span>
+            <span id="base-price-display">$139</span>
+          </div>
+          <div class="line-row sub">
+            <span>$5 / Extra</span>
+            <span id="extra-price-display">$0</span>
+          </div>
+        </div>
+
+        <!-- Pill Selector -->
         <div class="pill-selector">
           <button class="pill-btn active" data-price="139" data-photos="25">
             <div class="count">25</div>
@@ -438,7 +497,7 @@
         </div>
 
         <div class="stepper-row">
-          <span style="font-size: 14px; font-weight: 800; color: var(--text-primary);">Total Photos</span>
+          <span style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Total Photos</span>
           <div class="stepper-controls">
             <button class="step-btn" id="step-minus">-</button>
             <span class="step-value" id="photo-count">25</span>
@@ -446,10 +505,11 @@
           </div>
         </div>
 
-        <!-- Icon-Only CTA Button (+ & Cart Icon, No Text) -->
+        <!-- Non-Overlapping Icon CTA Button (+ and Cart Side-by-Side) -->
         <div class="compact-cta-bar">
           <button class="cta-button-icon" id="add-to-cart-btn" aria-label="Add to Quote">
-            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </button>
         </div>
       </div>
@@ -522,16 +582,16 @@
         }
       });
 
-      // SEGMENTED CONTROL IN SCREEN 2
-      const segments = document.querySelectorAll('.segment-btn');
-      segments.forEach(seg => {
-        seg.addEventListener('click', () => {
-          segments.forEach(s => s.classList.remove('active'));
-          seg.classList.add('active');
+      // RAISED BUTTON FILTERS IN SCREEN 2
+      const filters = document.querySelectorAll('.raised-filter-btn');
+      filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filters.forEach(f => f.classList.remove('active'));
+          btn.classList.add('active');
         });
       });
 
-      // SCREEN 3 BOTTOM SHEET OVERLAY
+      // BOTTOM SHEET CONTROLS
       const openSheetBtn = document.getElementById('open-full-shoot');
       const sheetOverlay = document.getElementById('sheet-overlay');
       const bottomSheet = document.getElementById('bottom-sheet');
@@ -545,32 +605,48 @@
         }
       });
 
-      // STEPPER & PILLS
+      // STEPPER & DYNAMIC CALCULATION
       const heroPrice = document.getElementById('hero-price');
       const photoCount = document.getElementById('photo-count');
+      const basePriceDisplay = document.getElementById('base-price-display');
+      const extraPriceDisplay = document.getElementById('extra-price-display');
       const pillBtns = document.querySelectorAll('.pill-btn');
-      let currentPrice = 139, currentPhotos = 25;
+      
+      let basePhotos = 25;
+      let basePrice = 139;
+      let currentPhotos = 25;
+
+      function updatePricing() {
+        const extraPhotos = Math.max(0, currentPhotos - basePhotos);
+        const extraCost = extraPhotos * 5;
+        const totalCost = basePrice + extraCost;
+
+        heroPrice.textContent = totalCost;
+        photoCount.textContent = currentPhotos;
+        basePriceDisplay.textContent = `$${basePrice}`;
+        extraPriceDisplay.textContent = `$${extraCost}`;
+      }
 
       pillBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           pillBtns.forEach(p => p.classList.remove('active'));
           btn.classList.add('active');
-          currentPrice = parseInt(btn.dataset.price);
-          currentPhotos = parseInt(btn.dataset.photos);
-          heroPrice.textContent = currentPrice;
-          photoCount.textContent = currentPhotos;
+          basePrice = parseInt(btn.dataset.price);
+          basePhotos = parseInt(btn.dataset.photos);
+          currentPhotos = basePhotos;
+          updatePricing();
         });
       });
 
       document.getElementById('step-minus').addEventListener('click', () => {
         if (currentPhotos > 15) {
-          currentPhotos -= 1; currentPrice = Math.max(89, currentPrice - 5);
-          heroPrice.textContent = currentPrice; photoCount.textContent = currentPhotos;
+          currentPhotos -= 1;
+          updatePricing();
         }
       });
       document.getElementById('step-plus').addEventListener('click', () => {
-        currentPhotos += 1; currentPrice += 5;
-        heroPrice.textContent = currentPrice; photoCount.textContent = currentPhotos;
+        currentPhotos += 1;
+        updatePricing();
       });
 
       // TOAST & ADD TO CART
@@ -581,7 +657,7 @@
       }
       document.getElementById('add-to-cart-btn').addEventListener('click', () => {
         sheetOverlay.classList.remove('active'); bottomSheet.classList.remove('active');
-        showToast('Photos Package Added to Quote!');
+        showToast('Full Shoot Package Added to Quote!');
       });
 
       // THEME & VARIANT SWITCHER
