@@ -69,6 +69,57 @@
       border-radius: clamp(0px, 4vw, 40px);
     }
 
+    /* MODERN WHITE S2S SPLASH SCREEN */
+    .splash-overlay {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.5s var(--ease-smooth), transform 0.5s var(--ease-smooth);
+    }
+
+    .splash-overlay.hide {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.06);
+    }
+
+    .splash-brand {
+      font-size: clamp(56px, 15vw, 72px);
+      font-weight: 900;
+      color: #000000;
+      letter-spacing: -3px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: splashPulse 1.4s var(--ease-spring) infinite alternate;
+    }
+
+    .splash-brand span {
+      color: #e60000;
+    }
+
+    .splash-tagline {
+      margin-top: 16px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+
+    @keyframes splashPulse {
+      0% { transform: scale(0.96); }
+      100% { transform: scale(1.02); }
+    }
+
     /* TOAST NOTIFICATION CONTAINER */
     .toast-container {
       position: absolute;
@@ -648,6 +699,12 @@
 
   <div id="app-container">
 
+    <!-- CLEAN MODERN WHITE S2S SPLASH SCREEN -->
+    <div class="splash-overlay" id="splash-screen">
+      <div class="splash-brand">s<span>2</span>s</div>
+      <div class="splash-tagline">Real Estate Media</div>
+    </div>
+
     <!-- QUEUED TOAST NOTIFICATIONS -->
     <div class="toast-container" id="toast-container"></div>
 
@@ -903,6 +960,18 @@
       const bottomNav = document.getElementById('bottom-nav');
       const s2HeaderTitle = document.getElementById('s2-header-title');
       const s2HeaderIcon = document.getElementById('s2-header-icon');
+      const splashScreen = document.getElementById('splash-screen');
+
+      // SPLASH TIMING LOGIC
+      function runSplashAnimation() {
+        splashScreen.classList.remove('hide');
+        setTimeout(() => {
+          splashScreen.classList.add('hide');
+        }, 1200);
+      }
+
+      // Initial Launch Splash
+      runSplashAnimation();
 
       function triggerHaptic(ms = 12) {
         if ('vibrate' in navigator) {
@@ -934,7 +1003,12 @@
       bnav1.addEventListener('click', () => goToScreen(1));
       bnav2.addEventListener('click', () => goToScreen(2));
       backTo1.addEventListener('click', () => goToScreen(1));
-      logoBtn.addEventListener('click', () => goToScreen(1));
+      
+      // Re-trigger splash when clicking top logo button
+      logoBtn.addEventListener('click', () => {
+        goToScreen(1);
+        runSplashAnimation();
+      });
 
       const homeTiles = document.querySelectorAll('#home-grid .tile');
       homeTiles.forEach(tile => {
