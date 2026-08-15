@@ -30,6 +30,8 @@
       --inset-dark: #cbd5e1;
       --border-highlight: rgba(255, 255, 255, 0.9);
       --border-radius: 24px;
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     [data-theme="dark"] {
@@ -55,79 +57,61 @@
 
     #app-container {
       width: 100%;
-      max-width: 412px;
+      max-width: 420px;
       height: 100vh;
-      max-height: 840px;
+      max-height: 880px;
       background: var(--bg);
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      border-radius: clamp(0px, 4vw, 40px);
     }
 
-    /* SPLASH SCREEN */
-    .splash-screen {
+    /* TOAST NOTIFICATION CONTAINER */
+    .toast-container {
       position: absolute;
-      inset: 0;
-      background: var(--bg);
-      z-index: 1000;
+      top: calc(max(16px, env(safe-area-inset-top)) + 70px);
+      left: 0;
+      right: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .splash-screen.hide {
-      opacity: 0;
-      transform: scale(1.08);
+      gap: 8px;
+      z-index: 999;
       pointer-events: none;
     }
 
-    .splash-logo-btn {
-      padding: 16px 36px;
-      border-radius: 28px;
-      background: var(--surface-tile);
-      box-shadow: 12px 12px 28px var(--shadow-dark), -12px -12px 28px var(--shadow-light);
-      border: 1px solid var(--border-highlight);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      animation: pulseGlow 2s infinite ease-in-out;
-    }
-
-    .splash-logo-text {
-      font-size: 38px;
-      font-weight: 900;
-      color: var(--text-primary);
-      letter-spacing: -1.5px;
-    }
-    .splash-logo-text span { color: var(--s2s-red); }
-
-    .splash-subtitle {
+    .toast {
+      background: var(--text-primary);
+      color: var(--bg);
+      padding: 10px 20px;
+      border-radius: 30px;
       font-size: 13px;
       font-weight: 800;
-      color: var(--text-secondary);
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+      opacity: 0;
+      transform: translateY(-15px) scale(0.9);
+      transition: all 0.4s var(--ease-spring);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
 
-    @keyframes pulseGlow {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-    }
-
-    /* TOP NAVIGATION WITH NOTCH FIX */
+    /* FIXED TOP NAVIGATION WITH NOTCH SAFE-AREA INSET */
     .top-nav {
-      padding-top: max(16px, env(safe-area-inset-top));
-      padding-left: 22px;
-      padding-right: 22px;
-      padding-bottom: 10px;
+      padding-top: calc(max(16px, env(safe-area-inset-top)) + 12px);
+      padding-left: clamp(16px, 5vw, 24px);
+      padding-right: clamp(16px, 5vw, 24px);
+      padding-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
+      min-height: 72px;
+      z-index: 50;
     }
 
     .brand-btn {
@@ -140,11 +124,11 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.18s var(--ease-spring), box-shadow 0.18s ease;
     }
     .brand-btn:active {
       box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
-      transform: scale(0.95);
+      transform: scale(0.94);
     }
 
     .brand-logo {
@@ -169,11 +153,11 @@
       justify-content: center;
       color: var(--text-primary);
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.18s var(--ease-spring), box-shadow 0.18s ease;
     }
     .icon-btn:active {
       box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
-      transform: scale(0.93);
+      transform: scale(0.90);
     }
     .icon-btn svg {
       width: 20px;
@@ -183,29 +167,37 @@
       stroke-width: 2.2;
     }
 
-    /* SCREEN CANVAS */
+    /* VIEW CANVAS */
     .view-container { flex: 1; position: relative; overflow: hidden; }
+    
     .screen {
       position: absolute;
       inset: 0;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
-      transform: scale(0.96) translateY(15px);
+      transition: opacity 0.4s ease, transform 0.45s var(--ease-smooth);
+      transform: scale(0.94) translateY(20px);
       display: flex;
       flex-direction: column;
+      overflow-y: auto;
+      scrollbar-width: none;
     }
-    .screen.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
+    .screen::-webkit-scrollbar { display: none; }
+    .screen.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
+    }
 
     /* SCREEN 1 */
     #screen-1 {
-      padding: 12px 20px 90px 20px;
+      padding: 12px clamp(16px, 5vw, 22px) 100px clamp(16px, 5vw, 22px);
       justify-content: center;
     }
     #screen-1 .grid-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
+      gap: clamp(12px, 4vw, 18px);
       width: 100%;
       margin: auto 0;
     }
@@ -220,51 +212,46 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      position: relative;
+      padding: 12px;
       cursor: pointer;
-      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+      transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease, opacity 0.3s ease;
     }
     #screen-1 .tile:active {
       box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
-      transform: scale(0.95);
+      transform: scale(0.94);
     }
 
     #screen-1 .icon-well {
-      width: 76px;
-      height: 76px;
-      border-radius: 22px;
+      width: clamp(56px, 16vw, 72px);
+      height: clamp(56px, 16vw, 72px);
+      border-radius: 20px;
       background: var(--surface-tile);
       box-shadow: inset 4px 4px 9px var(--inset-dark), inset -4px -4px 9px var(--shadow-light);
       border: 1px solid var(--border-highlight);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       pointer-events: none;
     }
     #screen-1 .icon-well svg {
-      width: 40px;
-      height: 40px;
+      width: clamp(28px, 8vw, 38px);
+      height: clamp(28px, 8vw, 38px);
       stroke: var(--s2s-red);
       fill: none;
       stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
     }
 
     #screen-1 .tile-label { 
-      font-size: 15px; 
+      font-size: clamp(13px, 3.8vw, 15px); 
       font-weight: 700; 
       color: var(--text-primary); 
-      text-align: center; 
-      letter-spacing: -0.2px;
-      pointer-events: none; 
+      text-align: center;
     }
 
     /* SCREEN 2 */
     #screen-2 {
-      padding: 10px 16px 90px 16px;
+      padding: 10px clamp(14px, 4vw, 20px) 100px clamp(14px, 4vw, 20px);
       justify-content: flex-start;
       gap: 14px;
     }
@@ -278,33 +265,41 @@
       border-radius: 16px;
       background: var(--bg);
       box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      border: 1px solid var(--border-highlight);
       display: flex;
       align-items: center;
       gap: 10px;
     }
     .raised-header-box svg { width: 22px; height: 22px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
-    .s2-title { font-size: 18px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.3px; }
+    .s2-title { font-size: 18px; font-weight: 900; color: var(--text-primary); }
 
-    .raised-filter-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+    .raised-filter-group { 
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 8px; 
+      width: 100%; 
+    }
     
     .raised-filter-btn {
       border: none;
       background: var(--bg);
-      padding: 12px 0;
-      border-radius: 16px;
-      font-size: 18px;
-      font-weight: 900;
+      padding: 10px 0;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 800;
       letter-spacing: 0.5px;
       color: var(--text-secondary);
       cursor: pointer;
       text-align: center;
-      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-      transition: all 0.25s ease;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      border: 1px solid var(--border-highlight);
+      transition: all 0.22s var(--ease-spring);
     }
     .raised-filter-btn.active {
       background: var(--s2s-red);
       color: #ffffff;
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), inset -2px -2px 5px rgba(255,255,255,0.3);
+      box-shadow: inset 3px 3px 6px rgba(0,0,0,0.4), inset -2px -2px 4px rgba(255,255,255,0.3);
+      transform: scale(0.97);
     }
 
     #screen-2 .grid-container {
@@ -312,71 +307,81 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       width: 100%;
-      margin-top: 10px;
+      margin-top: 6px;
     }
 
     #screen-2 .tile {
       background: var(--bg);
       border-radius: 20px;
       box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
-      aspect-ratio: 1 / 0.94;
+      border: 1px solid var(--border-highlight);
+      aspect-ratio: 1 / 0.95;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 10px;
-      position: relative;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
     }
     #screen-2 .tile:active {
       box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
-      transform: scale(0.95);
+      transform: scale(0.94);
     }
 
     #screen-2 .icon-well {
-      width: 60px;
-      height: 60px;
-      border-radius: 18px;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
       background: var(--bg);
       box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 6px;
-      pointer-events: none;
     }
-    #screen-2 .icon-well svg {
-      width: 34px;
-      height: 34px;
-      stroke: var(--s2s-red);
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
+    #screen-2 .icon-well svg { width: 30px; height: 30px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
 
-    #screen-2 .tile-label { font-size: 14px; font-weight: 800; color: var(--text-primary); text-align: center; line-height: 1.1; }
-    #screen-2 .tile-price { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-top: 3px; }
+    #screen-2 .tile-label { font-size: 13px; font-weight: 800; color: var(--text-primary); text-align: center; }
+    #screen-2 .tile-price { font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-top: 2px; }
 
+    /* ROW-BY-ROW STAGGERED CASCADING ENTRANCE */
     .cascading-tile {
       opacity: 0;
-      transform: translateY(20px) scale(0.92);
-      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+      transform: translateY(28px) scale(0.88);
+      transition: opacity 0.38s ease, transform 0.45s var(--ease-spring);
     }
-    .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.05s; }
-    .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.10s; }
-    .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.15s; }
-    .screen.active .cascading-tile:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.20s; }
-    .screen.active .cascading-tile:nth-child(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.25s; }
-    .screen.active .cascading-tile:nth-child(6) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.30s; }
+    
+    /* Row 1 (Items 1 & 2) */
+    .screen.active .cascading-tile:nth-child(1),
+    .screen.active .cascading-tile:nth-child(2) { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+      transition-delay: 0.05s; 
+    }
+    
+    /* Row 2 (Items 3 & 4) */
+    .screen.active .cascading-tile:nth-child(3),
+    .screen.active .cascading-tile:nth-child(4) { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+      transition-delay: 0.18s; 
+    }
+    
+    /* Row 3 (Items 5 & 6) */
+    .screen.active .cascading-tile:nth-child(5),
+    .screen.active .cascading-tile:nth-child(6) { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+      transition-delay: 0.31s; 
+    }
 
-    /* FLOATING PILL BOTTOM NAVIGATION WITH SAFE AREA BOTTOM */
+    /* FLOATING PILL BOTTOM NAVIGATION */
     .bottom-nav {
       position: absolute;
       bottom: max(16px, env(safe-area-inset-bottom));
-      left: 20px;
-      right: 20px;
+      left: clamp(16px, 5vw, 24px);
+      right: clamp(16px, 5vw, 24px);
       height: 64px;
       background: var(--surface-tile);
       border-radius: 32px;
@@ -387,7 +392,10 @@
       justify-content: space-around;
       padding: 0 12px;
       z-index: 100;
+      transition: transform 0.4s var(--ease-smooth);
     }
+    .bottom-nav.nav-hidden { transform: translateY(120px); }
+
     .bottom-nav .nav-item {
       width: 44px;
       height: 44px;
@@ -400,25 +408,25 @@
       justify-content: center;
       color: var(--text-secondary);
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.2s var(--ease-spring), color 0.2s ease, box-shadow 0.2s ease;
     }
     .bottom-nav .nav-item.active {
       color: var(--s2s-red);
       box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
-      transform: scale(0.96);
+      transform: scale(0.94);
     }
     .bottom-nav .nav-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
-    /* SCREEN 3 */
+    /* BOTTOM SHEET & BACKDROP SCRIM */
     .bottom-sheet-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
       z-index: 200;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.35s ease;
     }
     .bottom-sheet-overlay.active { opacity: 1; pointer-events: auto; }
 
@@ -430,45 +438,91 @@
       background: var(--bg);
       border-radius: 32px 32px 0 0;
       box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
-      padding: 12px 22px max(28px, env(safe-area-inset-bottom)) 22px;
+      padding: 12px clamp(16px, 5vw, 24px) max(24px, env(safe-area-inset-bottom)) clamp(16px, 5vw, 24px);
       z-index: 201;
       transform: translateY(100%);
-      transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       touch-action: none;
+      will-change: transform;
     }
-    .bottom-sheet.active { transform: translateY(0); }
-    
-    .sheet-handle-wrapper {
-      width: 100%;
-      padding: 2px 0 6px 0;
-      cursor: grab;
+    .bottom-sheet.animate-snap {
+      transition: transform 0.4s var(--ease-smooth);
+    }
+
+    .sheet-handle-wrapper { 
+      width: 100%; 
+      padding: 8px 0; 
+      cursor: grab; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center;
+    }
+    .sheet-handle { 
+      width: 44px; 
+      height: 5px; 
+      border-radius: 3px; 
+      background: var(--shadow-dark); 
+      transition: transform 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
+    }
+    .bottom-sheet.expanded .sheet-handle {
+      width: 18px;
+      height: 18px;
+      background: transparent;
+      border-left: 3px solid var(--text-secondary);
+      border-bottom: 3px solid var(--text-secondary);
+      transform: rotate(-45deg);
+      border-radius: 2px;
+    }
+
+    .sheet-header-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .sheet-header-left { display: flex; align-items: center; gap: 12px; }
+    .sheet-header-left .icon-well { 
+      width: 46px; 
+      height: 46px; 
+      border-radius: 14px; 
+      flex-shrink: 0; 
+      margin: 0; 
+      background: var(--bg);
+      box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
       display: flex;
+      align-items: center;
       justify-content: center;
     }
-    .sheet-handle { width: 44px; height: 5px; border-radius: 3px; background: var(--shadow-dark); }
-
-    .sheet-header-row { display: flex; align-items: center; gap: 14px; width: 100%; }
-    .sheet-header-row .icon-well { width: 48px; height: 48px; margin-bottom: 0; border-radius: 14px; flex-shrink: 0; }
-    .sheet-header-row .icon-well svg { width: 26px; height: 26px; }
-    .sheet-title-stack { display: flex; flex-direction: column; text-align: left; }
+    .sheet-header-left .icon-well svg { width: 24px; height: 24px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
+    
+    .sheet-title-stack { display: flex; flex-direction: column; }
     .sheet-eyebrow { font-size: 11px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-    .sheet-main-title { font-size: 22px; font-weight: 900; color: var(--text-primary); line-height: 1.1; }
+    .sheet-main-title { font-size: 20px; font-weight: 900; color: var(--text-primary); line-height: 1.1; }
+
+    .close-sheet-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border-highlight);
+      box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .close-sheet-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.5; }
 
     .hero-price-container {
       width: 100%;
-      padding: 10px 0;
-      border-radius: 20px;
+      padding: 8px 0;
+      border-radius: 18px;
       background: var(--bg);
-      box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .sheet-hero-price-4x {
-      font-size: 46px;
+      font-size: clamp(36px, 10vw, 44px);
       font-weight: 900;
       color: var(--s2s-red);
       display: flex;
@@ -477,7 +531,7 @@
       line-height: 1;
       letter-spacing: -1.5px;
     }
-    .sheet-hero-price-4x .cents { font-size: 24px; font-weight: 800; margin-left: -2px; }
+    .sheet-hero-price-4x .cents { font-size: 22px; font-weight: 800; }
     .tax-badge-centered {
       font-size: 10px;
       font-weight: 800;
@@ -488,44 +542,16 @@
       margin-left: 8px;
     }
 
-    .sqft-dropdown {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 16px;
-      background: var(--bg);
-      border: none;
-      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-      display: flex;
-      align-items: center;
-      position: relative;
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text-primary);
-      cursor: pointer;
-    }
-    .sqft-dropdown .dropdown-label {
-      width: 100%;
-      text-align: center;
-      padding-right: 18px;
-    }
-    .sqft-dropdown svg { 
-      position: absolute;
-      right: 16px;
-      width: 18px; 
-      height: 18px; 
-      stroke: var(--text-secondary); 
-    }
-
-    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; }
+    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
     .pill-btn {
       background: var(--bg);
-      border-radius: 16px;
-      padding: 12px 4px;
+      border-radius: 14px;
+      padding: 10px 4px;
       text-align: center;
       box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-      border: none;
+      border: 1px solid var(--border-highlight);
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.22s var(--ease-spring);
     }
     .pill-btn.active {
       box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.45), inset -2px -2px 5px rgba(255, 255, 255, 0.25);
@@ -533,65 +559,58 @@
       transform: scale(0.96);
     }
     .pill-btn.active .count, .pill-btn.active .price { color: #ffffff !important; }
-    .pill-btn .count { font-size: 16px; font-weight: 900; color: var(--text-primary); }
-    .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 2px; font-weight: 700; }
+    .pill-btn .count { font-size: 15px; font-weight: 900; color: var(--text-primary); }
+    .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 1px; font-weight: 700; }
 
     .line-item-card {
       width: 100%;
-      padding: 12px 18px;
-      border-radius: 18px;
+      padding: 10px 16px;
+      border-radius: 16px;
       background: var(--bg);
       box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
-    .line-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: var(--text-primary); }
-    .line-row.sub { 
-      color: var(--text-secondary); 
-      font-weight: 700; 
-      transition: color 0.25s ease, font-weight 0.25s ease; 
-    }
-    .line-row.sub.active-extra {
-      color: var(--s2s-red) !important;
-      font-weight: 900 !important;
-    }
+    .line-row { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-primary); }
+    .line-row.sub { color: var(--text-secondary); font-weight: 700; transition: color 0.2s ease; }
+    .line-row.sub.active-extra { color: var(--s2s-red) !important; font-weight: 900 !important; }
 
     .stepper-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 18px;
+      padding: 8px 16px;
       width: 100%;
       background: var(--bg);
-      border-radius: 18px;
+      border-radius: 16px;
       box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      border: 1px solid var(--border-highlight);
     }
-    .stepper-controls { display: flex; align-items: center; gap: 14px; }
+    .stepper-controls { display: flex; align-items: center; gap: 12px; }
     .step-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       background: var(--bg);
       box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-      border: none;
+      border: 1px solid var(--border-highlight);
       font-weight: 900;
-      font-size: 18px;
+      font-size: 16px;
       color: var(--text-primary);
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: transform 0.15s var(--ease-spring);
     }
     .step-btn:active {
       box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
-      transform: scale(0.92);
+      transform: scale(0.90);
     }
-    .step-value { font-size: 18px; font-weight: 900; color: var(--s2s-red); min-width: 24px; text-align: center; }
+    .step-value { font-size: 16px; font-weight: 900; color: var(--s2s-red); min-width: 22px; text-align: center; }
 
-    .compact-cta-bar { display: flex; align-items: center; justify-content: center; width: 100%; }
     .cta-button-icon {
       width: 100%;
-      height: 52px;
-      border-radius: 18px;
+      height: 50px;
+      border-radius: 16px;
       background: var(--s2s-red);
       color: #fff;
       border: none;
@@ -600,45 +619,19 @@
       justify-content: center;
       gap: 8px;
       cursor: pointer;
-      box-shadow: 5px 5px 15px rgba(230, 0, 0, 0.4);
-      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(230, 0, 0, 0.35);
+      transition: transform 0.2s var(--ease-spring), box-shadow 0.2s ease;
     }
     .cta-button-icon:active { transform: scale(0.96); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5); }
     .cta-button-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-
-    .toast {
-      position: absolute;
-      top: 85px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: var(--text-primary);
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 800;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      z-index: 999;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body data-theme="light">
 
   <div id="app-container">
 
-    <!-- ANIMATED SPLASH SCREEN -->
-    <div class="splash-screen" id="splash-screen">
-      <div class="splash-logo-btn">
-        <div class="splash-logo-text">s<span>2</span>s</div>
-      </div>
-      <div class="splash-subtitle">Media Quoting</div>
-    </div>
-
-    <div class="toast" id="toast">Added to Quote!</div>
+    <!-- QUEUED TOAST NOTIFICATIONS -->
+    <div class="toast-container" id="toast-container"></div>
 
     <!-- TOP NAVIGATION -->
     <header class="top-nav">
@@ -650,7 +643,7 @@
         <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
-        <button class="icon-btn" aria-label="Shopping Cart">
+        <button class="icon-btn" id="cart-btn" aria-label="Shopping Cart">
           <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         </button>
       </div>
@@ -662,42 +655,42 @@
       <section class="screen active" id="screen-1">
         <div class="grid-container" id="home-grid">
           
-          <div class="tile">
+          <div class="tile" data-label="Photos" data-icon="camera">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </div>
             <div class="tile-label">Photos</div>
           </div>
 
-          <div class="tile">
+          <div class="tile" data-label="Aerial" data-icon="aerial">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M12 10a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/><path d="M7 6.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0z"/><path d="M22 6.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0z"/><path d="M7 17.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0z"/><path d="M22 17.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0z"/><path d="M5.5 8.5l4.5 2.5M18.5 8.5l-4.5 2.5M5.5 15.5l4.5-2.5M18.5 15.5l-4.5-2.5"/></svg>
             </div>
             <div class="tile-label">Aerial</div>
           </div>
 
-          <div class="tile">
+          <div class="tile" data-label="Floor Plan" data-icon="plan">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 11h9v10M12 8h9M12 15h5v6"/></svg>
             </div>
             <div class="tile-label">Floor Plan</div>
           </div>
 
-          <div class="tile">
+          <div class="tile" data-label="Video" data-icon="video">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
             </div>
             <div class="tile-label">Video</div>
           </div>
 
-          <div class="tile">
+          <div class="tile" data-label="360 Tour" data-icon="tour">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M12 9.5v5.5M9.5 12h5"/><ellipse cx="12" cy="18" rx="7" ry="3"/></svg>
             </div>
             <div class="tile-label">360 Tour</div>
           </div>
 
-          <div class="tile">
+          <div class="tile" data-label="Add-Ons" data-icon="addons">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             </div>
@@ -714,9 +707,9 @@
             <button class="icon-btn" id="back-to-1" aria-label="Back">
               <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             </button>
-            <div class="raised-header-box">
-              <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <div class="s2-title">Photos</div>
+            <div class="raised-header-box" id="s2-header-target">
+              <svg id="s2-header-icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <div class="s2-title" id="s2-header-title">Photos</div>
             </div>
           </div>
           <div class="raised-filter-group">
@@ -779,97 +772,95 @@
 
     </main>
 
-    <!-- SCREEN 3 -->
-    <div class="bottom-sheet-overlay" id="sheet-overlay">
-      <div class="bottom-sheet" id="bottom-sheet">
-        
-        <div class="sheet-handle-wrapper" id="sheet-handle-bar">
-          <div class="sheet-handle"></div>
-        </div>
-        
-        <div class="sheet-header-row">
+    <!-- ACCESSIBLE BOTTOM SHEET DIALOG -->
+    <div class="bottom-sheet-overlay" id="sheet-overlay"></div>
+    
+    <div class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      
+      <div class="sheet-handle-wrapper" id="sheet-handle-bar">
+        <div class="sheet-handle"></div>
+      </div>
+      
+      <div class="sheet-header-row">
+        <div class="sheet-header-left">
           <div class="icon-well">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
           </div>
           <div class="sheet-title-stack">
             <span class="sheet-eyebrow">MLS Photos</span>
-            <h1 class="sheet-main-title">Full Shoot</h1>
+            <h2 class="sheet-main-title" id="sheet-title">Full Shoot</h2>
           </div>
         </div>
-
-        <div class="hero-price-container">
-          <div class="sheet-hero-price-4x">
-            $<span id="hero-price">139</span><span class="cents">.00</span>
-            <span class="tax-badge-centered">Tax</span>
-          </div>
-        </div>
-
-        <button class="sqft-dropdown">
-          <span class="dropdown-label">0 – 1,999 Sq Ft</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        <button class="close-sheet-btn" id="close-sheet-btn" aria-label="Close sheet">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
-
-        <div class="pill-selector">
-          <button class="pill-btn active" data-price="139" data-photos="25">
-            <div class="count">25</div>
-            <div class="price">$139</div>
-          </button>
-          <button class="pill-btn" data-price="179" data-photos="36">
-            <div class="count">36</div>
-            <div class="price">$179</div>
-          </button>
-          <button class="pill-btn" data-price="189" data-photos="40">
-            <div class="count">40</div>
-            <div class="price">$189</div>
-          </button>
-          <button class="pill-btn" data-price="224" data-photos="50">
-            <div class="count">50</div>
-            <div class="price">$224</div>
-          </button>
-        </div>
-
-        <div class="line-item-card">
-          <div class="line-row">
-            <span id="base-package-label">Base 25 Photos</span>
-            <span id="base-price-display">$139</span>
-          </div>
-          <div class="line-row sub" id="extra-images-row">
-            <span>Extra Images ($5/ea)</span>
-            <span id="extra-price-display">$0</span>
-          </div>
-        </div>
-
-        <div class="stepper-row">
-          <span style="font-size: 14px; font-weight: 800; color: var(--text-primary);">Total Photos</span>
-          <div class="stepper-controls">
-            <button class="step-btn" id="step-minus">-</button>
-            <span class="step-value" id="photo-count">25</span>
-            <button class="step-btn" id="step-plus">+</button>
-          </div>
-        </div>
-
-        <div class="compact-cta-bar">
-          <button class="cta-button-icon" id="add-to-cart-btn" aria-label="Add to Quote">
-            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          </button>
-        </div>
-
       </div>
+
+      <div class="hero-price-container">
+        <div class="sheet-hero-price-4x">
+          $<span id="hero-price">139</span><span class="cents">.00</span>
+          <span class="tax-badge-centered">Tax</span>
+        </div>
+      </div>
+
+      <div class="pill-selector">
+        <button class="pill-btn active" data-price="139" data-photos="25">
+          <div class="count">25</div>
+          <div class="price">$139</div>
+        </button>
+        <button class="pill-btn" data-price="179" data-photos="36">
+          <div class="count">36</div>
+          <div class="price">$179</div>
+        </button>
+        <button class="pill-btn" data-price="189" data-photos="40">
+          <div class="count">40</div>
+          <div class="price">$189</div>
+        </button>
+        <button class="pill-btn" data-price="224" data-photos="50">
+          <div class="count">50</div>
+          <div class="price">$224</div>
+        </button>
+      </div>
+
+      <div class="line-item-card">
+        <div class="line-row">
+          <span id="base-package-label">Base 25 Photos</span>
+          <span id="base-price-display">$139</span>
+        </div>
+        <div class="line-row sub" id="extra-images-row">
+          <span>Extra Images ($5/ea)</span>
+          <span id="extra-price-display">$0</span>
+        </div>
+      </div>
+
+      <div class="stepper-row">
+        <span style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Total Photos</span>
+        <div class="stepper-controls">
+          <button class="step-btn" id="step-minus" aria-label="Decrease photo count">-</button>
+          <span class="step-value" id="photo-count">25</span>
+          <button class="step-btn" id="step-plus" aria-label="Increase photo count">+</button>
+        </div>
+      </div>
+
+      <button class="cta-button-icon" id="add-to-cart-btn">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      </button>
+
     </div>
 
     <!-- FLOATING PILL BOTTOM NAVIGATION -->
-    <nav class="bottom-nav">
-      <button class="nav-item active" id="bnav-1">
+    <nav class="bottom-nav" id="bottom-nav">
+      <button class="nav-item active" id="bnav-1" aria-label="Home">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
       </button>
-      <button class="nav-item" id="bnav-2">
+      <button class="nav-item" id="bnav-2" aria-label="Categories">
         <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" id="bnav-3" aria-label="Video Services">
         <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" id="bnav-4" aria-label="Addons">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
       </button>
     </nav>
@@ -880,22 +871,34 @@
     document.addEventListener('DOMContentLoaded', () => {
       const body = document.body;
       const themeToggle = document.getElementById('theme-toggle');
-      const splashScreen = document.getElementById('splash-screen');
       const screen1 = document.getElementById('screen-1');
       const screen2 = document.getElementById('screen-2');
       const bnav1 = document.getElementById('bnav-1');
       const bnav2 = document.getElementById('bnav-2');
       const backTo1 = document.getElementById('back-to-1');
       const logoBtn = document.getElementById('logo-btn');
+      const bottomNav = document.getElementById('bottom-nav');
+      const s2HeaderTitle = document.getElementById('s2-header-title');
+      const s2HeaderIcon = document.getElementById('s2-header-icon');
 
-      setTimeout(() => { splashScreen.classList.add('hide'); }, 1800);
+      function triggerHaptic(ms = 12) {
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate(ms); } catch(e){}
+        }
+      }
+
+      document.querySelectorAll('button, .tile').forEach(el => {
+        el.addEventListener('pointerdown', () => triggerHaptic(10));
+      });
 
       themeToggle.addEventListener('click', () => {
+        triggerHaptic(18);
         const isDark = body.getAttribute('data-theme') === 'dark';
         body.setAttribute('data-theme', isDark ? 'light' : 'dark');
       });
 
       function goToScreen(num) {
+        triggerHaptic(15);
         if (num === 1) {
           screen1.classList.add('active'); screen2.classList.remove('active');
           bnav1.classList.add('active'); bnav2.classList.remove('active');
@@ -912,67 +915,111 @@
 
       const homeTiles = document.querySelectorAll('#home-grid .tile');
       homeTiles.forEach(tile => {
-        tile.addEventListener('click', () => goToScreen(2));
-      });
-
-      const filters = document.querySelectorAll('.raised-filter-btn');
-      filters.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filters.forEach(f => f.classList.remove('active'));
-          btn.classList.add('active');
+        tile.addEventListener('click', () => {
+          triggerHaptic(18);
+          const label = tile.getAttribute('data-label');
+          const iconSvg = tile.querySelector('.icon-well svg').outerHTML;
+          s2HeaderTitle.textContent = label;
+          s2HeaderIcon.outerHTML = iconSvg;
+          goToScreen(2);
         });
       });
 
+      // BOTTOM SHEET ENGINE
       const openSheetBtn = document.getElementById('open-full-shoot');
+      const closeSheetBtn = document.getElementById('close-sheet-btn');
       const sheetOverlay = document.getElementById('sheet-overlay');
       const bottomSheet = document.getElementById('bottom-sheet');
+      const handleBar = document.getElementById('sheet-handle-bar');
 
-      function closeSheet() {
-        sheetOverlay.classList.remove('active');
-        bottomSheet.classList.remove('active');
-        bottomSheet.style.transform = '';
+      let startY = 0;
+      let sheetHeight = 0;
+      let isDragging = false;
+      let lastTime = 0;
+      let lastY = 0;
+      let velocity = 0;
+
+      function openSheet() {
+        triggerHaptic(22);
+        sheetHeight = bottomSheet.offsetHeight;
+        bottomSheet.classList.add('animate-snap', 'expanded');
+        sheetOverlay.classList.add('active');
+        bottomSheet.style.transform = 'translateY(0px)';
+        bottomNav.classList.add('nav-hidden');
       }
 
-      openSheetBtn.addEventListener('click', () => {
-        sheetOverlay.classList.add('active');
-        bottomSheet.classList.add('active');
-      });
+      function closeSheet() {
+        triggerHaptic(15);
+        bottomSheet.classList.add('animate-snap');
+        bottomSheet.classList.remove('expanded');
+        sheetOverlay.classList.remove('active');
+        bottomSheet.style.transform = 'translateY(100%)';
+        bottomNav.classList.remove('nav-hidden');
+      }
 
-      sheetOverlay.addEventListener('click', (e) => {
-        if (e.target === sheetOverlay) closeSheet();
-      });
+      openSheetBtn.addEventListener('click', openSheet);
+      closeSheetBtn.addEventListener('click', closeSheet);
+      sheetOverlay.addEventListener('click', closeSheet);
 
-      const handleBar = document.getElementById('sheet-handle-bar');
-      let startY = 0;
-      let currentY = 0;
-      let isDragging = false;
-
-      handleBar.addEventListener('touchstart', (e) => {
-        startY = e.touches[0].clientY;
+      function onPointerDown(e) {
         isDragging = true;
-        bottomSheet.style.transition = 'none';
-      });
+        startY = e.clientY || e.touches[0].clientY;
+        lastY = startY;
+        lastTime = performance.now();
+        velocity = 0;
+        bottomSheet.classList.remove('animate-snap');
+      }
 
-      handleBar.addEventListener('touchmove', (e) => {
+      function onPointerMove(e) {
         if (!isDragging) return;
-        currentY = e.touches[0].clientY - startY;
-        if (currentY > 0) {
-          bottomSheet.style.transform = `translateY(${currentY}px)`;
+        const pointerY = e.clientY || (e.touches && e.touches[0].clientY);
+        const deltaY = pointerY - startY;
+        const now = performance.now();
+        const dt = now - lastTime;
+        
+        if (dt > 0) {
+          velocity = (pointerY - lastY) / dt;
+          lastTime = now;
+          lastY = pointerY;
         }
-      });
 
-      handleBar.addEventListener('touchend', () => {
+        if (deltaY < 0) {
+          const resistantY = -Math.pow(Math.abs(deltaY), 0.72);
+          bottomSheet.style.transform = `translateY(${resistantY}px)`;
+        } else {
+          bottomSheet.style.transform = `translateY(${deltaY}px)`;
+        }
+      }
+
+      function onPointerUp(e) {
         if (!isDragging) return;
         isDragging = false;
-        bottomSheet.style.transition = 'transform 0.4s cubic-bezier(0.32, 0.72, 0, 1)';
-        if (currentY > 100) {
+        bottomSheet.classList.add('animate-snap');
+
+        const currentTransformY = parseInt(bottomSheet.style.transform.replace(/[^0-9-]/g, '')) || 0;
+
+        if (velocity > 0.45 || currentTransformY > sheetHeight * 0.35) {
           closeSheet();
         } else {
-          bottomSheet.style.transform = 'translateY(0)';
+          bottomSheet.style.transform = 'translateY(0px)';
         }
-        currentY = 0;
+      }
+
+      handleBar.addEventListener('mousedown', onPointerDown);
+      window.addEventListener('mousemove', onPointerMove);
+      window.addEventListener('mouseup', onPointerUp);
+
+      handleBar.addEventListener('touchstart', onPointerDown, { passive: true });
+      window.addEventListener('touchmove', onPointerMove, { passive: true });
+      window.addEventListener('touchend', onPointerUp);
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && bottomSheet.classList.contains('expanded')) {
+          closeSheet();
+        }
       });
 
+      // PRICING ENGINE LOGIC
       const heroPrice = document.getElementById('hero-price');
       const photoCount = document.getElementById('photo-count');
       const basePackageLabel = document.getElementById('base-package-label');
@@ -1005,6 +1052,7 @@
 
       pillBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+          triggerHaptic(14);
           pillBtns.forEach(p => p.classList.remove('active'));
           btn.classList.add('active');
           basePrice = parseInt(btn.dataset.price);
@@ -1015,6 +1063,7 @@
       });
 
       document.getElementById('step-minus').addEventListener('click', () => {
+        triggerHaptic(10);
         if (currentPhotos > 15) {
           currentPhotos -= 1;
           updatePricing();
@@ -1022,18 +1071,29 @@
       });
 
       document.getElementById('step-plus').addEventListener('click', () => {
+        triggerHaptic(10);
         currentPhotos += 1;
         updatePricing();
       });
 
-      const toast = document.getElementById('toast');
+      // TOAST SYSTEM
+      const toastContainer = document.getElementById('toast-container');
       function showToast(msg) {
-        toast.textContent = msg; 
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = msg;
+        toastContainer.appendChild(toast);
+        
+        requestAnimationFrame(() => toast.classList.add('show'));
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 400);
+        }, 2200);
       }
-      
+
       document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+        triggerHaptic(25);
         closeSheet();
         showToast('Added to Quote!');
       });
