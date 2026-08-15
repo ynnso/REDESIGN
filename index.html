@@ -5,8 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>S2S Real Estate Quoting App</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
     :root {
       --bg: #e6e9ef;
       --text-primary: #1e2530;
@@ -17,6 +24,7 @@
       --inset-dark: #c1c7d0;
       --border-radius: 22px;
     }
+
     [data-theme="dark"] {
       --bg: #1e232a;
       --text-primary: #f1f5f9;
@@ -26,119 +34,219 @@
       --shadow-dark: #14171c;
       --inset-dark: #12151a;
     }
-    
-    /* 10 Visual Variants */
-    [data-variant="v2"] { --s2s-red: #ff003c; }
-    [data-variant="v3"] { --border-radius: 28px; }
-    [data-variant="v4"] { --bg: #eef2f5; }
-    [data-variant="v5"] { --shadow-dark: #afb6c2; }
-    [data-variant="v6"] { --s2s-red: #d90429; }
-    [data-variant="v7"] { --bg: #f4f6f9; }
-    [data-variant="v8"] { --border-radius: 16px; }
-    [data-variant="v9"] { --shadow-dark: #abb2bf; }
-    [data-variant="v10"] { --s2s-red: #ef233c; }
 
-    body { background: #090b0e; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-
-    /* PERSISTENT TOP SWITCHER */
-    #switcher-bar {
-      position: fixed; top: 0; left: 0; right: 0; height: 44px; background: #11151c; color: #fff;
-      display: flex; align-items: center; justify-content: space-between; padding: 0 12px; z-index: 9999; font-size: 12px; border-bottom: 1px solid #222a36;
+    body {
+      background: #090b0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
     }
-    .switcher-controls { display: flex; gap: 6px; }
-    .switcher-btn, select { background: #222a36; color: #fff; border: none; padding: 4px 8px; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; }
 
-    /* MAIN CONTAINER */
     #app-container {
-      width: 100%; max-width: 412px; height: calc(100vh - 44px); max-height: 840px; margin-top: 44px;
-      background: var(--bg); position: relative; overflow: hidden; display: flex; flex-direction: column;
+      width: 100%;
+      max-width: 412px;
+      height: 100vh;
+      max-height: 840px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
 
     /* TOP NAVIGATION */
-    .top-nav { height: 68px; padding: 10px 18px 0 18px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-    
+    .top-nav {
+      height: 68px;
+      padding: 10px 18px 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
     .brand-logo-btn {
-      padding: 8px 18px; border-radius: 18px; background: var(--bg);
+      padding: 8px 18px;
+      border-radius: 18px;
+      background: var(--bg);
       box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
       transition: all 0.2s ease;
     }
-    .brand-logo-btn:active { box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.96); }
-    .brand-logo { font-size: 22px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px; }
+    .brand-logo-btn:active {
+      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+      transform: scale(0.96);
+    }
+    .brand-logo {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
     .brand-logo span { color: var(--s2s-red); }
 
     .nav-actions { display: flex; gap: 12px; }
     .icon-btn {
-      width: 46px; height: 46px; border-radius: 50%; background: var(--bg);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--bg);
       box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; border: none; color: var(--text-primary); cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
       transition: all 0.2s ease;
     }
-    .icon-btn:active { box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.93); }
-    .icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+    .icon-btn:active {
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      transform: scale(0.93);
+    }
+    .icon-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+    }
 
     /* SCREEN CANVAS */
     .view-container { flex: 1; position: relative; overflow: hidden; }
     .screen {
-      position: absolute; inset: 0; padding: 12px 18px 76px 18px; opacity: 0; pointer-events: none;
-      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1); transform: scale(0.96) translateY(15px);
-      display: flex; flex-direction: column; justify-content: space-around;
+      position: absolute;
+      inset: 0;
+      padding: 12px 18px 76px 18px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+      transform: scale(0.96) translateY(15px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
     }
     .screen.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
 
     /* GRID TILES */
-    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; margin: auto 0; }
-    
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+      margin: auto 0;
+    }
+
     .tile {
-      background: var(--bg); border-radius: var(--border-radius);
+      background: var(--bg);
+      border-radius: var(--border-radius);
       box-shadow: 7px 7px 14px var(--shadow-dark), -7px -7px 14px var(--shadow-light);
-      aspect-ratio: 1 / 1.02; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 14px; position: relative; cursor: pointer;
+      aspect-ratio: 1 / 1.02;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      position: relative;
+      cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .tile:active { box-shadow: inset 6px 6px 12px var(--inset-dark), inset -6px -6px 12px var(--shadow-light); transform: scale(0.94); }
-    
-    .drag-handle { position: absolute; top: 8px; right: 10px; width: 24px; height: 24px; opacity: 0.3; display: flex; align-items: center; justify-content: center; font-size: 11px; }
-    .tile.editing { animation: wiggle 0.25s infinite alternate ease-in-out; border: 2px dashed var(--s2s-red); }
+    .tile:active {
+      box-shadow: inset 6px 6px 12px var(--inset-dark), inset -6px -6px 12px var(--shadow-light);
+      transform: scale(0.94);
+    }
+
+    .drag-handle {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      opacity: 0.3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .tile.editing {
+      animation: wiggle 0.25s infinite alternate ease-in-out;
+      border: 2px dashed var(--s2s-red);
+    }
     @keyframes wiggle { 0% { transform: rotate(-1.5deg); } 100% { transform: rotate(1.5deg); } }
 
-    /* XL POPPING ICON WELL */
     .icon-well {
-      width: 82px; height: 82px; border-radius: 24px; background: var(--bg);
+      width: 82px;
+      height: 82px;
+      border-radius: 24px;
+      background: var(--bg);
       box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; margin-bottom: 8px; pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      pointer-events: none;
     }
-    .icon-well svg { width: 48px; height: 48px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-well svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--s2s-red);
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
     .tile-label { font-size: 16px; font-weight: 800; color: var(--text-primary); text-align: center; pointer-events: none; }
     .tile-price { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-top: 2px; }
 
-    /* SCREEN 2 HEADER & RAISED FILTERS */
+    /* SCREEN 2 */
     .screen-header-s2 { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-bottom: 6px; }
     .s2-top-row { display: flex; align-items: center; gap: 14px; }
-    
+
     .raised-header-box {
-      flex: 1; padding: 10px 16px; border-radius: 18px; background: var(--bg);
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 18px;
+      background: var(--bg);
       box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-      display: flex; align-items: center; gap: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     .raised-header-box svg { width: 26px; height: 26px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
     .s2-title { font-size: 22px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px; }
 
     .raised-filter-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
     .raised-filter-btn {
-      border: none; background: var(--bg); padding: 12px 0; border-radius: 16px; font-size: 15px; font-weight: 900;
-      color: var(--text-secondary); cursor: pointer; text-align: center;
+      border: none;
+      background: var(--bg);
+      padding: 12px 0;
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-align: center;
       box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
       transition: all 0.25s ease;
     }
     .raised-filter-btn.active {
-      background: var(--s2s-red); color: #ffffff;
+      background: var(--s2s-red);
+      color: #ffffff;
       box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), inset -2px -2px 4px rgba(255,255,255,0.25);
     }
 
-    .cascading-tile { opacity: 0; transform: translateY(35px) scale(0.9); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.32, 0.72, 0, 1); }
+    .cascading-tile {
+      opacity: 0;
+      transform: translateY(35px) scale(0.9);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+    }
     .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.09s; }
     .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.18s; }
     .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.27s; }
@@ -148,142 +256,256 @@
 
     /* BOTTOM NAV */
     .bottom-nav {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 68px; background: var(--bg);
-      box-shadow: 0 -6px 16px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-around; padding: 0 10px; z-index: 100;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: var(--bg);
+      box-shadow: 0 -6px 16px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 10px;
+      z-index: 100;
     }
     .bottom-nav .nav-item {
-      width: 46px; height: 46px; border-radius: 16px; background: var(--bg);
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: var(--bg);
       box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; color: var(--text-secondary); border: none; cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      border: none;
+      cursor: pointer;
       transition: all 0.2s ease;
     }
-    .bottom-nav .nav-item.active { color: var(--s2s-red); box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); }
+    .bottom-nav .nav-item.active {
+      color: var(--s2s-red);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+    }
     .bottom-nav .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
-    /* BOTTOM SHEET */
+    /* SCREEN 3: BOTTOM SHEET OVERLAY (EXPANDED WHITE SPACE & FIXED FLOW) */
     .bottom-sheet-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); z-index: 200;
-      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
     }
     .bottom-sheet-overlay.active { opacity: 1; pointer-events: auto; }
-    
+
     .bottom-sheet {
-      position: absolute; left: 0; right: 0; bottom: 0; background: var(--bg); border-radius: 28px 28px 0 0;
-      box-shadow: 0 -10px 35px rgba(0,0,0,0.35); padding: 12px 20px 20px 20px; z-index: 201;
-      transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
-      display: flex; flex-direction: column; gap: 10px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg);
+      border-radius: 32px 32px 0 0;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.4);
+      padding: 14px 22px 24px 22px;
+      z-index: 201;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px; /* Increased vertical breathing room */
+      touch-action: none;
     }
     .bottom-sheet.active { transform: translateY(0); }
-    .sheet-handle { width: 40px; height: 5px; border-radius: 3px; background: var(--shadow-dark); margin: 0 auto 2px auto; }
     
-    /* INLINE HEADER ROW */
-    .sheet-header-row { display: flex; align-items: center; gap: 14px; width: 100%; }
-    .sheet-header-row .icon-well { width: 50px; height: 50px; margin-bottom: 0; border-radius: 14px; flex-shrink: 0; }
-    .sheet-header-row .icon-well svg { width: 28px; height: 28px; }
-    .sheet-title-stack { display: flex; flex-direction: column; text-align: left; }
-    .sheet-eyebrow { font-size: 12px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-    .sheet-main-title { font-size: 24px; font-weight: 900; color: var(--text-primary); line-height: 1.1; }
+    .sheet-handle-wrapper {
+      width: 100%;
+      padding: 4px 0 8px 0;
+      cursor: grab;
+      display: flex;
+      justify-content: center;
+    }
+    .sheet-handle { width: 44px; height: 5px; border-radius: 3px; background: var(--shadow-dark); }
 
-    /* FULL WIDTH 4X HERO PRICE */
+    .sheet-header-row { display: flex; align-items: center; gap: 14px; width: 100%; }
+    .sheet-header-row .icon-well { width: 48px; height: 48px; margin-bottom: 0; border-radius: 14px; flex-shrink: 0; }
+    .sheet-header-row .icon-well svg { width: 26px; height: 26px; }
+    .sheet-title-stack { display: flex; flex-direction: column; text-align: left; }
+    .sheet-eyebrow { font-size: 11px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+    .sheet-main-title { font-size: 22px; font-weight: 900; color: var(--text-primary); line-height: 1.1; }
+
+    /* HERO PRICE DISPLAY */
     .hero-price-container {
-      width: 100%; padding: 10px 0; border-radius: 20px; background: var(--bg);
+      width: 100%;
+      padding: 12px 0;
+      border-radius: 20px;
+      background: var(--bg);
       box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .sheet-hero-price-4x {
-      font-size: 52px; font-weight: 900; color: var(--s2s-red); display: flex; align-items: baseline; justify-content: center;
-      line-height: 1; letter-spacing: -2px;
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--s2s-red);
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      line-height: 1;
+      letter-spacing: -1.5px;
     }
-    .sheet-hero-price-4x .cents { font-size: 26px; font-weight: 800; margin-left: -2px; }
-    .tax-badge-centered { font-size: 10px; font-weight: 800; background: var(--shadow-dark); color: var(--text-primary); padding: 2px 6px; border-radius: 6px; margin-left: 8px; letter-spacing: 0; }
+    .sheet-hero-price-4x .cents { font-size: 24px; font-weight: 800; margin-left: -2px; }
+    .tax-badge-centered {
+      font-size: 10px;
+      font-weight: 800;
+      background: var(--shadow-dark);
+      color: var(--text-primary);
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin-left: 8px;
+    }
 
-    /* RESTORED FORM ELEMENTS */
+    /* CENTERED SQ FT DROPDOWN */
     .sqft-dropdown {
-      width: 100%; padding: 10px 16px; border-radius: 16px; background: var(--bg); border: none;
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: var(--bg);
+      border: none;
       box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-      display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 800; color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      position: relative;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-primary);
+      cursor: pointer;
     }
-    .sqft-dropdown svg { width: 18px; height: 18px; stroke: var(--text-secondary); }
-
-    .line-item-card {
-      width: 100%; padding: 10px 16px; border-radius: 16px; background: var(--bg);
-      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
-      display: flex; flex-direction: column; gap: 6px;
+    .sqft-dropdown .dropdown-label {
+      width: 100%;
+      text-align: center; /* CENTERED TEXT FIXED */
+      padding-right: 18px; /* Offset for icon symmetry */
     }
-    .line-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--text-primary); }
-    .line-row .sub { color: var(--text-secondary); }
+    .sqft-dropdown svg { 
+      position: absolute;
+      right: 16px;
+      width: 18px; 
+      height: 18px; 
+      stroke: var(--text-secondary); 
+    }
 
-    /* PILL SELECTOR WITH DEEP RECESSED RED */
-    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
-    
+    /* PILL SELECTOR (PACKAGE PRESETS) */
+    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; }
     .pill-btn {
-      background: var(--bg); border-radius: 16px; padding: 8px 4px; text-align: center;
-      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light); border: none; cursor: pointer;
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 10px 4px;
+      text-align: center;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      border: none;
+      cursor: pointer;
       transition: all 0.25s ease;
     }
     .pill-btn.active {
       box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.45), inset -2px -2px 5px rgba(255, 255, 255, 0.25);
-      background: var(--s2s-red); transform: scale(0.96);
+      background: var(--s2s-red);
+      transform: scale(0.96);
     }
     .pill-btn.active .count, .pill-btn.active .price { color: #ffffff !important; }
-    .pill-btn .count { font-size: 15px; font-weight: 800; color: var(--text-primary); }
-    .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+    .pill-btn .count { font-size: 16px; font-weight: 900; color: var(--text-primary); }
+    .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 2px; font-weight: 700; }
 
+    /* STEPPER ROW */
     .stepper-row {
-      display: flex; align-items: center; justify-content: space-between; padding: 6px 14px; width: 100%;
-      background: var(--bg); border-radius: 16px; box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      width: 100%;
+      background: var(--bg);
+      border-radius: 16px;
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
     }
     .stepper-controls { display: flex; align-items: center; gap: 12px; }
     .step-btn {
-      width: 32px; height: 32px; border-radius: 10px; background: var(--bg);
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--bg);
       box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-      border: none; font-weight: 800; font-size: 16px; color: var(--text-primary); cursor: pointer; transition: all 0.15s ease;
+      border: none;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
-    .step-btn:active { box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light); transform: scale(0.92); }
+    .step-btn:active {
+      box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
+      transform: scale(0.92);
+    }
     .step-value { font-size: 16px; font-weight: 900; color: var(--s2s-red); min-width: 22px; text-align: center; }
 
-    /* ICON-ONLY CTA BUTTON (+ AND CART NO OVERLAP) */
-    .compact-cta-bar { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 4px; }
+    /* LINE ITEM BREAKDOWN (MOVED BELOW SELECTORS) */
+    .line-item-card {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: var(--bg);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .line-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: var(--text-primary); }
+    .line-row.sub { color: var(--text-secondary); font-weight: 700; }
+
+    /* CTA BUTTON */
+    .compact-cta-bar { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 2px; }
     .cta-button-icon {
-      width: 100%; height: 50px; border-radius: 18px; background: var(--s2s-red); color: #fff; border: none;
-      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
-      box-shadow: 5px 5px 15px rgba(230, 0, 0, 0.4); transition: all 0.2s ease;
+      width: 100%;
+      height: 52px;
+      border-radius: 18px;
+      background: var(--s2s-red);
+      color: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 5px 5px 15px rgba(230, 0, 0, 0.4);
+      transition: all 0.2s ease;
     }
     .cta-button-icon:active { transform: scale(0.96); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5); }
     .cta-button-icon svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
     .toast {
-      position: absolute; top: 75px; left: 50%; transform: translateX(-50%) translateY(-20px);
-      background: var(--text-primary); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 800;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 999;
+      position: absolute;
+      top: 75px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--text-primary);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 999;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
-<body data-theme="light" data-variant="v1">
+<body data-theme="light">
 
-  <!-- TOP SWITCHER BAR -->
-  <div id="switcher-bar">
-    <span>Variant Switcher</span>
-    <div class="switcher-controls">
-      <button class="switcher-btn" id="prev-var">&lt;</button>
-      <select id="variant-select">
-        <option value="v1">Variant 1: Classic Red</option>
-        <option value="v2">Variant 2: Deep Crimson</option>
-        <option value="v3">Variant 3: Soft Radius</option>
-        <option value="v4">Variant 4: Slate Sunlight</option>
-        <option value="v5">Variant 5: Tactile Dense</option>
-        <option value="v6">Variant 6: Red Glow</option>
-        <option value="v7">Variant 7: Soft Carbon</option>
-        <option value="v8">Variant 8: Compact Field</option>
-        <option value="v9">Variant 9: Ultra-Contrast</option>
-        <option value="v10">Variant 10: S2S Matte</option>
-      </select>
-      <button class="switcher-btn" id="next-var">&gt;</button>
-    </div>
-  </div>
-
-  <!-- APP CONTAINER -->
   <div id="app-container">
     <div class="toast" id="toast">Added to Quote!</div>
 
@@ -305,10 +527,9 @@
 
     <main class="view-container">
 
-      <!-- SCREEN 1: PRISTINE COVER PAGE (NO PRICES) -->
+      <!-- SCREEN 1 -->
       <section class="screen active" id="screen-1">
         <div class="grid-container" id="home-grid">
-          
           <div class="tile">
             <div class="drag-handle" data-deadzone="true">:::</div>
             <div class="icon-well">
@@ -356,11 +577,10 @@
             </div>
             <div class="tile-label">Add-Ons</div>
           </div>
-
         </div>
       </section>
 
-      <!-- SCREEN 2: PHOTOS GRID VIEW WITH PRICES & 3 RAISED BUTTONS -->
+      <!-- SCREEN 2 -->
       <section class="screen" id="screen-2">
         <div class="screen-header-s2">
           <div class="s2-top-row">
@@ -380,7 +600,6 @@
         </div>
 
         <div class="grid-container">
-          
           <div class="tile cascading-tile" id="open-full-shoot">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
@@ -428,18 +647,20 @@
             <div class="tile-label">Airbnb</div>
             <div class="tile-price">from $159</div>
           </div>
-
         </div>
       </section>
 
     </main>
 
-    <!-- SCREEN 3: FULL SHOOT BOTTOM SHEET OVERLAY -->
+    <!-- SCREEN 3: RE-ORDERED & SPACED BOTTOM SHEET -->
     <div class="bottom-sheet-overlay" id="sheet-overlay">
       <div class="bottom-sheet" id="bottom-sheet">
-        <div class="sheet-handle"></div>
         
-        <!-- Header Row (Icon + Stacked Titles) -->
+        <!-- DRAGGABLE HANDLE -->
+        <div class="sheet-handle-wrapper" id="sheet-handle-bar">
+          <div class="sheet-handle"></div>
+        </div>
+        
         <div class="sheet-header-row">
           <div class="icon-well">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
@@ -450,7 +671,6 @@
           </div>
         </div>
 
-        <!-- Full-Width 4X Hero Price -->
         <div class="hero-price-container">
           <div class="sheet-hero-price-4x">
             $<span id="hero-price">139</span><span class="cents">.00</span>
@@ -458,25 +678,13 @@
           </div>
         </div>
 
-        <!-- Restored Sq Ft Selector -->
+        <!-- CENTERED SQ FT SELECTOR -->
         <button class="sqft-dropdown">
-          <span>0 – 1,999 Sq Ft</span>
+          <span class="dropdown-label">0 – 1,999 Sq Ft</span>
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
         </button>
 
-        <!-- Restored Line Items -->
-        <div class="line-item-card">
-          <div class="line-row">
-            <span>Base 25 Photos</span>
-            <span id="base-price-display">$139</span>
-          </div>
-          <div class="line-row sub">
-            <span>$5 / Extra</span>
-            <span id="extra-price-display">$0</span>
-          </div>
-        </div>
-
-        <!-- Pill Selector -->
+        <!-- 1. PACKAGE PRESET BUTTONS (MOVED UP) -->
         <div class="pill-selector">
           <button class="pill-btn active" data-price="139" data-photos="25">
             <div class="count">25</div>
@@ -496,6 +704,7 @@
           </button>
         </div>
 
+        <!-- 2. TOTAL PHOTOS STEPPER (MOVED UP) -->
         <div class="stepper-row">
           <span style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Total Photos</span>
           <div class="stepper-controls">
@@ -505,17 +714,29 @@
           </div>
         </div>
 
-        <!-- Non-Overlapping Icon CTA Button (+ and Cart Side-by-Side) -->
+        <!-- 3. LINE ITEM RECEIPT BREAKDOWN (MOVED DOWN UNDER PRESETS) -->
+        <div class="line-item-card">
+          <div class="line-row">
+            <span id="base-package-label">Base 25 Photos</span>
+            <span id="base-price-display">$139</span>
+          </div>
+          <div class="line-row sub">
+            <span>Extra Images ($5/ea)</span>
+            <span id="extra-price-display">$0</span>
+          </div>
+        </div>
+
         <div class="compact-cta-bar">
           <button class="cta-button-icon" id="add-to-cart-btn" aria-label="Add to Quote">
             <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </button>
         </div>
+
       </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
       <button class="nav-item active" id="bnav-1">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
@@ -535,12 +756,19 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      const themeToggle = document.getElementById('theme-toggle');
       const screen1 = document.getElementById('screen-1');
       const screen2 = document.getElementById('screen-2');
       const bnav1 = document.getElementById('bnav-1');
       const bnav2 = document.getElementById('bnav-2');
       const backTo1 = document.getElementById('back-to-1');
       const logoBtn = document.getElementById('logo-btn');
+
+      themeToggle.addEventListener('click', () => {
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      });
 
       function goToScreen(num) {
         if (num === 1) {
@@ -557,32 +785,16 @@
       backTo1.addEventListener('click', () => goToScreen(1));
       logoBtn.addEventListener('click', () => goToScreen(1));
 
-      // DEAD-ZONE LONG PRESS LOGIC
+      // Grid clicks
       const homeTiles = document.querySelectorAll('#home-grid .tile');
-      let pressTimer = null;
-
       homeTiles.forEach(tile => {
         tile.addEventListener('click', (e) => {
           if (e.target.dataset.deadzone === "true") return;
           if (!tile.classList.contains('editing')) goToScreen(2);
         });
-
-        const handle = tile.querySelector('.drag-handle');
-        if (handle) {
-          const startHold = (e) => {
-            e.stopPropagation();
-            pressTimer = setTimeout(() => {
-              tile.classList.toggle('editing');
-              showToast('Edit Mode Triggered');
-            }, 600);
-          };
-          const cancelHold = () => clearTimeout(pressTimer);
-          handle.addEventListener('touchstart', startHold); handle.addEventListener('touchend', cancelHold);
-          handle.addEventListener('mousedown', startHold); handle.addEventListener('mouseup', cancelHold);
-        }
       });
 
-      // RAISED BUTTON FILTERS IN SCREEN 2
+      // Filters
       const filters = document.querySelectorAll('.raised-filter-btn');
       filters.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -591,23 +803,62 @@
         });
       });
 
-      // BOTTOM SHEET CONTROLS
+      // Bottom sheet display logic
       const openSheetBtn = document.getElementById('open-full-shoot');
       const sheetOverlay = document.getElementById('sheet-overlay');
       const bottomSheet = document.getElementById('bottom-sheet');
 
+      function closeSheet() {
+        sheetOverlay.classList.remove('active');
+        bottomSheet.classList.remove('active');
+        bottomSheet.style.transform = '';
+      }
+
       openSheetBtn.addEventListener('click', () => {
-        sheetOverlay.classList.add('active'); bottomSheet.classList.add('active');
+        sheetOverlay.classList.add('active');
+        bottomSheet.classList.add('active');
       });
+
       sheetOverlay.addEventListener('click', (e) => {
-        if (e.target === sheetOverlay) {
-          sheetOverlay.classList.remove('active'); bottomSheet.classList.remove('active');
+        if (e.target === sheetOverlay) closeSheet();
+      });
+
+      // TOUCH SLIDER / DRAG TO DISMISS LOGIC
+      const handleBar = document.getElementById('sheet-handle-bar');
+      let startY = 0;
+      let currentY = 0;
+      let isDragging = false;
+
+      handleBar.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        bottomSheet.style.transition = 'none';
+      });
+
+      handleBar.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentY = e.touches[0].clientY - startY;
+        if (currentY > 0) {
+          bottomSheet.style.transform = `translateY(${currentY}px)`;
         }
       });
 
-      // STEPPER & DYNAMIC CALCULATION
+      handleBar.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        bottomSheet.style.transition = 'transform 0.4s cubic-bezier(0.32, 0.72, 0, 1)';
+        if (currentY > 100) {
+          closeSheet();
+        } else {
+          bottomSheet.style.transform = 'translateY(0)';
+        }
+        currentY = 0;
+      });
+
+      // DYNAMIC PRICING ENGINE
       const heroPrice = document.getElementById('hero-price');
       const photoCount = document.getElementById('photo-count');
+      const basePackageLabel = document.getElementById('base-package-label');
       const basePriceDisplay = document.getElementById('base-price-display');
       const extraPriceDisplay = document.getElementById('extra-price-display');
       const pillBtns = document.querySelectorAll('.pill-btn');
@@ -623,6 +874,7 @@
 
         heroPrice.textContent = totalCost;
         photoCount.textContent = currentPhotos;
+        basePackageLabel.textContent = `Base ${basePhotos} Photos`;
         basePriceDisplay.textContent = `$${basePrice}`;
         extraPriceDisplay.textContent = `$${extraCost}`;
       }
@@ -644,35 +896,23 @@
           updatePricing();
         }
       });
+
       document.getElementById('step-plus').addEventListener('click', () => {
         currentPhotos += 1;
         updatePricing();
       });
 
-      // TOAST & ADD TO CART
+      // Toast feedback
       const toast = document.getElementById('toast');
       function showToast(msg) {
-        toast.textContent = msg; toast.classList.add('show');
+        toast.textContent = msg; 
+        toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 2000);
       }
+      
       document.getElementById('add-to-cart-btn').addEventListener('click', () => {
-        sheetOverlay.classList.remove('active'); bottomSheet.classList.remove('active');
-        showToast('Full Shoot Package Added to Quote!');
-      });
-
-      // THEME & VARIANT SWITCHER
-      document.getElementById('theme-toggle').addEventListener('click', () => {
-        const cur = document.body.getAttribute('data-theme');
-        document.body.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
-      });
-
-      const varSelect = document.getElementById('variant-select');
-      varSelect.addEventListener('change', (e) => document.body.setAttribute('data-variant', e.target.value));
-      document.getElementById('prev-var').addEventListener('click', () => {
-        if (varSelect.selectedIndex > 0) { varSelect.selectedIndex--; varSelect.dispatchEvent(new Event('change')); }
-      });
-      document.getElementById('next-var').addEventListener('click', () => {
-        if (varSelect.selectedIndex < varSelect.options.length - 1) { varSelect.selectedIndex++; varSelect.dispatchEvent(new Event('change')); }
+        closeSheet();
+        showToast('Added to Quote!');
       });
     });
   </script>
