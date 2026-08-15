@@ -10,7 +10,7 @@
     :root {
       --bg: #e6e9ef; --text-primary: #1e2530; --text-secondary: #64748b;
       --s2s-red: #e60000; --shadow-light: #ffffff; --shadow-dark: #b8bec9;
-      --inset-dark: #c1c7d0; --border-radius: 24px; --transition-speed: 0.3s;
+      --inset-dark: #c1c7d0; --border-radius: 24px; --transition-speed: 0.35s;
     }
     [data-theme="dark"] {
       --bg: #1e232a; --text-primary: #f1f5f9; --text-secondary: #94a3b8;
@@ -46,182 +46,194 @@
     }
 
     /* TOP NAV */
-    .top-nav { height: 60px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .top-nav { height: 66px; padding: 10px 20px 0 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
     
-    /* Neumorphic S2S Logo Button */
     .brand-logo-btn {
-      padding: 6px 14px; border-radius: 14px; background: var(--bg);
-      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      padding: 8px 16px; border-radius: 16px; background: var(--bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
       display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .brand-logo-btn:active { box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light); transform: scale(0.96); }
-    .brand-logo { font-size: 24px; font-weight: 900; color: var(--text-primary); letter-spacing: -1px; }
+    .brand-logo-btn:active { box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.95); }
+    .brand-logo { font-size: 22px; font-weight: 900; color: var(--text-primary); letter-spacing: -1px; }
     .brand-logo span { color: var(--s2s-red); }
 
     .nav-actions { display: flex; gap: 12px; }
     .icon-btn {
-      width: 42px; height: 42px; border-radius: 50%; background: var(--bg);
-      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      width: 44px; height: 44px; border-radius: 50%; background: var(--bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
       display: flex; align-items: center; justify-content: center; border: none; color: var(--text-primary); cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .icon-btn:active { box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light); transform: scale(0.95); }
-    .icon-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+    .icon-btn:active { box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.92); }
+    .icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
     /* VIEW CANVAS */
     .view-container { flex: 1; position: relative; overflow: hidden; }
     .screen {
-      position: absolute; inset: 0; padding: 10px 18px 80px 18px; opacity: 0; pointer-events: none;
-      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); transform: scale(0.94) translateY(16px);
+      position: absolute; inset: 0; padding: 16px 20px 80px 20px; opacity: 0; pointer-events: none;
+      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1); transform: scale(0.95) translateY(20px);
     }
     .screen.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
 
-    /* UNIFIED GRID TILES (SCREEN 1 & SCREEN 2) */
-    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding-top: 4px; }
+    /* UNIFIED GRID TILES (PRISTINE NO-PRICE HOME GRID & SCREEN 2 GRID) */
+    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; padding-top: 8px; }
     
     .tile {
       background: var(--bg); border-radius: var(--border-radius);
-      box-shadow: 7px 7px 14px var(--shadow-dark), -7px -7px 14px var(--shadow-light);
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
       aspect-ratio: 1 / 1.05; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 14px; position: relative; cursor: pointer;
-      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      padding: 16px; position: relative; cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .tile:active { box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.95); }
+    .tile:active { box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light); transform: scale(0.93); }
     
-    /* Dead Zone Handle for Long Press */
     .drag-handle { position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; opacity: 0.25; display: flex; align-items: center; justify-content: center; font-size: 10px; }
     .tile.editing { animation: wiggle 0.25s infinite alternate ease-in-out; border: 2px dashed var(--s2s-red); }
     @keyframes wiggle { 0% { transform: rotate(-1.5deg); } 100% { transform: rotate(1.5deg); } }
 
     /* Extra-Large Icon Well */
     .icon-well {
-      width: 76px; height: 76px; border-radius: 22px; background: var(--bg);
-      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; margin-bottom: 10px; pointer-events: none;
+      width: 78px; height: 78px; border-radius: 22px; background: var(--bg);
+      box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 12px; pointer-events: none;
     }
-    .icon-well svg { width: 44px; height: 44px; stroke: var(--s2s-red); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-well svg { width: 44px; height: 44px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
-    .tile-label { font-size: 16px; font-weight: 800; color: var(--text-primary); text-align: center; pointer-events: none; }
-    .tile-price { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-top: 3px; pointer-events: none; }
+    .tile-label { font-size: 17px; font-weight: 800; color: var(--text-primary); text-align: center; pointer-events: none; }
 
-    /* SCREEN 2 CASCADING STAGGER MOTION (SMOOTHER & SLOWER) */
-    .cascading-tile { opacity: 0; transform: translateY(30px) scale(0.92); transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
-    .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.06s; }
-    .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.12s; }
-    .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.18s; }
-    .screen.active .cascading-tile:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.24s; }
-    .screen.active .cascading-tile:nth-child(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.30s; }
-    .screen.active .cascading-tile:nth-child(6) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.36s; }
+    /* SCREEN 2 STAGGER & UPDATED 3-OPTION HEADER */
+    .screen-header-s2 { display: flex; flex-direction: column; gap: 14px; margin-bottom: 12px; }
+    .s2-top-row { display: flex; align-items: center; gap: 16px; }
+    .s2-icon-box {
+      width: 52px; height: 52px; border-radius: 16px; background: var(--bg);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .s2-icon-box svg { width: 28px; height: 28px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
+    .s2-title { font-size: 26px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px; }
 
-    .screen-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-    .screen-title { font-size: 20px; font-weight: 900; color: var(--text-primary); }
+    /* 3-Option Header Segmented Control */
+    .segmented-control {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 6px; border-radius: 18px;
+      background: var(--bg); box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+    }
+    .segment-btn {
+      border: none; background: transparent; padding: 10px 0; border-radius: 14px; font-size: 13px; font-weight: 800;
+      color: var(--text-secondary); cursor: pointer; transition: all 0.25s ease; text-align: center;
+    }
+    .segment-btn.active {
+      background: var(--s2s-red); color: #ffffff;
+      box-shadow: 4px 4px 8px rgba(230,0,0,0.3), inset 2px 2px 4px rgba(255,255,255,0.2);
+    }
+
+    .cascading-tile { opacity: 0; transform: translateY(30px) scale(0.92); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.32, 0.72, 0, 1); }
+    .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.05s; }
+    .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.10s; }
+    .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.15s; }
+    .screen.active .cascading-tile:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.20s; }
+    .screen.active .cascading-tile:nth-child(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.25s; }
+    .screen.active .cascading-tile:nth-child(6) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.30s; }
 
     /* BOTTOM NAV */
     .bottom-nav {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 66px; background: var(--bg);
+      position: absolute; bottom: 0; left: 0; right: 0; height: 68px; background: var(--bg);
       box-shadow: 0 -6px 16px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-around; padding: 0 10px; z-index: 100;
     }
     .bottom-nav .nav-item {
-      width: 44px; height: 44px; border-radius: 14px; background: var(--bg);
-      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      width: 46px; height: 46px; border-radius: 16px; background: var(--bg);
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
       display: flex; align-items: center; justify-content: center; color: var(--text-secondary); border: none; cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .bottom-nav .nav-item.active { color: var(--s2s-red); box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light); }
-    .bottom-nav .nav-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+    .bottom-nav .nav-item.active { color: var(--s2s-red); box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); }
+    .bottom-nav .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
     /* SCREEN 3 BOTTOM SHEET OVERLAY */
     .bottom-sheet-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); z-index: 200;
-      opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
+      position: absolute; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(5px); z-index: 200;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
     }
     .bottom-sheet-overlay.active { opacity: 1; pointer-events: auto; }
     
     .bottom-sheet {
-      position: absolute; left: 0; right: 0; bottom: 0; background: var(--bg); border-radius: 28px 28px 0 0;
-      box-shadow: 0 -10px 30px rgba(0,0,0,0.25); padding: 16px 20px 24px 20px; z-index: 201;
-      transform: translateY(100%); transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      position: absolute; left: 0; right: 0; bottom: 0; background: var(--bg); border-radius: 30px 30px 0 0;
+      box-shadow: 0 -10px 35px rgba(0,0,0,0.3); padding: 14px 22px 24px 22px; z-index: 201;
+      transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
       display: flex; flex-direction: column; align-items: center; text-align: center;
     }
     .bottom-sheet.active { transform: translateY(0); }
+    .sheet-handle { width: 44px; height: 5px; border-radius: 3px; background: var(--shadow-dark); margin: 0 auto 12px auto; }
     
-    .sheet-handle { width: 40px; height: 5px; border-radius: 3px; background: var(--shadow-dark); margin: 0 auto 14px auto; }
-    
-    /* CENTERED HEADER & XL PROPORTIONS */
-    .sheet-header-centered { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; margin-bottom: 12px; }
-    .sheet-header-centered .icon-well { width: 64px; height: 64px; margin-bottom: 4px; border-radius: 18px; }
-    .sheet-header-centered .icon-well svg { width: 36px; height: 36px; }
-    
-    .sheet-sub-title { font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-    
-    /* 2X Bigger H1 Header with Neumorphic Emboss/Shadow Effect */
-    .sheet-main-title {
-      font-size: 32px; font-weight: 900; color: var(--text-primary); text-shadow: 2px 2px 4px var(--shadow-dark), -2px -2px 4px var(--shadow-light);
-      margin-bottom: 4px; line-height: 1.1;
-    }
+    /* HORIZONTAL HEADER ROW (ICON + TITLE SAME ROW) */
+    .sheet-header-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 8px; width: 100%; }
+    .sheet-header-row .icon-well { width: 54px; height: 54px; margin-bottom: 0; border-radius: 16px; }
+    .sheet-header-row .icon-well svg { width: 30px; height: 30px; }
+    .sheet-main-title { font-size: 28px; font-weight: 900; color: var(--text-primary); text-shadow: 2px 2px 4px var(--shadow-dark); }
 
-    /* 4X Bigger Centered Hero Price Container with Integrated Neumorphic Box */
+    /* TIGHT & COHESIVE 2X HERO PRICE CONTAINER */
     .hero-price-container {
-      margin: 10px 0 16px 0; padding: 12px 24px; border-radius: 20px; background: var(--bg);
+      margin: 8px 0 14px 0; padding: 10px 24px; border-radius: 20px; background: var(--bg);
       box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
-      display: flex; align-items: center; justify-content: center; width: 100%; max-width: 280px;
+      display: flex; align-items: center; justify-content: center; width: 100%; max-width: 260px;
     }
-    .sheet-hero-price-4x {
-      font-size: 56px; font-weight: 900; color: var(--s2s-red); display: flex; align-items: baseline; justify-content: center; gap: 2px;
-      line-height: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    .sheet-hero-price-2x {
+      font-size: 48px; font-weight: 900; color: var(--s2s-red); display: flex; align-items: baseline; justify-content: center;
+      line-height: 1; letter-spacing: -1.5px;
     }
-    .sheet-hero-price-4x .cents { font-size: 26px; font-weight: 800; }
-    .tax-badge-centered { font-size: 11px; font-weight: 700; background: var(--shadow-dark); color: var(--text-primary); padding: 2px 6px; border-radius: 6px; margin-left: 6px; }
+    .sheet-hero-price-2x .cents { font-size: 24px; font-weight: 800; margin-left: -1px; }
+    .tax-badge-centered { font-size: 10px; font-weight: 800; background: var(--shadow-dark); color: var(--text-primary); padding: 2px 6px; border-radius: 6px; margin-left: 6px; letter-spacing: 0; }
 
-    /* PILLS & STEPPER */
-    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0 14px 0; width: 100%; }
+    /* PILLS & STEPPER WITH DEEP TACTILE RECESSED RED */
+    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 6px 0 14px 0; width: 100%; }
     
-    /* Selected package: Pressed tactile filled red accent */
     .pill-btn {
-      background: var(--bg); border-radius: 14px; padding: 10px 4px; text-align: center;
-      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light); border: none; cursor: pointer;
-      transition: all 0.2s ease;
+      background: var(--bg); border-radius: 16px; padding: 10px 4px; text-align: center;
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light); border: none; cursor: pointer;
+      transition: all 0.25s ease;
     }
     .pill-btn.active {
-      box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.4), inset -2px -2px 4px rgba(255, 255, 255, 0.2);
-      background: var(--s2s-red);
+      box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.45), inset -2px -2px 5px rgba(255, 255, 255, 0.25);
+      background: var(--s2s-red); transform: scale(0.97);
     }
     .pill-btn.active .count, .pill-btn.active .price { color: #ffffff !important; }
     .pill-btn .count { font-size: 15px; font-weight: 800; color: var(--text-primary); }
     .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
     .stepper-row {
-      display: flex; align-items: center; justify-content: space-between; margin: 4px 0 16px 0; padding: 8px 14px; width: 100%;
-      background: var(--bg); border-radius: 16px; box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
+      display: flex; align-items: center; justify-content: space-between; margin: 2px 0 16px 0; padding: 8px 16px; width: 100%;
+      background: var(--bg); border-radius: 18px; box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
     }
-    .stepper-controls { display: flex; align-items: center; gap: 12px; }
+    .stepper-controls { display: flex; align-items: center; gap: 14px; }
     .step-btn {
-      width: 32px; height: 32px; border-radius: 8px; background: var(--bg);
-      box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-      border: none; font-weight: 800; font-size: 16px; color: var(--text-primary); cursor: pointer;
+      width: 34px; height: 34px; border-radius: 10px; background: var(--bg);
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      border: none; font-weight: 800; font-size: 18px; color: var(--text-primary); cursor: pointer; transition: all 0.15s ease;
     }
-    .step-btn:active { box-shadow: inset 2px 2px 4px var(--inset-dark), inset -2px -2px 4px var(--shadow-light); }
-    .step-value { font-size: 16px; font-weight: 800; color: var(--s2s-red); min-width: 24px; text-align: center; }
+    .step-btn:active { box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light); transform: scale(0.92); }
+    .step-value { font-size: 17px; font-weight: 900; color: var(--s2s-red); min-width: 24px; text-align: center; }
 
-    /* COMPACT CTA BAR (Matching S2S Red Accent) */
-    .compact-cta-bar { display: flex; align-items: center; width: 100%; }
-    .cta-button {
-      width: 100%; height: 50px; border-radius: 16px; background: var(--s2s-red); color: #fff; border: none;
-      font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;
-      box-shadow: 4px 4px 12px rgba(230, 0, 0, 0.35), 4px 4px 8px var(--shadow-dark); transition: transform 0.15s ease, filter 0.2s ease;
+    /* ICON-ONLY CTA BUTTON (TEXT REMOVED) */
+    .compact-cta-bar { display: flex; align-items: center; justify-content: center; width: 100%; }
+    .cta-button-icon {
+      width: 100%; height: 52px; border-radius: 18px; background: var(--s2s-red); color: #fff; border: none;
+      display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;
+      box-shadow: 5px 5px 15px rgba(230, 0, 0, 0.4), 4px 4px 8px var(--shadow-dark); transition: all 0.2s ease;
     }
-    .cta-button:active { transform: scale(0.97); box-shadow: inset 3px 3px 6px rgba(0,0,0,0.4); filter: brightness(0.9); }
-    .cta-button svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2.5; }
+    .cta-button-icon:active { transform: scale(0.96); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5); filter: brightness(0.9); }
+    .cta-button-icon svg { width: 26px; height: 26px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
     .toast {
-      position: absolute; top: 70px; left: 50%; transform: translateX(-50%) translateY(-20px);
-      background: var(--text-primary); color: #fff; padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 700;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.25); opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 999;
+      position: absolute; top: 75px; left: 50%; transform: translateX(-50%) translateY(-20px);
+      background: var(--text-primary); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 800;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3); opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 999;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body data-theme="light" data-variant="v1">
 
-  <!-- PERSISTENT TOP SWITCHER BAR -->
+  <!-- TOP SWITCHER BAR -->
   <div id="switcher-bar">
     <span>Variant Switcher</span>
     <div class="switcher-controls">
@@ -242,13 +254,12 @@
     </div>
   </div>
 
-  <!-- MAIN APP CONTAINER -->
+  <!-- APP CONTAINER -->
   <div id="app-container">
     <div class="toast" id="toast">Added to Quote!</div>
 
-    <!-- TOP NAVIGATION BAR -->
+    <!-- TOP NAVIGATION -->
     <header class="top-nav">
-      <!-- Neumorphic S2S Brand Button -->
       <button class="brand-logo-btn" id="logo-btn" aria-label="S2S Home">
         <div class="brand-logo">s2<span>s</span></div>
       </button>
@@ -257,7 +268,6 @@
         <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
-        <!-- Updated to Shopping Cart Icon -->
         <button class="icon-btn" aria-label="Shopping Cart">
           <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         </button>
@@ -266,7 +276,7 @@
 
     <main class="view-container">
 
-      <!-- SCREEN 1: HOME SCREEN ("COVER PAGE") -->
+      <!-- SCREEN 1: PRISTINE HOME SCREEN (NO PRICES) -->
       <section class="screen active" id="screen-1">
         <div class="grid-container" id="home-grid">
           
@@ -276,7 +286,6 @@
               <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </div>
             <div class="tile-label">Photos</div>
-            <div class="tile-price">from $139</div>
           </div>
 
           <div class="tile">
@@ -285,7 +294,6 @@
               <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             </div>
             <div class="tile-label">Aerial</div>
-            <div class="tile-price">from $99</div>
           </div>
 
           <div class="tile">
@@ -294,7 +302,6 @@
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 9h6M3 15h6"/></svg>
             </div>
             <div class="tile-label">Floor Plan</div>
-            <div class="tile-price">from $79</div>
           </div>
 
           <div class="tile">
@@ -303,7 +310,6 @@
               <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
             </div>
             <div class="tile-label">Video</div>
-            <div class="tile-price">from $149</div>
           </div>
 
           <div class="tile">
@@ -312,7 +318,6 @@
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
             </div>
             <div class="tile-label">360 Tour</div>
-            <div class="tile-price">from $129</div>
           </div>
 
           <div class="tile">
@@ -321,75 +326,69 @@
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             </div>
             <div class="tile-label">Add-Ons</div>
-            <div class="tile-price">Custom</div>
           </div>
 
         </div>
       </section>
 
-      <!-- SCREEN 2: PHOTOS SERVICES GRID (ICON-HEAVY X-LARGE GRID TILES) -->
+      <!-- SCREEN 2: PHOTOS GRID VIEW (NEW 3-OPTION HEADER) -->
       <section class="screen" id="screen-2">
-        <div class="screen-header">
-          <button class="icon-btn" id="back-to-1">
-            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-          </button>
-          <div class="screen-title">Photos Options</div>
+        <div class="screen-header-s2">
+          <div class="s2-top-row">
+            <div class="s2-icon-box" id="back-to-1">
+              <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <div class="s2-title">Photos</div>
+          </div>
+          <div class="segmented-control">
+            <button class="segment-btn active">MLS</button>
+            <button class="segment-btn">Airbnb</button>
+            <button class="segment-btn">PORT</button>
+          </div>
         </div>
 
         <div class="grid-container">
           
-          <!-- FULL SHOOT: HOUSE WITH CAMERA -->
           <div class="tile cascading-tile" id="open-full-shoot">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
             </div>
             <div class="tile-label">Full Shoot</div>
-            <div class="tile-price">from $139</div>
           </div>
 
-          <!-- RESHOOT: REFRESH CAMERA -->
           <div class="tile cascading-tile">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             </div>
             <div class="tile-label">Reshoot</div>
-            <div class="tile-price">$89</div>
           </div>
 
-          <!-- RANCH SHOOT: BARN / LANDSCAPE -->
           <div class="tile cascading-tile">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
             </div>
             <div class="tile-label">Ranch Shoot</div>
-            <div class="tile-price">from $299</div>
           </div>
 
-          <!-- EXTERIOR ONLY: SHIELD -->
           <div class="tile cascading-tile">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
             <div class="tile-label">Exterior Only</div>
-            <div class="tile-price">$79</div>
           </div>
 
-          <!-- MINI SHOOT: COMPACT APERTURE -->
           <div class="tile cascading-tile">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/></svg>
             </div>
             <div class="tile-label">Mini Shoot</div>
-            <div class="tile-price">$119</div>
           </div>
 
-          <!-- AIRBNB: VACATION KEY CODE -->
           <div class="tile cascading-tile">
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M10 20l4-16M6 8l-4 4 4 4M18 8l4 4-4 4"/></svg>
             </div>
             <div class="tile-label">Airbnb</div>
-            <div class="tile-price">from $159</div>
           </div>
 
         </div>
@@ -402,24 +401,23 @@
       <div class="bottom-sheet" id="bottom-sheet">
         <div class="sheet-handle"></div>
         
-        <!-- Center-aligned Header & 2X Bigger H1 Header -->
-        <div class="sheet-header-centered">
+        <!-- Header Row (Icon & Title inline on same row) -->
+        <div class="sheet-header-row">
           <div class="icon-well">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
           </div>
-          <div class="sheet-sub-title">MLS Photos</div>
-          <h1 class="sheet-main-title">Full Shoot</h1>
+          <h1 class="sheet-main-title">Photos</h1>
         </div>
 
-        <!-- Center-aligned Neumorphic Box with 4X Hero Price -->
+        <!-- Tight & Cohesive 2X Hero Price Container -->
         <div class="hero-price-container">
-          <div class="sheet-hero-price-4x">
+          <div class="sheet-hero-price-2x">
             $<span id="hero-price">139</span><span class="cents">.00</span>
             <span class="tax-badge-centered">Tax</span>
           </div>
         </div>
 
-        <!-- Pill Selector with Pressed Tactile Red Accent -->
+        <!-- Pill Selector with Deep Recessed Tactile Red Accent -->
         <div class="pill-selector">
           <button class="pill-btn active" data-price="139" data-photos="25">
             <div class="count">25</div>
@@ -440,7 +438,7 @@
         </div>
 
         <div class="stepper-row">
-          <span style="font-size: 14px; font-weight: 700; color: var(--text-primary);">Total Photos</span>
+          <span style="font-size: 14px; font-weight: 800; color: var(--text-primary);">Total Photos</span>
           <div class="stepper-controls">
             <button class="step-btn" id="step-minus">-</button>
             <span class="step-value" id="photo-count">25</span>
@@ -448,17 +446,16 @@
           </div>
         </div>
 
-        <!-- Matching Red Compact CTA Button -->
+        <!-- Icon-Only CTA Button (+ & Cart Icon, No Text) -->
         <div class="compact-cta-bar">
-          <button class="cta-button" id="add-to-cart-btn">
-            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-            Add To Quote
+          <button class="cta-button-icon" id="add-to-cart-btn" aria-label="Add to Quote">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- PERSISTENT BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
       <button class="nav-item active" id="bnav-1">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
@@ -525,7 +522,16 @@
         }
       });
 
-      // SCREEN 3 BOTTOM SHEET
+      // SEGMENTED CONTROL IN SCREEN 2
+      const segments = document.querySelectorAll('.segment-btn');
+      segments.forEach(seg => {
+        seg.addEventListener('click', () => {
+          segments.forEach(s => s.classList.remove('active'));
+          seg.classList.add('active');
+        });
+      });
+
+      // SCREEN 3 BOTTOM SHEET OVERLAY
       const openSheetBtn = document.getElementById('open-full-shoot');
       const sheetOverlay = document.getElementById('sheet-overlay');
       const bottomSheet = document.getElementById('bottom-sheet');
@@ -575,10 +581,10 @@
       }
       document.getElementById('add-to-cart-btn').addEventListener('click', () => {
         sheetOverlay.classList.remove('active'); bottomSheet.classList.remove('active');
-        showToast('Full Shoot Added to Quote!');
+        showToast('Photos Package Added to Quote!');
       });
 
-      // DUAL THEME & 10 VARIANTS
+      // THEME & VARIANT SWITCHER
       document.getElementById('theme-toggle').addEventListener('click', () => {
         const cur = document.body.getAttribute('data-theme');
         document.body.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
