@@ -3,1223 +3,595 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>S2S Pro Studio Mobile Field Suite</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <title>S2S Real Estate Quoting App</title>
   <style>
-    /* ==========================================================================
-       1. CORE DESIGN SYSTEM & THEMES (10 VARIATIONS)
-       ========================================================================== */
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    
     :root {
-      /* Accent Colors */
-      --s2s-red: #E63946;
-      --s2s-red-glow: rgba(230, 57, 70, 0.4);
-      --s2s-red-dark: #C52233;
-      
-      /* Active Theme: Variant 1 (Default Soft Gray Light - Outdoor High-Contrast) */
-      --bg-color: #E0E5EC;
-      --surface-color: #E0E5EC;
-      --text-main: #2D3748;
-      --text-muted: #718096;
-      --shadow-light: #FFFFFF;
-      --shadow-dark: #A3B1C6;
-      --inset-shadow-dark: rgba(163, 177, 198, 0.7);
-      --inset-shadow-light: rgba(255, 255, 255, 0.9);
-      --border-accent: rgba(230, 57, 70, 0.3);
-      --card-radius: 18px;
-      --btn-radius: 12px;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --bg: #e6e9ef; --text-primary: #1e2530; --text-secondary: #64748b;
+      --s2s-red: #e60000; --shadow-light: #ffffff; --shadow-dark: #b8bec9;
+      --inset-dark: #c1c7d0; --border-radius: 24px; --transition-speed: 0.3s;
+    }
+    [data-theme="dark"] {
+      --bg: #1e232a; --text-primary: #f1f5f9; --text-secondary: #94a3b8;
+      --s2s-red: #ff2a2a; --shadow-light: #282e38; --shadow-dark: #14171c; --inset-dark: #12151a;
+    }
+    
+    /* 10 Visual Variants */
+    [data-variant="v2"] { --s2s-red: #ff003c; }
+    [data-variant="v3"] { --border-radius: 32px; }
+    [data-variant="v4"] { --bg: #eef2f5; }
+    [data-variant="v5"] { --shadow-dark: #afb6c2; }
+    [data-variant="v6"] { --s2s-red: #d90429; }
+    [data-variant="v7"] { --bg: #f4f6f9; }
+    [data-variant="v8"] { --border-radius: 18px; }
+    [data-variant="v9"] { --shadow-dark: #abb2bf; }
+    [data-variant="v10"] { --s2s-red: #ef233c; }
+
+    body { background: #0b0d10; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+    /* PERSISTENT TOP SWITCHER */
+    #switcher-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 44px; background: #11151c; color: #fff;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 12px; z-index: 9999; font-size: 12px; border-bottom: 1px solid #222a36;
+    }
+    .switcher-controls { display: flex; gap: 6px; }
+    .switcher-btn, select { background: #222a36; color: #fff; border: none; padding: 4px 8px; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; }
+
+    /* APP CONTAINER */
+    #app-container {
+      width: 100%; max-width: 412px; height: calc(100vh - 44px); max-height: 840px; margin-top: 44px;
+      background: var(--bg); position: relative; overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
 
-    /* Variant 2: Slate Modern Dark */
-    [data-theme="2"] {
-      --bg-color: #1A202C;
-      --surface-color: #1A202C;
-      --text-main: #F7FAFC;
-      --text-muted: #A0AEC0;
-      --shadow-light: #242D3D;
-      --shadow-dark: #10141D;
-      --inset-shadow-dark: rgba(16, 20, 29, 0.8);
-      --inset-shadow-light: rgba(36, 45, 61, 0.8);
+    /* TOP NAV */
+    .top-nav { height: 60px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    
+    /* Neumorphic S2S Logo Button */
+    .brand-logo-btn {
+      padding: 6px 14px; border-radius: 14px; background: var(--bg);
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
     }
+    .brand-logo-btn:active { box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light); transform: scale(0.96); }
+    .brand-logo { font-size: 24px; font-weight: 900; color: var(--text-primary); letter-spacing: -1px; }
+    .brand-logo span { color: var(--s2s-red); }
 
-    /* Variant 3: Crisp Pure White Light */
-    [data-theme="3"] {
-      --bg-color: #F8FAFC;
-      --surface-color: #F8FAFC;
-      --text-main: #0F172A;
-      --text-muted: #64748B;
-      --shadow-light: #FFFFFF;
-      --shadow-dark: #E2E8F0;
-      --inset-shadow-dark: rgba(226, 232, 240, 0.8);
-      --inset-shadow-light: rgba(255, 255, 255, 1);
-    }
-
-    /* Variant 4: Crimson Obsidian Dark */
-    [data-theme="4"] {
-      --bg-color: #0D0D11;
-      --surface-color: #0D0D11;
-      --text-main: #FFFFFF;
-      --text-muted: #8E8E93;
-      --shadow-light: #1A1A22;
-      --shadow-dark: #000000;
-      --inset-shadow-dark: rgba(0, 0, 0, 0.9);
-      --inset-shadow-light: rgba(26, 26, 34, 0.6);
-    }
-
-    /* Variant 5: Warm Sand Outdoor Light */
-    [data-theme="5"] {
-      --bg-color: #EFECE6;
-      --surface-color: #EFECE6;
-      --text-main: #332E2B;
-      --text-muted: #7C756E;
-      --shadow-light: #FFFFFF;
-      --shadow-dark: #C7C2B8;
-      --inset-shadow-dark: rgba(199, 194, 184, 0.7);
-      --inset-shadow-light: rgba(255, 255, 255, 0.9);
-    }
-
-    /* Variant 6: Steel Tech Industrial Dark */
-    [data-theme="6"] {
-      --bg-color: #252A34;
-      --surface-color: #252A34;
-      --text-main: #EAEAEA;
-      --text-muted: #8F9A9C;
-      --shadow-light: #2F3542;
-      --shadow-dark: #1B1F26;
-      --inset-shadow-dark: rgba(27, 31, 38, 0.8);
-      --inset-shadow-light: rgba(47, 53, 66, 0.7);
-    }
-
-    /* Variant 7: Vivid Solar Sun-Glare Light */
-    [data-theme="7"] {
-      --bg-color: #E8ECEF;
-      --surface-color: #E8ECEF;
-      --text-main: #111827;
-      --text-muted: #4B5563;
-      --shadow-light: #FFFFFF;
-      --shadow-dark: #BDC5D0;
-      --inset-shadow-dark: rgba(189, 197, 208, 0.8);
-      --inset-shadow-light: rgba(255, 255, 255, 1);
-    }
-
-    /* Variant 8: Deep Velvet Matte Dark */
-    [data-theme="8"] {
-      --bg-color: #121212;
-      --surface-color: #121212;
-      --text-main: #EEEEEE;
-      --text-muted: #9E9E9E;
-      --shadow-light: #1E1E1E;
-      --shadow-dark: #060606;
-      --inset-shadow-dark: rgba(6, 6, 6, 0.9);
-      --inset-shadow-light: rgba(30, 30, 30, 0.7);
-    }
-
-    /* Variant 9: Arctic Studio Ice Light */
-    [data-theme="9"] {
-      --bg-color: #E5E9F0;
-      --surface-color: #E5E9F0;
-      --text-main: #2E3440;
-      --text-muted: #4C566A;
-      --shadow-light: #FFFFFF;
-      --shadow-dark: #C8D0E0;
-      --inset-shadow-dark: rgba(200, 208, 224, 0.8);
-      --inset-shadow-light: rgba(255, 255, 255, 0.9);
-    }
-
-    /* Variant 10: High-Contrast Monochromatic Dark */
-    [data-theme="10"] {
-      --bg-color: #000000;
-      --surface-color: #000000;
-      --text-main: #FFFFFF;
-      --text-muted: #CCCCCC;
-      --shadow-light: #222222;
-      --shadow-dark: #000000;
-      --inset-shadow-dark: rgba(0, 0, 0, 1);
-      --inset-shadow-light: rgba(34, 34, 34, 0.8);
-    }
-
-    /* ==========================================================================
-       2. RESET & LAYOUT CANVAS
-       ========================================================================== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-
-    body {
-      font-family: var(--font-family);
-      background-color: #0B0D11;
-      color: var(--text-main);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Persistent Top Navigation Switcher Bar */
-    .switcher-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 48px;
-      background: #161920;
-      border-bottom: 1px solid #282E3D;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 12px;
-      z-index: 9999;
-      color: #FFF;
-      font-size: 13px;
-    }
-
-    .switcher-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .switcher-btn {
-      background: #252B3B;
-      color: #FFF;
-      border: 1px solid #363E54;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .switcher-btn:active {
-      background: var(--s2s-red);
-    }
-
-    .switcher-select {
-      background: #252B3B;
-      color: #FFF;
-      border: 1px solid #363E54;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      outline: none;
-    }
-
-    /* Pure Mobile Canvas Enforcer (Fits 375px–430px bounds cleanly) */
-    .device-container {
-      margin-top: 58px;
-      margin-bottom: 20px;
-      width: 100%;
-      max-width: 400px;
-      height: 780px;
-      background: var(--bg-color);
-      border-radius: 36px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 10px #1E222B;
-      display: flex;
-      flex-direction: column;
-      transition: background-color 0.3s ease;
-    }
-
-    /* Screen Views State Structure (Strictly 3 Screens) */
-    .screen-view {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      padding: 16px;
-      padding-top: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(30px);
-      transition: opacity 0.22s ease, transform 0.22s ease;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .screen-view.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(0);
-    }
-
-    .screen-view.exit-left {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(-30px);
-    }
-
-    /* ==========================================================================
-       3. NEUMORPHIC TACTILE COMPONENTS & UTILITIES
-       ========================================================================== */
-    .neu-flat {
-      background: var(--surface-color);
-      box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light);
-      border-radius: var(--card-radius);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .neu-btn {
-      background: var(--surface-color);
-      box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
-      border-radius: var(--btn-radius);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: none;
-      color: var(--text-main);
-      font-weight: 700;
-      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-    }
-
-    .neu-btn:active, .neu-btn.is-pressed {
-      box-shadow: inset 3px 3px 6px var(--inset-shadow-dark), inset -3px -3px 6px var(--inset-shadow-light);
-      transform: scale(0.96);
-    }
-
-    .neu-btn-red {
-      background: var(--s2s-red);
-      color: #FFFFFF;
-      box-shadow: 4px 4px 12px var(--shadow-dark), -2px -2px 8px var(--shadow-light);
-    }
-
-    .neu-btn-red:active {
-      background: var(--s2s-red-dark);
-      box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.5);
-      transform: scale(0.95);
-    }
-
-    /* Header Bar Component */
-    .app-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      padding: 2px 0;
-      flex-shrink: 0;
-    }
-
-    .header-title {
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .header-title i {
-      color: var(--s2s-red);
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
+    .nav-actions { display: flex; gap: 12px; }
     .icon-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      font-size: 14px;
+      width: 42px; height: 42px; border-radius: 50%; background: var(--bg);
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      display: flex; align-items: center; justify-content: center; border: none; color: var(--text-primary); cursor: pointer;
+    }
+    .icon-btn:active { box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light); transform: scale(0.95); }
+    .icon-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+
+    /* VIEW CANVAS */
+    .view-container { flex: 1; position: relative; overflow: hidden; }
+    .screen {
+      position: absolute; inset: 0; padding: 10px 18px 80px 18px; opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); transform: scale(0.94) translateY(16px);
+    }
+    .screen.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
+
+    /* UNIFIED GRID TILES (SCREEN 1 & SCREEN 2) */
+    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding-top: 4px; }
+    
+    .tile {
+      background: var(--bg); border-radius: var(--border-radius);
+      box-shadow: 7px 7px 14px var(--shadow-dark), -7px -7px 14px var(--shadow-light);
+      aspect-ratio: 1 / 1.05; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 14px; position: relative; cursor: pointer;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    }
+    .tile:active { box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light); transform: scale(0.95); }
+    
+    /* Dead Zone Handle for Long Press */
+    .drag-handle { position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; opacity: 0.25; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+    .tile.editing { animation: wiggle 0.25s infinite alternate ease-in-out; border: 2px dashed var(--s2s-red); }
+    @keyframes wiggle { 0% { transform: rotate(-1.5deg); } 100% { transform: rotate(1.5deg); } }
+
+    /* Extra-Large Icon Well */
+    .icon-well {
+      width: 76px; height: 76px; border-radius: 22px; background: var(--bg);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 10px; pointer-events: none;
+    }
+    .icon-well svg { width: 44px; height: 44px; stroke: var(--s2s-red); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .tile-label { font-size: 16px; font-weight: 800; color: var(--text-primary); text-align: center; pointer-events: none; }
+    .tile-price { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-top: 3px; pointer-events: none; }
+
+    /* SCREEN 2 CASCADING STAGGER MOTION (SMOOTHER & SLOWER) */
+    .cascading-tile { opacity: 0; transform: translateY(30px) scale(0.92); transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+    .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.06s; }
+    .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.12s; }
+    .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.18s; }
+    .screen.active .cascading-tile:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.24s; }
+    .screen.active .cascading-tile:nth-child(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.30s; }
+    .screen.active .cascading-tile:nth-child(6) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.36s; }
+
+    .screen-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .screen-title { font-size: 20px; font-weight: 900; color: var(--text-primary); }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 66px; background: var(--bg);
+      box-shadow: 0 -6px 16px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-around; padding: 0 10px; z-index: 100;
+    }
+    .bottom-nav .nav-item {
+      width: 44px; height: 44px; border-radius: 14px; background: var(--bg);
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      display: flex; align-items: center; justify-content: center; color: var(--text-secondary); border: none; cursor: pointer;
+    }
+    .bottom-nav .nav-item.active { color: var(--s2s-red); box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light); }
+    .bottom-nav .nav-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+
+    /* SCREEN 3 BOTTOM SHEET OVERLAY */
+    .bottom-sheet-overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); z-index: 200;
+      opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
+    }
+    .bottom-sheet-overlay.active { opacity: 1; pointer-events: auto; }
+    
+    .bottom-sheet {
+      position: absolute; left: 0; right: 0; bottom: 0; background: var(--bg); border-radius: 28px 28px 0 0;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.25); padding: 16px 20px 24px 20px; z-index: 201;
+      transform: translateY(100%); transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .bottom-sheet.active { transform: translateY(0); }
+    
+    .sheet-handle { width: 40px; height: 5px; border-radius: 3px; background: var(--shadow-dark); margin: 0 auto 14px auto; }
+    
+    /* CENTERED HEADER & XL PROPORTIONS */
+    .sheet-header-centered { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; margin-bottom: 12px; }
+    .sheet-header-centered .icon-well { width: 64px; height: 64px; margin-bottom: 4px; border-radius: 18px; }
+    .sheet-header-centered .icon-well svg { width: 36px; height: 36px; }
+    
+    .sheet-sub-title { font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    /* 2X Bigger H1 Header with Neumorphic Emboss/Shadow Effect */
+    .sheet-main-title {
+      font-size: 32px; font-weight: 900; color: var(--text-primary); text-shadow: 2px 2px 4px var(--shadow-dark), -2px -2px 4px var(--shadow-light);
+      margin-bottom: 4px; line-height: 1.1;
     }
 
-    .cart-badge {
-      position: absolute;
-      top: -4px;
-      right: -4px;
+    /* 4X Bigger Centered Hero Price Container with Integrated Neumorphic Box */
+    .hero-price-container {
+      margin: 10px 0 16px 0; padding: 12px 24px; border-radius: 20px; background: var(--bg);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex; align-items: center; justify-content: center; width: 100%; max-width: 280px;
+    }
+    .sheet-hero-price-4x {
+      font-size: 56px; font-weight: 900; color: var(--s2s-red); display: flex; align-items: baseline; justify-content: center; gap: 2px;
+      line-height: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    .sheet-hero-price-4x .cents { font-size: 26px; font-weight: 800; }
+    .tax-badge-centered { font-size: 11px; font-weight: 700; background: var(--shadow-dark); color: var(--text-primary); padding: 2px 6px; border-radius: 6px; margin-left: 6px; }
+
+    /* PILLS & STEPPER */
+    .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0 14px 0; width: 100%; }
+    
+    /* Selected package: Pressed tactile filled red accent */
+    .pill-btn {
+      background: var(--bg); border-radius: 14px; padding: 10px 4px; text-align: center;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light); border: none; cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pill-btn.active {
+      box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.4), inset -2px -2px 4px rgba(255, 255, 255, 0.2);
       background: var(--s2s-red);
-      color: white;
-      font-size: 10px;
-      font-weight: 800;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid var(--surface-color);
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
+    .pill-btn.active .count, .pill-btn.active .price { color: #ffffff !important; }
+    .pill-btn .count { font-size: 15px; font-weight: 800; color: var(--text-primary); }
+    .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
-    .cart-badge.bump {
-      transform: scale(1.35);
+    .stepper-row {
+      display: flex; align-items: center; justify-content: space-between; margin: 4px 0 16px 0; padding: 8px 14px; width: 100%;
+      background: var(--bg); border-radius: 16px; box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
     }
-
-    /* Top Dead-Zone Edit Bar Banner */
-    .edit-mode-bar {
-      height: 30px;
-      background: rgba(230, 57, 70, 0.12);
-      border: 1px dashed var(--s2s-red);
-      border-radius: 8px;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 10px;
-      margin-bottom: 10px;
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--s2s-red);
-    }
-
-    .edit-mode-bar.active {
-      display: flex;
-    }
-
-    /* ==========================================================================
-       4. SCREEN 1: HOME SCREEN (STRICT 6-TILE MATRIX)
-       ========================================================================== */
-    .tile-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 12px;
-      flex-grow: 1;
-      height: calc(100% - 70px);
-    }
-
-    .home-tile {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s ease;
-      touch-action: manipulation;
-    }
-
-    .home-tile:active {
-      box-shadow: inset 4px 4px 8px var(--inset-shadow-dark), inset -4px -4px 8px var(--inset-shadow-light);
-      transform: scale(0.96);
-    }
-
-    .tile-icon-wrapper {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      color: var(--s2s-red);
-      margin-bottom: 8px;
+    .stepper-controls { display: flex; align-items: center; gap: 12px; }
+    .step-btn {
+      width: 32px; height: 32px; border-radius: 8px; background: var(--bg);
       box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
-      background: var(--surface-color);
+      border: none; font-weight: 800; font-size: 16px; color: var(--text-primary); cursor: pointer;
     }
+    .step-btn:active { box-shadow: inset 2px 2px 4px var(--inset-dark), inset -2px -2px 4px var(--shadow-light); }
+    .step-value { font-size: 16px; font-weight: 800; color: var(--s2s-red); min-width: 24px; text-align: center; }
 
-    .tile-label {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.2;
+    /* COMPACT CTA BAR (Matching S2S Red Accent) */
+    .compact-cta-bar { display: flex; align-items: center; width: 100%; }
+    .cta-button {
+      width: 100%; height: 50px; border-radius: 16px; background: var(--s2s-red); color: #fff; border: none;
+      font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;
+      box-shadow: 4px 4px 12px rgba(230, 0, 0, 0.35), 4px 4px 8px var(--shadow-dark); transition: transform 0.15s ease, filter 0.2s ease;
     }
+    .cta-button:active { transform: scale(0.97); box-shadow: inset 3px 3px 6px rgba(0,0,0,0.4); filter: brightness(0.9); }
+    .cta-button svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2.5; }
 
-    .tile-sub {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-top: 3px;
-      font-weight: 600;
+    .toast {
+      position: absolute; top: 70px; left: 50%; transform: translateX(-50%) translateY(-20px);
+      background: var(--text-primary); color: #fff; padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 700;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25); opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 999;
     }
-
-    /* Designated Dead-Zone Drag Handle */
-    .dead-zone-handle {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 26px;
-      height: 26px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      font-size: 11px;
-      opacity: 0.4;
-      touch-action: none;
-    }
-
-    .edit-mode .home-tile {
-      animation: wiggle 0.3s infinite alternate;
-      border: 1px dashed var(--s2s-red);
-    }
-
-    .edit-mode .dead-zone-handle {
-      opacity: 1;
-      color: var(--s2s-red);
-    }
-
-    @keyframes wiggle {
-      0% { transform: rotate(-1deg); }
-      100% { transform: rotate(1deg); }
-    }
-
-    /* ==========================================================================
-       5. SCREEN 2: PHOTOS CATEGORY VIEW (GRID TILES + CASCAding)
-       ========================================================================== */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      padding-bottom: 10px;
-    }
-
-    .service-card {
-      padding: 16px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    /* Cascading Row-by-Row Domino Entrance */
-    .screen-view.active .service-card {
-      animation: cascadeIn 0.35s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
-    }
-
-    .service-card:nth-child(1), .service-card:nth-child(2) { animation-delay: 0.04s; }
-    .service-card:nth-child(3), .service-card:nth-child(4) { animation-delay: 0.10s; }
-    .service-card:nth-child(5), .service-card:nth-child(6) { animation-delay: 0.16s; }
-
-    @keyframes cascadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .service-card:active {
-      box-shadow: inset 4px 4px 8px var(--inset-shadow-dark), inset -4px -4px 8px var(--inset-shadow-light);
-      transform: scale(0.96) !important;
-    }
-
-    .service-icon {
-      font-size: 36px; /* 3x–4x Icon Scale for Instant Recognition */
-      color: var(--s2s-red);
-      margin-bottom: 8px;
-    }
-
-    .service-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-main);
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .service-price {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    .card-add-btn {
-      margin-top: 8px;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      font-size: 11px;
-      color: var(--s2s-red);
-    }
-
-    /* ==========================================================================
-       6. SCREEN 3: FULL SHOOT VIEW / BOTTOM SHEET & COMPACT CTA DOCK
-       ========================================================================== */
-    .sheet-body {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      padding-bottom: 80px; /* Clears exact space for compact CTA bar */
-    }
-
-    .shoot-hero-card {
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .shoot-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .shoot-tag {
-      background: var(--s2s-red);
-      color: white;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 3px 7px;
-      border-radius: 20px;
-      text-transform: uppercase;
-    }
-
-    .option-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .option-label {
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .option-selector {
-      display: flex;
-      gap: 6px;
-    }
-
-    .opt-chip {
-      flex: 1;
-      padding: 8px 4px;
-      font-size: 11px;
-      font-weight: 700;
-      text-align: center;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .opt-chip.active {
-      box-shadow: inset 3px 3px 6px var(--inset-shadow-dark), inset -3px -3px 6px var(--inset-shadow-light);
-      color: var(--s2s-red);
-      border: 1px solid var(--border-accent);
-    }
-
-    /* COMPACT FLOATING CTA DOCK BAR (Cleanly Docked Without Screen Block) */
-    .compact-cta-dock {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
-      height: 60px;
-      padding: 6px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 100;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .cta-price-block {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .cta-hero-price {
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--text-main);
-      line-height: 1;
-    }
-
-    .cta-tax-indicator {
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .primary-action-btn {
-      height: 42px;
-      padding: 0 16px;
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.2px;
-      gap: 6px;
-    }
-
-    .primary-action-btn i {
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .primary-action-btn.added i {
-      transform: scale(1.3) rotate(360deg);
-    }
-
-    /* ==========================================================================
-       7. TOAST NOTIFICATION & PULSE ANIMATIONS
-       ========================================================================== */
-    .neu-toast {
-      position: absolute;
-      top: 62px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: var(--surface-color);
-      box-shadow: 6px 6px 16px var(--shadow-dark), -6px -6px 16px var(--shadow-light);
-      border: 1px solid var(--s2s-red);
-      padding: 8px 16px;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--text-main);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 1000;
-    }
-
-    .neu-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .neu-toast i {
-      color: var(--s2s-red);
-      font-size: 13px;
-    }
-
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 0 0 var(--s2s-red-glow); }
-      70% { box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
-    }
-
-    .pulse-active {
-      animation: pulseGlow 0.5s ease-out;
-    }
-
-    .flex-row { display: flex; align-items: center; justify-content: space-between; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
-<body>
+<body data-theme="light" data-variant="v1">
 
-  <!-- Persistent Top Navigation Switcher Bar (10 Variants) -->
-  <div class="switcher-bar">
-    <div style="font-weight: 800; letter-spacing: -0.2px;">
-      <span style="color: var(--s2s-red);">S2S</span> Field Suite v2.6
-    </div>
+  <!-- PERSISTENT TOP SWITCHER BAR -->
+  <div id="switcher-bar">
+    <span>Variant Switcher</span>
     <div class="switcher-controls">
-      <button class="switcher-btn" id="prevThemeBtn">&lt; Prev</button>
-      <select class="switcher-select" id="themeSelect">
-        <option value="1">1. Soft Gray Sunlight (Light)</option>
-        <option value="2">2. Slate Modern Dark</option>
-        <option value="3">3. Crisp Pure White</option>
-        <option value="4">4. Crimson Obsidian Dark</option>
-        <option value="5">5. Warm Sand Outdoor</option>
-        <option value="6">6. Steel Tech Industrial</option>
-        <option value="7">7. Vivid Solar High-Glare</option>
-        <option value="8">8. Deep Velvet Matte</option>
-        <option value="9">9. Arctic Studio Ice</option>
-        <option value="10">10. High-Contrast Mono</option>
+      <button class="switcher-btn" id="prev-var">&lt;</button>
+      <select id="variant-select">
+        <option value="v1">Variant 1: Classic Red</option>
+        <option value="v2">Variant 2: Deep Crimson</option>
+        <option value="v3">Variant 3: Soft Radius</option>
+        <option value="v4">Variant 4: Slate Sunlight</option>
+        <option value="v5">Variant 5: Tactile Dense</option>
+        <option value="v6">Variant 6: Red Glow</option>
+        <option value="v7">Variant 7: Soft Carbon</option>
+        <option value="v8">Variant 8: Compact Field</option>
+        <option value="v9">Variant 9: Ultra-Contrast</option>
+        <option value="v10">Variant 10: S2S Matte</option>
       </select>
-      <button class="switcher-btn" id="nextThemeBtn">Next &gt;</button>
+      <button class="switcher-btn" id="next-var">&gt;</button>
     </div>
   </div>
 
-  <!-- Primary Mobile Canvas (Fit 375px–430px bounds) -->
-  <div class="device-container" id="appCanvas">
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container">
+    <div class="toast" id="toast">Added to Quote!</div>
 
-    <!-- Floating Self-Dismissing Toast Notification -->
-    <div class="neu-toast" id="appToast">
-      <i class="fa-solid fa-circle-check"></i>
-      <span id="toastMsg">Item Added to Quote</span>
-    </div>
+    <!-- TOP NAVIGATION BAR -->
+    <header class="top-nav">
+      <!-- Neumorphic S2S Brand Button -->
+      <button class="brand-logo-btn" id="logo-btn" aria-label="S2S Home">
+        <div class="brand-logo">s2<span>s</span></div>
+      </button>
 
-    <!-- ==========================================================================
-         SCREEN 1: HOME SCREEN
-         ========================================================================== -->
-    <div class="screen-view active" id="screen1">
-      <div class="app-header">
-        <div class="header-title">
-          <i class="fa-solid fa-camera-retro"></i>
-          <span>S2S STUDIO</span>
-        </div>
-        <div class="header-actions">
-          <button class="neu-btn icon-btn" id="toggleEditBtn" title="Toggle Edit Layout">
-            <i class="fa-solid fa-grip-vertical"></i>
-          </button>
-          <button class="neu-btn icon-btn" style="position: relative;" id="cartBtnHome">
-            <i class="fa-solid fa-shopping-bag"></i>
-            <span class="cart-badge" id="cartBadgeCount">0</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Dead-Zone Edit Mode Banner -->
-      <div class="edit-mode-bar" id="editModeBanner">
-        <span><i class="fa-solid fa-pen-to-square"></i> EDIT TILE MATRIX</span>
-        <span style="font-size: 10px; cursor: pointer;" id="closeEditBtn">DONE</span>
-      </div>
-
-      <!-- Strict 6-Tile Home Matrix -->
-      <div class="tile-grid" id="tileGrid">
-        
-        <!-- Tile 1 -> Directly Triggers Navigation to Screen 2 -->
-        <div class="home-tile neu-flat" data-target="screen2">
-          <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
-          <div class="tile-icon-wrapper">
-            <i class="fa-solid fa-camera"></i>
-          </div>
-          <div class="tile-label">Photos</div>
-          <div class="tile-sub">HDR & Flash Grid</div>
-        </div>
-
-        <!-- Tile 2 -> Directly Triggers Navigation to Screen 3 -->
-        <div class="home-tile neu-flat" data-target="screen3">
-          <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
-          <div class="tile-icon-wrapper">
-            <i class="fa-solid fa-video"></i>
-          </div>
-          <div class="tile-label">Video Shoots</div>
-          <div class="tile-sub">4K Cinema Reel</div>
-        </div>
-
-        <!-- Tiles 3-6: Quick Action Field Additions -->
-        <div class="home-tile neu-flat" data-action="quick-add" data-title="360 Tour">
-          <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
-          <div class="tile-icon-wrapper">
-            <i class="fa-solid fa-vr-cardboard"></i>
-          </div>
-          <div class="tile-label">360 Tours</div>
-          <div class="tile-sub">Matterport Pro</div>
-        </div>
-
-        <div class="home-tile neu-flat" data-action="quick-add" data-title="Drone Aerial">
-          <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
-          <div class="tile-icon-wrapper">
-            <i class="fa-solid fa-drone"></i>
-          </div>
-          <div class="tile-label">Drone Aerial</div>
-          <div class="tile-sub">FAA Certified</div>
-        </div>
-
-        <div class="home-tile neu-flat" data-action="quick-add" data-title="Floorplans">
-          <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
-          <div class="tile-icon-wrapper">
-            <i class="fa-solid fa-draw-polygon"></i>
-          </div>
-          <div class="tile-label">Floorplans</div>
-          <div class="tile-sub">2D/3D Schematic</div>
-        </div>
-
-        <div class="home-tile neu-flat" data-action="quick-add" data-title="Virtual Staging">
-          <div class="dead-zone-handle" data-deadzone="true"><i class="fa-solid fa-ellipsis-vertical"></i></div>
-          <div class="tile-icon-wrapper">
-            <i class="fa-solid fa-couch"></i>
-          </div>
-          <div class="tile-label">Staging</div>
-          <div class="tile-sub">Virtual Decor</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ==========================================================================
-         SCREEN 2: PHOTOS CATEGORY VIEW
-         ========================================================================== -->
-    <div class="screen-view" id="screen2">
-      <div class="app-header">
-        <button class="neu-btn icon-btn nav-back-btn" data-back="screen1">
-          <i class="fa-solid fa-arrow-left"></i>
+      <div class="nav-actions">
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle Theme">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
-        <div class="header-title">
-          <span>PHOTO SERVICES</span>
-        </div>
-        <button class="neu-btn icon-btn" style="position: relative;">
-          <i class="fa-solid fa-shopping-bag"></i>
-          <span class="cart-badge cart-count-sync">0</span>
+        <!-- Updated to Shopping Cart Icon -->
+        <button class="icon-btn" aria-label="Shopping Cart">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         </button>
       </div>
+    </header>
 
-      <!-- High-Contrast Services Grid with Large Icons & Deep Inset Physics -->
-      <div class="services-grid">
-        
-        <div class="service-card neu-flat" data-item="HDR Interior Photography">
-          <i class="fa-solid fa-house-chimney-window service-icon"></i>
-          <div class="service-title">HDR Interior</div>
-          <div class="service-price">$175.00</div>
-          <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
-        </div>
+    <main class="view-container">
 
-        <div class="service-card neu-flat" data-item="Twilight Exterior Shoot">
-          <i class="fa-solid fa-moon service-icon"></i>
-          <div class="service-title">Twilight Shoot</div>
-          <div class="service-price">$225.00</div>
-          <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
-        </div>
-
-        <div class="service-card neu-flat" data-item="Detail Closeups">
-          <i class="fa-solid fa-camera-retro service-icon"></i>
-          <div class="service-title">Detail Shots</div>
-          <div class="service-price">$95.00</div>
-          <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
-        </div>
-
-        <div class="service-card neu-flat" data-item="Aerial Photo Stills">
-          <i class="fa-solid fa-plane-skyline service-icon"></i>
-          <div class="service-title">Aerial Stills</div>
-          <div class="service-price">$150.00</div>
-          <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
-        </div>
-
-        <div class="service-card neu-flat" data-item="Virtual Dusk Enhancement">
-          <i class="fa-solid fa-sun-plant-wilt service-icon"></i>
-          <div class="service-title">Virtual Dusk</div>
-          <div class="service-price">$110.00</div>
-          <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
-        </div>
-
-        <div class="service-card neu-flat" data-item="Architectural Pro Speed">
-          <i class="fa-solid fa-building-user service-icon"></i>
-          <div class="service-title">Arch. Pro</div>
-          <div class="service-price">$320.00</div>
-          <div class="card-add-btn neu-btn"><i class="fa-solid fa-plus"></i></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ==========================================================================
-         SCREEN 3: FULL SHOOT VIEW / BOTTOM SHEET
-         ========================================================================== -->
-    <div class="screen-view" id="screen3">
-      <div class="app-header">
-        <button class="neu-btn icon-btn nav-back-btn" data-back="screen1">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <div class="header-title">
-          <span>FULL SHOOT SUITE</span>
-        </div>
-        <button class="neu-btn icon-btn" style="position: relative;">
-          <i class="fa-solid fa-sliders"></i>
-        </button>
-      </div>
-
-      <div class="sheet-body">
-        
-        <div class="shoot-hero-card neu-flat">
-          <div class="shoot-title-row">
-            <div>
-              <div style="font-size: 15px; font-weight: 800;">Ultra Cinema & Photo Shoot</div>
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Full Property Coverage</div>
+      <!-- SCREEN 1: HOME SCREEN ("COVER PAGE") -->
+      <section class="screen active" id="screen-1">
+        <div class="grid-container" id="home-grid">
+          
+          <div class="tile">
+            <div class="drag-handle" data-deadzone="true">:::</div>
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </div>
-            <span class="shoot-tag">POPULAR</span>
+            <div class="tile-label">Photos</div>
+            <div class="tile-price">from $139</div>
           </div>
-          <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
-            Includes 4K Cinema Reel, 35 High-Res HDR Stills, and FAA Drone Flyover video.
+
+          <div class="tile">
+            <div class="drag-handle" data-deadzone="true">:::</div>
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="tile-label">Aerial</div>
+            <div class="tile-price">from $99</div>
+          </div>
+
+          <div class="tile">
+            <div class="drag-handle" data-deadzone="true">:::</div>
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 9h6M3 15h6"/></svg>
+            </div>
+            <div class="tile-label">Floor Plan</div>
+            <div class="tile-price">from $79</div>
+          </div>
+
+          <div class="tile">
+            <div class="drag-handle" data-deadzone="true">:::</div>
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            </div>
+            <div class="tile-label">Video</div>
+            <div class="tile-price">from $149</div>
+          </div>
+
+          <div class="tile">
+            <div class="drag-handle" data-deadzone="true">:::</div>
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
+            </div>
+            <div class="tile-label">360 Tour</div>
+            <div class="tile-price">from $129</div>
+          </div>
+
+          <div class="tile">
+            <div class="drag-handle" data-deadzone="true">:::</div>
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            </div>
+            <div class="tile-label">Add-Ons</div>
+            <div class="tile-price">Custom</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SCREEN 2: PHOTOS SERVICES GRID (ICON-HEAVY X-LARGE GRID TILES) -->
+      <section class="screen" id="screen-2">
+        <div class="screen-header">
+          <button class="icon-btn" id="back-to-1">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </button>
+          <div class="screen-title">Photos Options</div>
+        </div>
+
+        <div class="grid-container">
+          
+          <!-- FULL SHOOT: HOUSE WITH CAMERA -->
+          <div class="tile cascading-tile" id="open-full-shoot">
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
+            </div>
+            <div class="tile-label">Full Shoot</div>
+            <div class="tile-price">from $139</div>
+          </div>
+
+          <!-- RESHOOT: REFRESH CAMERA -->
+          <div class="tile cascading-tile">
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </div>
+            <div class="tile-label">Reshoot</div>
+            <div class="tile-price">$89</div>
+          </div>
+
+          <!-- RANCH SHOOT: BARN / LANDSCAPE -->
+          <div class="tile cascading-tile">
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+            </div>
+            <div class="tile-label">Ranch Shoot</div>
+            <div class="tile-price">from $299</div>
+          </div>
+
+          <!-- EXTERIOR ONLY: SHIELD -->
+          <div class="tile cascading-tile">
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="tile-label">Exterior Only</div>
+            <div class="tile-price">$79</div>
+          </div>
+
+          <!-- MINI SHOOT: COMPACT APERTURE -->
+          <div class="tile cascading-tile">
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/></svg>
+            </div>
+            <div class="tile-label">Mini Shoot</div>
+            <div class="tile-price">$119</div>
+          </div>
+
+          <!-- AIRBNB: VACATION KEY CODE -->
+          <div class="tile cascading-tile">
+            <div class="icon-well">
+              <svg viewBox="0 0 24 24"><path d="M10 20l4-16M6 8l-4 4 4 4M18 8l4 4-4 4"/></svg>
+            </div>
+            <div class="tile-label">Airbnb</div>
+            <div class="tile-price">from $159</div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- SCREEN 3: FULL SHOOT BOTTOM SHEET OVERLAY -->
+    <div class="bottom-sheet-overlay" id="sheet-overlay">
+      <div class="bottom-sheet" id="bottom-sheet">
+        <div class="sheet-handle"></div>
+        
+        <!-- Center-aligned Header & 2X Bigger H1 Header -->
+        <div class="sheet-header-centered">
+          <div class="icon-well">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/></svg>
+          </div>
+          <div class="sheet-sub-title">MLS Photos</div>
+          <h1 class="sheet-main-title">Full Shoot</h1>
+        </div>
+
+        <!-- Center-aligned Neumorphic Box with 4X Hero Price -->
+        <div class="hero-price-container">
+          <div class="sheet-hero-price-4x">
+            $<span id="hero-price">139</span><span class="cents">.00</span>
+            <span class="tax-badge-centered">Tax</span>
           </div>
         </div>
 
-        <div class="option-group">
-          <div class="option-label">Property Square Footage</div>
-          <div class="option-selector">
-            <div class="opt-chip neu-btn active" data-sqft-price="350">&lt; 2,500 sqft</div>
-            <div class="opt-chip neu-btn" data-sqft-price="450">2.5k - 4k sqft</div>
-            <div class="opt-chip neu-btn" data-sqft-price="600">4k+ sqft</div>
+        <!-- Pill Selector with Pressed Tactile Red Accent -->
+        <div class="pill-selector">
+          <button class="pill-btn active" data-price="139" data-photos="25">
+            <div class="count">25</div>
+            <div class="price">$139</div>
+          </button>
+          <button class="pill-btn" data-price="179" data-photos="36">
+            <div class="count">36</div>
+            <div class="price">$179</div>
+          </button>
+          <button class="pill-btn" data-price="189" data-photos="40">
+            <div class="count">40</div>
+            <div class="price">$189</div>
+          </button>
+          <button class="pill-btn" data-price="224" data-photos="50">
+            <div class="count">50</div>
+            <div class="price">$224</div>
+          </button>
+        </div>
+
+        <div class="stepper-row">
+          <span style="font-size: 14px; font-weight: 700; color: var(--text-primary);">Total Photos</span>
+          <div class="stepper-controls">
+            <button class="step-btn" id="step-minus">-</button>
+            <span class="step-value" id="photo-count">25</span>
+            <button class="step-btn" id="step-plus">+</button>
           </div>
         </div>
 
-        <div class="option-group">
-          <div class="option-label">Turnaround Delivery</div>
-          <div class="option-selector">
-            <div class="opt-chip neu-btn active" data-speed-price="0">24 Hours</div>
-            <div class="opt-chip neu-btn" data-speed-price="75">Same Day (+ $75)</div>
-          </div>
+        <!-- Matching Red Compact CTA Button -->
+        <div class="compact-cta-bar">
+          <button class="cta-button" id="add-to-cart-btn">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            Add To Quote
+          </button>
         </div>
-
-        <div class="shoot-hero-card neu-flat" style="padding: 10px 14px;">
-          <div class="flex-row">
-            <span style="font-size: 12px; font-weight: 800;">Include Social Teaser Reel</span>
-            <input type="checkbox" id="reelAddon" style="accent-color: var(--s2s-red); width: 16px; height: 16px;">
-          </div>
-        </div>
-
       </div>
-
-      <!-- COMPACT FLOATING CTA DOCK BAR -->
-      <div class="compact-cta-dock neu-flat">
-        <div class="cta-price-block">
-          <div class="cta-hero-price" id="sheetHeroPrice">$350.00</div>
-          <div class="cta-tax-indicator">+ Tax & Licensing Included</div>
-        </div>
-        <button class="neu-btn neu-btn-red primary-action-btn" id="sheetAddCta">
-          <i class="fa-solid fa-bag-shopping"></i>
-          <span>ADD TO QUOTE</span>
-        </button>
-      </div>
-
     </div>
 
+    <!-- PERSISTENT BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" id="bnav-1">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      </button>
+      <button class="nav-item" id="bnav-2">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      </button>
+    </nav>
+
   </div>
 
-  <!-- Photographer Field UX Testing Checklist Protocol -->
-  <div style="max-width: 400px; width: 100%; padding: 12px; font-size: 11px; color: #888; line-height: 1.4; text-align: left;">
-    <strong style="color: #FFF;">PHOTOGRAPHER FIELD TEST PROTOCOL:</strong>
-    <ol style="margin-left: 16px; margin-top: 4px;">
-      <li><strong>Strict 3-Screen Navigation:</strong> Tap Photos (Screen 1 -&gt; 2) or Video Shoots (Screen 1 -&gt; 3) and verify instantaneous navigation.</li>
-      <li><strong>Dead-Zone Edit Mode:</strong> Tap tiles directly to navigate immediately. Hold down ONLY top-right vertical dots or click top icon to trigger edit layout.</li>
-      <li><strong>Outdoor Sunlight Readability:</strong> Toggle switcher bar (Variants 1, 3, 5, 7) for glare-proof high contrast.</li>
-      <li><strong>CTA Animations & Bottom Sheet Compactness:</strong> Tap Screen 3 CTA bar to test deep inset press physics, icon state transition, and compact floating dock height.</li>
-    </ol>
-  </div>
-
-  <!-- ==========================================================================
-     8. JAVASCRIPT: STRICT 3-SCREEN STATE ENGINE & INTERACTION LOGIC
-     ========================================================================== -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      
-      // Strict Application State
-      const state = {
-        cartCount: 0,
-        editMode: false,
-        theme: 1,
-        sheetBasePrice: 350,
-        sheetSpeedAddon: 0,
-        sheetReelAddon: 0
-      };
+      const screen1 = document.getElementById('screen-1');
+      const screen2 = document.getElementById('screen-2');
+      const bnav1 = document.getElementById('bnav-1');
+      const bnav2 = document.getElementById('bnav-2');
+      const backTo1 = document.getElementById('back-to-1');
+      const logoBtn = document.getElementById('logo-btn');
 
-      // UI References
-      const themeSelect = document.getElementById('themeSelect');
-      const prevThemeBtn = document.getElementById('prevThemeBtn');
-      const nextThemeBtn = document.getElementById('nextThemeBtn');
-      const appToast = document.getElementById('appToast');
-      const toastMsg = document.getElementById('toastMsg');
-      const cartBadgeCounts = document.querySelectorAll('.cart-badge');
-      const toggleEditBtn = document.getElementById('toggleEditBtn');
-      const editModeBanner = document.getElementById('editModeBanner');
-      const closeEditBtn = document.getElementById('closeEditBtn');
-      const tileGrid = document.getElementById('tileGrid');
-      
-      /* ------------------------------------------------------------------------
-         1. 10-DESIGN VARIANT SWITCHER LOGIC
-         ------------------------------------------------------------------------ */
-      function setTheme(themeNum) {
-        state.theme = parseInt(themeNum);
-        document.documentElement.setAttribute('data-theme', state.theme);
-        themeSelect.value = state.theme;
-      }
-
-      themeSelect.addEventListener('change', (e) => setTheme(e.target.value));
-
-      prevThemeBtn.addEventListener('click', () => {
-        let prev = state.theme - 1;
-        if (prev < 1) prev = 10;
-        setTheme(prev);
-      });
-
-      nextThemeBtn.addEventListener('click', () => {
-        let next = state.theme + 1;
-        if (next > 10) next = 1;
-        setTheme(next);
-      });
-
-      /* ------------------------------------------------------------------------
-         2. STRICT 3-SCREEN NAVIGATION CONTROLLER
-         ------------------------------------------------------------------------ */
-      function navigateTo(targetScreenId) {
-        const activeScreen = document.querySelector('.screen-view.active');
-        const targetScreen = document.getElementById(targetScreenId);
-
-        if (activeScreen && targetScreen && activeScreen !== targetScreen) {
-          activeScreen.classList.remove('active');
-          activeScreen.classList.add('exit-left');
-          
-          setTimeout(() => {
-            activeScreen.classList.remove('exit-left');
-            targetScreen.classList.add('active');
-          }, 150);
+      function goToScreen(num) {
+        if (num === 1) {
+          screen1.classList.add('active'); screen2.classList.remove('active');
+          bnav1.classList.add('active'); bnav2.classList.remove('active');
+        } else if (num === 2) {
+          screen1.classList.remove('active'); screen2.classList.add('active');
+          bnav1.classList.remove('active'); bnav2.classList.add('active');
         }
       }
 
-      document.querySelectorAll('[data-target]').forEach(trigger => {
-        trigger.addEventListener('click', function(e) {
-          if (state.editMode) return;
-          if (e.target.closest('[data-deadzone="true"]')) return;
+      bnav1.addEventListener('click', () => goToScreen(1));
+      bnav2.addEventListener('click', () => goToScreen(2));
+      backTo1.addEventListener('click', () => goToScreen(1));
+      logoBtn.addEventListener('click', () => goToScreen(1));
 
-          const target = this.getAttribute('data-target');
-          if (target) navigateTo(target);
+      // DEAD-ZONE LONG PRESS LOGIC
+      const homeTiles = document.querySelectorAll('#home-grid .tile');
+      let pressTimer = null;
+
+      homeTiles.forEach(tile => {
+        tile.addEventListener('click', (e) => {
+          if (e.target.dataset.deadzone === "true") return;
+          if (!tile.classList.contains('editing')) goToScreen(2);
         });
-      });
 
-      document.querySelectorAll('.nav-back-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const backTarget = this.getAttribute('data-back');
-          if (backTarget) navigateTo(backTarget);
-        });
-      });
-
-      /* ------------------------------------------------------------------------
-         3. DEAD-ZONE LONG-PRESS DETECTOR (600ms TIMER)
-         ------------------------------------------------------------------------ */
-      let longPressTimer = null;
-      let touchStartX = 0;
-      let touchStartY = 0;
-
-      function toggleEditMode(enable) {
-        state.editMode = enable !== undefined ? enable : !state.editMode;
-        if (state.editMode) {
-          tileGrid.classList.add('edit-mode');
-          editModeBanner.classList.add('active');
-          showToast('Layout Edit Mode Active');
-        } else {
-          tileGrid.classList.remove('edit-mode');
-          editModeBanner.classList.remove('active');
+        const handle = tile.querySelector('.drag-handle');
+        if (handle) {
+          const startHold = (e) => {
+            e.stopPropagation();
+            pressTimer = setTimeout(() => {
+              tile.classList.toggle('editing');
+              showToast('Edit Mode Triggered');
+            }, 600);
+          };
+          const cancelHold = () => clearTimeout(pressTimer);
+          handle.addEventListener('touchstart', startHold); handle.addEventListener('touchend', cancelHold);
+          handle.addEventListener('mousedown', startHold); handle.addEventListener('mouseup', cancelHold);
         }
+      });
+
+      // SCREEN 3 BOTTOM SHEET
+      const openSheetBtn = document.getElementById('open-full-shoot');
+      const sheetOverlay = document.getElementById('sheet-overlay');
+      const bottomSheet = document.getElementById('bottom-sheet');
+
+      openSheetBtn.addEventListener('click', () => {
+        sheetOverlay.classList.add('active'); bottomSheet.classList.add('active');
+      });
+      sheetOverlay.addEventListener('click', (e) => {
+        if (e.target === sheetOverlay) {
+          sheetOverlay.classList.remove('active'); bottomSheet.classList.remove('active');
+        }
+      });
+
+      // STEPPER & PILLS
+      const heroPrice = document.getElementById('hero-price');
+      const photoCount = document.getElementById('photo-count');
+      const pillBtns = document.querySelectorAll('.pill-btn');
+      let currentPrice = 139, currentPhotos = 25;
+
+      pillBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          pillBtns.forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          currentPrice = parseInt(btn.dataset.price);
+          currentPhotos = parseInt(btn.dataset.photos);
+          heroPrice.textContent = currentPrice;
+          photoCount.textContent = currentPhotos;
+        });
+      });
+
+      document.getElementById('step-minus').addEventListener('click', () => {
+        if (currentPhotos > 15) {
+          currentPhotos -= 1; currentPrice = Math.max(89, currentPrice - 5);
+          heroPrice.textContent = currentPrice; photoCount.textContent = currentPhotos;
+        }
+      });
+      document.getElementById('step-plus').addEventListener('click', () => {
+        currentPhotos += 1; currentPrice += 5;
+        heroPrice.textContent = currentPrice; photoCount.textContent = currentPhotos;
+      });
+
+      // TOAST & ADD TO CART
+      const toast = document.getElementById('toast');
+      function showToast(msg) {
+        toast.textContent = msg; toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
       }
-
-      toggleEditBtn.addEventListener('click', () => toggleEditMode());
-      closeEditBtn.addEventListener('click', () => toggleEditMode(false));
-
-      document.querySelectorAll('[data-deadzone="true"]').forEach(handle => {
-        handle.addEventListener('touchstart', (e) => {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-          
-          longPressTimer = setTimeout(() => {
-            toggleEditMode(true);
-            if (navigator.vibrate) navigator.vibrate(50);
-          }, 600);
-        }, { passive: true });
-
-        handle.addEventListener('touchmove', (e) => {
-          const moveX = e.touches[0].clientX;
-          const moveY = e.touches[0].clientY;
-          if (Math.abs(moveX - touchStartX) > 8 || Math.abs(moveY - touchStartY) > 8) {
-            clearTimeout(longPressTimer);
-          }
-        }, { passive: true });
-
-        handle.addEventListener('touchend', () => {
-          clearTimeout(longPressTimer);
-        });
+      document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+        sheetOverlay.classList.remove('active'); bottomSheet.classList.remove('active');
+        showToast('Full Shoot Added to Quote!');
       });
 
-      /* ------------------------------------------------------------------------
-         4. CART & TOAST ANIMATIONS
-         ------------------------------------------------------------------------ */
-      function showToast(message) {
-        toastMsg.textContent = message;
-        appToast.classList.add('show');
-        setTimeout(() => {
-          appToast.classList.remove('show');
-        }, 2000);
-      }
-
-      function updateCartCount(inc = 1) {
-        state.cartCount += inc;
-        cartBadgeCounts.forEach(badge => {
-          badge.textContent = state.cartCount;
-          badge.classList.add('bump');
-          setTimeout(() => badge.classList.remove('bump'), 250);
-        });
-      }
-
-      // Quick add on Home Screen tiles
-      document.querySelectorAll('[data-action="quick-add"]').forEach(tile => {
-        tile.addEventListener('click', function(e) {
-          if (state.editMode) return;
-          if (e.target.closest('[data-deadzone="true"]')) return;
-
-          const title = this.getAttribute('data-title') || 'Item';
-          this.classList.add('pulse-active');
-          setTimeout(() => this.classList.remove('pulse-active'), 500);
-          
-          updateCartCount(1);
-          showToast(`Added ${title} to Quote`);
-        });
+      // DUAL THEME & 10 VARIANTS
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        const cur = document.body.getAttribute('data-theme');
+        document.body.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
       });
 
-      // Screen 2: Photo Services Grid Clicks
-      document.querySelectorAll('.service-card').forEach(card => {
-        card.addEventListener('click', function() {
-          const itemName = this.getAttribute('data-item');
-          this.classList.add('pulse-active');
-          setTimeout(() => this.classList.remove('pulse-active'), 500);
-
-          updateCartCount(1);
-          showToast(`Added ${itemName}`);
-        });
+      const varSelect = document.getElementById('variant-select');
+      varSelect.addEventListener('change', (e) => document.body.setAttribute('data-variant', e.target.value));
+      document.getElementById('prev-var').addEventListener('click', () => {
+        if (varSelect.selectedIndex > 0) { varSelect.selectedIndex--; varSelect.dispatchEvent(new Event('change')); }
       });
-
-      /* ------------------------------------------------------------------------
-         5. SCREEN 3: COMPACT SHEET PRICING & PRIMARY CTA
-         ------------------------------------------------------------------------ */
-      const sheetHeroPrice = document.getElementById('sheetHeroPrice');
-      const sheetAddCta = document.getElementById('sheetAddCta');
-      const reelAddon = document.getElementById('reelAddon');
-
-      function recalculateSheetTotal() {
-        let total = state.sheetBasePrice + state.sheetSpeedAddon + state.sheetReelAddon;
-        sheetHeroPrice.textContent = `$${total.toFixed(2)}`;
-      }
-
-      document.querySelectorAll('[data-sqft-price]').forEach(chip => {
-        chip.addEventListener('click', function() {
-          this.parentElement.querySelectorAll('.opt-chip').forEach(c => c.classList.remove('active'));
-          this.classList.add('active');
-          state.sheetBasePrice = parseFloat(this.getAttribute('data-sqft-price'));
-          recalculateSheetTotal();
-        });
+      document.getElementById('next-var').addEventListener('click', () => {
+        if (varSelect.selectedIndex < varSelect.options.length - 1) { varSelect.selectedIndex++; varSelect.dispatchEvent(new Event('change')); }
       });
-
-      document.querySelectorAll('[data-speed-price]').forEach(chip => {
-        chip.addEventListener('click', function() {
-          this.parentElement.querySelectorAll('.opt-chip').forEach(c => c.classList.remove('active'));
-          this.classList.add('active');
-          state.sheetSpeedAddon = parseFloat(this.getAttribute('data-speed-price'));
-          recalculateSheetTotal();
-        });
-      });
-
-      if (reelAddon) {
-        reelAddon.addEventListener('change', function() {
-          state.sheetReelAddon = this.checked ? 120 : 0;
-          recalculateSheetTotal();
-        });
-      }
-
-      sheetAddCta.addEventListener('click', function() {
-        this.classList.add('is-pressed', 'pulse-active');
-        const icon = this.querySelector('i');
-        const text = this.querySelector('span');
-
-        icon.className = 'fa-solid fa-check';
-        this.classList.add('added');
-        text.textContent = 'PACKAGE ADDED!';
-
-        updateCartCount(1);
-        showToast('Full Shoot Package Added!');
-
-        setTimeout(() => {
-          this.classList.remove('is-pressed', 'pulse-active', 'added');
-          icon.className = 'fa-solid fa-bag-shopping';
-          text.textContent = 'ADD TO QUOTE';
-        }, 1800);
-      });
-
     });
   </script>
 </body>
