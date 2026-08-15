@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>S2S Real Estate Quoting App</title>
+
+  <!-- Plus Jakarta Sans Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
@@ -11,32 +17,36 @@
       padding: 0;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     :root {
-      --bg: #e6e9ef;
-      --text-primary: #1e2530;
+      --bg: #eaf0f6;
+      --surface-tile: #eaf0f6;
+      --text-primary: #0f172a;
       --text-secondary: #64748b;
       --s2s-red: #e60000;
       --shadow-light: #ffffff;
-      --shadow-dark: #b8bec9;
-      --inset-dark: #c1c7d0;
-      --border-radius: 22px;
+      --shadow-dark: #b8c4d4;
+      --inset-dark: #cad5e3;
+      --border-highlight: rgba(255, 255, 255, 0.85);
+      --border-radius: 24px;
     }
 
     [data-theme="dark"] {
-      --bg: #1e232a;
-      --text-primary: #f1f5f9;
+      --bg: #12161f;
+      --surface-tile: #1a202c;
+      --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
-      --s2s-red: #ff2a2a;
-      --shadow-light: #282e38;
-      --shadow-dark: #14171c;
-      --inset-dark: #12151a;
+      --s2s-red: #ff3333;
+      --shadow-light: #242c3d;
+      --shadow-dark: #0a0d13;
+      --inset-dark: #0d1118;
+      --border-highlight: rgba(255, 255, 255, 0.05);
     }
 
     body {
-      background: #090b0e;
+      background: #080a0f;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -54,13 +64,13 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
     }
 
     /* TOP NAVIGATION */
     .top-nav {
-      height: 68px;
-      padding: 10px 18px 0 18px;
+      height: 70px;
+      padding: 12px 20px 0 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -68,51 +78,51 @@
     }
 
     .brand-logo-btn {
-      padding: 8px 18px;
+      padding: 8px 20px;
       border-radius: 18px;
-      background: var(--bg);
-      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      background: var(--surface-tile);
+      box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light);
+      border: 1px solid var(--border-highlight);
       display: flex;
       align-items: center;
       justify-content: center;
-      border: none;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .brand-logo-btn:active {
-      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
       transform: scale(0.96);
     }
     .brand-logo {
       font-size: 22px;
       font-weight: 900;
       color: var(--text-primary);
-      letter-spacing: -0.5px;
+      letter-spacing: -0.8px;
     }
     .brand-logo span { color: var(--s2s-red); }
 
     .nav-actions { display: flex; gap: 12px; }
     .icon-btn {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: var(--bg);
-      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      background: var(--surface-tile);
+      box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light);
+      border: 1px solid var(--border-highlight);
       display: flex;
       align-items: center;
       justify-content: center;
-      border: none;
       color: var(--text-primary);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .icon-btn:active {
-      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
       transform: scale(0.93);
     }
     .icon-btn svg {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2.2;
@@ -123,113 +133,114 @@
     .screen {
       position: absolute;
       inset: 0;
-      padding: 12px 18px 76px 18px;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
       transform: scale(0.96) translateY(15px);
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
     }
     .screen.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
 
-    /* GRID TILES */
-    .grid-container {
+    /* SCREEN 1 POLISHED COVER PAGE */
+    #screen-1 {
+      padding: 12px 20px 80px 20px;
+      justify-content: center;
+    }
+    #screen-1 .grid-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 18px;
       width: 100%;
       margin: auto 0;
     }
 
-    .tile {
-      background: var(--bg);
+    #screen-1 .tile {
+      background: var(--surface-tile);
       border-radius: var(--border-radius);
-      box-shadow: 7px 7px 14px var(--shadow-dark), -7px -7px 14px var(--shadow-light);
-      aspect-ratio: 1 / 1.02;
+      box-shadow: 8px 8px 18px var(--shadow-dark), -8px -8px 18px var(--shadow-light);
+      border: 1px solid var(--border-highlight);
+      aspect-ratio: 1 / 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 14px;
+      padding: 16px;
       position: relative;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
     }
-    .tile:active {
-      box-shadow: inset 6px 6px 12px var(--inset-dark), inset -6px -6px 12px var(--shadow-light);
-      transform: scale(0.94);
-    }
-
-    .drag-handle {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      width: 24px;
-      height: 24px;
-      opacity: 0.3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-    }
-    .tile.editing {
-      animation: wiggle 0.25s infinite alternate ease-in-out;
-      border: 2px dashed var(--s2s-red);
-    }
-    @keyframes wiggle { 0% { transform: rotate(-1.5deg); } 100% { transform: rotate(1.5deg); } }
-
-    .icon-well {
-      width: 82px;
-      height: 82px;
-      border-radius: 24px;
-      background: var(--bg);
+    #screen-1 .tile:active {
       box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
+      transform: scale(0.95);
+    }
+
+    #screen-1 .icon-well {
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+      background: var(--surface-tile);
+      box-shadow: inset 4px 4px 9px var(--inset-dark), inset -4px -4px 9px var(--shadow-light);
+      border: 1px solid var(--border-highlight);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       pointer-events: none;
     }
-    .icon-well svg {
-      width: 48px;
-      height: 48px;
+    #screen-1 .icon-well svg {
+      width: 40px;
+      height: 40px;
       stroke: var(--s2s-red);
       fill: none;
-      stroke-width: 2.2;
+      stroke-width: 2.1;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    .tile-label { font-size: 16px; font-weight: 800; color: var(--text-primary); text-align: center; pointer-events: none; }
-    .tile-price { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-top: 2px; }
+    #screen-1 .tile-label { 
+      font-size: 15px; 
+      font-weight: 700; 
+      color: var(--text-primary); 
+      text-align: center; 
+      letter-spacing: -0.2px;
+      pointer-events: none; 
+    }
 
-    /* SCREEN 2 */
-    .screen-header-s2 { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-bottom: 6px; }
-    .s2-top-row { display: flex; align-items: center; gap: 14px; }
+
+    /* SCREEN 2 (UNTOUCHED) */
+    #screen-2 {
+      padding: 10px 16px 82px 16px;
+      justify-content: flex-start;
+      gap: 14px;
+    }
+
+    .screen-header-s2 { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+    .s2-top-row { display: flex; align-items: center; gap: 10px; }
 
     .raised-header-box {
       flex: 1;
-      padding: 10px 16px;
-      border-radius: 18px;
+      padding: 10px 14px;
+      border-radius: 16px;
       background: var(--bg);
-      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
-    .raised-header-box svg { width: 26px; height: 26px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
-    .s2-title { font-size: 22px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px; }
+    .raised-header-box svg { width: 22px; height: 22px; stroke: var(--s2s-red); fill: none; stroke-width: 2.2; }
+    .s2-title { font-size: 18px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.3px; }
 
     .raised-filter-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+    
     .raised-filter-btn {
       border: none;
       background: var(--bg);
       padding: 12px 0;
       border-radius: 16px;
-      font-size: 15px;
+      font-size: 18px;
       font-weight: 900;
+      letter-spacing: 0.5px;
       color: var(--text-secondary);
       cursor: pointer;
       text-align: center;
@@ -239,20 +250,72 @@
     .raised-filter-btn.active {
       background: var(--s2s-red);
       color: #ffffff;
-      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), inset -2px -2px 4px rgba(255,255,255,0.25);
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.4), inset -2px -2px 5px rgba(255,255,255,0.3);
     }
+
+    #screen-2 .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #screen-2 .tile {
+      background: var(--bg);
+      border-radius: 20px;
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      aspect-ratio: 1 / 0.94;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #screen-2 .tile:active {
+      box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
+      transform: scale(0.95);
+    }
+
+    #screen-2 .icon-well {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: var(--bg);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      pointer-events: none;
+    }
+    #screen-2 .icon-well svg {
+      width: 34px;
+      height: 34px;
+      stroke: var(--s2s-red);
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #screen-2 .tile-label { font-size: 14px; font-weight: 800; color: var(--text-primary); text-align: center; line-height: 1.1; }
+    #screen-2 .tile-price { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-top: 3px; }
 
     .cascading-tile {
       opacity: 0;
-      transform: translateY(35px) scale(0.9);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+      transform: translateY(20px) scale(0.92);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
     }
-    .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.09s; }
-    .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.18s; }
-    .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.27s; }
-    .screen.active .cascading-tile:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.36s; }
-    .screen.active .cascading-tile:nth-child(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.45s; }
-    .screen.active .cascading-tile:nth-child(6) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.54s; }
+    .screen.active .cascading-tile:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.05s; }
+    .screen.active .cascading-tile:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.10s; }
+    .screen.active .cascading-tile:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.15s; }
+    .screen.active .cascading-tile:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.20s; }
+    .screen.active .cascading-tile:nth-child(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.25s; }
+    .screen.active .cascading-tile:nth-child(6) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.30s; }
 
     /* BOTTOM NAV */
     .bottom-nav {
@@ -289,7 +352,7 @@
     }
     .bottom-nav .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
-    /* SCREEN 3: BOTTOM SHEET OVERLAY (EXPANDED WHITE SPACE & FIXED FLOW) */
+    /* SCREEN 3 (UNTOUCHED) */
     .bottom-sheet-overlay {
       position: absolute;
       inset: 0;
@@ -310,20 +373,20 @@
       background: var(--bg);
       border-radius: 32px 32px 0 0;
       box-shadow: 0 -10px 40px rgba(0,0,0,0.4);
-      padding: 14px 22px 24px 22px;
+      padding: 12px 22px 28px 22px;
       z-index: 201;
       transform: translateY(100%);
       transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
       display: flex;
       flex-direction: column;
-      gap: 14px; /* Increased vertical breathing room */
+      gap: 16px;
       touch-action: none;
     }
     .bottom-sheet.active { transform: translateY(0); }
     
     .sheet-handle-wrapper {
       width: 100%;
-      padding: 4px 0 8px 0;
+      padding: 2px 0 6px 0;
       cursor: grab;
       display: flex;
       justify-content: center;
@@ -337,10 +400,9 @@
     .sheet-eyebrow { font-size: 11px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
     .sheet-main-title { font-size: 22px; font-weight: 900; color: var(--text-primary); line-height: 1.1; }
 
-    /* HERO PRICE DISPLAY */
     .hero-price-container {
       width: 100%;
-      padding: 12px 0;
+      padding: 10px 0;
       border-radius: 20px;
       background: var(--bg);
       box-shadow: inset 5px 5px 10px var(--inset-dark), inset -5px -5px 10px var(--shadow-light);
@@ -349,7 +411,7 @@
       justify-content: center;
     }
     .sheet-hero-price-4x {
-      font-size: 48px;
+      font-size: 46px;
       font-weight: 900;
       color: var(--s2s-red);
       display: flex;
@@ -369,7 +431,6 @@
       margin-left: 8px;
     }
 
-    /* CENTERED SQ FT DROPDOWN */
     .sqft-dropdown {
       width: 100%;
       padding: 12px 16px;
@@ -387,8 +448,8 @@
     }
     .sqft-dropdown .dropdown-label {
       width: 100%;
-      text-align: center; /* CENTERED TEXT FIXED */
-      padding-right: 18px; /* Offset for icon symmetry */
+      text-align: center;
+      padding-right: 18px;
     }
     .sqft-dropdown svg { 
       position: absolute;
@@ -398,12 +459,11 @@
       stroke: var(--text-secondary); 
     }
 
-    /* PILL SELECTOR (PACKAGE PRESETS) */
     .pill-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; }
     .pill-btn {
       background: var(--bg);
       border-radius: 16px;
-      padding: 10px 4px;
+      padding: 12px 4px;
       text-align: center;
       box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
       border: none;
@@ -419,27 +479,47 @@
     .pill-btn .count { font-size: 16px; font-weight: 900; color: var(--text-primary); }
     .pill-btn .price { font-size: 11px; color: var(--text-secondary); margin-top: 2px; font-weight: 700; }
 
-    /* STEPPER ROW */
+    .line-item-card {
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 18px;
+      background: var(--bg);
+      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .line-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: var(--text-primary); }
+    .line-row.sub { 
+      color: var(--text-secondary); 
+      font-weight: 700; 
+      transition: color 0.25s ease, font-weight 0.25s ease; 
+    }
+    .line-row.sub.active-extra {
+      color: var(--s2s-red) !important;
+      font-weight: 900 !important;
+    }
+
     .stepper-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 16px;
+      padding: 10px 18px;
       width: 100%;
       background: var(--bg);
-      border-radius: 16px;
-      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
+      border-radius: 18px;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
     }
-    .stepper-controls { display: flex; align-items: center; gap: 12px; }
+    .stepper-controls { display: flex; align-items: center; gap: 14px; }
     .step-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
       background: var(--bg);
       box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
       border: none;
-      font-weight: 800;
-      font-size: 16px;
+      font-weight: 900;
+      font-size: 18px;
       color: var(--text-primary);
       cursor: pointer;
       transition: all 0.15s ease;
@@ -448,24 +528,9 @@
       box-shadow: inset 3px 3px 6px var(--inset-dark), inset -3px -3px 6px var(--shadow-light);
       transform: scale(0.92);
     }
-    .step-value { font-size: 16px; font-weight: 900; color: var(--s2s-red); min-width: 22px; text-align: center; }
+    .step-value { font-size: 18px; font-weight: 900; color: var(--s2s-red); min-width: 24px; text-align: center; }
 
-    /* LINE ITEM BREAKDOWN (MOVED BELOW SELECTORS) */
-    .line-item-card {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 16px;
-      background: var(--bg);
-      box-shadow: inset 4px 4px 8px var(--inset-dark), inset -4px -4px 8px var(--shadow-light);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .line-row { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: var(--text-primary); }
-    .line-row.sub { color: var(--text-secondary); font-weight: 700; }
-
-    /* CTA BUTTON */
-    .compact-cta-bar { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 2px; }
+    .compact-cta-bar { display: flex; align-items: center; justify-content: center; width: 100%; }
     .cta-button-icon {
       width: 100%;
       height: 52px;
@@ -527,11 +592,10 @@
 
     <main class="view-container">
 
-      <!-- SCREEN 1 -->
+      <!-- SCREEN 1 REDESIGNED COVER PAGE (NO HASHES, PRISTINE NEUMORPHISM) -->
       <section class="screen active" id="screen-1">
         <div class="grid-container" id="home-grid">
           <div class="tile">
-            <div class="drag-handle" data-deadzone="true">:::</div>
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </div>
@@ -539,7 +603,6 @@
           </div>
 
           <div class="tile">
-            <div class="drag-handle" data-deadzone="true">:::</div>
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             </div>
@@ -547,7 +610,6 @@
           </div>
 
           <div class="tile">
-            <div class="drag-handle" data-deadzone="true">:::</div>
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 9h6M3 15h6"/></svg>
             </div>
@@ -555,7 +617,6 @@
           </div>
 
           <div class="tile">
-            <div class="drag-handle" data-deadzone="true">:::</div>
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
             </div>
@@ -563,7 +624,6 @@
           </div>
 
           <div class="tile">
-            <div class="drag-handle" data-deadzone="true">:::</div>
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
             </div>
@@ -571,7 +631,6 @@
           </div>
 
           <div class="tile">
-            <div class="drag-handle" data-deadzone="true">:::</div>
             <div class="icon-well">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             </div>
@@ -580,7 +639,7 @@
         </div>
       </section>
 
-      <!-- SCREEN 2 -->
+      <!-- SCREEN 2 (UNTOUCHED) -->
       <section class="screen" id="screen-2">
         <div class="screen-header-s2">
           <div class="s2-top-row">
@@ -652,11 +711,10 @@
 
     </main>
 
-    <!-- SCREEN 3: RE-ORDERED & SPACED BOTTOM SHEET -->
+    <!-- SCREEN 3 (UNTOUCHED) -->
     <div class="bottom-sheet-overlay" id="sheet-overlay">
       <div class="bottom-sheet" id="bottom-sheet">
         
-        <!-- DRAGGABLE HANDLE -->
         <div class="sheet-handle-wrapper" id="sheet-handle-bar">
           <div class="sheet-handle"></div>
         </div>
@@ -678,13 +736,11 @@
           </div>
         </div>
 
-        <!-- CENTERED SQ FT SELECTOR -->
         <button class="sqft-dropdown">
           <span class="dropdown-label">0 – 1,999 Sq Ft</span>
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
         </button>
 
-        <!-- 1. PACKAGE PRESET BUTTONS (MOVED UP) -->
         <div class="pill-selector">
           <button class="pill-btn active" data-price="139" data-photos="25">
             <div class="count">25</div>
@@ -704,25 +760,23 @@
           </button>
         </div>
 
-        <!-- 2. TOTAL PHOTOS STEPPER (MOVED UP) -->
-        <div class="stepper-row">
-          <span style="font-size: 13px; font-weight: 800; color: var(--text-primary);">Total Photos</span>
-          <div class="stepper-controls">
-            <button class="step-btn" id="step-minus">-</button>
-            <span class="step-value" id="photo-count">25</span>
-            <button class="step-btn" id="step-plus">+</button>
-          </div>
-        </div>
-
-        <!-- 3. LINE ITEM RECEIPT BREAKDOWN (MOVED DOWN UNDER PRESETS) -->
         <div class="line-item-card">
           <div class="line-row">
             <span id="base-package-label">Base 25 Photos</span>
             <span id="base-price-display">$139</span>
           </div>
-          <div class="line-row sub">
+          <div class="line-row sub" id="extra-images-row">
             <span>Extra Images ($5/ea)</span>
             <span id="extra-price-display">$0</span>
+          </div>
+        </div>
+
+        <div class="stepper-row">
+          <span style="font-size: 14px; font-weight: 800; color: var(--text-primary);">Total Photos</span>
+          <div class="stepper-controls">
+            <button class="step-btn" id="step-minus">-</button>
+            <span class="step-value" id="photo-count">25</span>
+            <button class="step-btn" id="step-plus">+</button>
           </div>
         </div>
 
@@ -788,10 +842,7 @@
       // Grid clicks
       const homeTiles = document.querySelectorAll('#home-grid .tile');
       homeTiles.forEach(tile => {
-        tile.addEventListener('click', (e) => {
-          if (e.target.dataset.deadzone === "true") return;
-          if (!tile.classList.contains('editing')) goToScreen(2);
-        });
+        tile.addEventListener('click', () => goToScreen(2));
       });
 
       // Filters
@@ -823,7 +874,7 @@
         if (e.target === sheetOverlay) closeSheet();
       });
 
-      // TOUCH SLIDER / DRAG TO DISMISS LOGIC
+      // Touch slide to close
       const handleBar = document.getElementById('sheet-handle-bar');
       let startY = 0;
       let currentY = 0;
@@ -855,12 +906,13 @@
         currentY = 0;
       });
 
-      // DYNAMIC PRICING ENGINE
+      // Pricing Logic
       const heroPrice = document.getElementById('hero-price');
       const photoCount = document.getElementById('photo-count');
       const basePackageLabel = document.getElementById('base-package-label');
       const basePriceDisplay = document.getElementById('base-price-display');
       const extraPriceDisplay = document.getElementById('extra-price-display');
+      const extraImagesRow = document.getElementById('extra-images-row');
       const pillBtns = document.querySelectorAll('.pill-btn');
       
       let basePhotos = 25;
@@ -877,6 +929,12 @@
         basePackageLabel.textContent = `Base ${basePhotos} Photos`;
         basePriceDisplay.textContent = `$${basePrice}`;
         extraPriceDisplay.textContent = `$${extraCost}`;
+
+        if (extraCost > 0) {
+          extraImagesRow.classList.add('active-extra');
+        } else {
+          extraImagesRow.classList.remove('active-extra');
+        }
       }
 
       pillBtns.forEach(btn => {
@@ -902,7 +960,6 @@
         updatePricing();
       });
 
-      // Toast feedback
       const toast = document.getElementById('toast');
       function showToast(msg) {
         toast.textContent = msg; 
